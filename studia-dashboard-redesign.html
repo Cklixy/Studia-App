@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Studia+ — Dashboard rediseñado</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --deep-ink:#11131A;
+    --deep-surface:#191C25;
+    --deep-elevated:#222633;
+    --signal-lime:#C8FF4A;
+    --periwinkle:#6A92E5;
+    --lavender:#B89CFF;
+    --coral:#FF7A66;
+    --text-primary:#F5F7FA;
+    --text-secondary:#9AA3B5;
+    --line: rgba(245,247,250,0.08);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    background:
+      radial-gradient(circle at 15% 0%, rgba(106,146,229,0.16), transparent 45%),
+      radial-gradient(circle at 85% 100%, rgba(184,156,255,0.12), transparent 50%),
+      var(--deep-ink);
+    color:var(--text-primary);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    display:flex;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar{
+    width:220px;
+    flex-shrink:0;
+    padding:28px 18px;
+    background:rgba(25,28,37,0.55);
+    backdrop-filter:blur(20px);
+    border-right:1px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    gap:36px;
+  }
+  .brand{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:20px;
+    letter-spacing:-0.02em;
+  }
+  .brand span{color:var(--signal-lime);}
+  .nav{display:flex; flex-direction:column; gap:4px;}
+  .nav a{
+    color:var(--text-secondary);
+    text-decoration:none;
+    font-size:14px;
+    font-weight:500;
+    padding:10px 12px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:background .15s ease, color .15s ease;
+  }
+  .nav a.active{
+    background:rgba(200,255,74,0.1);
+    color:var(--signal-lime);
+  }
+  .nav a:hover:not(.active){background:rgba(245,247,250,0.05); color:var(--text-primary);}
+  .dot{width:6px; height:6px; border-radius:50%; background:currentColor; flex-shrink:0;}
+
+  .sidebar-foot{
+    margin-top:auto;
+    font-size:12px;
+    color:var(--text-secondary);
+    line-height:1.5;
+  }
+
+  /* ---------- MAIN ---------- */
+  main{flex:1; padding:36px 44px; max-width:1180px;}
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-bottom:32px;
+  }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:28px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  header p{color:var(--text-secondary); font-size:14px; margin-top:4px;}
+
+  /* ---------- TOP ROW: núcleo + próximo movimiento ---------- */
+  .top-row{
+    display:grid;
+    grid-template-columns:280px 1fr;
+    gap:20px;
+    margin-bottom:28px;
+  }
+
+  /* núcleo de racha — la pieza protagonista */
+  .core{
+    background:var(--deep-surface);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:26px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    gap:6px;
+  }
+  .core::before{
+    content:'';
+    position:absolute;
+    width:220px; height:220px;
+    background:conic-gradient(from 0deg, var(--signal-lime), var(--periwinkle), var(--lavender), var(--signal-lime));
+    filter:blur(40px);
+    opacity:0.25;
+    animation:spin 14s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .core-ring{
+    position:relative;
+    width:118px; height:118px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--deep-ink);
+    border:2px solid rgba(200,255,74,0.35);
+  }
+  .core-ring::after{
+    content:'';
+    position:absolute; inset:-2px;
+    border-radius:50%;
+    border:2px solid transparent;
+    border-top-color:var(--signal-lime);
+    border-right-color:var(--signal-lime);
+    transform:rotate(45deg);
+  }
+  .core-num{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:34px;
+    font-weight:700;
+    position:relative;
+    z-index:1;
+  }
+  .core-label{font-size:13px; color:var(--text-secondary); position:relative;}
+  .core-sub{font-size:12px; color:var(--text-secondary); position:relative; margin-top:8px;}
+  .core-sub b{color:var(--lavender); font-weight:600;}
+
+  /* próximo movimiento — hero card */
+  .hero{
+    background:linear-gradient(135deg, var(--deep-elevated) 0%, var(--deep-surface) 100%);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:30px 32px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:'';
+    position:absolute; right:-60px; top:-60px;
+    width:220px; height:220px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,122,102,0.18), transparent 70%);
+  }
+  .hero-tag{
+    font-size:12px; color:var(--coral); font-weight:600;
+    display:flex; align-items:center; gap:6px;
+  }
+  .hero-tag .dot{background:var(--coral); box-shadow:0 0 8px var(--coral);}
+  .hero h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:24px; font-weight:600; margin:10px 0 6px;
+  }
+  .hero p{color:var(--text-secondary); font-size:14px; max-width:440px;}
+  .hero-actions{display:flex; align-items:center; gap:14px; margin-top:20px;}
+  .btn-action{
+    background:var(--signal-lime);
+    color:var(--deep-ink);
+    font-weight:600;
+    font-size:14px;
+    padding:12px 22px;
+    border-radius:12px;
+    border:none;
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-action:hover{transform:scale(1.04); box-shadow:0 8px 24px rgba(200,255,74,0.25);}
+  .btn-ghost{
+    color:var(--text-secondary);
+    font-size:14px;
+    background:none;
+    border:none;
+    cursor:pointer;
+  }
+  .btn-ghost:hover{color:var(--text-primary);}
+
+  /* ---------- MATERIAS: constelación ---------- */
+  .section-head{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:16px;
+  }
+  .section-head h3{font-family:'Space Grotesk', sans-serif; font-size:17px; font-weight:600;}
+  .section-head a{font-size:13px; color:var(--periwinkle); text-decoration:none;}
+
+  .constellation{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:16px;
+  }
+  .materia-card{
+    background:var(--deep-surface);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+    position:relative;
+    cursor:pointer;
+    transition:border-color .15s ease, transform .15s ease;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .materia-card:hover{transform:translateY(-3px); border-color:rgba(245,247,250,0.18);}
+  .materia-card.grande{grid-column:span 2; grid-row:span 2; padding:26px;}
+
+  .materia-top{display:flex; justify-content:space-between; align-items:flex-start;}
+  .materia-name{font-weight:600; font-size:15px;}
+  .materia-meta{font-size:12px; color:var(--text-secondary); margin-top:3px;}
+
+  .orbit-progress{
+    width:38px; height:38px;
+    border-radius:50%;
+    flex-shrink:0;
+  }
+
+  .materia-card.grande .materia-name{font-size:19px; font-family:'Space Grotesk', sans-serif;}
+  .materia-visual{
+    flex:1;
+    border-radius:12px;
+    background:linear-gradient(160deg, rgba(184,156,255,0.16), rgba(106,146,229,0.10));
+    display:flex; align-items:flex-end; padding:14px;
+    min-height:90px;
+  }
+  .materia-visual span{font-size:12px; color:var(--text-secondary);}
+
+  .materia-footer{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:12px; color:var(--text-secondary);
+  }
+  .materia-footer b{color:var(--text-primary); font-weight:600;}
+
+  .tag-parcial{
+    font-size:11px;
+    padding:3px 8px;
+    border-radius:6px;
+    background:rgba(255,122,102,0.14);
+    color:var(--coral);
+    font-weight:600;
+  }
+</style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="brand">studia<span>+</span></div>
+    <nav class="nav">
+      <a class="active"><span class="dot"></span> Materias</a>
+      <a><span class="dot"></span> Historial</a>
+      <a><span class="dot"></span> Evaluaciones</a>
+      <a><span class="dot"></span> Rutas IA</a>
+      <a><span class="dot"></span> Ajustes</a>
+    </nav>
+    <div class="sidebar-foot">
+      Sesión activa se guarda<br>automáticamente.
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <div>
+        <h1>Hola, Juan</h1>
+        <p>Llevas 12 días seguidos. Tu próxima ventana de estudio empieza en 20 min.</p>
+      </div>
+    </header>
+
+    <div class="top-row">
+      <div class="core">
+        <div class="core-ring">
+          <div>
+            <div class="core-num">12</div>
+          </div>
+        </div>
+        <div class="core-label" style="margin-top:10px;">días de racha</div>
+        <div class="core-sub"><b>+140 XP</b> esta semana</div>
+      </div>
+
+      <div class="hero">
+        <div>
+          <div class="hero-tag"><span class="dot"></span>PARCIAL EN 4 DÍAS</div>
+          <h2>Ecuaciones Diferenciales — Cap. 4</h2>
+          <p>Recomendado: técnica Feynman de 25 min. Es el tema donde más bajó tu último quiz.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn-action">Iniciar sesión</button>
+          <button class="btn-ghost">Cambiar tema →</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-head">
+      <h3>Tus materias</h3>
+      <a href="#">Ver todas</a>
+    </div>
+
+    <div class="constellation">
+      <div class="materia-card grande">
+        <div class="materia-top">
+          <div>
+            <div class="materia-name">Ecuaciones Diferenciales</div>
+            <div class="materia-meta">8 de 14 temas · próximo parcial 20 sep</div>
+          </div>
+          <span class="tag-parcial">Parcial</span>
+        </div>
+        <div class="materia-visual"><span>Mapa de ruta: Feynman → Repaso activo → Simulacro</span></div>
+        <div class="materia-footer">
+          <span>Progreso</span>
+          <b>57%</b>
+        </div>
+      </div>
+
+      <div class="materia-card">
+        <div class="materia-top">
+          <div>
+            <div class="materia-name">Bases de Datos</div>
+            <div class="materia-meta">5 de 10 temas</div>
+          </div>
+        </div>
+        <div class="materia-footer">
+          <span>Progreso</span>
+          <b>50%</b>
+        </div>
+      </div>
+
+      <div class="materia-card">
+        <div class="materia-top">
+          <div>
+            <div class="materia-name">Cálculo Vectorial</div>
+            <div class="materia-meta">3 de 12 temas</div>
+          </div>
+        </div>
+        <div class="materia-footer">
+          <span>Progreso</span>
+          <b>25%</b>
+        </div>
+      </div>
+
+      <div class="materia-card">
+        <div class="materia-top">
+          <div>
+            <div class="materia-name">Programación II</div>
+            <div class="materia-meta">9 de 9 temas</div>
+          </div>
+        </div>
+        <div class="materia-footer">
+          <span>Progreso</span>
+          <b>100%</b>
+        </div>
+      </div>
+
+      <div class="materia-card">
+        <div class="materia-top">
+          <div>
+            <div class="materia-name">Física II</div>
+            <div class="materia-meta">2 de 11 temas</div>
+          </div>
+        </div>
+        <div class="materia-footer">
+          <span>Progreso</span>
+          <b>18%</b>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>
