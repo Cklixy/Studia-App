@@ -9,7 +9,7 @@ export default function LoginPage({
 }) {
   return (
     <div className="min-h-screen bg-deep-ink flex items-center justify-center p-6 relative overflow-hidden">
-      
+
       {/* Glow ambiental */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-electric-periwinkle/5 rounded-full blur-[120px] pointer-events-none -mt-32 -mr-32"></div>
 
@@ -18,7 +18,7 @@ export default function LoginPage({
           <BrandLogo className="mb-4" />
           <h1 className="text-xl font-display font-medium text-text-primary text-center">Inicia tu próxima sesión.</h1>
         </div>
-        
+
         <form className="flex flex-col gap-6 text-text-primary">
           <div>
             <label className="block text-sm uppercase tracking-widest text-text-secondary font-bold mb-2" htmlFor="email">
@@ -43,16 +43,16 @@ export default function LoginPage({
               required
             />
           </div>
-          
+
           <button
             formAction={login}
             className="btn-action w-full mt-2 flex justify-center"
           >
-            Iniciar Movimiento
+            Iniciar Sesión
           </button>
 
           <div className="text-center mt-4">
-            <span className="text-sm text-text-secondary">¿Aún no tienes tu mapa? </span>
+            <span className="text-sm text-text-secondary">¿Aún no tienes cuenta? </span>
             <Link href="/registro" className="text-sm text-electric-periwinkle font-bold hover:text-white transition-colors">
               Empieza aquí
             </Link>
