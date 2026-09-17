@@ -15,13 +15,14 @@ export default function LoginPage({
       <div className="w-full max-w-md surface-elevated p-6 sm:p-8 md:p-10 relative z-10">
         <div className="flex flex-col items-center mb-8 sm:mb-10">
           <BrandLogo className="mb-4" />
-          <h1 className="text-xl font-display font-medium text-text-primary text-center">Inicia tu próxima sesión.</h1>
+          <h1 className="text-2xl font-display font-semibold text-text-primary text-center">Iniciar sesión</h1>
+          <p className="text-xs text-text-secondary mt-1 text-center">Ingresa a tu cuenta de studia+</p>
         </div>
 
         <form className="flex flex-col gap-6 text-text-primary">
           <div>
             <label className="block text-sm uppercase tracking-widest text-text-secondary font-bold mb-2" htmlFor="email">
-              Coordenadas de usuario
+              Correo Electrónico
             </label>
             <input
               className="w-full px-4 py-3 rounded-lg bg-deep-surface border border-white/10 focus:border-electric-periwinkle outline-none transition-colors"
@@ -53,12 +54,18 @@ export default function LoginPage({
           <div className="text-center mt-4">
             <span className="text-sm text-text-secondary">¿Aún no tienes cuenta? </span>
             <Link href="/registro" className="text-sm text-electric-periwinkle font-bold hover:text-white transition-colors">
-              Empieza aquí
+              Regístrate aquí
             </Link>
           </div>
 
           {searchParams?.message && (
-            <div className="mt-4 p-4 border border-warm-coral/30 text-warm-coral bg-warm-coral/5 rounded-lg text-center text-sm font-medium">
+            <div className={`mt-4 p-3.5 rounded-xl text-center text-xs font-medium border ${
+              searchParams.message.toLowerCase().includes("éxito") || 
+              searchParams.message.toLowerCase().includes("exitosamente") || 
+              searchParams.message.toLowerCase().includes("correo")
+                ? "border-emerald-500/30 text-emerald-400 bg-emerald-500/10"
+                : "border-warm-coral/30 text-warm-coral bg-warm-coral/5"
+            }`}>
               {searchParams.message}
             </div>
           )}

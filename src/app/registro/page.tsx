@@ -15,7 +15,8 @@ export default function RegisterPage({
       <div className="w-full max-w-md surface-elevated p-6 sm:p-8 md:p-10 relative z-10">
         <div className="flex flex-col items-center mb-8 sm:mb-10">
           <BrandLogo className="mb-4" />
-          <h1 className="text-xl font-display font-medium text-text-primary text-center">Traza tu primer movimiento.</h1>
+          <h1 className="text-2xl font-display font-semibold text-text-primary text-center">Crear cuenta</h1>
+          <p className="text-xs text-text-secondary mt-1 text-center">Regístrate en studia+ para organizar tu estudio</p>
         </div>
         
         <form className="flex flex-col gap-6 text-text-primary">
@@ -47,13 +48,13 @@ export default function RegisterPage({
             formAction={signup}
             className="btn-action w-full mt-2 flex justify-center"
           >
-            Crear Mapa
+            Registrarse
           </button>
 
           <div className="text-center mt-4">
-            <span className="text-sm text-text-secondary">¿Ya tienes un sistema? </span>
+            <span className="text-sm text-text-secondary">¿Ya tienes una cuenta? </span>
             <Link href="/login" className="text-sm text-electric-periwinkle font-bold hover:text-white transition-colors">
-              Ingresa aquí
+              Inicia sesión aquí
             </Link>
           </div>
 

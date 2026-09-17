@@ -76,14 +76,14 @@ export default function HeroProductMockup() {
           </div>
         </div>
 
-        {/* CTA Iniciar sesión */}
+        {/* CTA Comenzar sesión de estudio */}
         <div className="pt-2">
           <Link
-            href="/registro"
+            href="/sesion/nueva"
             className="w-full btn-apple-primary py-3 px-6 rounded-xl font-semibold text-xs apple-tactile inline-flex items-center justify-center gap-2 shadow-apple-sm"
           >
             <Play size={14} fill="currentColor" />
-            <span>Iniciar sesión</span>
+            <span>Comenzar sesión de estudio</span>
           </Link>
         </div>
 

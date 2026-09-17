@@ -14,11 +14,17 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    redirect(`/login?message=${encodeURIComponent(error.message)}`);
+    let message = error.message;
+    if (error.message.includes("Invalid login credentials")) {
+      message = "Correo o contraseña incorrectos.";
+    } else if (error.message.includes("Email not confirmed")) {
+      message = "Por favor confirma tu correo electrónico antes de ingresar.";
+    }
+    redirect(`/login?message=${encodeURIComponent(message)}`);
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/materias");
 }
 
 export async function signup(formData: FormData) {
@@ -31,7 +37,11 @@ export async function signup(formData: FormData) {
   const { data: signupData, error } = await supabase.auth.signUp(data);
 
   if (error) {
-    redirect(`/login?message=${encodeURIComponent(error.message)}`);
+    let message = error.message;
+    if (error.message.includes("User already registered")) {
+      message = "Este correo ya está registrado. ¿Querías iniciar sesión? Haz clic en 'Inicia sesión aquí' abajo.";
+    }
+    redirect(`/registro?message=${encodeURIComponent(message)}`);
   }
 
   if (!signupData.session) {
@@ -39,5 +49,5 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/login?message=Cuenta creada exitosamente. Inicia sesión.");
 }
