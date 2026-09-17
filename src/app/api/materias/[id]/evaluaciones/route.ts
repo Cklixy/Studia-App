@@ -16,7 +16,7 @@ export async function GET(
 
   const { data, error } = await supabase
     .from("evaluaciones")
-    .select("*")
+    .select("id, nombre, porcentaje, nota_obtenida, materia_id, created_at")
     .eq("materia_id", params.id)
     .order("created_at", { ascending: true });
 
@@ -75,7 +75,7 @@ export async function POST(
           nota_obtenida: validData.nota_obtenida,
         },
       ])
-      .select()
+      .select("id, nombre, porcentaje, nota_obtenida, materia_id, created_at")
       .single();
 
     if (insertError) {

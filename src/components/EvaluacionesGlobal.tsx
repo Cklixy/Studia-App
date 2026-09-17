@@ -1,8 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { BookOpen } from "lucide-react";
-import EvaluacionesPanel from "./EvaluacionesPanel";
+
+const EvaluacionesPanel = dynamic(() => import("./EvaluacionesPanel"), {
+  loading: () => (
+    <div className="apple-card p-6 h-48 rounded-2xl bg-white/90 border border-black/[0.06] shadow-apple-sm animate-pulse" />
+  ),
+});
 
 export default function EvaluacionesGlobal({ materias }: { materias: any[] }) {
   const [selectedMateria, setSelectedMateria] = useState<string>(materias.length > 0 ? materias[0].id : "");

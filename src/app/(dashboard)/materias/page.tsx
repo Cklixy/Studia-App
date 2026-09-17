@@ -1,9 +1,11 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import dynamic from "next/dynamic";
 import CreateMateriaForm from "@/components/CreateMateriaForm";
-import PushNotificationManager from "@/components/PushNotificationManager";
 import StatsPanel from "@/components/StatsPanel";
+import StudyTrailWidget from "@/components/StudyTrailWidget";
 import Link from "next/link";
+import { getCachedMaterias } from "@/lib/data/materias";
 import { 
   Flame, 
   ArrowRight, 
@@ -13,6 +15,11 @@ import {
   ChevronRight, 
   CheckCircle2 
 } from "lucide-react";
+
+// Client component diferido únicamente para Web Push API
+const PushNotificationManager = dynamic(() => import("@/components/PushNotificationManager"), {
+  ssr: false,
+});
 
 export default async function MateriasPage() {
   const supabase = createClient();
@@ -24,61 +31,56 @@ export default async function MateriasPage() {
     return redirect("/login");
   }
 
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
   const firstName = user.user_metadata?.full_name?.split(" ")[0] || user.email?.split("@")[0] || "Estudiante";
-
-  // Fetch materias and their temas for the Learning Map
-  const { data: materias, error } = await supabase
-    .from("materias")
-    .select(`
-      *,
-      temas (
-        id,
-        nombre,
-        estado,
-        created_at,
-        orden,
-        dificultad,
-        minutos_estimados
-      )
-    `)
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Error fetching materias", error);
-  }
-
-  // Fetch gamification data
-  const { data: rachaData } = await supabase
-    .from("rachas")
-    .select("dias, xp_total, nivel_actual")
-    .eq("user_id", user.id)
-    .single();
-  const rachaActual = rachaData?.dias || 0;
-  const xpTotal = rachaData?.xp_total || 0;
-  const nivelActual = rachaData?.nivel_actual || 1;
 
   const inicioSemana = new Date();
   inicioSemana.setDate(inicioSemana.getDate() - inicioSemana.getDay());
   inicioSemana.setHours(0, 0, 0, 0);
-  const { data: sesionesSemana } = await supabase
-    .from("sesiones")
-    .select("tiempo_efectivo_segundos")
-    .eq("user_id", user.id)
-    .eq("estado", "finalizada")
-    .gte("hora_finalizacion", inicioSemana.toISOString());
+
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+  // Consultas en paralelo optimizadas con caché para materias
+  const [
+    materias,
+    { data: rachaData },
+    { data: sesionesSemana },
+    { data: sesionesRecientes }
+  ] = await Promise.all([
+    getCachedMaterias(user.id, session?.access_token),
+
+    supabase
+      .from("rachas")
+      .select("dias, xp_total, nivel_actual")
+      .eq("user_id", user.id)
+      .single(),
+
+    supabase
+      .from("sesiones")
+      .select("tiempo_efectivo_segundos")
+      .eq("user_id", user.id)
+      .eq("estado", "finalizada")
+      .gte("hora_finalizacion", inicioSemana.toISOString()),
+
+    supabase
+      .from("sesiones")
+      .select("tiempo_efectivo_segundos, calificacion_productividad, resultado_logro, metodo_utilizado, hora_finalizacion")
+      .eq("user_id", user.id)
+      .eq("estado", "finalizada")
+      .gte("hora_finalizacion", thirtyDaysAgo.toISOString())
+  ]);
+
+  const rachaActual = rachaData?.dias || 0;
+  const xpTotal = rachaData?.xp_total || 0;
+  const nivelActual = rachaData?.nivel_actual || 1;
+
   const xpEstaSemana = (sesionesSemana || []).reduce((acc, s) => 
     acc + Math.floor((s.tiempo_efectivo_segundos || 0) / 60) * 10, 0
   );
-
-  // Estadísticas de sesiones (últimos 30 días)
-  const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-  const { data: sesionesRecientes } = await supabase
-    .from("sesiones")
-    .select("tiempo_efectivo_segundos, calificacion_productividad, resultado_logro, metodo_utilizado, hora_finalizacion")
-    .eq("user_id", user.id)
-    .eq("estado", "finalizada")
-    .gte("hora_finalizacion", thirtyDaysAgo.toISOString());
   
   // Calcular métricas
   const totalMinutos = Math.floor(
@@ -370,6 +372,9 @@ export default async function MateriasPage() {
           )}
         </div>
       </section>
+
+      {/* Gráficos de racha (Server Component puro sin cliente JS) */}
+      <StudyTrailWidget dias={rachaActual} />
 
       {/* Stats Summary Panel */}
       <StatsPanel 

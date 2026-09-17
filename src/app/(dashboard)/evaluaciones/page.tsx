@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import EvaluacionesGlobal from "@/components/EvaluacionesGlobal";
+import { getCachedMaterias } from "@/lib/data/materias";
 
 export default async function EvaluacionesPage() {
   const supabase = createClient();
@@ -12,15 +13,12 @@ export default async function EvaluacionesPage() {
     return redirect("/login");
   }
 
-  // Fetch all materias
-  const { data: materias, error } = await supabase
-    .from("materias")
-    .select("id, nombre, fecha_parcial")
-    .order("created_at", { ascending: false });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  if (error) {
-    console.error("Error fetching materias", error);
-  }
+  // Fetch all materias desde la caché unificada
+  const materias = await getCachedMaterias(user.id, session?.access_token);
 
   return (
     <div className="flex flex-col gap-8 w-full animate-in fade-in duration-500">

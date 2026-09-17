@@ -1,38 +1,41 @@
-"use client";
-
-import { CheckCircle2, Clock, Play, MessageCircle } from "lucide-react";
+import { CheckCircle2, Clock, Play } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import ThemeChat from "./ThemeChat";
+import LearningMapItemActions from "./LearningMapItemActions";
 
-export default function LearningMap({ temas, route }: { temas: any[], route: any }) {
-  const router = useRouter();
-  const [loadingId, setLoadingId] = useState<string | null>(null);
-  const [activeChatTema, setActiveChatTema] = useState<any | null>(null);
+interface TemaData {
+  id: string;
+  nombre: string;
+  estado: string;
+  descripcion?: string | null;
+  dificultad?: string | null;
+  minutos_estimados?: number | null;
+  orden?: number | null;
+  created_at?: string;
+}
 
+interface RouteData {
+  id?: string;
+  title?: string;
+  estado?: string;
+}
+
+interface LearningMapProps {
+  temas: TemaData[];
+  route?: RouteData | null;
+}
+
+/**
+ * Server Component puro: no tiene 'use client'.
+ * Renderiza el árbol curricular, progreso porcentual, cronología de nodos y metadatos
+ * directamente como HTML en el servidor sin sobrecargar el bundle de JavaScript.
+ * Las acciones interactivas se delegan a LearningMapItemActions.
+ */
+export default function LearningMap({ temas, route }: LearningMapProps) {
   // Determinar el tema actual (el primero que no está completado)
-  const actualIndex = temas.findIndex(t => t.estado !== 'completado');
-
-  const toggleCompleted = async (tema: any) => {
-    setLoadingId(tema.id);
-    try {
-      const isCompleted = tema.estado === 'completado';
-      await fetch(`/api/temas/${tema.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ completed: !isCompleted }),
-      });
-      router.refresh();
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoadingId(null);
-    }
-  };
-
-  const completedCount = temas.filter(t => t.estado === 'completado').length;
+  const actualIndex = temas.findIndex((t) => t.estado !== "completado");
+  const completedCount = temas.filter((t) => t.estado === "completado").length;
   const progressPct = temas.length > 0 ? Math.round((completedCount / temas.length) * 100) : 0;
+  const materiaTitulo = route?.title || "Plan de Aprendizaje";
 
   return (
     <div className="apple-card p-6 md:p-8 rounded-3xl mb-12 border border-black/[0.08] shadow-apple-md bg-white/95">
@@ -44,7 +47,7 @@ export default function LearningMap({ temas, route }: { temas: any[], route: any
             <span>Ruta Curricular</span>
           </div>
           <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
-            {route?.title || "Plan de Aprendizaje"}
+            {materiaTitulo}
           </h3>
         </div>
 
@@ -65,7 +68,7 @@ export default function LearningMap({ temas, route }: { temas: any[], route: any
       {/* Connected Milestone Timeline */}
       <div className="relative border-l-2 border-black/[0.08] ml-3 md:ml-4 space-y-7">
         {temas.map((tema, index) => {
-          const isCompleted = tema.estado === 'completado';
+          const isCompleted = tema.estado === "completado";
           const isActual = index === actualIndex;
           const isPending = index > actualIndex && actualIndex !== -1;
 
@@ -73,17 +76,17 @@ export default function LearningMap({ temas, route }: { temas: any[], route: any
             <div 
               key={tema.id} 
               className={`relative pl-7 md:pl-9 transition-all duration-200 ${
-                isPending ? 'opacity-55 hover:opacity-80' : ''
+                isPending ? "opacity-55 hover:opacity-80" : ""
               }`}
             >
-              {/* Apple Node Icon */}
+              {/* Apple Node Icon (Puro CSS y SVG estático) */}
               <div 
                 className={`absolute -left-[11px] top-1 w-5 h-5 rounded-full flex items-center justify-center transition-all ${
                   isCompleted 
-                    ? 'bg-glacier-blue border-2 border-glacier-blue text-white shadow-apple-sm' 
+                    ? "bg-glacier-blue border-2 border-glacier-blue text-white shadow-apple-sm" 
                     : isActual 
-                    ? 'bg-white border-2 border-glacier-blue shadow-apple-glow' 
-                    : 'bg-white border-2 border-black/20'
+                    ? "bg-white border-2 border-glacier-blue shadow-apple-glow" 
+                    : "bg-white border-2 border-black/20"
                 }`}
               >
                 {isCompleted && <CheckCircle2 size={12} className="stroke-[3]" />}
@@ -95,15 +98,15 @@ export default function LearningMap({ temas, route }: { temas: any[], route: any
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2.5 mb-1.5">
                     <h4 className={`text-base font-semibold tracking-tight ${
-                      isCompleted ? 'line-through text-arctic-tertiary' : 'text-arctic-slate'
+                      isCompleted ? "line-through text-arctic-tertiary" : "text-arctic-slate"
                     }`}>
                       {tema.nombre}
                     </h4>
                     {tema.dificultad && (
                       <span className={`text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full ${
                         isActual 
-                          ? 'bg-glacier-blue/10 text-glacier-blue border border-glacier-blue/20' 
-                          : 'bg-black/[0.05] text-arctic-secondary'
+                          ? "bg-glacier-blue/10 text-glacier-blue border border-glacier-blue/20" 
+                          : "bg-black/[0.05] text-arctic-secondary"
                       }`}>
                         {tema.dificultad}
                       </span>
@@ -120,15 +123,12 @@ export default function LearningMap({ temas, route }: { temas: any[], route: any
                     <span className="flex items-center gap-1 font-medium">
                       <Clock size={12} /> {tema.minutos_estimados || 30} min
                     </span>
-                    <button 
-                      onClick={() => toggleCompleted(tema)}
-                      disabled={loadingId === tema.id}
-                      className="hover:text-arctic-slate transition-colors underline decoration-black/20 underline-offset-4 text-[11px] apple-tactile"
-                    >
-                      {loadingId === tema.id 
-                        ? 'Actualizando...' 
-                        : (isCompleted ? 'Desmarcar' : 'Marcar completado')}
-                    </button>
+                    {/* Botón interactivo de toggle estado */}
+                    <LearningMapItemActions
+                      tema={tema}
+                      materiaNombre={materiaTitulo}
+                      isActual={false}
+                    />
                   </div>
                 </div>
 
@@ -141,13 +141,12 @@ export default function LearningMap({ temas, route }: { temas: any[], route: any
                       <Play size={13} fill="currentColor" />
                       <span>Estudiar tema</span>
                     </Link>
-                    <button 
-                      onClick={() => setActiveChatTema(tema)}
-                      className="btn-apple-secondary text-xs py-2 px-3.5 apple-tactile inline-flex items-center gap-1.5"
-                    >
-                      <MessageCircle size={13} className="text-glacier-blue" />
-                      <span>Duda rápida</span>
-                    </button>
+                    {/* Botón interactivo de duda rápida */}
+                    <LearningMapItemActions
+                      tema={tema}
+                      materiaNombre={materiaTitulo}
+                      isActual={true}
+                    />
                   </div>
                 )}
               </div>
@@ -155,14 +154,6 @@ export default function LearningMap({ temas, route }: { temas: any[], route: any
           );
         })}
       </div>
-
-      {activeChatTema && (
-        <ThemeChat 
-          tema={activeChatTema} 
-          materiaNombre={route?.title || "Materia Actual"} 
-          onClose={() => setActiveChatTema(null)} 
-        />
-      )}
     </div>
   );
 }

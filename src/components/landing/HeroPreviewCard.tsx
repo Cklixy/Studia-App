@@ -115,7 +115,7 @@ export default function HeroPreviewCard() {
             </div>
             <div>
               <p className="text-xs font-semibold text-arctic-slate">
-                Ruta optimizada con Gemini 1.5
+                Ruta optimizada con Gemini 3.6 Flash
               </p>
               <p className="text-[11px] text-arctic-secondary">
                 Se reorganizó tu calendario para maximizar tu retención antes del examen final.

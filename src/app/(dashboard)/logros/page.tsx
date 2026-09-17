@@ -17,19 +17,22 @@ export default async function LogrosPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return redirect("/login");
 
-  // Leer recompensas desbloqueadas
-  const { data: recompensas } = await supabase
-    .from("recompensas")
-    .select("descripcion, created_at")
-    .eq("user_id", user.id)
-    .eq("desbloqueado", true);
-
-  // Leer datos de racha actual para mostrar progreso
-  const { data: racha } = await supabase
-    .from("rachas")
-    .select("dias, xp_total, nivel_actual")
-    .eq("user_id", user.id)
-    .single();
+  // Leer recompensas desbloqueadas y datos de racha en paralelo
+  const [
+    { data: recompensas },
+    { data: racha }
+  ] = await Promise.all([
+    supabase
+      .from("recompensas")
+      .select("descripcion, created_at")
+      .eq("user_id", user.id)
+      .eq("desbloqueado", true),
+    supabase
+      .from("rachas")
+      .select("dias, xp_total, nivel_actual")
+      .eq("user_id", user.id)
+      .single()
+  ]);
 
   // Mapear qué badges están desbloqueados basándose en la descripción guardada
   const badgesDesbloqueados = new Set(

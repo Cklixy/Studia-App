@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
+import { revalidateMateriasCache } from "@/lib/data/materias";
 
 export async function POST(request: Request) {
   try {
@@ -42,7 +43,7 @@ export async function POST(request: Request) {
             nombre: materia_nombre,
             descripcion: "Materia generada por IA"
           })
-          .select()
+          .select("id, nombre")
           .single();
           
         if (mError) throw mError;
@@ -61,7 +62,7 @@ export async function POST(request: Request) {
         estado: 'ACTIVE',
         ai_generated: true
       })
-      .select()
+      .select("id, materia_id, title, estado")
       .single();
 
     if (routeError) throw routeError;
@@ -85,7 +86,7 @@ export async function POST(request: Request) {
           ai_generated: true,
           estado: 'pendiente'
         })
-        .select()
+        .select("id, nombre, orden")
         .single();
 
       if (tError) throw tError;
@@ -101,6 +102,8 @@ export async function POST(request: Request) {
       }
       previousTemaId = newTema.id;
     }
+
+    await revalidateMateriasCache(user.id);
 
     return NextResponse.json({ success: true, route_id: route.id, materia_id: finalMateriaId });
   } catch (error: any) {

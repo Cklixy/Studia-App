@@ -13,7 +13,8 @@ export default async function ResumenSesionPage({ params, searchParams }: { para
   const { data: session, error } = await supabase
     .from("sesiones")
     .select(`
-      *,
+      id,
+      duracion_planificada_minutos,
       materias ( nombre ),
       temas ( nombre )
     `)

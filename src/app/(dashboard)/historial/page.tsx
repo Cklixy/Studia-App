@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import HistoryFilters from "@/components/HistoryFilters";
 import { BookOpen, Clock, Target, Star, Play, Plus } from "lucide-react";
 import Link from "next/link";
+import { getCachedMaterias } from "@/lib/data/materias";
 
 export default async function HistorialPage({
   searchParams,
@@ -18,17 +19,25 @@ export default async function HistorialPage({
     return redirect("/login");
   }
 
-  // Cargar materias para el filtro
-  const { data: materias } = await supabase
-    .from("materias")
-    .select("id, nombre")
-    .order("nombre", { ascending: true });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
   // Construir la query de sesiones finalizadas
   let query = supabase
     .from("sesiones")
     .select(`
-      *,
+      id,
+      tiempo_efectivo_segundos,
+      duracion_planificada_minutos,
+      hora_finalizacion,
+      resultado_logro,
+      calificacion_utilidad,
+      calificacion_productividad,
+      metodo_utilizado,
+      objetivo,
+      materia_id,
+      tema_id,
       materias ( nombre ),
       temas ( nombre )
     `)
@@ -46,19 +55,29 @@ export default async function HistorialPage({
     query = query.gte("hora_finalizacion", dateLimit.toISOString());
   }
 
-  const { data: sesiones, error } = await query;
+  // Ejecución en paralelo optimizada de filtros (cacheados), historial y sesiones activas
+  const [
+    cachedMaterias,
+    { data: sesiones, error },
+    { data: sesionesActivas }
+  ] = await Promise.all([
+    getCachedMaterias(user.id, session?.access_token),
+    query,
+    supabase
+      .from("sesiones")
+      .select(`
+        id, objetivo, duracion_planificada_minutos, hora_inicio, metodo_utilizado,
+        materias ( nombre ),
+        temas ( nombre )
+      `)
+      .eq("user_id", user.id)
+      .eq("estado", "activa")
+      .order("hora_inicio", { ascending: false })
+  ]);
 
-  // Sesiones activas (en curso)
-  const { data: sesionesActivas } = await supabase
-    .from("sesiones")
-    .select(`
-      id, objetivo, duracion_planificada_minutos, hora_inicio, metodo_utilizado,
-      materias ( nombre ),
-      temas ( nombre )
-    `)
-    .eq("user_id", user.id)
-    .eq("estado", "activa")
-    .order("hora_inicio", { ascending: false });
+  const materias = (cachedMaterias || [])
+    .map((m) => ({ id: m.id, nombre: m.nombre }))
+    .sort((a, b) => a.nombre.localeCompare(b.nombre));
 
   if (error) {
     console.error("Error fetching history", error);
@@ -252,14 +271,14 @@ export default async function HistorialPage({
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs font-semibold text-arctic-slate tracking-tight truncate">
-                        {s.materias?.nombre || "Materia eliminada"}
+                        {(s.materias as any)?.nombre || "Materia eliminada"}
                       </span>
                       <span className="text-[11px] text-arctic-tertiary">•</span>
                       <span className="text-[11px] text-arctic-secondary">{fechaStr} a las {horaStr}</span>
                     </div>
                     
                     <p className="text-xs text-arctic-secondary truncate">
-                      {s.temas?.nombre || s.objetivo || "Sesión de estudio"}
+                      {(s.temas as any)?.nombre || s.objetivo || "Sesión de estudio"}
                     </p>
 
                     {s.metodo_utilizado && (

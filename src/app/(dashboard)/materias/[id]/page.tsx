@@ -1,12 +1,23 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import dynamic from "next/dynamic";
 import CreateTemaForm from "@/components/CreateTemaForm";
 import TemaItem from "@/components/TemaItem";
 import LearningMap from "@/components/LearningMap";
-import EvaluacionesPanel from "@/components/EvaluacionesPanel";
-import EditMateriaModal from "@/components/EditMateriaModal";
 import Link from "next/link";
 import { ArrowLeft, Sparkles, Calendar } from "lucide-react";
+
+// Lazy loading de componentes cliente pesados (modal y panel de evaluaciones)
+const EditMateriaModal = dynamic(() => import("@/components/EditMateriaModal"), {
+  ssr: false,
+  loading: () => <div className="w-8 h-8 rounded-full bg-black/[0.04]" />,
+});
+
+const EvaluacionesPanel = dynamic(() => import("@/components/EvaluacionesPanel"), {
+  loading: () => (
+    <div className="h-48 rounded-2xl bg-black/[0.02] border border-black/[0.05] animate-pulse" />
+  ),
+});
 
 export default async function MateriaDetailPage({ params }: { params: { id: string } }) {
   const supabase = createClient();
@@ -22,7 +33,29 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
 
   const { data: materia, error: materiaError } = await supabase
     .from("materias")
-    .select("*")
+    .select(`
+      id,
+      nombre,
+      descripcion,
+      fecha_parcial,
+      temas (
+        id,
+        nombre,
+        estado,
+        orden,
+        materia_id,
+        route_id,
+        tipo_contenido,
+        created_at
+      ),
+      study_routes (
+        id,
+        materia_id,
+        title,
+        estado,
+        created_at
+      )
+    `)
     .eq("id", materiaId)
     .single();
 
@@ -30,19 +63,12 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
     return <div className="p-8 text-center text-arctic-secondary">Error al cargar la materia</div>;
   }
 
-  const { data: temas, error: temasError } = await supabase
-    .from("temas")
-    .select("*")
-    .eq("materia_id", materiaId)
-    .order("orden", { ascending: true, nullsFirst: false })
-    .order("created_at", { ascending: true });
+  // Extraer temas ordenados y ruta activa desde la consulta única
+  const temas = (materia.temas as any[] || []).sort((a: any, b: any) => 
+    (a.orden ?? 999) - (b.orden ?? 999) || new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+  );
 
-  const { data: route } = await supabase
-    .from("study_routes")
-    .select("*")
-    .eq("materia_id", materiaId)
-    .eq("estado", "ACTIVE")
-    .single();
+  const route = (materia.study_routes as any[] || []).find((r: any) => r.estado === "ACTIVE") || null;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">

@@ -47,7 +47,7 @@ export default function BentoFeatures() {
               Generación de Rutas de Estudio con IA
             </h3>
             <p className="text-sm text-arctic-secondary leading-relaxed max-w-xl">
-              Pega el programa de tu asignatura o describe tus metas de aprendizaje. El motor Gemini desglosa el contenido en secuencias lógicas con tiempos estimados y niveles de dificultad.
+              Pega el programa de tu asignatura o describe tus metas de aprendizaje. El motor Gemini 3.6 Flash desglosa el contenido en secuencias lógicas con tiempos estimados y niveles de dificultad.
             </p>
           </div>
 

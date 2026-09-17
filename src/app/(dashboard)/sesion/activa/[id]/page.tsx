@@ -13,7 +13,9 @@ export default async function ActiveSessionPage({ params }: { params: { id: stri
   const { data: session, error } = await supabase
     .from("sesiones")
     .select(`
-      *,
+      id,
+      estado,
+      duracion_planificada_minutos,
       materias ( nombre ),
       temas ( nombre )
     `)

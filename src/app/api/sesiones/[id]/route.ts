@@ -29,7 +29,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       })
       .eq("id", sessionId)
       .eq("user_id", user.id)
-      .select()
+      .select("id, estado, tiempo_efectivo_segundos, hora_finalizacion, resultado_logro")
       .single();
 
     if (error) {
@@ -42,7 +42,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     
     const { data: racha } = await supabase
       .from("rachas")
-      .select("*")
+      .select("dias, xp_total, nivel_actual, ultima_actividad")
       .eq("user_id", user.id)
       .single();
 

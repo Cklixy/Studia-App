@@ -37,7 +37,7 @@ export default async function HomePage() {
           {/* Eyebrow Pill */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-black/[0.08] shadow-apple-sm text-arctic-slate text-xs font-semibold mb-6 backdrop-blur-md animate-in fade-in slide-in-from-bottom-2 duration-500">
             <span className="w-2 h-2 rounded-full bg-glacier-blue animate-pulse" />
-            <span>Impulsado por Google Gemini • Diseñado para la Universidad</span>
+            <span>Impulsado por Gemini 3.6 Flash • Diseñado para la Universidad</span>
           </div>
 
           {/* Large Title */}

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { materiaSchema } from "@/lib/validations/materias";
+import { revalidateMateriasCache } from "@/lib/data/materias";
 import { z } from "zod";
 
 export async function GET(request: NextRequest) {
@@ -13,7 +14,7 @@ export async function GET(request: NextRequest) {
 
   const { data: materias, error } = await supabase
     .from("materias")
-    .select("*")
+    .select("id, nombre, descripcion, fecha_parcial, created_at")
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -44,12 +45,14 @@ export async function POST(request: NextRequest) {
         nombre: validatedData.nombre,
         fecha_parcial: validatedData.fecha_parcial || null,
       })
-      .select()
+      .select("id, nombre, descripcion, fecha_parcial, created_at")
       .single();
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
+
+    await revalidateMateriasCache(user.id);
 
     return NextResponse.json(data, { status: 201 });
   } catch (error) {

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
+import { revalidateMateriasCache } from "@/lib/data/materias";
 import { z } from "zod";
 
 const updateMateriaSchema = z.object({
@@ -23,10 +24,12 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     .update(validated)
     .eq("id", params.id)
     .eq("user_id", user.id) // RLS extra check
-    .select()
+    .select("id, nombre, descripcion, fecha_parcial")
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  await revalidateMateriasCache(user.id);
   return NextResponse.json(data);
 }
 
@@ -44,5 +47,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     .eq("user_id", user.id);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  await revalidateMateriasCache(user.id);
   return NextResponse.json({ success: true });
 }

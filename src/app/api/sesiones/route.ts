@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
           user_id: user.id,
           nombre: validatedData.materia_nombre,
         })
-        .select()
+        .select("id, nombre")
         .single();
       
       if (errMat) throw new Error(errMat.message);
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
           materia_id: finalMateriaId,
           nombre: validatedData.tema_nombre,
         })
-        .select()
+        .select("id, nombre")
         .single();
       
       if (errTem) throw new Error(errTem.message);
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
         hora_inicio: new Date().toISOString(),
         estado: 'activa'
       })
-      .select()
+      .select("id, estado, materia_id, tema_id, duracion_planificada_minutos, hora_inicio")
       .single();
 
     if (error) {
