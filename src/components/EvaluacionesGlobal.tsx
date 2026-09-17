@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import EvaluacionesPanel from "./EvaluacionesPanel";
 
 export default function EvaluacionesGlobal({ materias }: { materias: any[] }) {
@@ -9,33 +9,34 @@ export default function EvaluacionesGlobal({ materias }: { materias: any[] }) {
 
   if (materias.length === 0) {
     return (
-      <div className="surface-panel p-10 text-center text-text-secondary">
-        Aún no tienes materias registradas para calcular calificaciones.
+      <div className="apple-card p-10 text-center text-arctic-secondary bg-white/90">
+        <BookOpen size={28} className="mx-auto mb-2 text-arctic-tertiary" />
+        <p className="text-sm font-medium text-arctic-slate">Aún no tienes materias registradas para calcular calificaciones.</p>
+        <p className="text-xs text-arctic-secondary mt-1">Crea una materia primero desde la sección principal.</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
-      {/* Selector de Materia con el diseño Premium */}
-      <div className="surface-panel p-6 flex flex-col md:flex-row gap-6 items-center">
-        <div className="w-full md:w-auto">
-          <label className="block text-xs font-bold uppercase tracking-widest text-text-secondary mb-2">Selecciona una Materia</label>
-          <div className="relative">
-            <select
-              value={selectedMateria}
-              onChange={(e) => setSelectedMateria(e.target.value)}
-              className="w-full md:w-72 appearance-none bg-deep-elevated border border-white/10 rounded-xl px-4 py-3 text-sm font-medium text-text-primary hover:border-white/20 focus:outline-none focus:border-electric-periwinkle focus:ring-1 focus:ring-electric-periwinkle transition-colors cursor-pointer"
+    <div className="space-y-6">
+      {/* Apple-style segmented subject selector en Cristal Blanco */}
+      <div className="apple-card p-2 flex items-center gap-1.5 overflow-x-auto bg-white/90 border border-black/[0.07] shadow-apple-sm">
+        {materias.map((m) => {
+          const isSelected = selectedMateria === m.id;
+          return (
+            <button
+              key={m.id}
+              onClick={() => setSelectedMateria(m.id)}
+              className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all apple-tactile ${
+                isSelected
+                  ? "bg-glacier-blue text-white shadow-apple-sm"
+                  : "text-arctic-secondary hover:text-arctic-slate hover:bg-black/[0.03]"
+              }`}
             >
-              {materias.map((m) => (
-                <option key={m.id} value={m.id}>{m.nombre}</option>
-              ))}
-            </select>
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-text-secondary">
-              <ChevronDown size={16} />
-            </div>
-          </div>
-        </div>
+              {m.nombre}
+            </button>
+          );
+        })}
       </div>
 
       {selectedMateria && (

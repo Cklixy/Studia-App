@@ -4,10 +4,16 @@
   "description": "Tu sistema de navegación académica impulsado por IA",
   "start_url": "/materias",
   "display": "standalone",
-  "background_color": "#11131A",
-  "theme_color": "#11131A",
+  "background_color": "#F4F6FB",
+  "theme_color": "#F4F6FB",
   "orientation": "portrait-primary",
   "icons": [
+    {
+      "src": "/icon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
     {
       "src": "/icons/icon-192x192.svg",
       "sizes": "192x192",

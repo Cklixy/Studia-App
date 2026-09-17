@@ -37,46 +37,54 @@ export default async function LogrosPage() {
   );
 
   return (
-    <div className="max-w-4xl mx-auto space-y-10 animate-in fade-in duration-700">
-      <header>
-        <div className="flex items-center gap-3 text-signal-lime mb-2">
-          <Trophy size={24} />
-          <h1 className="text-3xl font-display font-bold text-text-primary">Mis Logros</h1>
+    <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-500">
+      <header className="pb-2 border-b border-black/[0.06]">
+        <span className="text-[11px] font-semibold text-arctic-tertiary uppercase tracking-wider">
+          Gamificación y Metas
+        </span>
+        <div className="flex items-center gap-2.5 mt-0.5">
+          <Trophy size={26} className="text-glacier-blue" />
+          <h1 className="text-3xl font-bold tracking-tight text-arctic-slate">Mis Logros</h1>
         </div>
-        <p className="text-text-secondary">Insignias desbloqueadas y metas por alcanzar.</p>
+        <p className="text-xs text-arctic-secondary mt-1">Insignias desbloqueadas y metas de constancia académica.</p>
       </header>
 
       {/* Nivel actual */}
-      <div className="surface-panel p-6 flex items-center gap-6">
-        <div className="w-16 h-16 rounded-full bg-electric-lavender/10 border-2 border-electric-lavender flex items-center justify-center font-display text-2xl font-bold text-electric-lavender">
+      <div className="apple-card p-5 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 bg-white/95 border border-black/[0.08] shadow-apple-sm text-center sm:text-left">
+        <div className="w-16 h-16 rounded-2xl bg-cool-iris/10 border-2 border-cool-iris/30 flex items-center justify-center font-display text-2xl font-bold text-cool-iris shrink-0 shadow-apple-sm">
           {racha?.nivel_actual || 1}
         </div>
         <div>
-          <p className="text-sm text-text-secondary uppercase tracking-widest font-bold">Nivel Actual</p>
-          <p className="text-xl font-display font-bold">{racha?.xp_total || 0} XP totales</p>
-          <p className="text-sm text-text-secondary">{racha?.dias || 0} días de racha activos</p>
+          <p className="text-[11px] text-arctic-secondary uppercase tracking-wider font-semibold">Nivel Académico</p>
+          <p className="text-xl font-bold text-arctic-slate tabular-nums">{racha?.xp_total || 0} XP acumulados</p>
+          <p className="text-xs text-arctic-secondary mt-0.5">{racha?.dias || 0} días de racha activa</p>
         </div>
       </div>
 
       {/* Grid de badges */}
-      <section>
-        <h2 className="font-display text-lg font-semibold mb-4">Insignias de Racha</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <section className="space-y-4">
+        <h2 className="text-lg font-bold text-arctic-slate tracking-tight">Insignias de Racha</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-3.5">
           {ALL_BADGES.map(badge => {
             const isUnlocked = badgesDesbloqueados.has(`¡Racha de ${badge.milestone} días lograda!`);
             return (
               <div
                 key={badge.id}
-                className={`surface-panel p-5 flex flex-col items-center text-center gap-3 transition-all ${isUnlocked ? 'border-signal-lime/20' : 'opacity-40'}`}
+                className={`apple-card p-5 flex flex-col items-center text-center gap-3 transition-all ${
+                  isUnlocked 
+                    ? 'bg-white/95 border-glacier-blue/30 shadow-apple-sm' 
+                    : 'bg-frost-base/50 border-black/[0.06] opacity-50'
+                }`}
               >
                 <div className={`text-4xl ${isUnlocked ? '' : 'grayscale'}`}>{badge.emoji}</div>
                 <div>
-                  <p className="font-display font-bold text-sm">{badge.nombre}</p>
-                  <p className="text-xs text-text-secondary mt-1">{badge.descripcion}</p>
+                  <p className="font-bold text-sm text-arctic-slate tracking-tight">{badge.nombre}</p>
+                  <p className="text-xs text-arctic-secondary mt-1 leading-relaxed">{badge.descripcion}</p>
                 </div>
                 {!isUnlocked && (
-                  <div className="flex items-center gap-1 text-xs text-text-secondary">
-                    <Lock size={10} /> Bloqueado
+                  <div className="flex items-center gap-1 text-[11px] font-medium text-arctic-tertiary">
+                    <Lock size={11} /> 
+                    <span>Bloqueado</span>
                   </div>
                 )}
               </div>

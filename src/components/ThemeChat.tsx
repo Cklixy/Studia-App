@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { X, Send, Loader2 } from "lucide-react";
+import { X, Send, Loader2, Sparkles, MessageCircle } from "lucide-react";
 
 interface ThemeChatProps {
   tema: any;
@@ -42,7 +42,6 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
     setLoading(true);
 
     try {
-      // Limit history to last 6 messages
       const history = newMessages.slice(-7, -1).map(m => ({
         role: m.role,
         text: m.text
@@ -74,70 +73,90 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
   };
 
   return (
-    <div className="fixed inset-y-0 right-0 w-full max-w-md bg-deep-ink border-l border-white/10 shadow-2xl flex flex-col z-50 animate-in slide-in-from-right duration-300">
-      <div className="p-4 border-b border-white/10 flex justify-between items-center bg-deep-surface/50">
-        <div>
-          <h3 className="font-bold text-electric-periwinkle flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-electric-periwinkle animate-pulse"></div>
-            Tutor de studia+
-          </h3>
-          <p className="text-xs text-text-secondary line-clamp-1">{tema.nombre}</p>
+    <div className="fixed inset-y-0 right-0 w-full max-w-md bg-white/95 backdrop-blur-2xl border-l border-black/[0.08] shadow-apple-lg flex flex-col z-50 animate-in slide-in-from-right duration-300">
+      
+      {/* Header with Apple translucent chrome */}
+      <div className="p-4 border-b border-black/[0.06] flex justify-between items-center bg-white/80">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-glacier-blue/10 text-glacier-blue flex items-center justify-center">
+            <Sparkles size={16} />
+          </div>
+          <div>
+            <h3 className="font-semibold text-sm text-arctic-slate tracking-tight flex items-center gap-1.5">
+              <span>Tutor IA</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-glacier-blue animate-pulse" />
+            </h3>
+            <p className="text-[11px] text-arctic-secondary line-clamp-1">{tema.nombre}</p>
+          </div>
         </div>
-        <button onClick={onClose} className="p-2 text-text-secondary hover:text-white transition-colors">
-          <X size={20} />
+        <button 
+          onClick={onClose} 
+          className="w-7 h-7 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
+        >
+          <X size={14} />
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+      {/* Messages area styled like Apple iMessage */}
+      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3">
         {messages.length === 0 && (
-          <div className="text-center text-text-secondary my-auto p-4">
-            <p className="mb-2">¿Tienes alguna duda sobre <b>{tema.nombre}</b>?</p>
-            <p className="text-xs">Pregúntame para aclarar conceptos o ver ejemplos.</p>
+          <div className="text-center text-arctic-secondary my-auto p-6">
+            <div className="w-12 h-12 rounded-2xl bg-black/[0.03] border border-black/[0.06] flex items-center justify-center mx-auto mb-3 text-glacier-blue">
+              <MessageCircle size={22} />
+            </div>
+            <p className="text-sm font-semibold text-arctic-slate mb-1">¿Dudas sobre {tema.nombre}?</p>
+            <p className="text-xs text-arctic-secondary max-w-xs mx-auto">
+              Pregúntame para simplificar conceptos, pedir analogías o solicitar ejercicios resueltos paso a paso.
+            </p>
           </div>
         )}
         
         {messages.map(msg => (
           <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
+            <div className={`max-w-[85%] px-4 py-2.5 text-xs md:text-sm leading-relaxed ${
               msg.role === 'user' 
-                ? 'bg-electric-periwinkle/20 border border-electric-periwinkle/30 text-white rounded-br-none' 
-                : 'bg-white/5 border border-white/10 text-text-primary rounded-bl-none whitespace-pre-wrap'
+                ? 'bg-glacier-blue text-white rounded-2xl rounded-br-sm shadow-apple-sm' 
+                : 'bg-[#E9E9EB] text-arctic-slate rounded-2xl rounded-bl-sm whitespace-pre-wrap'
             }`}>
               {msg.text}
             </div>
           </div>
         ))}
+
         {loading && (
           <div className="flex justify-start">
-            <div className="bg-white/5 border border-white/10 rounded-2xl rounded-bl-none px-4 py-3 flex items-center gap-2 text-sm text-text-secondary">
-              <Loader2 size={14} className="animate-spin" /> Pensando...
+            <div className="bg-[#E9E9EB] rounded-2xl rounded-bl-sm px-4 py-2.5 flex items-center gap-2 text-xs text-arctic-secondary">
+              <Loader2 size={13} className="animate-spin text-glacier-blue" />
+              <span>Generando explicación...</span>
             </div>
           </div>
         )}
+
         {error && (
-          <div className="border border-warm-coral/30 text-warm-coral bg-warm-coral/5 rounded-lg p-3 text-sm text-center mx-4 my-2">
+          <div className="border border-cool-berry/30 bg-cool-berry/10 text-cool-berry rounded-xl p-3 text-xs text-center mx-2 my-1">
             {error}
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="p-4 border-t border-white/10 bg-deep-surface/30">
+      {/* Input bar */}
+      <div className="p-3.5 border-t border-black/[0.06] bg-white/80">
         <form onSubmit={handleSubmit} className="flex gap-2">
           <input
             type="text"
             value={input}
             onChange={e => setInput(e.target.value)}
-            placeholder="Escribe tu duda aquí..."
-            className="flex-1 bg-deep-ink border border-white/10 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-electric-periwinkle transition-colors"
+            placeholder="Pregunta lo que sea sobre este tema..."
+            className="flex-1 bg-frost-base border border-black/[0.08] rounded-full px-4 py-2 text-xs text-arctic-slate placeholder:text-arctic-tertiary focus:outline-none focus:border-glacier-blue transition-all"
             disabled={loading}
           />
           <button 
             type="submit" 
             disabled={!input.trim() || loading}
-            className="btn-action p-2 px-3 rounded-lg flex items-center justify-center disabled:opacity-50 shrink-0"
+            className="w-8 h-8 rounded-full bg-glacier-blue text-white flex items-center justify-center disabled:opacity-40 shrink-0 apple-tactile shadow-apple-sm"
           >
-            <Send size={16} />
+            <Send size={13} />
           </button>
         </form>
       </div>

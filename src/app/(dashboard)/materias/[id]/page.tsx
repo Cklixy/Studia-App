@@ -6,7 +6,7 @@ import LearningMap from "@/components/LearningMap";
 import EvaluacionesPanel from "@/components/EvaluacionesPanel";
 import EditMateriaModal from "@/components/EditMateriaModal";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Sparkles, Calendar } from "lucide-react";
 
 export default async function MateriaDetailPage({ params }: { params: { id: string } }) {
   const supabase = createClient();
@@ -27,7 +27,7 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
     .single();
 
   if (materiaError || !materia) {
-    return <div>Error al cargar la materia</div>;
+    return <div className="p-8 text-center text-arctic-secondary">Error al cargar la materia</div>;
   }
 
   const { data: temas, error: temasError } = await supabase
@@ -45,48 +45,64 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
     .single();
 
   return (
-    <div>
-      <Link href="/materias" className="flex items-center gap-2 text-sm opacity-70 hover:opacity-100 mb-6 w-fit">
-        <ArrowLeft size={16} /> Volver a mis materias
+    <div className="space-y-8 animate-in fade-in duration-500">
+      <Link 
+        href="/materias" 
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
+      >
+        <ArrowLeft size={14} />
+        <span>Volver a mis materias</span>
       </Link>
       
-      <div className="flex items-center gap-3 mb-2">
-        <h1 className="text-3xl font-bold">{materia.nombre}</h1>
-        <EditMateriaModal materia={materia} />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-black/[0.06]">
+        <div>
+          <div className="flex items-center gap-3">
+            <h1 className="text-3xl font-bold tracking-tight text-arctic-slate">{materia.nombre}</h1>
+            <EditMateriaModal materia={materia} />
+          </div>
+          {materia.fecha_parcial && (
+            <p className="text-xs text-arctic-secondary mt-1 flex items-center gap-1.5">
+              <Calendar size={13} className="text-cool-berry" />
+              <span>Fecha del parcial: {new Date(materia.fecha_parcial).toLocaleDateString("es-ES", { day: "numeric", month: "long" })}</span>
+            </p>
+          )}
+        </div>
       </div>
-
-      {materia.fecha_parcial && (
-        <p className="opacity-70 mb-8">
-          Fecha del parcial: {new Date(materia.fecha_parcial).toLocaleDateString()}
-        </p>
-      )}
-      {!materia.fecha_parcial && <div className="mb-8" />}
 
       {route ? (
         <LearningMap temas={temas || []} route={route} />
       ) : (
-        <div className="surface-panel p-6 mb-8 border-dashed border-white/20 text-center">
-          <h2 className="text-xl font-bold mb-2">Aún no tienes una ruta de aprendizaje</h2>
-          <p className="text-text-secondary mb-4">Deja que la IA organice los temas que necesitas estudiar.</p>
-          <Link href="/rutas/crear" className="btn-action inline-block">
-            ✨ Crear ruta con IA
+        <div className="apple-card p-8 mb-8 border border-dashed border-black/[0.12] bg-white/70 text-center">
+          <div className="w-10 h-10 rounded-2xl bg-cool-iris/10 text-cool-iris flex items-center justify-center mx-auto mb-3">
+            <Sparkles size={20} />
+          </div>
+          <h2 className="text-lg font-bold text-arctic-slate mb-1">Aún no tienes una ruta de aprendizaje</h2>
+          <p className="text-xs text-arctic-secondary mb-5 max-w-sm mx-auto">
+            Organiza los temas que necesitas aprender paso a paso con la inteligencia artificial.
+          </p>
+          <Link href="/rutas/crear" className="btn-apple-primary text-xs py-2 px-5 font-semibold apple-tactile shadow-apple-sm">
+            <span>Crear ruta con IA</span>
           </Link>
         </div>
       )}
 
-      <h2 className="text-2xl font-bold mt-8 mb-4">Temas Sueltos</h2>
-      <CreateTemaForm materiaId={materiaId} />
+      <div>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold text-arctic-slate tracking-tight">Temario Libre</h2>
+        </div>
+        <CreateTemaForm materiaId={materiaId} />
 
-      <div className="mt-8 mb-12">
-        {temas?.length === 0 ? (
-          <p className="opacity-50 py-4">No has agregado temas a esta materia todavía.</p>
-        ) : (
-          <div className="grid gap-2">
-            {temas?.filter(t => !t.route_id).map((tema) => (
-              <TemaItem key={tema.id} tema={tema} />
-            ))}
-          </div>
-        )}
+        <div className="mt-5 mb-12">
+          {temas?.length === 0 ? (
+            <p className="text-xs text-arctic-tertiary py-4 italic">No has agregado temas a esta materia todavía.</p>
+          ) : (
+            <div className="grid gap-2">
+              {temas?.filter(t => !t.route_id).map((tema) => (
+                <TemaItem key={tema.id} tema={tema} />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       <EvaluacionesPanel materiaId={materiaId} />

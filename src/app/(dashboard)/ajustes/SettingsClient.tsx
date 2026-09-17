@@ -1,84 +1,71 @@
 "use client";
 
 import { useState } from "react";
-import { User, Bell, Shield, CreditCard, LogOut, Settings as SettingsIcon } from "lucide-react";
+import { User, Bell, Shield, CreditCard } from "lucide-react";
 import LogoutButton from "./LogoutButton";
 
 export default function SettingsClient({ email }: { email: string }) {
   const [activeTab, setActiveTab] = useState<"perfil" | "notificaciones" | "privacidad" | "facturacion">("perfil");
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+    <div className="space-y-6 mt-6 md:grid md:grid-cols-3 md:gap-8 md:space-y-0">
       
-      {/* Left Column: Sidebar menu for settings */}
-      <div className="space-y-2">
-        <button 
-          onClick={() => setActiveTab("perfil")}
-          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${
-            activeTab === "perfil" ? "bg-white/10 text-white" : "text-text-secondary hover:bg-white/5 hover:text-white"
-          }`}
-        >
-          <User size={18} /> Mi Perfil
-        </button>
-        <button 
-          onClick={() => setActiveTab("notificaciones")}
-          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${
-            activeTab === "notificaciones" ? "bg-white/10 text-white" : "text-text-secondary hover:bg-white/5 hover:text-white"
-          }`}
-        >
-          <Bell size={18} /> Notificaciones
-        </button>
-        <button 
-          onClick={() => setActiveTab("privacidad")}
-          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${
-            activeTab === "privacidad" ? "bg-white/10 text-white" : "text-text-secondary hover:bg-white/5 hover:text-white"
-          }`}
-        >
-          <Shield size={18} /> Privacidad
-        </button>
-        <button 
-          onClick={() => setActiveTab("facturacion")}
-          className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${
-            activeTab === "facturacion" ? "bg-white/10 text-white" : "text-text-secondary hover:bg-white/5 hover:text-white"
-          }`}
-        >
-          <CreditCard size={18} /> Facturación
-        </button>
+      {/* Mobile: horizontal scrollable pill tabs | Desktop: left column */}
+      <div className="flex md:flex-col gap-1.5 overflow-x-auto no-scrollbar pb-1 md:pb-0 shrink-0">
+        {[
+          { key: "perfil" as const, label: "Mi Perfil", icon: <User size={16} /> },
+          { key: "notificaciones" as const, label: "Notificaciones", icon: <Bell size={16} /> },
+          { key: "privacidad" as const, label: "Privacidad", icon: <Shield size={16} /> },
+          { key: "facturacion" as const, label: "Facturación", icon: <CreditCard size={16} /> },
+        ].map(({ key, label, icon }) => (
+          <button
+            key={key}
+            onClick={() => setActiveTab(key)}
+            className={`flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all apple-tactile whitespace-nowrap shrink-0 md:w-full ${
+              activeTab === key
+                ? "bg-white text-arctic-slate shadow-apple-sm border border-black/[0.06]"
+                : "text-arctic-secondary hover:bg-black/[0.03] hover:text-arctic-slate"
+            }`}
+          >
+            <span className={activeTab === key ? "text-glacier-blue" : ""}>{icon}</span>
+            <span>{label}</span>
+          </button>
+        ))}
       </div>
 
       {/* Right Column: Settings Content */}
-      <div className="md:col-span-2 space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
+      <div className="md:col-span-2 space-y-6 animate-in fade-in duration-300">
         
         {/* ======================= PERFIL ======================= */}
         {activeTab === "perfil" && (
           <>
-            <section className="surface-elevated p-8">
-              <h2 className="text-xl font-display font-bold text-white mb-6 flex items-center gap-2">
-                <User size={20} className="text-electric-periwinkle" />
-                Información Personal
+            <section className="apple-card p-6 md:p-8 bg-white/95 border border-black/[0.08] shadow-apple-sm">
+              <h2 className="text-lg font-bold text-arctic-slate mb-4 flex items-center gap-2">
+                <User size={18} className="text-glacier-blue" />
+                <span>Información Personal</span>
               </h2>
               
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <div>
-                  <label className="block text-xs uppercase tracking-widest font-bold text-text-secondary mb-2">
+                  <label className="block text-xs font-semibold text-arctic-secondary mb-1.5">
                     Correo Electrónico
                   </label>
-                  <div className="w-full bg-deep-ink border border-white/10 rounded-xl px-4 py-3 text-sm font-medium text-text-secondary">
+                  <div className="w-full bg-frost-base border border-black/[0.08] rounded-xl px-4 py-2.5 text-xs font-medium text-arctic-slate font-mono">
                     {email}
                   </div>
-                  <p className="text-xs text-text-secondary mt-2">
-                    Tu correo está vinculado a tu cuenta de Google o Supabase y no puede ser cambiado desde aquí.
+                  <p className="text-[11px] text-arctic-tertiary mt-1.5">
+                    Tu correo está vinculado a tu cuenta de autenticación de Studia+.
                   </p>
                 </div>
               </div>
             </section>
 
-            <section className="surface-panel border-warm-coral/20 p-8">
-              <h2 className="text-xl font-display font-bold text-warm-coral mb-4 flex items-center gap-2">
-                Zona de Peligro
+            <section className="apple-card p-6 md:p-8 bg-white/95 border border-cool-berry/20 shadow-apple-sm">
+              <h2 className="text-base font-bold text-cool-berry mb-2 flex items-center gap-2">
+                <span>Zona de Seguridad</span>
               </h2>
-              <p className="text-sm text-text-secondary mb-6">
-                Cerrar sesión en este dispositivo.
+              <p className="text-xs text-arctic-secondary mb-5">
+                Cerrar sesión en este navegador y desconectar credenciales locales.
               </p>
               
               <LogoutButton />
@@ -88,34 +75,34 @@ export default function SettingsClient({ email }: { email: string }) {
 
         {/* ======================= NOTIFICACIONES ======================= */}
         {activeTab === "notificaciones" && (
-          <section className="surface-elevated p-8">
-            <h2 className="text-xl font-display font-bold text-white mb-6 flex items-center gap-2">
-              <Bell size={20} className="text-electric-periwinkle" />
-              Preferencias de Notificación
+          <section className="apple-card p-6 md:p-8 bg-white/95 border border-black/[0.08] shadow-apple-sm">
+            <h2 className="text-lg font-bold text-arctic-slate mb-4 flex items-center gap-2">
+              <Bell size={18} className="text-glacier-blue" />
+              <span>Preferencias de Notificación</span>
             </h2>
             
-            <div className="space-y-6">
+            <div className="space-y-3">
               {[
                 { title: "Recordatorios de Estudio", desc: "Recibe alertas para mantener tu racha activa.", defaultOn: true },
                 { title: "Actualizaciones de IA", desc: "Novedades cuando el modelo Gemini genere nuevas recomendaciones.", defaultOn: true },
-                { title: "Ofertas y Novedades", desc: "Nuevas funcionalidades y promociones de studia+.", defaultOn: false }
+                { title: "Novedades de la Plataforma", desc: "Nuevas funcionalidades y avisos de actualización.", defaultOn: false }
               ].map((item, i) => (
-                <div key={i} className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-xl">
+                <div key={i} className="flex items-center justify-between p-4 bg-frost-base/60 border border-black/[0.06] rounded-xl">
                   <div>
-                    <h3 className="text-white text-sm font-medium">{item.title}</h3>
-                    <p className="text-text-secondary text-xs mt-1">{item.desc}</p>
+                    <h3 className="text-arctic-slate text-xs font-semibold">{item.title}</h3>
+                    <p className="text-arctic-secondary text-[11px] mt-0.5">{item.desc}</p>
                   </div>
-                  {/* Custom Toggle Switch */}
-                  <div className="relative inline-block w-12 mr-2 align-middle select-none">
-                    <input type="checkbox" defaultChecked={item.defaultOn} className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-transparent top-0 bottom-0 m-auto z-10 transition-transform duration-200 ease-in-out peer" />
-                    <label className="toggle-label block overflow-hidden h-6 rounded-full bg-deep-ink border border-white/20 cursor-pointer peer-checked:bg-electric-periwinkle/50 peer-checked:border-electric-periwinkle"></label>
+                  {/* Apple Switch */}
+                  <div className="relative inline-block w-11 h-6 align-middle select-none shrink-0 ml-3">
+                    <input type="checkbox" defaultChecked={item.defaultOn} className="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white shadow-sm border border-black/10 cursor-pointer top-0.5 left-0.5 z-10 transition-transform duration-200 ease-in-out peer" />
+                    <label className="toggle-label block overflow-hidden h-6 rounded-full bg-black/10 cursor-pointer peer-checked:bg-glacier-blue transition-colors"></label>
                   </div>
                 </div>
               ))}
             </div>
             <style jsx>{`
               .toggle-checkbox:checked {
-                transform: translateX(100%);
+                transform: translateX(20px);
               }
             `}</style>
           </section>
@@ -123,38 +110,38 @@ export default function SettingsClient({ email }: { email: string }) {
 
         {/* ======================= PRIVACIDAD ======================= */}
         {activeTab === "privacidad" && (
-          <section className="surface-elevated p-8">
-            <h2 className="text-xl font-display font-bold text-white mb-6 flex items-center gap-2">
-              <Shield size={20} className="text-electric-periwinkle" />
-              Privacidad y Datos
+          <section className="apple-card p-6 md:p-8 bg-white/95 border border-black/[0.08] shadow-apple-sm">
+            <h2 className="text-lg font-bold text-arctic-slate mb-4 flex items-center gap-2">
+              <Shield size={18} className="text-glacier-blue" />
+              <span>Privacidad y Datos</span>
             </h2>
             
-            <div className="space-y-6">
+            <div className="space-y-3">
               {[
-                { title: "Modo Privado (Ghost)", desc: "Oculta tu progreso en las tablas de clasificación globales.", defaultOn: false },
-                { title: "Entrenamiento de IA", desc: "Permitir que tus patrones de estudio anónimos mejoren nuestras rutas IA.", defaultOn: true },
+                { title: "Modo Silencioso", desc: "Oculta tu actividad en resúmenes públicos.", defaultOn: false },
+                { title: "Mejora de Modelos Cognitivos", desc: "Patrones anónimos de estudio para optimizar las rutas curriculares.", defaultOn: true },
               ].map((item, i) => (
-                <div key={i} className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-xl">
+                <div key={i} className="flex items-center justify-between p-4 bg-frost-base/60 border border-black/[0.06] rounded-xl">
                   <div>
-                    <h3 className="text-white text-sm font-medium">{item.title}</h3>
-                    <p className="text-text-secondary text-xs mt-1">{item.desc}</p>
+                    <h3 className="text-arctic-slate text-xs font-semibold">{item.title}</h3>
+                    <p className="text-arctic-secondary text-[11px] mt-0.5">{item.desc}</p>
                   </div>
-                  <div className="relative inline-block w-12 mr-2 align-middle select-none">
-                    <input type="checkbox" defaultChecked={item.defaultOn} className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-transparent top-0 bottom-0 m-auto z-10 transition-transform duration-200 ease-in-out peer" />
-                    <label className="toggle-label block overflow-hidden h-6 rounded-full bg-deep-ink border border-white/20 cursor-pointer peer-checked:bg-electric-periwinkle/50 peer-checked:border-electric-periwinkle"></label>
+                  <div className="relative inline-block w-11 h-6 align-middle select-none shrink-0 ml-3">
+                    <input type="checkbox" defaultChecked={item.defaultOn} className="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white shadow-sm border border-black/10 cursor-pointer top-0.5 left-0.5 z-10 transition-transform duration-200 ease-in-out peer" />
+                    <label className="toggle-label block overflow-hidden h-6 rounded-full bg-black/10 cursor-pointer peer-checked:bg-glacier-blue transition-colors"></label>
                   </div>
                 </div>
               ))}
 
-              <div className="pt-6 border-t border-white/10">
-                <button className="text-sm font-medium text-text-secondary hover:text-white transition-colors underline underline-offset-4">
-                  Descargar todos mis datos (.json)
+              <div className="pt-4 border-t border-black/[0.06]">
+                <button className="text-xs font-medium text-glacier-blue hover:underline">
+                  Descargar mis registros de estudio (.json)
                 </button>
               </div>
             </div>
             <style jsx>{`
               .toggle-checkbox:checked {
-                transform: translateX(100%);
+                transform: translateX(20px);
               }
             `}</style>
           </section>
@@ -163,50 +150,26 @@ export default function SettingsClient({ email }: { email: string }) {
         {/* ======================= FACTURACIÓN ======================= */}
         {activeTab === "facturacion" && (
           <>
-            <section className="surface-panel p-8 relative overflow-hidden">
-              <div className="absolute -right-10 -top-10 w-40 h-40 bg-signal-lime/20 blur-3xl rounded-full pointer-events-none"></div>
+            <section className="apple-card p-6 md:p-8 relative overflow-hidden bg-white/95 border border-black/[0.08] shadow-apple-sm">
+              <div className="absolute -right-10 -top-10 w-40 h-40 bg-glacier-blue/10 blur-3xl rounded-full pointer-events-none"></div>
               
-              <h2 className="text-xl font-display font-bold text-white mb-2">
+              <h2 className="text-lg font-bold text-arctic-slate mb-1">
                 Plan Actual
               </h2>
-              <div className="flex items-center gap-3 mb-6">
-                <span className="bg-signal-lime/20 text-signal-lime px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-                  studia+ premium
+              <div className="flex items-center gap-3 mb-4">
+                <span className="bg-glacier-blue/10 text-glacier-blue border border-glacier-blue/20 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider">
+                  studia+ activo
                 </span>
-                <span className="text-text-secondary text-sm">$9.99 / mes</span>
+                <span className="text-arctic-secondary text-xs font-medium">Plan Estudiantil</span>
               </div>
               
-              <p className="text-sm text-text-secondary mb-6">
-                Tienes acceso ilimitado a generación de rutas, chat inteligente y estadísticas profundas.
-                Próximo cobro: <strong>15 de Octubre, 2026</strong>.
+              <p className="text-xs text-arctic-secondary mb-5 max-w-md leading-relaxed">
+                Dispones de acceso ilimitado a generación de rutas curriculares, tutor inteligente y cronometría de concentración.
               </p>
 
-              <button className="btn-action w-auto py-2 px-6 text-sm bg-white text-black hover:bg-white/90 shadow-none border-none">
-                Administrar Suscripción
+              <button className="btn-apple-secondary text-xs py-2 px-4.5 apple-tactile">
+                Gestionar plan
               </button>
-            </section>
-
-            <section className="surface-elevated p-8">
-              <h2 className="text-lg font-display font-bold text-white mb-6">
-                Método de Pago
-              </h2>
-              <div className="flex items-center justify-between p-4 bg-deep-ink border border-white/10 rounded-xl mb-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-8 bg-white/10 rounded flex items-center justify-center">
-                    <span className="text-xs font-bold text-white">VISA</span>
-                  </div>
-                  <div>
-                    <p className="text-white text-sm font-medium">Visa terminada en 4242</p>
-                    <p className="text-text-secondary text-xs">Expira 12/28</p>
-                  </div>
-                </div>
-                <button className="text-electric-periwinkle hover:text-white text-sm font-medium transition-colors">
-                  Editar
-                </button>
-              </div>
-              <p className="text-xs text-text-secondary flex items-center gap-2">
-                <Shield size={12} /> Facturación segura gestionada por Stripe.
-              </p>
             </section>
           </>
         )}

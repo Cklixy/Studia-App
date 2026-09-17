@@ -2,10 +2,17 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import CreateMateriaForm from "@/components/CreateMateriaForm";
 import PushNotificationManager from "@/components/PushNotificationManager";
-import StudyTrailWidget from "@/components/StudyTrailWidget";
 import StatsPanel from "@/components/StatsPanel";
 import Link from "next/link";
-import { MapPin, ArrowRight } from "lucide-react";
+import { 
+  Flame, 
+  ArrowRight, 
+  Sparkles, 
+  BookOpen, 
+  Calendar, 
+  ChevronRight, 
+  CheckCircle2 
+} from "lucide-react";
 
 export default async function MateriasPage() {
   const supabase = createClient();
@@ -97,13 +104,11 @@ export default async function MateriasPage() {
   }
 
   // Calculate Next Move (The first pending theme across all subjects)
-  let nextMove = null;
+  let nextMove: { materia: string; materiaId: string; tema: string; temaId: string } | null = null;
   if (materias) {
     for (const materia of materias) {
-      // Assuming 'pendiente' is the default state
       const pendingTemas = materia.temas?.filter((t: any) => t.estado !== 'completado') || [];
       if (pendingTemas.length > 0) {
-        // Sort by creation or priority. Let's just pick the first one for now.
         pendingTemas.sort((a: any, b: any) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
         nextMove = {
           materia: materia.nombre,
@@ -116,141 +121,257 @@ export default async function MateriasPage() {
     }
   }
 
-  // Placeholder for available time calculation
-  const availableTime = "1h 20m"; 
+  // Today formatted in Spanish
+  const fechaHoy = new Intl.DateTimeFormat("es-ES", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  }).format(new Date());
 
   return (
-    <div className="flex flex-col gap-10 w-full animate-in fade-in duration-700">
+    <div className="flex flex-col gap-9 w-full animate-in fade-in duration-500">
       
-      <header className="flex flex-col md:flex-row justify-between md:items-end gap-4 mb-2">
+      {/* Apple Large Title Header en Grafito Pizarra */}
+      <header className="flex flex-col md:flex-row justify-between md:items-end gap-4 pb-2 border-b border-black/[0.06]">
         <div>
-          <h1 className="font-display text-3xl font-bold tracking-tight mb-1">Hola, {firstName}</h1>
-          <p className="text-text-secondary text-sm">
+          <span className="text-xs uppercase tracking-widest font-semibold text-arctic-secondary capitalize">
+            {fechaHoy}
+          </span>
+          <h1 className="fluid-h1 font-bold tracking-tight text-arctic-slate mt-1">
+            Hola, {firstName}
+          </h1>
+          <p className="text-arctic-secondary text-sm mt-1">
             {rachaActual > 0 
-              ? `Llevas ${rachaActual} días seguidos. ¡Sigue así!`
-              : "Comienza tu primera sesión de hoy para iniciar tu racha."}
+              ? `Llevas ${rachaActual} días seguidos de enfoque académico. ¡Excelente constancia!`
+              : "Comienza una sesión hoy para activar tu racha de estudio."}
           </p>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Link 
+            href="/rutas" 
+            className="btn-apple-secondary text-xs font-semibold py-2 px-3.5 apple-tactile inline-flex items-center gap-1.5"
+          >
+            <Sparkles size={14} className="text-cool-iris" />
+            <span>Crear ruta IA</span>
+          </Link>
+          <CreateMateriaForm />
         </div>
       </header>
 
-      {/* Top Row: Core + Hero */}
-      <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-6">
+      {/* Top Row: Apple Activity Gauge + Hero Focus Card en Vidrio Blanco */}
+      <div className="grid grid-cols-1 sm:grid-cols-[240px_1fr] lg:grid-cols-[290px_1fr] gap-4 sm:gap-5">
         
-        {/* Core (Racha) */}
-        <div className="surface-panel relative overflow-hidden flex flex-col items-center justify-center text-center p-8 border-white/5">
-          {/* Animated gradient background */}
-          <div className="absolute w-[220px] h-[220px] opacity-25 blur-[40px] animate-[spin_14s_linear_infinite]" style={{ background: 'conic-gradient(from 0deg, var(--signal-lime), var(--electric-periwinkle), var(--electric-lavender), var(--signal-lime))' }}></div>
-          
-          <div className="relative w-[118px] h-[118px] rounded-full flex items-center justify-center bg-deep-ink border-2 border-signal-lime/30 z-10 before:content-[''] before:absolute before:-inset-[2px] before:rounded-full before:border-2 before:border-transparent before:border-t-signal-lime before:border-r-signal-lime before:rotate-45">
-            <div className="font-display text-4xl font-bold z-10">{rachaActual}</div>
+        {/* Apple Activity Gauge Card (Racha & XP) */}
+        <div className="apple-card p-6 flex flex-col items-center justify-between text-center relative overflow-hidden group">
+          <div className="w-full flex items-center justify-between text-xs text-arctic-secondary">
+            <span className="font-medium tracking-tight">Racha de Estudio</span>
+            <span className="flex items-center gap-1 text-cool-berry font-semibold">
+              <Flame size={14} className="fill-cool-berry text-cool-berry" />
+              {rachaActual}d
+            </span>
           </div>
-          
-          <div className="text-sm text-text-secondary mt-4 relative z-10">días de racha</div>
-          <div className="text-xs text-text-secondary mt-1.5 relative z-10">
-            <b className="text-electric-lavender font-semibold">+{xpEstaSemana} XP</b> esta semana
+
+          {/* Activity Ring Dial en Tonos Fríos */}
+          <div className="relative w-36 h-36 my-4 flex items-center justify-center">
+            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
+              {/* Outer light track */}
+              <circle
+                cx="60"
+                cy="60"
+                r="48"
+                className="stroke-black/[0.06]"
+                strokeWidth="9"
+                fill="none"
+              />
+              {/* Outer Activity Progress: Glacier to Polar Cyan */}
+              <circle
+                cx="60"
+                cy="60"
+                r="48"
+                stroke="url(#glacierGradient)"
+                strokeWidth="9"
+                strokeLinecap="round"
+                fill="none"
+                strokeDasharray={`${2 * Math.PI * 48}`}
+                strokeDashoffset={`${2 * Math.PI * 48 * (1 - Math.min(1, rachaActual / 7))}`}
+                className="transition-all duration-1000 ease-out"
+              />
+              {/* Inner light track for XP */}
+              <circle
+                cx="60"
+                cy="60"
+                r="36"
+                className="stroke-black/[0.04]"
+                strokeWidth="7"
+                fill="none"
+              />
+              <circle
+                cx="60"
+                cy="60"
+                r="36"
+                stroke="url(#irisGradient)"
+                strokeWidth="7"
+                strokeLinecap="round"
+                fill="none"
+                strokeDasharray={`${2 * Math.PI * 36}`}
+                strokeDashoffset={`${2 * Math.PI * 36 * (1 - Math.min(1, (xpEstaSemana % 500) / 500))}`}
+                className="transition-all duration-1000 ease-out"
+              />
+              <defs>
+                <linearGradient id="glacierGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#0071E3" />
+                  <stop offset="100%" stopColor="#0EA5E9" />
+                </linearGradient>
+                <linearGradient id="irisGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#6366F1" />
+                  <stop offset="100%" stopColor="#06B6D4" />
+                </linearGradient>
+              </defs>
+            </svg>
+
+            {/* Metric Center */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-3xl font-bold tracking-tight text-arctic-slate tabular-nums">
+                {rachaActual}
+              </span>
+              <span className="text-[10px] uppercase font-semibold tracking-wider text-arctic-secondary">
+                días
+              </span>
+            </div>
+          </div>
+
+          {/* Bottom XP Chip */}
+          <div className="w-full pt-3 border-t border-black/[0.06] flex items-center justify-between text-xs">
+            <span className="text-arctic-secondary">Esta semana:</span>
+            <span className="font-semibold text-glacier-blue">+{xpEstaSemana} XP</span>
           </div>
         </div>
 
-        {/* Hero (Next Move) */}
+        {/* Hero Next Move Focus Card en Vidrio Blanco */}
         {nextMove ? (
-          <div className="relative overflow-hidden rounded-[20px] border border-white/5 p-8 flex flex-col justify-between bg-gradient-to-br from-deep-elevated to-deep-surface">
-            {/* Background blob */}
-            <div className="absolute -right-16 -top-16 w-[220px] h-[220px] rounded-full bg-[radial-gradient(circle,rgba(255,122,102,0.18),transparent_70%)]"></div>
+          <div className="apple-card p-7 md:p-8 flex flex-col justify-between relative overflow-hidden group bg-gradient-to-br from-white/95 to-frost-base/90">
+            {/* Ambient cold light splash */}
+            <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-glacier-blue/[0.05] blur-3xl pointer-events-none" />
             
-            <div className="relative z-10">
-              <div className="flex items-center gap-2 text-xs font-semibold text-warm-coral uppercase tracking-widest">
-                <div className="w-1.5 h-1.5 rounded-full bg-warm-coral shadow-[0_0_8px_var(--warm-coral)]"></div>
-                ESTUDIA AHORA
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-polar-cyan/10 border border-polar-cyan/20 text-polar-cyan text-[11px] font-semibold tracking-wider uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-polar-cyan animate-pulse" />
+                Siguiente Paso Recomendado
               </div>
-              <h2 className="font-display text-2xl font-semibold mt-3 mb-2">{nextMove.materia} — {nextMove.tema}</h2>
-              <p className="text-sm text-text-secondary max-w-md">Recomendado para hoy. Continúa tu mapa de aprendizaje donde lo dejaste.</p>
+
+              <div className="mt-4">
+                <span className="text-xs font-semibold text-arctic-secondary uppercase tracking-wider">
+                  {nextMove.materia}
+                </span>
+                <h2 className="text-2xl md:text-3xl font-bold text-arctic-slate tracking-tight mt-1">
+                  {nextMove.tema}
+                </h2>
+                <p className="text-arctic-secondary text-sm max-w-lg mt-2 leading-relaxed">
+                  Tu plan curricular indica que este es el tema prioritario para consolidar hoy.
+                </p>
+              </div>
             </div>
-            
-            <div className="flex items-center gap-4 mt-6 relative z-10">
+
+            <div className="flex flex-wrap items-center gap-3.5 mt-6 pt-4 border-t border-black/[0.06]">
               <Link 
                 href={`/sesion/nueva?materia=${nextMove.materiaId}&tema=${nextMove.temaId}`}
-                className="btn-action shadow-[0_8px_24px_rgba(200,255,74,0.25)]"
+                className="btn-apple-primary text-xs py-2.5 px-6 font-semibold apple-tactile shadow-apple-sm"
               >
-                Iniciar sesión
+                <span>Comenzar sesión ahora</span>
+                <ArrowRight size={14} />
               </Link>
-              <Link href={`/materias/${nextMove.materiaId}`} className="text-sm text-text-secondary hover:text-white transition-colors">
-                Cambiar tema →
+              <Link 
+                href={`/materias/${nextMove.materiaId}`} 
+                className="btn-apple-secondary text-xs py-2.5 px-4 apple-tactile"
+              >
+                <span>Explorar temario</span>
+                <ChevronRight size={14} />
               </Link>
             </div>
           </div>
         ) : (
-          <div className="relative overflow-hidden rounded-[20px] border border-white/5 p-8 flex flex-col justify-center items-center bg-gradient-to-br from-deep-elevated to-deep-surface">
-             <div className="text-center relative z-10">
-               <p className="text-lg text-text-secondary mb-2">No tienes temas pendientes registrados.</p>
-               <p className="text-sm text-text-secondary mb-6">Explora tus materias para añadir un nuevo destino.</p>
-               <CreateMateriaForm />
-             </div>
+          <div className="apple-card p-8 flex flex-col justify-center items-center text-center relative overflow-hidden">
+            <div className="w-12 h-12 rounded-2xl bg-black/[0.03] border border-black/[0.06] flex items-center justify-center text-arctic-secondary mb-3">
+              <BookOpen size={22} />
+            </div>
+            <h3 className="text-lg font-semibold text-arctic-slate tracking-tight">Sin temas pendientes</h3>
+            <p className="text-sm text-arctic-secondary max-w-sm mt-1 mb-5">
+              Has completado tus temas actuales o aún no registras asignaturas en tu plan.
+            </p>
+            <CreateMateriaForm />
           </div>
         )}
       </div>
 
-      {/* Constellation Grid (Materias) */}
-      <section>
-        <div className="flex justify-between items-center mb-5">
-          <h3 className="font-display text-lg font-semibold">Tus materias</h3>
-          <div className="flex items-center gap-4">
-             <Link href="/rutas/crear" className="text-sm text-electric-periwinkle hover:text-white transition-colors hidden md:block">
-               ✨ Crear ruta IA
-             </Link>
-             <CreateMateriaForm />
+      {/* Constellation Grid: Tus Materias */}
+      <section className="space-y-4">
+        <div className="flex justify-between items-center px-1">
+          <div>
+            <h3 className="text-lg font-bold tracking-tight text-arctic-slate">Tus Materias</h3>
+            <p className="text-xs text-arctic-secondary">Estructura tus asignaturas y monitorea el avance de cada una</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {materias?.map((materia, index) => {
-             const temas = materia.temas || [];
-             const completedCount = temas.filter((t: any) => t.estado === 'completado').length;
-             const progressPct = temas.length > 0 ? Math.round((completedCount / temas.length) * 100) : 0;
-             const isGrande = index === 0 && temas.length > 0;
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          {materias?.map((materia) => {
+            const temas = materia.temas || [];
+            const completedCount = temas.filter((t: any) => t.estado === 'completado').length;
+            const progressPct = temas.length > 0 ? Math.round((completedCount / temas.length) * 100) : 0;
 
-             return (
-               <Link 
-                 key={materia.id} 
-                 href={`/materias/${materia.id}`}
-                 className={`surface-panel flex flex-col gap-4 hover:-translate-y-1 hover:border-white/10 transition-all cursor-pointer ${isGrande ? 'md:col-span-2 md:row-span-2 p-7' : 'p-5'}`}
-               >
-                 <div className="flex justify-between items-start">
-                   <div>
-                     <div className={`font-semibold ${isGrande ? 'text-[19px] font-display' : 'text-[15px]'}`}>{materia.nombre}</div>
-                     <div className="text-xs text-text-secondary mt-1.5">
-                       {completedCount} de {temas.length} temas {materia.fecha_parcial ? `· próximo parcial ${new Date(materia.fecha_parcial).toLocaleDateString()}` : ''}
-                     </div>
-                   </div>
-                   {materia.fecha_parcial && (
-                     <span className="text-[11px] font-semibold text-warm-coral bg-warm-coral/10 px-2.5 py-1 rounded-md shrink-0">Parcial</span>
-                   )}
-                 </div>
+            return (
+              <Link 
+                key={materia.id} 
+                href={`/materias/${materia.id}`}
+                className="apple-card p-5 flex flex-col justify-between group apple-tactile cursor-pointer"
+              >
+                <div>
+                  <div className="flex justify-between items-start gap-2 mb-2">
+                    <h4 className="text-base font-semibold text-arctic-slate tracking-tight group-hover:text-glacier-blue transition-colors">
+                      {materia.nombre}
+                    </h4>
+                    {materia.fecha_parcial && (
+                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-cool-berry bg-cool-berry/10 border border-cool-berry/20 px-2 py-0.5 rounded-full shrink-0">
+                        <Calendar size={11} />
+                        <span>{new Date(materia.fecha_parcial).toLocaleDateString("es-ES", { month: "short", day: "numeric" })}</span>
+                      </span>
+                    )}
+                  </div>
 
-                 {isGrande ? (
-                   <div className="flex-1 min-h-[90px] rounded-xl bg-gradient-to-br from-electric-lavender/15 to-electric-periwinkle/10 flex items-end p-4 border border-white/5 mt-2">
-                     <span className="text-xs text-text-secondary">
-                        {temas.length > 0 ? 'Mapa de ruta activo' : 'Añade temas para generar ruta'}
-                     </span>
-                   </div>
-                 ) : (
-                   <div className="flex-1"></div>
-                 )}
+                  <p className="text-xs text-arctic-secondary">
+                    {completedCount} de {temas.length} temas dominados
+                  </p>
+                </div>
 
-                 <div className="flex justify-between items-center text-xs text-text-secondary mt-2">
-                   <span>Progreso</span>
-                   <b className="text-text-primary font-semibold">{progressPct}%</b>
-                 </div>
-               </Link>
-             );
+                {/* Progress bar */}
+                <div className="mt-5 pt-3 border-t border-black/[0.05]">
+                  <div className="flex justify-between items-center text-xs mb-1.5">
+                    <span className="text-arctic-secondary text-[11px]">Progreso</span>
+                    <span className="font-semibold text-arctic-slate tabular-nums text-xs">{progressPct}%</span>
+                  </div>
+                  <div className="w-full bg-black/[0.05] rounded-full h-1.5 overflow-hidden">
+                    <div 
+                      className="h-full rounded-full bg-glacier-blue transition-all duration-700 ease-out"
+                      style={{ width: `${progressPct}%` }}
+                    />
+                  </div>
+                </div>
+              </Link>
+            );
           })}
+
           {materias?.length === 0 && (
-            <div className="surface-panel p-10 text-center text-text-secondary md:col-span-3">
-              Aún no tienes materias registradas en tu sistema de navegación.
+            <div className="apple-card p-10 text-center text-arctic-secondary md:col-span-3 flex flex-col items-center">
+              <BookOpen size={32} className="text-arctic-tertiary mb-3" />
+              <p className="text-sm font-medium text-arctic-slate">Aún no tienes materias registradas.</p>
+              <p className="text-xs text-arctic-secondary mt-1 mb-4">Crea tu primera materia para comenzar a organizar tus temas.</p>
+              <CreateMateriaForm />
             </div>
           )}
         </div>
       </section>
 
+      {/* Stats Summary Panel */}
       <StatsPanel 
         totalMinutos={totalMinutos} 
         efectividad={efectividad} 
@@ -259,7 +380,8 @@ export default async function MateriasPage() {
         xpTotal={xpTotal} 
       />
 
-      <div className="pt-8">
+      {/* Push Notifications Settings */}
+      <div className="pt-2">
         <PushNotificationManager />
       </div>
     </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { StudyContext, getRecommendation, Recommendation } from "@/lib/recommendationEngine";
-import { ArrowRight, RotateCw, Clock, X, MoreHorizontal } from "lucide-react";
+import { ArrowRight, RotateCw, Clock, X, MoreHorizontal, Sparkles, ChevronLeft, Target } from "lucide-react";
 
 const CONTEXTOS: StudyContext[] = [
   "📝 Tengo un examen próximamente",
@@ -25,13 +25,15 @@ const PREDEFINED_SUBJECTS = {
   "Otra / Personalizada": []
 };
 
+const DURATION_PRESETS = [25, 40, 50, 60];
+
 // Icons mapping for visual identity of methods
 const getMethodIcon = (metodo: string) => {
-  if (metodo.includes("Active Recall")) return <RotateCw size={24} className="text-signal-lime" />;
-  if (metodo.includes("Feynman")) return <ArrowRight size={24} className="text-electric-lavender" />;
-  if (metodo.includes("Pomodoro")) return <Clock size={24} className="text-warm-coral" />;
-  if (metodo.includes("Práctica")) return <X size={24} className="text-electric-periwinkle" />;
-  return <MoreHorizontal size={24} className="text-electric-lavender" />;
+  if (metodo.includes("Active Recall")) return <RotateCw size={22} className="text-glacier-blue" />;
+  if (metodo.includes("Feynman")) return <Sparkles size={22} className="text-cool-iris" />;
+  if (metodo.includes("Pomodoro")) return <Clock size={22} className="text-cool-amber" />;
+  if (metodo.includes("Práctica")) return <Target size={22} className="text-polar-cyan" />;
+  return <MoreHorizontal size={22} className="text-cool-iris" />;
 };
 
 export default function SessionWizard({ 
@@ -168,47 +170,98 @@ export default function SessionWizard({
   };
 
   return (
-    <div className="surface-panel p-6 md:p-10 mt-8 max-w-2xl mx-auto">
-      {/* Route Progress */}
-      <div className="flex items-center mb-12 relative">
-        <div className="absolute top-1.5 left-0 w-full h-[2px] bg-white/5 -z-10"></div>
-        <div className="flex justify-between w-full relative z-10">
-          {[1,2,3,4,5].map(i => (
-            <div key={i} className={`w-3 h-3 rounded-full transition-colors ${step >= i ? 'bg-electric-periwinkle shadow-[0_0_8px_rgba(106,146,229,0.5)]' : 'bg-deep-ink border border-white/20'}`} />
+    <div className="apple-card p-6 md:p-10 max-w-2xl mx-auto border border-black/[0.08] shadow-apple-md bg-white/95">
+      
+      {/* Apple Setup Assistant Step Indicator */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between text-xs text-arctic-secondary mb-2.5">
+          <div className="flex items-center gap-2">
+            {step > 1 && (
+              <button 
+                onClick={() => setStep(s => s - 1)}
+                className="flex items-center gap-1 text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
+              >
+                <ChevronLeft size={14} />
+                <span>Atrás</span>
+              </button>
+            )}
+            <span className="font-semibold text-arctic-tertiary">Paso {step} de 5</span>
+          </div>
+          <span className="text-[11px] font-medium text-arctic-tertiary">Configuración de Sesión</span>
+        </div>
+
+        <div className="flex items-center gap-1.5">
+          {[1, 2, 3, 4, 5].map(i => (
+            <div 
+              key={i} 
+              className={`h-1 flex-1 rounded-full transition-all duration-300 ${
+                step >= i ? "bg-glacier-blue" : "bg-black/[0.07]"
+              }`} 
+            />
           ))}
         </div>
       </div>
 
-      {error && <div className="border border-warm-coral/30 text-warm-coral p-4 rounded-md mb-6">{error}</div>}
+      {error && (
+        <div className="border border-cool-berry/30 bg-cool-berry/10 text-cool-berry p-3 rounded-xl mb-6 text-xs font-medium">
+          {error}
+        </div>
+      )}
 
+      {/* Step 1: Nivel */}
       {step === 1 && (
-        <div className="space-y-8 animate-in fade-in duration-500">
-          <h2 className="text-3xl font-display font-bold">¿Dónde estudias?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="space-y-6 animate-in fade-in duration-300">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
+              ¿En qué nivel te encuentras?
+            </h2>
+            <p className="text-sm text-arctic-secondary mt-1">
+              Selecciona tu ámbito actual para calibrar las recomendaciones.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {["Colegio", "Universidad", "Otra / Personalizada"].map(n => (
               <button 
                 key={n}
                 onClick={() => { setNivel(n); handleNext(); }}
-                className="p-6 border border-white/10 rounded-lg hover:border-electric-periwinkle hover:bg-electric-periwinkle/5 text-left font-medium transition-colors"
+                className="apple-card p-5 text-left font-medium transition-all apple-tactile border border-black/[0.07] hover:border-glacier-blue/30 hover:bg-frost-base/50"
               >
-                {n}
+                <div className="text-base font-semibold text-arctic-slate tracking-tight">{n}</div>
+                <div className="text-xs text-arctic-secondary mt-1">
+                  {n === "Colegio" ? "Secundaria / Bachillerato" : n === "Universidad" ? "Pregrado o Posgrado" : "Autodidacta o Certificación"}
+                </div>
               </button>
             ))}
           </div>
         </div>
       )}
 
+      {/* Step 2: Materia */}
       {step === 2 && (
-        <div className="space-y-8 animate-in fade-in duration-500">
-          <h2 className="text-3xl font-display font-bold">¿Qué materia vas a estudiar?</h2>
+        <div className="space-y-6 animate-in fade-in duration-300">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
+              ¿Qué materia vas a estudiar?
+            </h2>
+            <p className="text-sm text-arctic-secondary mt-1">
+              Elige una de tus materias registradas o una sugerida para tu nivel.
+            </p>
+          </div>
           
           {initialMaterias.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-sm uppercase tracking-widest text-text-secondary font-bold mb-4">Tus materias</h3>
-              <div className="grid grid-cols-2 gap-3">
+            <div>
+              <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2.5">
+                Tus materias registradas
+              </h3>
+              <div className="grid grid-cols-2 gap-2.5">
                 {initialMaterias.map(m => (
-                  <button key={m.id} onClick={() => { setMateriaId(m.id); setMateriaNombre(m.nombre); handleNext(); }} className="p-4 border border-white/10 rounded-lg text-left hover:bg-white/5 transition-colors">
-                    {m.nombre}
+                  <button 
+                    key={m.id} 
+                    onClick={() => { setMateriaId(m.id); setMateriaNombre(m.nombre); handleNext(); }} 
+                    className="p-3.5 rounded-xl border border-black/[0.07] bg-frost-base/60 text-left hover:border-glacier-blue/30 hover:bg-white transition-all apple-tactile"
+                  >
+                    <div className="font-semibold text-sm text-arctic-slate tracking-tight">{m.nombre}</div>
                   </button>
                 ))}
               </div>
@@ -216,11 +269,17 @@ export default function SessionWizard({
           )}
 
           {nivel !== "Otra / Personalizada" && (
-            <div className="mb-6">
-              <h3 className="text-sm uppercase tracking-widest text-text-secondary font-bold mb-4">Sugerencias ({nivel})</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div>
+              <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2.5">
+                Sugerencias ({nivel})
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                 {PREDEFINED_SUBJECTS[nivel as keyof typeof PREDEFINED_SUBJECTS].map(m => (
-                  <button key={m} onClick={() => { setMateriaId(""); setMateriaNombre(m); handleNext(); }} className="p-3 border border-white/10 rounded-lg text-left hover:bg-white/5 text-sm transition-colors">
+                  <button 
+                    key={m} 
+                    onClick={() => { setMateriaId(""); setMateriaNombre(m); handleNext(); }} 
+                    className="p-2.5 rounded-xl border border-black/[0.05] bg-frost-base/40 text-left hover:bg-white text-xs font-medium text-arctic-secondary hover:text-arctic-slate transition-all apple-tactile"
+                  >
                     {m}
                   </button>
                 ))}
@@ -228,28 +287,58 @@ export default function SessionWizard({
             </div>
           )}
 
-          <div>
-            <h3 className="text-sm uppercase tracking-widest text-text-secondary font-bold mb-4">Otra materia</h3>
-            <div className="flex gap-3">
-              <input type="text" placeholder="Nombre de la materia..." className="flex-1 p-3 rounded-lg border border-white/10 bg-deep-elevated focus:border-electric-periwinkle outline-none transition-colors" value={customMateria} onChange={e => setCustomMateria(e.target.value)} />
-              <button onClick={() => { setMateriaId(""); setMateriaNombre(customMateria); handleNext(); }} disabled={!customMateria} className="bg-white/10 text-text-primary px-6 py-2 rounded-lg disabled:opacity-50 hover:bg-white/20 transition-colors">Siguiente</button>
+          <div className="pt-2 border-t border-black/[0.06]">
+            <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2">
+              Otra materia diferente
+            </h3>
+            <div className="flex gap-2">
+              <input 
+                type="text" 
+                placeholder="Nombre de la materia..." 
+                className="flex-1 px-4 py-2.5 rounded-xl border border-black/[0.08] bg-frost-base text-sm text-arctic-slate outline-none focus:border-glacier-blue transition-all" 
+                value={customMateria} 
+                onChange={e => setCustomMateria(e.target.value)} 
+              />
+              <button 
+                onClick={() => { setMateriaId(""); setMateriaNombre(customMateria); handleNext(); }} 
+                disabled={!customMateria.trim()} 
+                className="btn-apple-secondary text-xs px-5 disabled:opacity-40 apple-tactile"
+              >
+                Continuar
+              </button>
             </div>
           </div>
         </div>
       )}
 
+      {/* Step 3: Tema */}
       {step === 3 && (
-        <div className="space-y-8 animate-in fade-in duration-500">
-          <h2 className="text-3xl font-display font-bold">¿Qué tema vas a estudiar?</h2>
+        <div className="space-y-6 animate-in fade-in duration-300">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
+              ¿Cuál es el tema específico?
+            </h2>
+            <p className="text-sm text-arctic-secondary mt-1">
+              Selecciona un tema existente o escribe lo que necesitas aprender hoy.
+            </p>
+          </div>
           
           {temasLocales.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-sm uppercase tracking-widest text-text-secondary font-bold mb-4">Tus temas</h3>
-              <div className="grid gap-3">
+            <div>
+              <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2.5">
+                Temas en {materiaNombre}
+              </h3>
+              <div className="grid gap-2">
                 {temasLocales.map(t => (
-                  <button key={t.id} onClick={() => { setTemaId(t.id); setTemaNombre(t.nombre); handleNext(); }} className="p-4 border border-white/10 rounded-lg text-left hover:bg-white/5 transition-colors flex justify-between items-center">
-                    <span>{t.nombre}</span>
-                    <span className="opacity-50 text-xs uppercase tracking-wider">{t.tipo_contenido}</span>
+                  <button 
+                    key={t.id} 
+                    onClick={() => { setTemaId(t.id); setTemaNombre(t.nombre); handleNext(); }} 
+                    className="p-3.5 rounded-xl border border-black/[0.07] bg-frost-base/60 text-left hover:border-glacier-blue/30 hover:bg-white transition-all flex justify-between items-center apple-tactile"
+                  >
+                    <span className="font-semibold text-sm text-arctic-slate">{t.nombre}</span>
+                    <span className="text-[10px] uppercase font-semibold text-arctic-tertiary px-2 py-0.5 rounded-full bg-black/[0.04]">
+                      {t.tipo_contenido || "Tema"}
+                    </span>
                   </button>
                 ))}
               </div>
@@ -257,27 +346,57 @@ export default function SessionWizard({
           )}
 
           <div>
-            <h3 className="text-sm uppercase tracking-widest text-text-secondary font-bold mb-4">Escribir un tema nuevo</h3>
-            <div className="flex gap-3">
-              <input type="text" placeholder="Ej. Derivadas, Segunda Guerra Mundial..." className="flex-1 p-3 rounded-lg border border-white/10 bg-deep-elevated focus:border-electric-periwinkle outline-none transition-colors" value={customTema} onChange={e => setCustomTema(e.target.value)} />
-              <button onClick={() => { setTemaId(""); setTemaNombre(customTema); handleNext(); }} disabled={!customTema} className="bg-white/10 text-text-primary px-6 py-2 rounded-lg disabled:opacity-50 hover:bg-white/20 transition-colors">Siguiente</button>
+            <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2">
+              Escribir un tema nuevo
+            </h3>
+            <div className="flex gap-2">
+              <input 
+                type="text" 
+                placeholder="Ej. Derivadas parciales, Segunda Guerra Mundial..." 
+                className="flex-1 px-4 py-2.5 rounded-xl border border-black/[0.08] bg-frost-base text-sm text-arctic-slate outline-none focus:border-glacier-blue transition-all" 
+                value={customTema} 
+                onChange={e => setCustomTema(e.target.value)} 
+              />
+              <button 
+                onClick={() => { setTemaId(""); setTemaNombre(customTema); handleNext(); }} 
+                disabled={!customTema.trim()} 
+                className="btn-apple-secondary text-xs px-5 disabled:opacity-40 apple-tactile"
+              >
+                Continuar
+              </button>
             </div>
           </div>
         </div>
       )}
 
+      {/* Step 4: Contexto */}
       {step === 4 && (
-        <div className="space-y-8 animate-in fade-in duration-500">
-          <h2 className="text-3xl font-display font-bold">¿Cómo estás hoy?</h2>
+        <div className="space-y-6 animate-in fade-in duration-300">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
+              ¿Cuál es tu objetivo o situación?
+            </h2>
+            <p className="text-sm text-arctic-secondary mt-1">
+              Esto permite recomendarte el método de estudio cognitivo más efectivo.
+            </p>
+          </div>
+
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-16 space-y-6">
-              <div className="w-12 h-12 border-2 border-white/10 border-t-electric-periwinkle rounded-full animate-spin"></div>
-              <p className="font-medium text-electric-periwinkle">Preparando tu sesión...</p>
+            <div className="flex flex-col items-center justify-center py-16 space-y-4">
+              <div className="w-9 h-9 border-2 border-black/[0.08] border-t-glacier-blue rounded-full animate-spin" />
+              <p className="text-sm font-semibold text-arctic-slate">
+                Sintetizando método con IA...
+              </p>
+              <p className="text-xs text-arctic-secondary">Analizando el mejor marco de trabajo</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
               {CONTEXTOS.map(c => (
-                <button key={c} onClick={() => { setContexto(c); handleNext(); }} className="p-4 border border-white/10 rounded-lg text-left hover:border-electric-periwinkle hover:bg-electric-periwinkle/5 transition-colors text-sm">
+                <button 
+                  key={c} 
+                  onClick={() => { setContexto(c); handleNext(); }} 
+                  className="p-3.5 rounded-xl border border-black/[0.07] bg-frost-base/60 text-left hover:border-glacier-blue/30 hover:bg-white transition-all text-xs font-medium text-arctic-secondary hover:text-arctic-slate apple-tactile"
+                >
                   {c}
                 </button>
               ))}
@@ -286,47 +405,105 @@ export default function SessionWizard({
         </div>
       )}
 
+      {/* Step 5: Recomendación y Planificación */}
       {step === 5 && recomendacion && (
-        <div className="space-y-10 animate-in fade-in slide-in-from-bottom-8 duration-700">
-          
-          <div className="text-center space-y-2">
-            <h2 className="text-sm uppercase tracking-widest text-text-secondary font-bold">Tu método recomendado</h2>
+        <div className="space-y-7 animate-in fade-in duration-400">
+          <div>
+            <span className="text-[11px] font-semibold text-cool-iris uppercase tracking-wider">
+              Diagnóstico Cognitivo
+            </span>
+            <h2 className="text-2xl font-bold tracking-tight text-arctic-slate mt-0.5">
+              Tu método sugerido
+            </h2>
           </div>
 
-          <div className="surface-elevated p-8 border-l-4 border-l-electric-lavender flex gap-6 items-start">
-            <div className="mt-1 bg-white/5 p-3 rounded-full">
-              {getMethodIcon(recomendacion.metodo)}
+          {/* Apple Intelligence Card en Cristal Blanco */}
+          <div className="apple-card p-6 border border-cool-iris/20 bg-gradient-to-br from-white to-cool-iris/[0.03]">
+            <div className="flex items-start gap-4">
+              <div className="p-2.5 rounded-2xl bg-cool-iris/10 text-cool-iris shrink-0 shadow-apple-sm">
+                {getMethodIcon(recomendacion.metodo)}
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-bold text-arctic-slate tracking-tight">
+                  {recomendacion.metodo}
+                </h3>
+                <p className="text-xs text-arctic-secondary mt-1 leading-relaxed">
+                  {recomendacion.justificacion}
+                </p>
+
+                <div className="mt-4 pt-4 border-t border-black/[0.06] space-y-2">
+                  <span className="text-[11px] font-semibold text-arctic-tertiary uppercase tracking-wider block">
+                    Pasos a seguir
+                  </span>
+                  {recomendacion.pasos.map((p, i) => (
+                    <div key={i} className="flex items-start gap-2 text-xs text-arctic-slate">
+                      <span className="text-glacier-blue font-bold">{i + 1}.</span>
+                      <span>{p}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
+          </div>
+
+          {/* Duration & Objective */}
+          <div className="space-y-4 p-5 rounded-2xl bg-frost-base border border-black/[0.06]">
             <div>
-              <h3 className="text-2xl font-display font-bold text-electric-lavender mb-3">{recomendacion.metodo}</h3>
-              <p className="mb-6 font-medium text-text-secondary leading-relaxed">{recomendacion.justificacion}</p>
-              <ol className="space-y-3 opacity-90 text-sm border-t border-white/5 pt-6">
-                {recomendacion.pasos.map((p, i) => (
-                  <li key={i} className="flex gap-3">
-                    <span className="text-electric-lavender font-bold">{i + 1}.</span> 
-                    <span>{p}</span>
-                  </li>
+              <label className="block text-xs font-semibold text-arctic-secondary mb-2">
+                Duración de la sesión (minutos)
+              </label>
+              <div className="flex items-center gap-2 mb-3">
+                {DURATION_PRESETS.map((p) => (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => setDuracion(p)}
+                    className={`flex-1 py-1.5 rounded-xl text-xs font-semibold transition-all apple-tactile ${
+                      duracion === p
+                        ? "bg-glacier-blue text-white shadow-apple-sm"
+                        : "bg-white text-arctic-secondary border border-black/[0.06] hover:bg-white/80"
+                    }`}
+                  >
+                    {p}m
+                  </button>
                 ))}
-              </ol>
+              </div>
+              <input 
+                type="number" 
+                value={duracion} 
+                onChange={e => setDuracion(Number(e.target.value))} 
+                className="w-full px-4 py-2.5 rounded-xl border border-black/[0.08] bg-white text-sm text-arctic-slate outline-none focus:border-glacier-blue font-mono tabular-nums" 
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-arctic-secondary mb-1.5">
+                Objetivo principal de la sesión (Opcional)
+              </label>
+              <input 
+                type="text" 
+                placeholder="Ej. Resolver 5 ejercicios clave o resumir el capítulo 3" 
+                value={objetivo} 
+                onChange={e => setObjetivo(e.target.value)} 
+                className="w-full px-4 py-2.5 rounded-xl border border-black/[0.08] bg-white text-sm text-arctic-slate outline-none focus:border-glacier-blue" 
+              />
             </div>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 p-6 border border-white/5 rounded-xl bg-black/20">
-            <div>
-              <label className="block text-sm uppercase tracking-widest text-text-secondary font-bold mb-3">Duración (minutos)</label>
-              <input type="number" value={duracion} onChange={e => setDuracion(Number(e.target.value))} className="w-full p-4 rounded-lg border border-white/10 bg-deep-elevated focus:border-electric-periwinkle outline-none font-display text-xl transition-colors" />
-            </div>
-            <div>
-              <label className="block text-sm uppercase tracking-widest text-text-secondary font-bold mb-3">Objetivo principal</label>
-              <input type="text" placeholder="Ej. Resolver 5 ejercicios" value={objetivo} onChange={e => setObjetivo(e.target.value)} className="w-full p-4 rounded-lg border border-white/10 bg-deep-elevated focus:border-electric-periwinkle outline-none font-display transition-colors" />
-            </div>
-          </div>
-
-          <div className="pt-4 flex flex-col sm:flex-row gap-4 items-center">
-            <button onClick={() => setStep(1)} className="px-6 py-4 text-text-secondary hover:text-white transition-colors w-full sm:w-auto font-medium">Volver al inicio</button>
-            <button onClick={handleStart} disabled={loading} className="btn-action flex-1 w-full flex items-center justify-center gap-2">
-              {loading ? "Preparando sesión..." : "Empezar sesión"}
-              {!loading && <ArrowRight size={20} />}
+          <div className="pt-2 flex flex-col sm:flex-row gap-3 items-center">
+            <button 
+              onClick={() => setStep(1)} 
+              className="px-4 py-2.5 text-xs font-semibold text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
+            >
+              Reiniciar configuración
+            </button>
+            <button 
+              onClick={handleStart} 
+              disabled={loading} 
+              className="btn-apple-primary flex-1 w-full text-xs py-3 px-6 font-semibold apple-tactile shadow-apple-sm"
+            >
+              <span>{loading ? "Iniciando sesión..." : "Comenzar sesión de estudio"}</span>
+              <ArrowRight size={15} />
             </button>
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Plus } from "lucide-react";
 
 export default function CreateTemaForm({ materiaId }: { materiaId: string }) {
   const router = useRouter();
@@ -45,25 +46,33 @@ export default function CreateTemaForm({ materiaId }: { materiaId: string }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="surface-elevated p-6 mb-8 flex items-end gap-4 flex-wrap border-l-4 border-l-electric-periwinkle animate-in fade-in zoom-in-95 duration-200">
-      {error && <p className="text-warm-coral w-full text-sm font-medium border border-warm-coral/20 bg-warm-coral/5 p-2 rounded">{error}</p>}
+    <form onSubmit={handleSubmit} className="apple-card p-5 mb-6 flex items-end gap-3.5 flex-wrap bg-white/95 border border-black/[0.08] shadow-apple-sm">
+      {error && (
+        <p className="text-cool-berry w-full text-xs font-medium border border-cool-berry/20 bg-cool-berry/10 p-2.5 rounded-xl">
+          {error}
+        </p>
+      )}
       <div className="flex-1 min-w-[200px]">
-        <label className="block mb-2 text-xs uppercase tracking-widest text-text-secondary font-bold">Nombre del tema</label>
+        <label className="block mb-1.5 text-[11px] font-medium text-arctic-secondary">
+          Nombre del tema nuevo
+        </label>
         <input
           type="text"
           required
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
-          className="w-full rounded-lg px-4 py-2 bg-deep-ink border border-white/10 focus:border-electric-periwinkle outline-none transition-colors"
-          placeholder="Ej. Derivadas parciales"
+          className="w-full rounded-xl px-3.5 py-2 text-xs bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-arctic-slate placeholder:text-arctic-tertiary transition-all"
+          placeholder="Ej. Teorema de Stokes, Guerra Fría..."
         />
       </div>
       <div>
-        <label className="block mb-2 text-xs uppercase tracking-widest text-text-secondary font-bold">Tipo de contenido</label>
+        <label className="block mb-1.5 text-[11px] font-medium text-arctic-secondary">
+          Tipo de formato
+        </label>
         <select
           value={tipo}
           onChange={(e) => setTipo(e.target.value)}
-          className="w-full rounded-lg px-4 py-2 bg-deep-ink border border-white/10 focus:border-electric-periwinkle outline-none transition-colors cursor-pointer"
+          className="rounded-xl px-3 py-2 text-xs bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-arctic-slate transition-all cursor-pointer"
         >
           {tiposDisponibles.map((t) => (
             <option key={t} value={t}>{t}</option>
@@ -72,10 +81,11 @@ export default function CreateTemaForm({ materiaId }: { materiaId: string }) {
       </div>
       <button
         type="submit"
-        disabled={loading}
-        className="btn-action px-6 py-2 h-[42px] disabled:opacity-50"
+        disabled={loading || !nombre.trim()}
+        className="btn-apple-primary text-xs py-2 px-4.5 h-[38px] disabled:opacity-40 apple-tactile shadow-apple-sm"
       >
-        {loading ? "..." : "Agregar Tema"}
+        <Plus size={13} />
+        <span>{loading ? "..." : "Añadir Tema"}</span>
       </button>
     </form>
   );

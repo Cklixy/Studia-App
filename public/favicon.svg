@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#EDF2FA"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0071E3"/>
+      <stop offset="100%" stop-color="#005BBA"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E5FF"/>
+      <stop offset="100%" stop-color="#0EA5E9"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Squircle rounded background with true transparency around it -->
+  <rect x="3" y="3" width="94" height="94" rx="26" ry="26" fill="url(#bg)" stroke="#0071E3" stroke-width="2.5" stroke-opacity="0.25"/>
+
+  <!-- Bold Plus Sign (Large zoom, filling frame for instant recognition) -->
+  <rect x="40" y="15" width="20" height="70" rx="10" fill="url(#blue)"/>
+  <rect x="15" y="40" width="70" height="20" rx="10" fill="url(#blue)"/>
+
+  <!-- Dynamic Learning Spark / Orbit in Polar Cyan -->
+  <path d="M 22 66 C 22 80, 56 82, 73 50 C 80 37, 80 26, 80 26" fill="none" stroke="url(#cyan)" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Cyan 4-point Spark Star -->
+  <path d="M 80 17 C 80 23, 86 23, 86 23 C 86 23, 80 23, 80 29 C 80 23, 74 23, 74 23 C 74 23, 80 23, 80 17 Z" fill="#0EA5E9"/>
+</svg>

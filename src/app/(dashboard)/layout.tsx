@@ -1,7 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import { LogOut, Map, History, Calendar, Sparkles, Settings } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import SidebarNav from "@/components/SidebarNav";
 
@@ -20,42 +18,26 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-screen text-text-primary flex">
-      {/* Sidebar */}
-      <aside className="w-[220px] shrink-0 p-7 bg-deep-surface/55 backdrop-blur-xl border-r border-white/5 flex flex-col gap-9 h-screen sticky top-0">
-        <div className="font-display font-bold text-xl tracking-tight">
-          studia<span className="text-signal-lime">+</span>
-        </div>
-        
-        <SidebarNav />
-        
-        <div className="mt-auto space-y-4">
-          <div className="text-xs color-text-secondary leading-relaxed opacity-60">
-            Sesión activa se guarda<br/>automáticamente.
+    <div className="min-h-dvh text-arctic-slate flex flex-col bg-frost-base relative">
+      {/* Top Navigation & Brand Header */}
+      <header className="sticky top-0 z-40 w-full bg-white/92 backdrop-blur-xl border-b border-slate-200/90 shadow-[0_2px_12px_rgba(15,23,42,0.04)] transition-all select-none" style={{paddingTop: 'env(safe-area-inset-top, 0px)'}}>
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-8 h-[64px] sm:h-[72px] flex items-center justify-between">
+          {/* Brand Logo */}
+          <div className="flex items-center gap-3">
+            <BrandLogo />
           </div>
-          
-          <form action="/auth/signout" method="post">
-            <button className="flex items-center gap-2 text-xs font-medium text-text-secondary hover:text-white transition-colors">
-              <LogOut size={14} />
-              Cerrar sesión
-            </button>
-          </form>
         </div>
-      </aside>
+      </header>
 
-      {/* Mobile nav fallback (hidden on md) */}
-      <div className="md:hidden fixed bottom-0 w-full bg-deep-surface/80 backdrop-blur-xl border-t border-white/5 p-3 flex justify-around text-xs font-medium uppercase tracking-widest text-text-secondary z-50">
-        <Link href="/materias" className="hover:text-electric-periwinkle transition-colors flex flex-col items-center gap-1">
-          <Map size={18} /> Mapa
-        </Link>
-        <Link href="/historial" className="hover:text-electric-periwinkle transition-colors flex flex-col items-center gap-1">
-          <History size={18} /> Historial
-        </Link>
-      </div>
-
-      <main className="flex-1 p-9 md:p-11 max-w-[1180px] w-full">
+      {/* Main Content Viewport */}
+      <main className="flex-1 px-4 py-5 sm:px-6 lg:px-10 sm:py-8 max-w-[1280px] w-full mx-auto pb-36 md:pb-40">
         {children}
       </main>
+
+      {/* Floating Apple Dock at the Bottom */}
+      <div className="fixed left-1/2 -translate-x-1/2 z-50 pointer-events-auto px-3 max-w-full" style={{bottom: 'max(1.5rem, calc(env(safe-area-inset-bottom, 0px) + 1rem))'}} >
+        <SidebarNav />
+      </div>
     </div>
   );
 }

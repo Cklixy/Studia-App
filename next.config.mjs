@@ -1,5 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  webpack: (config) => {
+    // Suprime la advertencia informativa de serialización de strings grandes en la caché de Webpack
+    config.infrastructureLogging = {
+      level: "error",
+    };
+    config.ignoreWarnings = [
+      ...(config.ignoreWarnings || []),
+      /Serializing big strings/,
+      /PackFileCacheStrategy/,
+    ];
+    return config;
+  },
   async headers() {
     return [
       {

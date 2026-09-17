@@ -1,24 +1,25 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function BrandLogo({ className = "", showText = true }: { className?: string, showText?: boolean }) {
   return (
-    <Link href="/" className={`flex items-center gap-3 ${className}`}>
-      {/* Icono de Marca (Un cuadrado oscuro con un + asimétrico de rutas cruzadas) */}
-      <div className="w-10 h-10 bg-deep-surface border border-white/10 rounded-lg flex items-center justify-center relative shadow-lg overflow-hidden group">
-        {/* Glow sutil al hacer hover */}
-        <div className="absolute inset-0 bg-electric-periwinkle/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        
-        {/* Ruta vertical (Electric Periwinkle) */}
-        <div className="absolute w-[3px] h-6 bg-electric-periwinkle rounded-full transform -translate-x-[2px] transition-transform group-hover:scale-y-110 duration-300"></div>
-        
-        {/* Ruta horizontal (Signal Lime) */}
-        <div className="absolute h-[3px] w-6 bg-signal-lime rounded-full transform translate-y-[2px] transition-transform group-hover:scale-x-110 duration-300"></div>
+    <Link href="/" className={`flex items-center gap-2.5 ${className} group`}>
+      {/* Icono Oficial de Marca en Cristal Squircle */}
+      <div className="w-9 h-9 relative rounded-xl overflow-hidden shadow-apple-sm border border-black/[0.08] transition-transform duration-200 group-hover:scale-105 shrink-0">
+        <Image
+          src="/favicon.svg"
+          alt="studia+ icon"
+          width={36}
+          height={36}
+          className="w-full h-full object-contain"
+          priority
+        />
       </div>
       
-      {/* Texto Tipográfico studia+ */}
+      {/* Texto Tipográfico studia+ en Grafito Pizarra */}
       {showText && (
-        <span className="text-2xl font-bold font-sans tracking-tight">
-          studia<span className="text-electric-periwinkle font-black">+</span>
+        <span className="text-xl font-bold font-sans tracking-tight text-arctic-slate transition-colors group-hover:text-glacier-blue">
+          studia<span className="text-glacier-blue font-extrabold">+</span>
         </span>
       )}
     </Link>

@@ -86,12 +86,12 @@ export default function PushNotificationManager() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center gap-6 surface-panel p-6 border-l-4 border-l-warm-coral/50">
+    <div className="flex flex-col md:flex-row md:items-center gap-6 apple-card p-6 border-l-4 border-l-cool-berry shadow-apple-sm">
       <div className="flex-1">
-        <h3 className="font-bold flex items-center gap-2 text-text-primary mb-1">
-          <Bell size={18} className="text-warm-coral" /> Señal de Ruta
+        <h3 className="font-bold flex items-center gap-2 text-arctic-slate mb-1 text-base">
+          <Bell size={18} className="text-cool-berry" /> Señal de Ruta
         </h3>
-        <p className="text-sm text-text-secondary">
+        <p className="text-sm text-arctic-secondary">
           Activa las notificaciones para que studia+ te recuerde continuar tu navegación todas las noches.
         </p>
       </div>
@@ -100,7 +100,7 @@ export default function PushNotificationManager() {
           <button
             onClick={unsubscribeFromPush}
             disabled={loading}
-            className="flex items-center gap-2 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 border border-white/10"
+            className="btn-apple-secondary text-xs sm:text-sm py-2 px-4 inline-flex items-center gap-2 apple-tactile disabled:opacity-50"
           >
             <BellOff size={16} /> Silenciar señal
           </button>
@@ -108,9 +108,9 @@ export default function PushNotificationManager() {
           <button
             onClick={subscribeToPush}
             disabled={loading}
-            className="flex items-center gap-2 bg-signal-lime text-deep-ink hover:opacity-90 px-4 py-2 rounded-lg text-sm font-bold transition-opacity disabled:opacity-50"
+            className="btn-apple-primary text-xs sm:text-sm py-2.5 px-5 font-semibold inline-flex items-center gap-2 apple-tactile shadow-apple-sm disabled:opacity-50"
           >
-            Activar señal
+            <Bell size={15} /> Activar señal
           </button>
         )}
       </div>

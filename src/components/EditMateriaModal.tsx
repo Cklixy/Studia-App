@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, Trash, AlertTriangle } from "lucide-react";
+import { Settings, Trash2, AlertTriangle, X } from "lucide-react";
 
 export default function EditMateriaModal({ materia }: { materia: any }) {
   const router = useRouter();
@@ -45,8 +45,11 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
 
   if (!isOpen) {
     return (
-      <button onClick={() => setIsOpen(true)} className="p-2 text-text-secondary hover:text-white transition">
-        <Settings size={20} />
+      <button 
+        onClick={() => setIsOpen(true)} 
+        className="w-8 h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
+      >
+        <Settings size={15} />
       </button>
     );
   }
@@ -54,32 +57,32 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
   // Modal de confirmación de eliminación
   if (confirmDelete) {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-        <div className="surface-elevated p-6 rounded-xl w-full max-w-sm animate-in fade-in zoom-in-95 border border-warm-coral/20">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+        <div className="apple-card p-6 bg-white/95 rounded-2xl w-full max-w-sm border border-cool-berry/20 shadow-apple-lg animate-in zoom-in-95">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-warm-coral/10 flex items-center justify-center shrink-0">
-              <AlertTriangle size={18} className="text-warm-coral" />
+            <div className="w-9 h-9 rounded-xl bg-cool-berry/10 text-cool-berry flex items-center justify-center shrink-0">
+              <AlertTriangle size={18} />
             </div>
             <div>
-              <h3 className="font-display font-bold text-lg">¿Eliminar materia?</h3>
-              <p className="text-xs text-text-secondary">Esta acción no se puede deshacer.</p>
+              <h3 className="font-bold text-base text-arctic-slate tracking-tight">¿Eliminar materia?</h3>
+              <p className="text-xs text-arctic-secondary">Esta acción no se puede deshacer.</p>
             </div>
           </div>
-          <p className="text-sm text-text-secondary mb-6 bg-warm-coral/5 border border-warm-coral/10 rounded-lg p-3">
-            Se eliminarán permanentemente <b className="text-text-primary">"{materia.nombre}"</b> y todos sus temas y sesiones asociadas.
+          <p className="text-xs text-arctic-secondary mb-5 bg-cool-berry/[0.05] border border-cool-berry/15 rounded-xl p-3 leading-relaxed">
+            Se eliminarán permanentemente <b className="text-arctic-slate">"{materia.nombre}"</b> y todos sus temas y sesiones asociadas.
           </p>
-          <div className="flex gap-3">
+          <div className="flex gap-2.5">
             <button
               onClick={() => setConfirmDelete(false)}
               disabled={loading}
-              className="flex-1 px-4 py-2 rounded-lg border border-white/10 text-sm font-medium hover:bg-white/5 transition disabled:opacity-50"
+              className="flex-1 px-4 py-2 rounded-xl border border-black/[0.08] text-xs font-semibold text-arctic-secondary hover:text-arctic-slate hover:bg-black/[0.03] transition-all disabled:opacity-50 apple-tactile"
             >
               Cancelar
             </button>
             <button
               onClick={handleDelete}
               disabled={loading}
-              className="flex-1 px-4 py-2 rounded-lg bg-warm-coral text-deep-ink font-bold text-sm hover:bg-red-400 transition disabled:opacity-50"
+              className="flex-1 px-4 py-2 rounded-xl bg-cool-berry text-white font-semibold text-xs hover:bg-red-600 transition-all disabled:opacity-50 apple-tactile shadow-apple-sm"
             >
               {loading ? "Eliminando..." : "Sí, eliminar"}
             </button>
@@ -90,52 +93,62 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="surface-elevated p-6 rounded-xl w-full max-w-md animate-in fade-in zoom-in-95">
-        <h3 className="font-display font-bold text-xl mb-4">Editar Materia</h3>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+      <div className="apple-card p-6 bg-white/95 rounded-2xl w-full max-w-md border border-black/[0.08] shadow-apple-lg animate-in zoom-in-95">
+        <div className="flex items-center justify-between pb-3.5 border-b border-black/[0.06] mb-4">
+          <h3 className="font-bold text-base text-arctic-slate tracking-tight">Editar Materia</h3>
+          <button 
+            onClick={() => setIsOpen(false)}
+            className="w-7 h-7 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
+          >
+            <X size={14} />
+          </button>
+        </div>
+
         <form onSubmit={handleUpdate} className="space-y-4">
           <div>
-            <label className="block text-xs uppercase tracking-widest text-text-secondary font-bold mb-1">Nombre</label>
+            <label className="block text-[11px] font-medium text-arctic-secondary mb-1">Nombre</label>
             <input
               type="text"
               required
               value={nombre}
               onChange={e => setNombre(e.target.value)}
-              className="w-full rounded-lg px-4 py-2 bg-deep-ink border border-white/10 focus:border-electric-periwinkle outline-none"
+              className="w-full rounded-xl px-3.5 py-2 bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-xs text-arctic-slate transition-all"
             />
           </div>
           <div>
-            <label className="block text-xs uppercase tracking-widest text-text-secondary font-bold mb-1">Fecha del parcial</label>
+            <label className="block text-[11px] font-medium text-arctic-secondary mb-1">Fecha del parcial</label>
             <input
               type="date"
               value={fechaParcial}
               onChange={e => setFechaParcial(e.target.value)}
-              className="w-full rounded-lg px-4 py-2 bg-deep-ink border border-white/10 focus:border-electric-periwinkle outline-none [color-scheme:dark]"
+              className="w-full rounded-xl px-3.5 py-2 bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-xs text-arctic-slate transition-all [color-scheme:light]"
             />
           </div>
-          <div className="flex justify-between items-center pt-4">
+          <div className="flex justify-between items-center pt-3 border-t border-black/[0.06]">
             <button
               type="button"
               onClick={() => setConfirmDelete(true)}
               disabled={loading}
-              className="flex items-center gap-2 text-warm-coral hover:text-red-400 font-bold text-sm transition disabled:opacity-50"
+              className="flex items-center gap-1.5 text-cool-berry hover:text-red-700 font-semibold text-xs transition-colors disabled:opacity-50 apple-tactile"
             >
-              <Trash size={16} /> Eliminar
+              <Trash2 size={14} /> 
+              <span>Eliminar</span>
             </button>
             <div className="flex gap-2">
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="px-4 py-2 text-text-secondary hover:text-white transition text-sm font-medium"
+                className="px-3.5 py-2 text-xs font-semibold text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="btn-action px-6 py-2 disabled:opacity-50"
+                className="btn-apple-primary text-xs py-2 px-5 disabled:opacity-50 apple-tactile shadow-apple-sm"
               >
-                Guardar
+                {loading ? "Guardando..." : "Guardar cambios"}
               </button>
             </div>
           </div>
@@ -144,5 +157,3 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
     </div>
   );
 }
-
-
