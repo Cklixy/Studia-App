@@ -1,60 +1,49 @@
 export default function ProblemSection() {
   const problems = [
     {
-      num: "01",
-      title: "No sé por dónde empezar.",
-      desc: "Entre programas extensos, diapositivas y lecturas dispersas, la mitad de tu energía mental se agota decidiendo qué tema abrir.",
+      title: "Demasiado contenido",
+      desc: "Tienes apuntes, tareas, parciales y temas pendientes, pero no sabes qué priorizar.",
     },
     {
-      num: "02",
-      title: "Estudio mucho, pero no sé si estoy estudiando bien.",
-      desc: "Leer pasivamente durante horas da la sensación de avanzar, pero no garantiza dominar los conceptos frente al parcial.",
+      title: "No sabes cómo estudiarlo",
+      desc: "Leer y releer no siempre significa aprender.",
     },
     {
-      num: "03",
-      title: "Empiezo una sesión y termino distrayéndome.",
-      desc: "Sin un objetivo granular y un límite de tiempo definido, cualquier notificación interrumpe la concentración.",
+      title: "Falta de enfoque",
+      desc: "Empiezas una sesión y terminas saltando entre tareas, aplicaciones y distracciones.",
     },
   ];
 
   return (
-    <section className="px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center space-y-8 sm:space-y-10">
-      {/* Título de la sección */}
-      <div className="space-y-4 max-w-3xl mx-auto">
-        <span className="text-[11px] uppercase tracking-widest font-semibold text-arctic-tertiary">
-          El dilema universitario
-        </span>
-        <h2 className="fluid-h2 font-bold tracking-tight text-arctic-slate leading-snug">
-          Estudiar no debería empezar por decidir qué hacer.
+    <section className="px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto text-center space-y-10 w-full">
+      {/* Título */}
+      <div className="space-y-2 max-w-3xl mx-auto">
+        <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-arctic-slate leading-tight">
+          Tu problema no es estudiar. Es saber por dónde empezar.
         </h2>
       </div>
 
-      {/* Los 3 problemas */}
+      {/* Los 3 problemas en grid amplio */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 text-left">
         {problems.map((p) => (
           <div
-            key={p.num}
-            className="p-6 sm:p-7 rounded-[22px] bg-white/70 backdrop-blur-md border border-black/[0.05] shadow-[0_2px_10px_rgba(0,0,0,0.02)] flex flex-col justify-between space-y-6"
+            key={p.title}
+            className="p-5 sm:p-6 rounded-[22px] bg-white border border-black/[0.06] shadow-[0_2px_8px_rgba(0,0,0,0.02)] space-y-2"
           >
-            <span className="text-sm font-mono font-bold text-arctic-tertiary/70">
-              {p.num}
-            </span>
-            <div className="space-y-2">
-              <h3 className="text-base sm:text-lg font-bold text-arctic-slate tracking-tight">
-                {p.title}
-              </h3>
-              <p className="text-xs sm:text-sm text-arctic-secondary leading-relaxed">
-                {p.desc}
-              </p>
-            </div>
+            <h3 className="text-sm sm:text-base font-bold text-arctic-slate tracking-tight">
+              {p.title}
+            </h3>
+            <p className="text-xs sm:text-[13px] text-arctic-secondary leading-relaxed">
+              {p.desc}
+            </p>
           </div>
         ))}
       </div>
 
-      {/* Frase puente de resolución */}
-      <div className="pt-4 max-w-2xl mx-auto">
-        <p className="text-base sm:text-lg font-medium text-arctic-slate tracking-tight">
-          studia+ convierte ese caos en un{" "}
+      {/* Cierre */}
+      <div className="pt-1">
+        <p className="text-sm sm:text-base font-medium text-arctic-slate">
+          studia+ convierte todo eso en un{" "}
           <span className="text-glacier-blue font-semibold">
             siguiente paso claro
           </span>

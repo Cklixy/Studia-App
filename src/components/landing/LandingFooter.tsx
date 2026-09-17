@@ -5,13 +5,14 @@ export default function LandingFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-black/[0.06] bg-white/70 backdrop-blur-md pt-8 pb-12 transition-colors">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <footer className="border-t border-black/[0.06] bg-white/70 backdrop-blur-md pt-10 pb-14 transition-colors">
+      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 space-y-6">
         
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-black/[0.05]">
-          <div className="flex flex-col items-center md:items-start gap-1.5">
+        {/* Fila Principal */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-5 pb-6 border-b border-black/[0.05]">
+          <div className="flex flex-col items-center md:items-start gap-1">
             <BrandLogo />
-            <p className="text-xs text-arctic-secondary text-center md:text-left mt-1">
+            <p className="text-xs text-arctic-secondary text-center md:text-left">
               Tu copiloto para estudiar con dirección.
             </p>
           </div>
@@ -20,11 +21,8 @@ export default function LandingFooter() {
             <a href="#como-funciona" className="hover:text-arctic-slate transition-colors">
               Cómo funciona
             </a>
-            <a href="#mapa" className="hover:text-arctic-slate transition-colors">
-              Mapa de estudio
-            </a>
-            <a href="#enfoque" className="hover:text-arctic-slate transition-colors">
-              Sesiones
+            <a href="#funciones" className="hover:text-arctic-slate transition-colors">
+              Funciones
             </a>
             <a href="#ia" className="hover:text-arctic-slate transition-colors">
               IA
@@ -32,18 +30,21 @@ export default function LandingFooter() {
             <Link href="/login" className="hover:text-arctic-slate transition-colors">
               Iniciar sesión
             </Link>
-            <Link href="/registro" className="hover:text-arctic-slate transition-colors">
-              Crear cuenta
-            </Link>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-arctic-tertiary">
+        {/* Fila Inferior con Mención Discreta a Gemini y Legal */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-arctic-tertiary">
           <p>© {currentYear} studia+. Todos los derechos reservados.</p>
-          <div className="flex items-center gap-4">
+          
+          <div className="flex items-center gap-3">
             <span>Privacidad</span>
             <span>•</span>
             <span>Términos</span>
+            <span>•</span>
+            <span className="text-arctic-secondary font-medium">
+              IA integrada · Powered by Gemini
+            </span>
           </div>
         </div>
 

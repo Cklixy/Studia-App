@@ -1,94 +1,122 @@
-import { Calendar, CheckCircle2, Circle, Clock, Check } from "lucide-react";
+import { Calendar, Check, Circle, ArrowRight, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 
 export default function ExamsSection() {
+  const topics = [
+    { title: "Límites y continuidad", done: true },
+    { title: "Límites laterales y existencia", done: true },
+    { title: "Límites infinitos y asíntotas", done: false },
+    { title: "Comportamiento asintótico", done: false },
+    { title: "Introducción a derivadas", done: false },
+  ];
+
   return (
-    <section id="parciales" className="px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-8 sm:space-y-10">
-      
-      {/* Encabezado */}
-      <div className="text-center space-y-3 max-w-2xl mx-auto">
-        <span className="text-[11px] uppercase tracking-widest font-semibold text-cool-berry">
-          Planificación de evaluaciones
-        </span>
-        <h2 className="fluid-h2 font-bold tracking-tight text-arctic-slate">
-          No estudies para el parcial la noche anterior.
-        </h2>
-        <p className="text-sm sm:text-base text-arctic-secondary">
-          Organiza tus sesiones según las fechas y temas que realmente importan para llegar con seguridad.
-        </p>
-      </div>
-
-      {/* Mockup del Radar de Parciales */}
-      <div className="max-w-2xl mx-auto space-y-4">
+    <section className="px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-20 items-center">
         
-        {/* Tarjeta Principal de Examen */}
-        <div className="rounded-[28px] bg-white border border-black/[0.08] shadow-[0_20px_50px_-12px_rgba(0,25,60,0.06)] p-6 sm:p-8 space-y-6 text-left">
-          
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-black/[0.05]">
-            <div className="space-y-0.5">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-arctic-tertiary">
-                Evaluación Principal
-              </span>
-              <h3 className="text-lg sm:text-xl font-bold text-arctic-slate tracking-tight">
-                Cálculo Diferencial · Primer Parcial
-              </h3>
-            </div>
+        {/* Columna Izquierda: Texto (5 cols / ~42%) */}
+        <div className="lg:col-span-5 text-left space-y-5">
+          <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue block">
+            Planificación estratégica
+          </span>
 
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-700 self-start sm:self-auto">
-              <Calendar size={13} />
-              <span>En 12 días</span>
-            </span>
+          <h2 className="text-3xl sm:text-4xl xl:text-5xl font-bold tracking-tight text-arctic-slate leading-[1.05]">
+            Prepárate antes de que <br />
+            <span className="text-glacier-blue">llegue el parcial.</span>
+          </h2>
+
+          <p className="text-sm sm:text-base text-arctic-secondary leading-relaxed">
+            Organiza tus sesiones según las fechas y temas que realmente importan. Visualiza con claridad qué temas dominas y cuáles tienes pendientes antes del día del examen.
+          </p>
+
+          <div className="space-y-3 pt-2 text-xs sm:text-sm text-arctic-secondary">
+            <div className="flex items-start gap-2.5">
+              <CheckCircle2 size={16} className="text-glacier-blue shrink-0 mt-0.5" />
+              <span>Monitoreo de días restantes y porcentajes de avance.</span>
+            </div>
+            <div className="flex items-start gap-2.5">
+              <CheckCircle2 size={16} className="text-glacier-blue shrink-0 mt-0.5" />
+              <span>Priorización automática de temas débiles.</span>
+            </div>
+            <div className="flex items-start gap-2.5">
+              <CheckCircle2 size={16} className="text-glacier-blue shrink-0 mt-0.5" />
+              <span>Elimina la necesidad de desvelarte la noche anterior.</span>
+            </div>
           </div>
+        </div>
 
-          {/* Barra de progreso de preparación */}
-          <div className="space-y-2">
-            <div className="flex justify-between text-xs">
-              <span className="text-arctic-secondary font-medium">Progreso temático</span>
-              <span className="font-bold text-arctic-slate">5 de 8 temas revisados</span>
-            </div>
+        {/* Columna Derecha: Mockup Grande de Parcial (7 cols / ~58%) */}
+        <div className="lg:col-span-7 w-full">
+          <div className="rounded-[28px] bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-6 sm:p-9 space-y-6 text-left">
             
-            {/* Visual Progress Track */}
-            <div className="w-full h-2 rounded-full bg-black/[0.05] overflow-hidden">
-              <div className="h-full bg-glacier-blue rounded-full" style={{ width: "62%" }} />
+            {/* Cabecera del Parcial */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-black/[0.05]">
+              <div>
+                <span className="text-xs font-semibold text-glacier-blue block">
+                  Cálculo Diferencial
+                </span>
+                <h3 className="text-xl font-bold text-arctic-slate tracking-tight">
+                  Segundo Parcial
+                </h3>
+              </div>
+
+              <div className="flex items-center gap-3 self-start sm:self-auto">
+                <span className="text-xs font-medium text-arctic-secondary flex items-center gap-1.5">
+                  <Calendar size={13} className="text-arctic-tertiary" />
+                  18 septiembre
+                </span>
+                <span className="text-xs font-bold text-glacier-blue bg-glacier-blue/10 px-3 py-1 rounded-full">
+                  72% preparado
+                </span>
+              </div>
             </div>
+
+            {/* Lista de Temas del Parcial a Escala Amplia */}
+            <div className="space-y-2.5 text-xs">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-arctic-tertiary block mb-2">
+                Temas del examen:
+              </span>
+
+              {topics.map((t) => (
+                <div
+                  key={t.title}
+                  className="p-3.5 rounded-xl bg-frost-base/90 border border-black/[0.03] flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 ${
+                      t.done
+                        ? "bg-emerald-500/10 text-emerald-600 font-bold"
+                        : "bg-black/[0.04] text-arctic-tertiary"
+                    }`}>
+                      {t.done ? <Check size={13} strokeWidth={2.5} /> : <span className="text-[9px]">○</span>}
+                    </span>
+                    <span className={`font-medium ${t.done ? "text-arctic-slate" : "text-arctic-secondary"}`}>
+                      {t.title}
+                    </span>
+                  </div>
+
+                  <span className={`text-xs ${t.done ? "text-emerald-600 font-semibold" : "text-arctic-tertiary"}`}>
+                    {t.done ? "Dominado" : "Por repasar"}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA Ver preparación */}
+            <div className="pt-2">
+              <Link
+                href="/registro"
+                className="w-full btn-apple-secondary text-xs py-3 px-5 font-semibold apple-tactile inline-flex items-center justify-center gap-2 rounded-xl"
+              >
+                <span>Ver preparación del parcial</span>
+                <ArrowRight size={14} />
+              </Link>
+            </div>
+
           </div>
-
-          {/* Lista de temas del examen */}
-          <div className="space-y-2.5 pt-2">
-            <div className="p-3 rounded-xl bg-frost-base/80 border border-black/[0.03] flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2.5">
-                <span className="w-5 h-5 rounded-md bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
-                  <Check size={13} strokeWidth={2.5} />
-                </span>
-                <span className="font-semibold text-arctic-slate">Límites y continuidad</span>
-              </div>
-              <span className="text-[11px] font-medium text-emerald-600">Completado</span>
-            </div>
-
-            <div className="p-3 rounded-xl bg-glacier-blue/[0.03] border border-glacier-blue/20 flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2.5">
-                <span className="w-5 h-5 rounded-md bg-glacier-blue/15 text-glacier-blue flex items-center justify-center shrink-0 font-bold text-[10px]">
-                  ◐
-                </span>
-                <span className="font-semibold text-arctic-slate">Reglas de derivación</span>
-              </div>
-              <span className="text-[11px] font-semibold text-glacier-blue">En curso · 2 sesiones</span>
-            </div>
-
-            <div className="p-3 rounded-xl bg-frost-base/80 border border-black/[0.03] flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2.5">
-                <span className="w-5 h-5 rounded-md bg-black/[0.05] text-arctic-tertiary flex items-center justify-center shrink-0 text-[10px]">
-                  ○
-                </span>
-                <span className="font-medium text-arctic-secondary">Optimización y aplicaciones</span>
-              </div>
-              <span className="text-[11px] text-arctic-tertiary">Pendiente</span>
-            </div>
-          </div>
-
         </div>
 
       </div>
-
     </section>
   );
 }
