@@ -69,7 +69,7 @@ export default function HowItWorksSection() {
   ];
 
   return (
-    <section id="como-funciona" className="px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto space-y-12 w-full">
+    <section id="como-funciona" className="px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto space-y-10 sm:space-y-12 w-full">
       
       {/* Encabezado */}
       <div className="text-center space-y-2.5 max-w-3xl mx-auto">
@@ -85,11 +85,11 @@ export default function HowItWorksSection() {
       </div>
 
       {/* Los 3 Pasos Visuales en Grid Amplio */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8">
         {steps.map((s) => (
           <div
             key={s.num}
-            className="p-7 sm:p-8 rounded-[26px] bg-white border border-black/[0.07] shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col justify-between space-y-6 text-left"
+            className="p-5 sm:p-8 rounded-[26px] bg-white border border-black/[0.07] shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col justify-between space-y-5 sm:space-y-6 text-left"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">

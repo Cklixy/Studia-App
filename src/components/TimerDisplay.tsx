@@ -15,7 +15,7 @@ function TimerDisplayComponent({
 }: TimerDisplayProps) {
   return (
     <>
-      <span className="text-6xl md:text-7xl font-bold tracking-tighter text-arctic-slate font-sans tabular-nums">
+      <span className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tighter text-arctic-slate font-sans tabular-nums">
         {formatTime(remainingSeconds)}
       </span>
       <span className="text-xs font-semibold text-arctic-secondary uppercase tracking-widest mt-1">

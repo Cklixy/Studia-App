@@ -53,24 +53,24 @@ export default function SessionFeedbackForm({ session, elapsed, pauses }: { sess
   };
 
   return (
-    <form onSubmit={handleSubmit} className="surface-elevated p-8 space-y-8">
+    <form onSubmit={handleSubmit} className="surface-elevated p-4 sm:p-8 space-y-6 sm:space-y-8">
       {/* Resumen de Datos */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white/5 border border-white/5 p-4 rounded-xl text-center">
-          <span className="block text-sm opacity-50 uppercase tracking-wide">Materia</span>
-          <strong className="text-lg">{session.materias?.nombre}</strong>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 mb-6 sm:mb-8">
+        <div className="bg-white/5 border border-white/5 p-3 sm:p-4 rounded-xl text-center">
+          <span className="block text-xs sm:text-sm opacity-50 uppercase tracking-wide">Materia</span>
+          <strong className="text-sm sm:text-lg truncate block">{session.materias?.nombre}</strong>
         </div>
-        <div className="bg-white/5 border border-white/5 p-4 rounded-xl text-center">
-          <span className="block text-sm opacity-50 uppercase tracking-wide">Tiempo Efectivo</span>
-          <strong className="text-lg">{formatMinutes(elapsed)} min</strong>
+        <div className="bg-white/5 border border-white/5 p-3 sm:p-4 rounded-xl text-center">
+          <span className="block text-xs sm:text-sm opacity-50 uppercase tracking-wide">Tiempo Efectivo</span>
+          <strong className="text-sm sm:text-lg block">{formatMinutes(elapsed)} min</strong>
         </div>
-        <div className="bg-white/5 border border-white/5 p-4 rounded-xl text-center">
-          <span className="block text-sm opacity-50 uppercase tracking-wide">Planificado</span>
-          <strong className="text-lg">{session.duracion_planificada_minutos} min</strong>
+        <div className="bg-white/5 border border-white/5 p-3 sm:p-4 rounded-xl text-center">
+          <span className="block text-xs sm:text-sm opacity-50 uppercase tracking-wide">Planificado</span>
+          <strong className="text-sm sm:text-lg block">{session.duracion_planificada_minutos} min</strong>
         </div>
-        <div className="bg-white/5 border border-white/5 p-4 rounded-xl text-center">
-          <span className="block text-sm opacity-50 uppercase tracking-wide">Pausas</span>
-          <strong className="text-lg">{pauses}</strong>
+        <div className="bg-white/5 border border-white/5 p-3 sm:p-4 rounded-xl text-center">
+          <span className="block text-xs sm:text-sm opacity-50 uppercase tracking-wide">Pausas</span>
+          <strong className="text-sm sm:text-lg block">{pauses}</strong>
         </div>
       </div>
 
@@ -108,9 +108,9 @@ export default function SessionFeedbackForm({ session, elapsed, pauses }: { sess
         </div>
       </div>
 
-      <div className="space-y-4">
-        <h3 className="text-xl font-bold">¿Lograste tu objetivo?</h3>
-        <div className="flex gap-2">
+      <div className="space-y-3 sm:space-y-4">
+        <h3 className="text-lg sm:text-xl font-bold">¿Lograste tu objetivo?</h3>
+        <div className="flex flex-wrap gap-2">
           {["Sí", "Parcialmente", "No"].map(opt => (
             <button
               key={opt}

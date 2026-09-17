@@ -29,7 +29,7 @@ export default function ActiveSessionTimer({ session }: { session: any }) {
   };
 
   return (
-    <div className="apple-card w-full max-w-2xl mx-auto p-8 md:p-12 text-center flex flex-col items-center relative overflow-hidden shadow-apple-lg">
+    <div className="apple-card w-full max-w-2xl mx-auto p-4 sm:p-8 md:p-12 text-center flex flex-col items-center relative overflow-hidden shadow-apple-lg">
       
       {/* Ambient Breathing Background Glow en Tonos Fríos */}
       <div 

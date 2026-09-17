@@ -15,7 +15,7 @@ export default function ProblemSection() {
   ];
 
   return (
-    <section className="px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto text-center space-y-10 w-full">
+    <section className="px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto text-center space-y-8 sm:space-y-10 w-full">
       {/* Título */}
       <div className="space-y-2 max-w-3xl mx-auto">
         <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-arctic-slate leading-tight">
@@ -24,11 +24,11 @@ export default function ProblemSection() {
       </div>
 
       {/* Los 3 problemas en grid amplio */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 text-left">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 text-left">
         {problems.map((p) => (
           <div
             key={p.title}
-            className="p-5 sm:p-6 rounded-[22px] bg-white border border-black/[0.06] shadow-[0_2px_8px_rgba(0,0,0,0.02)] space-y-2"
+            className="p-4 sm:p-6 rounded-[22px] bg-white border border-black/[0.06] shadow-[0_2px_8px_rgba(0,0,0,0.02)] space-y-2"
           >
             <h3 className="text-sm sm:text-base font-bold text-arctic-slate tracking-tight">
               {p.title}

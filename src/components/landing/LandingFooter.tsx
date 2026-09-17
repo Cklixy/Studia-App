@@ -6,7 +6,7 @@ export default function LandingFooter() {
 
   return (
     <footer className="border-t border-black/[0.06] bg-white/70 backdrop-blur-md pt-10 pb-14 transition-colors">
-      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 space-y-6">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 space-y-6">
         
         {/* Fila Principal */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-5 pb-6 border-b border-black/[0.05]">
@@ -34,10 +34,10 @@ export default function LandingFooter() {
         </div>
 
         {/* Fila Inferior con Mención Discreta a Gemini y Legal */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-arctic-tertiary">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-arctic-tertiary text-center sm:text-left">
           <p>© {currentYear} studia+. Todos los derechos reservados.</p>
           
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-x-2.5 sm:gap-x-3 gap-y-1">
             <span>Privacidad</span>
             <span>•</span>
             <span>Términos</span>

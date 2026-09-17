@@ -34,16 +34,16 @@ export default function MethodRecommendationSection() {
   const current = prescriptions[context];
 
   return (
-    <section className="px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-20 items-center">
+    <section className="px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 xl:gap-20 items-center">
         
         {/* Columna Izquierda: Texto y Controles Interactivos (5 cols / ~42%) */}
-        <div className="lg:col-span-5 text-left space-y-6">
+        <div className="lg:col-span-5 text-left space-y-5 sm:space-y-6">
           <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue block">
             Estrategia de estudio
           </span>
 
-          <h2 className="text-3xl sm:text-4xl xl:text-5xl font-bold tracking-tight text-arctic-slate leading-[1.05]">
+          <h2 className="text-2xl sm:text-4xl xl:text-5xl font-bold tracking-tight text-arctic-slate leading-[1.08]">
             No todos los temas <br />
             se estudian igual.
           </h2>
@@ -53,11 +53,11 @@ export default function MethodRecommendationSection() {
           </p>
 
           {/* Selector de Contexto Interactivo */}
-          <div className="space-y-3 pt-2">
+          <div className="space-y-2.5 sm:space-y-3 pt-1 sm:pt-2">
             <span className="text-xs font-bold uppercase tracking-wider text-arctic-tertiary block">
               Prueba un contexto diferente:
             </span>
-            <div className="flex flex-col sm:flex-row lg:flex-col gap-2.5">
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-2 sm:gap-2.5">
               {[
                 { id: "poco_tiempo", label: "Tengo poco tiempo", desc: "Bloques de 25 min y preguntas directas" },
                 { id: "desde_cero", label: "Aprendiendo desde cero", desc: "Intuición conceptual y analogías" },
@@ -66,7 +66,7 @@ export default function MethodRecommendationSection() {
                 <button
                   key={btn.id}
                   onClick={() => setContext(btn.id as any)}
-                  className={`p-3.5 rounded-2xl text-left transition-all border ${
+                  className={`p-3 sm:p-3.5 rounded-2xl text-left transition-all border ${
                     context === btn.id
                       ? "bg-white border-glacier-blue/40 shadow-sm ring-2 ring-glacier-blue/10"
                       : "bg-white/60 border-black/[0.05] hover:bg-white hover:border-black/[0.1]"
@@ -88,20 +88,20 @@ export default function MethodRecommendationSection() {
 
         {/* Columna Derecha: UI Grande de Recomendación (7 cols / ~58%) */}
         <div className="lg:col-span-7 w-full">
-          <div className="rounded-[28px] bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-6 sm:p-9 text-left space-y-6">
+          <div className="rounded-[24px] sm:rounded-[28px] bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-4 sm:p-9 text-left space-y-5 sm:space-y-6">
             
             {/* Cabecera de la prescripción */}
-            <div className="flex items-center justify-between pb-4 border-b border-black/[0.05]">
-              <div>
-                <span className="text-xs font-semibold text-arctic-tertiary block">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-4 border-b border-black/[0.05]">
+              <div className="min-w-0">
+                <span className="text-[11px] sm:text-xs font-semibold text-arctic-tertiary block">
                   Configuración Académica
                 </span>
-                <span className="text-sm font-bold text-arctic-slate">
+                <span className="text-xs sm:text-sm font-bold text-arctic-slate truncate block">
                   Cálculo Diferencial · Límites 0/0
                 </span>
               </div>
 
-              <span className="text-xs font-bold text-glacier-blue bg-glacier-blue/10 px-3 py-1 rounded-full">
+              <span className="text-[11px] sm:text-xs font-bold text-glacier-blue bg-glacier-blue/10 px-3 py-1 rounded-full self-start sm:self-auto shrink-0">
                 {current.tag}
               </span>
             </div>

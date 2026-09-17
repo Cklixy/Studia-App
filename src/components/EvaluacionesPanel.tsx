@@ -259,17 +259,17 @@ export default function EvaluacionesPanel({ materiaId }: { materiaId: string }) 
           evaluaciones.map(ev => (
             <div 
               key={ev.id} 
-              className="apple-card p-3.5 px-4 flex justify-between items-center group transition-all"
+              className="apple-card p-3 sm:p-3.5 px-3.5 sm:px-4 flex justify-between items-center gap-2.5 group transition-all"
             >
-              <div className="flex items-center gap-3">
-                <span className="font-semibold text-xs text-arctic-slate">{ev.nombre}</span>
-                <span className="text-[11px] font-medium text-arctic-secondary bg-black/[0.04] px-2 py-0.5 rounded-full">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+                <span className="font-semibold text-xs text-arctic-slate truncate">{ev.nombre}</span>
+                <span className="text-[10px] sm:text-[11px] font-medium text-arctic-secondary bg-black/[0.04] px-2 py-0.5 rounded-full shrink-0">
                   {ev.porcentaje}%
                 </span>
               </div>
 
-              <div className="flex items-center gap-4">
-                <span className="font-bold text-sm text-arctic-slate font-mono tabular-nums">
+              <div className="flex items-center gap-2.5 sm:gap-4 shrink-0">
+                <span className="font-bold text-xs sm:text-sm text-arctic-slate font-mono tabular-nums">
                   {ev.nota_obtenida !== null ? Number(ev.nota_obtenida).toFixed(1) : "Pendiente"}
                 </span>
                 <button 

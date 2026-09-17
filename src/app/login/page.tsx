@@ -8,13 +8,12 @@ export default function LoginPage({
   searchParams: { message: string };
 }) {
   return (
-    <div className="min-h-screen bg-deep-ink flex items-center justify-center p-6 relative overflow-hidden">
-
+    <div className="min-h-screen bg-deep-ink flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
       {/* Glow ambiental */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-electric-periwinkle/5 rounded-full blur-[120px] pointer-events-none -mt-32 -mr-32"></div>
 
-      <div className="w-full max-w-md surface-elevated p-8 md:p-10 relative z-10">
-        <div className="flex flex-col items-center mb-10">
+      <div className="w-full max-w-md surface-elevated p-6 sm:p-8 md:p-10 relative z-10">
+        <div className="flex flex-col items-center mb-8 sm:mb-10">
           <BrandLogo className="mb-4" />
           <h1 className="text-xl font-display font-medium text-text-primary text-center">Inicia tu próxima sesión.</h1>
         </div>

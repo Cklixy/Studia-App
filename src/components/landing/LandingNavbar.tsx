@@ -14,7 +14,7 @@ export default function LandingNavbar({ user }: LandingNavbarProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-black/[0.06] transition-all select-none">
-      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 md:px-12 lg:px-16 h-16 sm:h-20 flex items-center justify-between">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 h-16 sm:h-20 flex items-center justify-between">
         
         {/* Izquierda: Brand Logo */}
         <div className="flex items-center gap-8">

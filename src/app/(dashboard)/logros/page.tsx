@@ -73,7 +73,7 @@ export default async function LogrosPage() {
             return (
               <div
                 key={badge.id}
-                className={`apple-card p-5 flex flex-col items-center text-center gap-3 transition-all ${
+                className={`apple-card p-3.5 sm:p-5 flex flex-col items-center text-center gap-2.5 sm:gap-3 transition-all ${
                   isUnlocked 
                     ? 'border-glacier-blue/30 shadow-apple-sm' 
                     : 'bg-frost-base/50 border-black/[0.06] opacity-50'

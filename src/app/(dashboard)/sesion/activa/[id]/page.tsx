@@ -27,7 +27,7 @@ export default async function ActiveSessionPage({ params }: { params: { id: stri
   }
 
   return (
-    <div className="max-w-4xl mx-auto h-[80vh] flex items-center justify-center">
+    <div className="max-w-4xl mx-auto min-h-[calc(100dvh-180px)] flex items-center justify-center py-4 sm:py-6">
       <ActiveSessionTimer session={session} />
     </div>
   );

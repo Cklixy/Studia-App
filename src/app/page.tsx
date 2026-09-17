@@ -31,11 +31,11 @@ export default async function HomePage() {
       <main className="flex-1 space-y-16 sm:space-y-24 pb-14 sm:pb-20">
         
         {/* ===================== 2. HERO SECTION ===================== */}
-        <section className="relative pt-8 sm:pt-14 md:pt-18 pb-4 sm:pb-8 px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-16 items-center">
+        <section className="relative pt-6 sm:pt-14 md:pt-18 pb-4 sm:pb-8 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 xl:gap-16 items-center">
             
             {/* Columna Izquierda: Texto Editorial Grande (5 cols en desktop) */}
-            <div className="lg:col-span-5 text-center lg:text-left space-y-6">
+            <div className="lg:col-span-5 text-center lg:text-left space-y-5 sm:space-y-6">
               <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white border border-black/[0.06] shadow-sm text-xs font-semibold text-arctic-slate">
                 <span>✦</span>
                 <span>Tu estudio, con dirección</span>

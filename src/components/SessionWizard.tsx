@@ -254,14 +254,14 @@ export default function SessionWizard({
               <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2.5">
                 Tus materias registradas
               </h3>
-              <div className="grid grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {initialMaterias.map(m => (
                   <button 
                     key={m.id} 
                     onClick={() => { setMateriaId(m.id); setMateriaNombre(m.nombre); handleNext(); }} 
-                    className="p-3.5 rounded-xl border border-black/[0.07] bg-frost-base/60 text-left hover:border-glacier-blue/30 hover:bg-white transition-all apple-tactile"
+                    className="p-3 sm:p-3.5 rounded-xl border border-black/[0.07] bg-frost-base/60 text-left hover:border-glacier-blue/30 hover:bg-white transition-all apple-tactile"
                   >
-                    <div className="font-semibold text-sm text-arctic-slate tracking-tight">{m.nombre}</div>
+                    <div className="font-semibold text-sm text-arctic-slate tracking-tight truncate">{m.nombre}</div>
                   </button>
                 ))}
               </div>
@@ -273,12 +273,12 @@ export default function SessionWizard({
               <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2.5">
                 Sugerencias ({nivel})
               </h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                 {PREDEFINED_SUBJECTS[nivel as keyof typeof PREDEFINED_SUBJECTS].map(m => (
                   <button 
                     key={m} 
                     onClick={() => { setMateriaId(""); setMateriaNombre(m); handleNext(); }} 
-                    className="p-2.5 rounded-xl border border-black/[0.05] bg-frost-base/40 text-left hover:bg-white text-xs font-medium text-arctic-secondary hover:text-arctic-slate transition-all apple-tactile"
+                    className="p-2.5 rounded-xl border border-black/[0.05] bg-frost-base/40 text-left hover:bg-white text-xs font-medium text-arctic-secondary hover:text-arctic-slate transition-all apple-tactile truncate"
                   >
                     {m}
                   </button>
@@ -291,18 +291,18 @@ export default function SessionWizard({
             <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2">
               Otra materia diferente
             </h3>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <input 
                 type="text" 
                 placeholder="Nombre de la materia..." 
-                className="flex-1 px-4 py-2.5 rounded-xl border border-black/[0.08] bg-frost-base text-sm text-arctic-slate outline-none focus:border-glacier-blue transition-all" 
+                className="w-full sm:flex-1 px-4 py-2.5 rounded-xl border border-black/[0.08] bg-frost-base text-sm text-arctic-slate outline-none focus:border-glacier-blue transition-all" 
                 value={customMateria} 
                 onChange={e => setCustomMateria(e.target.value)} 
               />
               <button 
                 onClick={() => { setMateriaId(""); setMateriaNombre(customMateria); handleNext(); }} 
                 disabled={!customMateria.trim()} 
-                className="btn-apple-secondary text-xs px-5 disabled:opacity-40 apple-tactile"
+                className="w-full sm:w-auto btn-apple-secondary text-xs px-5 py-2.5 disabled:opacity-40 apple-tactile"
               >
                 Continuar
               </button>
@@ -349,18 +349,18 @@ export default function SessionWizard({
             <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2">
               Escribir un tema nuevo
             </h3>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <input 
                 type="text" 
                 placeholder="Ej. Derivadas parciales, Segunda Guerra Mundial..." 
-                className="flex-1 px-4 py-2.5 rounded-xl border border-black/[0.08] bg-frost-base text-sm text-arctic-slate outline-none focus:border-glacier-blue transition-all" 
+                className="w-full sm:flex-1 px-4 py-2.5 rounded-xl border border-black/[0.08] bg-frost-base text-sm text-arctic-slate outline-none focus:border-glacier-blue transition-all" 
                 value={customTema} 
                 onChange={e => setCustomTema(e.target.value)} 
               />
               <button 
                 onClick={() => { setTemaId(""); setTemaNombre(customTema); handleNext(); }} 
                 disabled={!customTema.trim()} 
-                className="btn-apple-secondary text-xs px-5 disabled:opacity-40 apple-tactile"
+                className="w-full sm:w-auto btn-apple-secondary text-xs px-5 py-2.5 disabled:opacity-40 apple-tactile"
               >
                 Continuar
               </button>

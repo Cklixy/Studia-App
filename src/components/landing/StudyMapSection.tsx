@@ -12,16 +12,16 @@ export default function StudyMapSection() {
   ];
 
   return (
-    <section id="funciones" className="px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-20 items-center">
+    <section id="funciones" className="px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 xl:gap-20 items-center">
         
         {/* Columna Izquierda: Explicación Editorial (5 cols / ~42%) */}
-        <div className="lg:col-span-5 text-left space-y-5">
+        <div className="lg:col-span-5 text-left space-y-4 sm:space-y-5">
           <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue block">
             Estructura de aprendizaje
           </span>
 
-          <h2 className="text-3xl sm:text-4xl xl:text-5xl font-bold tracking-tight text-arctic-slate leading-[1.05]">
+          <h2 className="text-2xl sm:text-4xl xl:text-5xl font-bold tracking-tight text-arctic-slate leading-[1.08]">
             No necesitas otra lista de temas. <br />
             <span className="text-glacier-blue">Necesitas un camino.</span>
           </h2>
@@ -30,7 +30,7 @@ export default function StudyMapSection() {
             La IA organiza un tema en subtemas relacionados para ayudarte a entender qué estudiar primero y qué estudiar después.
           </p>
 
-          <div className="space-y-3 pt-2 text-xs sm:text-sm text-arctic-secondary">
+          <div className="space-y-2.5 sm:space-y-3 pt-1 sm:pt-2 text-xs sm:text-sm text-arctic-secondary">
             <div className="flex items-start gap-2.5">
               <CheckCircle2 size={16} className="text-glacier-blue shrink-0 mt-0.5" />
               <span>Ordena los fundamentos antes de abordar casos complejos.</span>
@@ -48,15 +48,15 @@ export default function StudyMapSection() {
 
         {/* Columna Derecha: Mapa Visual Grande (7 cols / ~58%) */}
         <div className="lg:col-span-7 w-full">
-          <div className="rounded-[28px] bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-6 sm:p-9 text-left">
+          <div className="rounded-[24px] sm:rounded-[28px] bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-4 sm:p-9 text-left">
             
             {/* Cabecera del Módulo */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-5 mb-6 border-b border-black/[0.05]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 sm:pb-5 mb-5 sm:mb-6 border-b border-black/[0.05]">
               <div className="space-y-0.5">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-glacier-blue">
                   Cálculo Diferencial
                 </span>
-                <h3 className="text-lg sm:text-xl font-bold text-arctic-slate tracking-tight">
+                <h3 className="text-base sm:text-xl font-bold text-arctic-slate tracking-tight">
                   Ruta de Estudio: Límites y Continuidad
                 </h3>
               </div>
@@ -67,9 +67,9 @@ export default function StudyMapSection() {
             </div>
 
             {/* Nodos de la ruta anchos */}
-            <div className="relative space-y-3">
+            <div className="relative space-y-2.5 sm:space-y-3">
               {/* Línea vertical conectora */}
-              <div className="absolute left-[22px] top-6 bottom-6 w-[2px] bg-black/[0.05] -z-0" />
+              <div className="absolute left-[19px] sm:left-[22px] top-5 sm:top-6 bottom-5 sm:bottom-6 w-[2px] bg-black/[0.05] -z-0" />
 
               {learningPath.map((node, index) => {
                 const isCompleted = node.status === "completed";
@@ -79,7 +79,7 @@ export default function StudyMapSection() {
                 return (
                   <div
                     key={node.title}
-                    className={`relative z-10 flex items-center gap-4 p-3.5 sm:p-4 rounded-2xl border transition-all ${
+                    className={`relative z-10 flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl border transition-all ${
                       isActive
                         ? "bg-glacier-blue/[0.04] border-glacier-blue/30 shadow-sm"
                         : isNext
@@ -91,7 +91,7 @@ export default function StudyMapSection() {
                   >
                     {/* Indicador de estado */}
                     <div
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 text-xs font-bold ${
+                      className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 text-xs font-bold ${
                         isCompleted
                           ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
                           : isActive
@@ -109,25 +109,25 @@ export default function StudyMapSection() {
                     </div>
 
                     {/* Info del tema */}
-                    <div className="flex-1 min-w-0 flex items-center justify-between gap-3">
-                      <div>
-                        <h4 className={`text-sm font-bold tracking-tight ${
+                    <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3">
+                      <div className="min-w-0">
+                        <h4 className={`text-xs sm:text-sm font-bold tracking-tight truncate ${
                           isActive ? "text-glacier-blue" : "text-arctic-slate"
                         }`}>
                           {node.title}
                         </h4>
-                        <p className="text-xs text-arctic-secondary">
+                        <p className="text-[11px] sm:text-xs text-arctic-secondary truncate">
                           {node.note}
                         </p>
                       </div>
 
                       {isActive && (
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-glacier-blue bg-glacier-blue/10 px-2.5 py-1 rounded-full shrink-0">
+                        <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-glacier-blue bg-glacier-blue/10 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shrink-0 self-start sm:self-auto">
                           Tu sesión actual
                         </span>
                       )}
                       {isNext && (
-                        <span className="text-[10px] font-semibold text-arctic-tertiary bg-black/[0.04] px-2.5 py-1 rounded-full shrink-0">
+                        <span className="text-[9px] sm:text-[10px] font-semibold text-arctic-tertiary bg-black/[0.04] px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shrink-0 self-start sm:self-auto">
                           Siguiente paso
                         </span>
                       )}

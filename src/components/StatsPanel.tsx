@@ -85,8 +85,8 @@ export default function StatsPanel({
 
   return (
     <section className="space-y-3">
-      <div className="flex items-center justify-between px-1">
-        <h3 className="apple-title-3 flex items-center gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-1">
+        <h3 className="apple-title-3 flex flex-wrap items-center gap-2">
           <span>Resumen de Actividad</span>
           <span className="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/[0.04] text-arctic-secondary">
             Últimos 30 días
@@ -94,7 +94,7 @@ export default function StatsPanel({
         </h3>
       </div>
 
-      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <StatCard
           label="Tiempo de Enfoque"
           value={tiempoDisplay}

@@ -30,12 +30,12 @@ export default async function DashboardLayout({
       </header>
 
       {/* Main Content Viewport */}
-      <main className="flex-1 px-4 py-5 sm:px-6 lg:px-10 sm:py-8 max-w-[1280px] w-full mx-auto pb-36 md:pb-40">
+      <main className="flex-1 px-3 py-4 sm:px-6 lg:px-10 sm:py-8 max-w-[1280px] w-full mx-auto pb-32 sm:pb-36 md:pb-40">
         {children}
       </main>
 
       {/* Floating Apple Dock at the Bottom */}
-      <div className="fixed left-1/2 -translate-x-1/2 z-50 pointer-events-auto px-3 max-w-full" style={{bottom: 'max(1.5rem, calc(env(safe-area-inset-bottom, 0px) + 1rem))'}} >
+      <div className="fixed left-1/2 -translate-x-1/2 z-50 pointer-events-auto px-2 sm:px-3 max-w-full" style={{bottom: 'max(1rem, calc(env(safe-area-inset-bottom, 0px) + 0.5rem))'}} >
         <SidebarNav />
       </div>
     </div>

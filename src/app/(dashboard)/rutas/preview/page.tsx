@@ -106,15 +106,15 @@ export default function RutaPreviewPage() {
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-electric-periwinkle/10 text-electric-periwinkle rounded-full text-xs font-bold uppercase tracking-widest mb-2 border border-electric-periwinkle/20">
           <Zap size={14} /> Ruta Generada por IA
         </div>
-        <h1 className="text-4xl md:text-5xl font-display font-bold text-text-primary">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-display font-bold text-arctic-slate">
           {routeData.titulo_ruta}
         </h1>
-        <p className="text-xl text-text-secondary">
-          Materia identificada: <span className="text-white font-medium">{routeData.materia}</span>
+        <p className="text-base sm:text-xl text-arctic-secondary">
+          Materia identificada: <span className="text-arctic-slate font-semibold">{routeData.materia}</span>
         </p>
-        <div className="flex justify-center gap-6 text-sm font-medium text-text-secondary pt-4">
-          <span className="flex items-center gap-2"><Navigation size={16} /> {selectedTemas.length} paradas seleccionadas</span>
-          <span className="flex items-center gap-2"><Clock size={16} /> Tiempo est. {hours > 0 ? `${hours}h ` : ''}{minutes}m</span>
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-arctic-secondary pt-2">
+          <span className="flex items-center gap-1.5"><Navigation size={15} /> {selectedTemas.length} paradas seleccionadas</span>
+          <span className="flex items-center gap-1.5"><Clock size={15} /> Tiempo est. {hours > 0 ? `${hours}h ` : ''}{minutes}m</span>
         </div>
       </section>
 
@@ -197,20 +197,20 @@ export default function RutaPreviewPage() {
       )}
 
       {/* Controles */}
-      <section className="flex flex-col-reverse md:flex-row gap-4 justify-between items-center sticky bottom-6 bg-deep-surface/80 backdrop-blur p-4 rounded-2xl border border-white/10 shadow-2xl">
+      <section className="flex flex-col-reverse sm:flex-row gap-3 justify-between items-center bg-white/90 backdrop-blur-xl p-4 rounded-2xl border border-black/[0.08] shadow-apple-md">
         <button 
           onClick={handleDiscard}
           disabled={saving}
-          className="px-6 py-3 text-sm font-bold text-text-secondary hover:text-white transition-colors"
+          className="w-full sm:w-auto px-5 py-2.5 text-xs font-semibold text-arctic-secondary hover:text-arctic-slate transition-colors text-center"
         >
           Descartar mapa
         </button>
         <button 
           onClick={handleSaveRoute}
           disabled={saving}
-          className="btn-action w-full md:w-auto flex justify-center items-center gap-2"
+          className="w-full sm:w-auto btn-apple-primary py-3 px-6 text-xs font-semibold apple-tactile shadow-apple-sm flex justify-center items-center gap-2"
         >
-          {saving ? "Guardando..." : <><CheckCircle2 size={18} /> Confirmar Ruta</>}
+          {saving ? "Guardando..." : <><CheckCircle2 size={16} /> <span>Confirmar Ruta</span></>}
         </button>
       </section>
 

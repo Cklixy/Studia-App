@@ -133,10 +133,10 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
                 </div>
 
                 {isActual && (
-                  <div className="flex items-center gap-2 shrink-0 flex-wrap">
+                  <div className="flex items-center gap-2 shrink-0 flex-wrap w-full sm:w-auto pt-2 sm:pt-0">
                     <Link 
                       href={`/sesion/iniciar/${tema.id}`}
-                      className="btn-apple-primary text-xs py-2 px-4 font-semibold apple-tactile shadow-apple-sm"
+                      className="btn-apple-primary text-xs py-2 px-4 font-semibold apple-tactile shadow-apple-sm flex-1 sm:flex-initial text-center justify-center inline-flex items-center gap-1.5"
                     >
                       <Play size={13} strokeWidth={2} />
                       <span>Estudiar tema</span>

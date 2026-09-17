@@ -30,7 +30,7 @@ export default function SidebarNav() {
   return (
     <nav 
       aria-label="Navegación principal" 
-      className="flex items-center gap-1 sm:gap-2 p-1.5 sm:p-2 rounded-full bg-white/80 backdrop-blur-2xl border border-black/[0.08] shadow-[0_16px_40px_rgba(0,0,0,0.10),0_2px_8px_rgba(0,0,0,0.04)] max-w-[calc(100vw-1rem)] overflow-x-auto no-scrollbar select-none"
+      className="flex items-center gap-1 sm:gap-2 p-1 sm:p-2 rounded-full bg-white/85 backdrop-blur-2xl border border-black/[0.08] shadow-[0_16px_40px_rgba(0,0,0,0.10),0_2px_8px_rgba(0,0,0,0.04)] max-w-[calc(100vw-1rem)] overflow-x-auto no-scrollbar select-none"
     >
       {links.map(({ name, href, icon: Icon, highlight }) => {
         const isActive = pathname.startsWith(href);
@@ -39,9 +39,9 @@ export default function SidebarNav() {
             key={href}
             href={href}
             title={name}
-            className={`group relative flex items-center gap-1.5 sm:gap-2.5 py-2 sm:py-2.5 rounded-full font-semibold transition-all duration-200 apple-tactile shrink-0 ${
+            className={`group relative flex items-center gap-1.5 sm:gap-2.5 py-1.5 sm:py-2.5 rounded-full font-semibold transition-all duration-200 apple-tactile shrink-0 ${
               isActive
-                ? "text-white font-bold px-3.5 sm:px-5 shadow-sm"
+                ? "text-white font-bold px-3 sm:px-5 shadow-sm"
                 : "text-arctic-slate/75 hover:text-arctic-slate hover:bg-black/[0.04] px-2 sm:px-3.5"
             }`}
           >

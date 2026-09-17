@@ -87,13 +87,13 @@ export default function SettingsClient({ email }: { email: string }) {
                 { title: "Actualizaciones de IA", desc: "Novedades cuando el modelo Gemini genere nuevas recomendaciones.", defaultOn: true },
                 { title: "Novedades de la Plataforma", desc: "Nuevas funcionalidades y avisos de actualización.", defaultOn: false }
               ].map((item, i) => (
-                <div key={i} className="flex items-center justify-between p-4 bg-frost-base/60 border border-black/[0.06] rounded-xl">
-                  <div>
+                <div key={i} className="flex items-center justify-between p-3.5 sm:p-4 bg-frost-base/60 border border-black/[0.06] rounded-xl gap-2">
+                  <div className="min-w-0 flex-1 pr-1">
                     <h3 className="apple-headline text-xs">{item.title}</h3>
-                    <p className="apple-subhead text-xs text-arctic-secondary mt-0.5">{item.desc}</p>
+                    <p className="apple-subhead text-[11px] sm:text-xs text-arctic-secondary mt-0.5">{item.desc}</p>
                   </div>
                   {/* Apple Switch */}
-                  <div className="relative inline-block w-11 h-6 align-middle select-none shrink-0 ml-3">
+                  <div className="relative inline-block w-11 h-6 align-middle select-none shrink-0 ml-2">
                     <input type="checkbox" defaultChecked={item.defaultOn} className="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white shadow-sm border border-black/10 cursor-pointer top-0.5 left-0.5 z-10 transition-transform duration-200 ease-in-out peer" />
                     <label className="toggle-label block overflow-hidden h-6 rounded-full bg-black/10 cursor-pointer peer-checked:bg-glacier-blue transition-colors"></label>
                   </div>
@@ -110,7 +110,7 @@ export default function SettingsClient({ email }: { email: string }) {
 
         {/* ======================= PRIVACIDAD ======================= */}
         {activeTab === "privacidad" && (
-          <section className="apple-card p-6 md:p-8 shadow-apple-sm">
+          <section className="apple-card p-5 sm:p-6 md:p-8 shadow-apple-sm">
             <h2 className="apple-title-3 mb-4 flex items-center gap-2">
               <Shield size={18} strokeWidth={2} className="text-glacier-blue" />
               <span>Privacidad y Datos</span>
@@ -121,12 +121,12 @@ export default function SettingsClient({ email }: { email: string }) {
                 { title: "Modo Silencioso", desc: "Oculta tu actividad en resúmenes públicos.", defaultOn: false },
                 { title: "Mejora de Modelos Cognitivos", desc: "Patrones anónimos de estudio para optimizar las rutas curriculares.", defaultOn: true },
               ].map((item, i) => (
-                <div key={i} className="flex items-center justify-between p-4 bg-frost-base/60 border border-black/[0.06] rounded-xl">
-                  <div>
+                <div key={i} className="flex items-center justify-between p-3.5 sm:p-4 bg-frost-base/60 border border-black/[0.06] rounded-xl gap-2">
+                  <div className="min-w-0 flex-1 pr-1">
                     <h3 className="apple-headline text-xs">{item.title}</h3>
-                    <p className="apple-subhead text-xs text-arctic-secondary mt-0.5">{item.desc}</p>
+                    <p className="apple-subhead text-[11px] sm:text-xs text-arctic-secondary mt-0.5">{item.desc}</p>
                   </div>
-                  <div className="relative inline-block w-11 h-6 align-middle select-none shrink-0 ml-3">
+                  <div className="relative inline-block w-11 h-6 align-middle select-none shrink-0 ml-2">
                     <input type="checkbox" defaultChecked={item.defaultOn} className="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white shadow-sm border border-black/10 cursor-pointer top-0.5 left-0.5 z-10 transition-transform duration-200 ease-in-out peer" />
                     <label className="toggle-label block overflow-hidden h-6 rounded-full bg-black/10 cursor-pointer peer-checked:bg-glacier-blue transition-colors"></label>
                   </div>

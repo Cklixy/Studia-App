@@ -2,16 +2,16 @@ import { MessageSquareQuote, CheckCircle2, Sparkles, Check } from "lucide-react"
 
 export default function AiTutorSection() {
   return (
-    <section id="ia" className="px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-20 items-center">
+    <section id="ia" className="px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 xl:gap-20 items-center">
         
         {/* Columna Izquierda: Explicación (5 cols / ~42%) */}
-        <div className="lg:col-span-5 text-left space-y-5">
+        <div className="lg:col-span-5 text-left space-y-4 sm:space-y-5">
           <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue block">
             Tutor académico integrado
           </span>
 
-          <h2 className="text-3xl sm:text-4xl xl:text-5xl font-bold tracking-tight text-arctic-slate leading-[1.05]">
+          <h2 className="text-2xl sm:text-4xl xl:text-5xl font-bold tracking-tight text-arctic-slate leading-[1.08]">
             Cuando te atasques, <br />
             <span className="text-glacier-blue">pregunta.</span>
           </h2>
@@ -20,7 +20,7 @@ export default function AiTutorSection() {
             Explica el concepto que no entiendes y recibe explicaciones paso a paso, ejemplos y ejercicios para seguir avanzando sin salir de tu sesión.
           </p>
 
-          <div className="space-y-3 pt-2 text-xs sm:text-sm text-arctic-secondary">
+          <div className="space-y-2.5 sm:space-y-3 pt-1 sm:pt-2 text-xs sm:text-sm text-arctic-secondary">
             <div className="flex items-start gap-2.5">
               <CheckCircle2 size={16} className="text-glacier-blue shrink-0 mt-0.5" />
               <span>Respuestas directas adaptadas al temario de tu universidad.</span>
@@ -38,25 +38,25 @@ export default function AiTutorSection() {
 
         {/* Columna Derecha: Ventana Realista Grande de Conversación (7 cols / ~58%) */}
         <div className="lg:col-span-7 w-full">
-          <div className="rounded-[28px] bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-6 sm:p-9 text-left space-y-5">
+          <div className="rounded-[24px] sm:rounded-[28px] bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-4 sm:p-9 text-left space-y-4 sm:space-y-5">
             
             {/* Cabecera del tutor */}
-            <div className="flex items-center justify-between pb-3.5 border-b border-black/[0.05]">
-              <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-apple-green" />
-                <span className="text-xs font-bold text-arctic-slate">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pb-3.5 border-b border-black/[0.05]">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="w-2.5 h-2.5 rounded-full bg-apple-green shrink-0" />
+                <span className="text-xs font-bold text-arctic-slate truncate">
                   Tutor Contextual · Cálculo Diferencial
                 </span>
               </div>
 
-              <span className="text-xs text-arctic-tertiary font-medium">
+              <span className="text-[11px] sm:text-xs text-arctic-tertiary font-medium shrink-0">
                 Tema: Límites Indeterminados
               </span>
             </div>
 
             {/* Mensaje del estudiante */}
             <div className="flex justify-end">
-              <div className="max-w-lg p-4 rounded-2xl rounded-tr-sm bg-glacier-blue text-white text-xs sm:text-sm leading-relaxed shadow-sm">
+              <div className="max-w-lg p-3.5 sm:p-4 rounded-2xl rounded-tr-sm bg-glacier-blue text-white text-xs sm:text-sm leading-relaxed shadow-sm">
                 <p className="font-medium">
                   ¿Por qué este límite me da 0/0 si reemplazo directamente el valor?
                 </p>

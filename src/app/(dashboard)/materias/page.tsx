@@ -149,10 +149,10 @@ export default async function MateriasPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
           <Link 
             href="/rutas" 
-            className="btn-apple-secondary text-xs font-semibold py-2 px-4 apple-tactile inline-flex items-center gap-2"
+            className="btn-apple-secondary text-xs font-semibold py-2 px-3.5 sm:px-4 apple-tactile inline-flex items-center gap-2 shrink-0"
           >
             <Sparkles size={14} className="text-glacier-blue" />
             <span>Crear ruta IA</span>
@@ -275,17 +275,17 @@ export default async function MateriasPage() {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3 mt-6 pt-4 border-t border-black/[0.04]">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 mt-6 pt-4 border-t border-black/[0.04]">
               <Link 
                 href={`/sesion/nueva?materia=${nextMove.materiaId}&tema=${nextMove.temaId}`}
-                className="btn-apple-primary text-xs py-2.5 px-6 font-semibold apple-tactile shadow-apple-sm"
+                className="btn-apple-primary text-xs py-2.5 px-6 font-semibold apple-tactile shadow-apple-sm text-center justify-center"
               >
                 <span>Comenzar sesión ahora</span>
                 <ArrowRight size={14} />
               </Link>
               <Link 
                 href={`/materias/${nextMove.materiaId}`} 
-                className="btn-apple-secondary text-xs py-2.5 px-4 apple-tactile"
+                className="btn-apple-secondary text-xs py-2.5 px-4 apple-tactile text-center justify-center"
               >
                 <span>Explorar temario</span>
                 <ChevronRight size={14} />

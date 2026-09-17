@@ -46,13 +46,13 @@ export default function CreateTemaForm({ materiaId }: { materiaId: string }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="apple-card p-5 mb-6 flex items-end gap-3 flex-wrap shadow-apple-sm">
+    <form onSubmit={handleSubmit} className="apple-card p-4 sm:p-5 mb-6 flex flex-col sm:flex-row sm:items-end gap-3 shadow-apple-sm">
       {error && (
         <p className="text-red-600 w-full text-xs font-medium border border-red-500/20 bg-red-500/10 p-2.5 rounded-xl">
           {error}
         </p>
       )}
-      <div className="flex-1 min-w-[200px]">
+      <div className="flex-1 w-full min-w-0">
         <label className="block mb-1.5 text-xs font-medium text-arctic-secondary">
           Nombre del tema nuevo
         </label>
@@ -65,14 +65,14 @@ export default function CreateTemaForm({ materiaId }: { materiaId: string }) {
           placeholder="Ej. Teorema de Stokes, Guerra Fría..."
         />
       </div>
-      <div>
+      <div className="w-full sm:w-auto">
         <label className="block mb-1.5 text-xs font-medium text-arctic-secondary">
           Tipo de formato
         </label>
         <select
           value={tipo}
           onChange={(e) => setTipo(e.target.value)}
-          className="rounded-xl px-3 py-2 text-xs bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-arctic-slate transition-all cursor-pointer"
+          className="w-full sm:w-auto rounded-xl px-3 py-2 text-xs bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-arctic-slate transition-all cursor-pointer"
         >
           {tiposDisponibles.map((t) => (
             <option key={t} value={t}>{t}</option>
@@ -82,7 +82,7 @@ export default function CreateTemaForm({ materiaId }: { materiaId: string }) {
       <button
         type="submit"
         disabled={loading || !nombre.trim()}
-        className="btn-apple-primary text-xs py-2 px-4 h-[38px] disabled:opacity-40 apple-tactile shadow-apple-sm"
+        className="w-full sm:w-auto btn-apple-primary text-xs py-2 px-4 h-[38px] disabled:opacity-40 apple-tactile shadow-apple-sm flex items-center justify-center gap-1.5 shrink-0"
       >
         <Plus size={14} strokeWidth={2} />
         <span>{loading ? "..." : "Añadir Tema"}</span>
