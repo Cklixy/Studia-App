@@ -57,25 +57,25 @@ export default function CreateMateriaModal({ isOpen, onClose }: CreateMateriaMod
       onClick={onClose}
     >
       <div 
-        className="apple-card w-full max-w-md p-6 bg-white/95 border border-black/[0.1] shadow-apple-lg animate-in zoom-in-95 duration-200"
+        className="apple-card w-full max-w-md p-6 border border-black/[0.08] shadow-apple-lg animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between pb-4 border-b border-black/[0.06]">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-glacier-blue/10 text-glacier-blue flex items-center justify-center">
-              <BookOpen size={16} />
+              <BookOpen size={16} strokeWidth={2} />
             </div>
             <div>
-              <h3 className="text-base font-semibold text-arctic-slate tracking-tight">Nueva Materia</h3>
-              <p className="text-xs text-arctic-secondary">Organiza tus temas y evaluaciones</p>
+              <h3 className="apple-title-3">Nueva Materia</h3>
+              <p className="apple-subhead">Organiza tus temas y evaluaciones</p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="w-7 h-7 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
+            className="w-7 h-7 rounded-full flex items-center justify-center text-arctic-tertiary hover:text-arctic-slate hover:bg-black/[0.05] transition-colors apple-tactile"
           >
-            <X size={14} />
+            <X size={16} strokeWidth={2} />
           </button>
         </div>
 
@@ -88,37 +88,36 @@ export default function CreateMateriaModal({ isOpen, onClose }: CreateMateriaMod
         <form onSubmit={handleSubmit} className="mt-5 space-y-4">
           <div>
             <label className="block text-xs font-medium text-arctic-secondary mb-1.5">
-              Nombre de la materia
+              Nombre de la materia *
             </label>
             <input
               type="text"
               required
-              autoFocus
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
-              className="w-full rounded-xl px-3.5 py-2.5 bg-frost-base border border-black/[0.08] focus:border-glacier-blue focus:ring-1 focus:ring-glacier-blue outline-none text-sm text-arctic-slate placeholder:text-arctic-tertiary transition-all"
+              className="w-full rounded-xl px-4 py-2.5 bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-sm text-arctic-slate transition-all"
               placeholder="Ej. Cálculo Vectorial, Historia del Arte..."
             />
           </div>
 
           <div>
             <label className="block text-xs font-medium text-arctic-secondary mb-1.5 flex items-center gap-1.5">
-              <Calendar size={13} />
+              <Calendar size={13} strokeWidth={2} />
               <span>Fecha de parcial o examen (Opcional)</span>
             </label>
             <input
               type="date"
               value={fechaParcial}
               onChange={(e) => setFechaParcial(e.target.value)}
-              className="w-full rounded-xl px-3.5 py-2.5 bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-sm text-arctic-slate transition-all [color-scheme:light]"
+              className="w-full rounded-xl px-4 py-2.5 bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-sm text-arctic-slate transition-all [color-scheme:light]"
             />
           </div>
 
-          <div className="pt-2 flex items-center justify-end gap-2.5">
+          <div className="pt-2 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-xs font-medium text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
+              className="btn-apple-ghost text-xs px-4 py-2 apple-tactile"
             >
               Cancelar
             </button>

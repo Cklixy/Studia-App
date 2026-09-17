@@ -170,7 +170,7 @@ export default function SessionWizard({
   };
 
   return (
-    <div className="apple-card p-6 md:p-10 max-w-2xl mx-auto border border-black/[0.08] shadow-apple-md bg-white/95">
+    <div className="apple-card p-6 md:p-10 max-w-2xl mx-auto shadow-apple-md">
       
       {/* Apple Setup Assistant Step Indicator */}
       <div className="mb-8">
@@ -493,7 +493,7 @@ export default function SessionWizard({
           <div className="pt-2 flex flex-col sm:flex-row gap-3 items-center">
             <button 
               onClick={() => setStep(1)} 
-              className="px-4 py-2.5 text-xs font-semibold text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
+              className="btn-apple-ghost text-xs px-4 py-2.5 apple-tactile"
             >
               Reiniciar configuración
             </button>
@@ -503,7 +503,7 @@ export default function SessionWizard({
               className="btn-apple-primary flex-1 w-full text-xs py-3 px-6 font-semibold apple-tactile shadow-apple-sm"
             >
               <span>{loading ? "Iniciando sesión..." : "Comenzar sesión de estudio"}</span>
-              <ArrowRight size={15} />
+              <ArrowRight size={15} strokeWidth={2} />
             </button>
           </div>
         </div>

@@ -69,15 +69,17 @@ const config: Config = {
         "4xl": "28px",
       },
       letterSpacing: {
-        tighter: "-0.03em",
-        tight: "-0.02em",
+        tightest: "-0.035em",
+        tighter: "-0.025em",
+        tight: "-0.015em",
         normal: "0em",
         wide: "0.02em",
-        wider: "0.06em",
+        wider: "0.04em",
+        widest: "0.06em",
       },
       fontFamily: {
         sans: ["var(--font-geist-sans)", "-apple-system", "BlinkMacSystemFont", "SF Pro Text", "Segoe UI", "sans-serif"],
-        display: ["var(--font-space-grotesk)", "-apple-system", "BlinkMacSystemFont", "SF Pro Display", "sans-serif"],
+        display: ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "var(--font-geist-sans)", "sans-serif"],
       }
     },
   },

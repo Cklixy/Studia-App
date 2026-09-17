@@ -38,7 +38,7 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
   const materiaTitulo = route?.title || "Plan de Aprendizaje";
 
   return (
-    <div className="apple-card p-6 md:p-8 rounded-3xl mb-12 border border-black/[0.08] shadow-apple-md bg-white/95">
+    <div className="apple-card p-6 md:p-8 rounded-3xl mb-12 shadow-apple-md">
       {/* Roadmap Header */}
       <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-8 pb-6 border-b border-black/[0.06]">
         <div>
@@ -46,7 +46,7 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
             <span className="w-1.5 h-1.5 bg-glacier-blue rounded-full animate-pulse" />
             <span>Ruta Curricular</span>
           </div>
-          <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
+          <h3 className="apple-title-2 text-arctic-slate">
             {materiaTitulo}
           </h3>
         </div>
@@ -89,15 +89,15 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
                     : "bg-white border-2 border-black/20"
                 }`}
               >
-                {isCompleted && <CheckCircle2 size={12} className="stroke-[3]" />}
+                {isCompleted && <CheckCircle2 size={12} strokeWidth={2} />}
                 {isActual && <div className="w-2 h-2 bg-glacier-blue rounded-full animate-pulse" />}
               </div>
 
               {/* Theme Content */}
-              <div className="flex flex-col lg:flex-row justify-between gap-4 items-start p-4 rounded-2xl bg-frost-base/50 border border-black/[0.06] hover:bg-white hover:border-black/[0.1] hover:shadow-apple-sm transition-all">
+              <div className="flex flex-col lg:flex-row justify-between gap-4 items-start p-4 rounded-2xl bg-frost-base/50 border border-black/[0.06] hover:bg-white/80 hover:border-black/[0.1] hover:shadow-apple-sm transition-all">
                 <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-2.5 mb-1.5">
-                    <h4 className={`text-base font-semibold tracking-tight ${
+                  <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                    <h4 className={`apple-headline ${
                       isCompleted ? "line-through text-arctic-tertiary" : "text-arctic-slate"
                     }`}>
                       {tema.nombre}
@@ -114,14 +114,14 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
                   </div>
 
                   {tema.descripcion && (
-                    <p className="text-xs text-arctic-secondary mb-3 leading-relaxed max-w-xl">
+                    <p className="apple-subhead text-xs text-arctic-secondary mb-3 leading-relaxed max-w-xl">
                       {tema.descripcion}
                     </p>
                   )}
 
                   <div className="flex items-center gap-4 text-xs text-arctic-secondary">
                     <span className="flex items-center gap-1 font-medium">
-                      <Clock size={12} /> {tema.minutos_estimados || 30} min
+                      <Clock size={12} strokeWidth={2} /> {tema.minutos_estimados || 30} min
                     </span>
                     {/* Botón interactivo de toggle estado */}
                     <LearningMapItemActions
@@ -136,9 +136,9 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
                   <div className="flex items-center gap-2 shrink-0 flex-wrap">
                     <Link 
                       href={`/sesion/iniciar/${tema.id}`}
-                      className="btn-apple-primary text-xs py-2 px-4.5 font-semibold apple-tactile shadow-apple-sm"
+                      className="btn-apple-primary text-xs py-2 px-4 font-semibold apple-tactile shadow-apple-sm"
                     >
-                      <Play size={13} fill="currentColor" />
+                      <Play size={13} strokeWidth={2} />
                       <span>Estudiar tema</span>
                     </Link>
                     {/* Botón interactivo de duda rápida */}

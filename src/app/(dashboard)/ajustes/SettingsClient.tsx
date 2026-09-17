@@ -39,9 +39,9 @@ export default function SettingsClient({ email }: { email: string }) {
         {/* ======================= PERFIL ======================= */}
         {activeTab === "perfil" && (
           <>
-            <section className="apple-card p-6 md:p-8 bg-white/95 border border-black/[0.08] shadow-apple-sm">
-              <h2 className="text-lg font-bold text-arctic-slate mb-4 flex items-center gap-2">
-                <User size={18} className="text-glacier-blue" />
+            <section className="apple-card p-6 md:p-8 shadow-apple-sm">
+              <h2 className="apple-title-3 mb-4 flex items-center gap-2">
+                <User size={18} strokeWidth={2} className="text-glacier-blue" />
                 <span>Información Personal</span>
               </h2>
               
@@ -53,18 +53,18 @@ export default function SettingsClient({ email }: { email: string }) {
                   <div className="w-full bg-frost-base border border-black/[0.08] rounded-xl px-4 py-2.5 text-xs font-medium text-arctic-slate font-mono">
                     {email}
                   </div>
-                  <p className="text-[11px] text-arctic-tertiary mt-1.5">
+                  <p className="apple-subhead text-xs text-arctic-tertiary mt-1.5">
                     Tu correo está vinculado a tu cuenta de autenticación de Studia+.
                   </p>
                 </div>
               </div>
             </section>
 
-            <section className="apple-card p-6 md:p-8 bg-white/95 border border-cool-berry/20 shadow-apple-sm">
-              <h2 className="text-base font-bold text-cool-berry mb-2 flex items-center gap-2">
+            <section className="apple-card p-6 md:p-8 border border-red-500/15 shadow-apple-sm">
+              <h2 className="apple-title-3 text-red-600 mb-2 flex items-center gap-2">
                 <span>Zona de Seguridad</span>
               </h2>
-              <p className="text-xs text-arctic-secondary mb-5">
+              <p className="apple-subhead text-xs text-arctic-secondary mb-5">
                 Cerrar sesión en este navegador y desconectar credenciales locales.
               </p>
               
@@ -75,9 +75,9 @@ export default function SettingsClient({ email }: { email: string }) {
 
         {/* ======================= NOTIFICACIONES ======================= */}
         {activeTab === "notificaciones" && (
-          <section className="apple-card p-6 md:p-8 bg-white/95 border border-black/[0.08] shadow-apple-sm">
-            <h2 className="text-lg font-bold text-arctic-slate mb-4 flex items-center gap-2">
-              <Bell size={18} className="text-glacier-blue" />
+          <section className="apple-card p-6 md:p-8 shadow-apple-sm">
+            <h2 className="apple-title-3 mb-4 flex items-center gap-2">
+              <Bell size={18} strokeWidth={2} className="text-glacier-blue" />
               <span>Preferencias de Notificación</span>
             </h2>
             
@@ -89,8 +89,8 @@ export default function SettingsClient({ email }: { email: string }) {
               ].map((item, i) => (
                 <div key={i} className="flex items-center justify-between p-4 bg-frost-base/60 border border-black/[0.06] rounded-xl">
                   <div>
-                    <h3 className="text-arctic-slate text-xs font-semibold">{item.title}</h3>
-                    <p className="text-arctic-secondary text-[11px] mt-0.5">{item.desc}</p>
+                    <h3 className="apple-headline text-xs">{item.title}</h3>
+                    <p className="apple-subhead text-xs text-arctic-secondary mt-0.5">{item.desc}</p>
                   </div>
                   {/* Apple Switch */}
                   <div className="relative inline-block w-11 h-6 align-middle select-none shrink-0 ml-3">
@@ -110,9 +110,9 @@ export default function SettingsClient({ email }: { email: string }) {
 
         {/* ======================= PRIVACIDAD ======================= */}
         {activeTab === "privacidad" && (
-          <section className="apple-card p-6 md:p-8 bg-white/95 border border-black/[0.08] shadow-apple-sm">
-            <h2 className="text-lg font-bold text-arctic-slate mb-4 flex items-center gap-2">
-              <Shield size={18} className="text-glacier-blue" />
+          <section className="apple-card p-6 md:p-8 shadow-apple-sm">
+            <h2 className="apple-title-3 mb-4 flex items-center gap-2">
+              <Shield size={18} strokeWidth={2} className="text-glacier-blue" />
               <span>Privacidad y Datos</span>
             </h2>
             
@@ -123,8 +123,8 @@ export default function SettingsClient({ email }: { email: string }) {
               ].map((item, i) => (
                 <div key={i} className="flex items-center justify-between p-4 bg-frost-base/60 border border-black/[0.06] rounded-xl">
                   <div>
-                    <h3 className="text-arctic-slate text-xs font-semibold">{item.title}</h3>
-                    <p className="text-arctic-secondary text-[11px] mt-0.5">{item.desc}</p>
+                    <h3 className="apple-headline text-xs">{item.title}</h3>
+                    <p className="apple-subhead text-xs text-arctic-secondary mt-0.5">{item.desc}</p>
                   </div>
                   <div className="relative inline-block w-11 h-6 align-middle select-none shrink-0 ml-3">
                     <input type="checkbox" defaultChecked={item.defaultOn} className="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white shadow-sm border border-black/10 cursor-pointer top-0.5 left-0.5 z-10 transition-transform duration-200 ease-in-out peer" />
@@ -150,10 +150,10 @@ export default function SettingsClient({ email }: { email: string }) {
         {/* ======================= FACTURACIÓN ======================= */}
         {activeTab === "facturacion" && (
           <>
-            <section className="apple-card p-6 md:p-8 relative overflow-hidden bg-white/95 border border-black/[0.08] shadow-apple-sm">
+            <section className="apple-card p-6 md:p-8 relative overflow-hidden shadow-apple-sm">
               <div className="absolute -right-10 -top-10 w-40 h-40 bg-glacier-blue/10 blur-3xl rounded-full pointer-events-none"></div>
               
-              <h2 className="text-lg font-bold text-arctic-slate mb-1">
+              <h2 className="apple-title-3 mb-1">
                 Plan Actual
               </h2>
               <div className="flex items-center gap-3 mb-4">
@@ -163,11 +163,11 @@ export default function SettingsClient({ email }: { email: string }) {
                 <span className="text-arctic-secondary text-xs font-medium">Plan Estudiantil</span>
               </div>
               
-              <p className="text-xs text-arctic-secondary mb-5 max-w-md leading-relaxed">
+              <p className="apple-body text-xs text-arctic-secondary mb-5 max-w-md">
                 Dispones de acceso ilimitado a generación de rutas curriculares, tutor inteligente y cronometría de concentración.
               </p>
 
-              <button className="btn-apple-secondary text-xs py-2 px-4.5 apple-tactile">
+              <button className="btn-apple-secondary text-xs py-2 px-4 apple-tactile">
                 Gestionar plan
               </button>
             </section>

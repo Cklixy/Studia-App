@@ -134,12 +134,12 @@ export default async function MateriasPage() {
     <div className="flex flex-col gap-9 w-full animate-in fade-in duration-500">
       
       {/* Apple Large Title Header en Grafito Pizarra */}
-      <header className="flex flex-col md:flex-row justify-between md:items-end gap-4 pb-2 border-b border-black/[0.06]">
+      <header className="flex flex-col md:flex-row justify-between md:items-end gap-4 pb-1">
         <div>
           <span className="text-xs uppercase tracking-widest font-semibold text-arctic-secondary capitalize">
             {fechaHoy}
           </span>
-          <h1 className="fluid-h1 font-bold tracking-tight text-arctic-slate mt-1">
+          <h1 className="apple-large-title text-arctic-slate mt-1">
             Hola, {firstName}
           </h1>
           <p className="text-arctic-secondary text-sm mt-1">
@@ -152,9 +152,9 @@ export default async function MateriasPage() {
         <div className="flex items-center gap-3">
           <Link 
             href="/rutas" 
-            className="btn-apple-secondary text-xs font-semibold py-2 px-3.5 apple-tactile inline-flex items-center gap-1.5"
+            className="btn-apple-secondary text-xs font-semibold py-2 px-4 apple-tactile inline-flex items-center gap-2"
           >
-            <Sparkles size={14} className="text-cool-iris" />
+            <Sparkles size={14} className="text-glacier-blue" />
             <span>Crear ruta IA</span>
           </Link>
           <CreateMateriaForm />
@@ -244,7 +244,7 @@ export default async function MateriasPage() {
           </div>
 
           {/* Bottom XP Chip */}
-          <div className="w-full pt-3 border-t border-black/[0.06] flex items-center justify-between text-xs">
+          <div className="w-full pt-3 border-t border-black/[0.04] flex items-center justify-between text-xs">
             <span className="text-arctic-secondary">Esta semana:</span>
             <span className="font-semibold text-glacier-blue">+{xpEstaSemana} XP</span>
           </div>
@@ -252,30 +252,30 @@ export default async function MateriasPage() {
 
         {/* Hero Next Move Focus Card en Vidrio Blanco */}
         {nextMove ? (
-          <div className="apple-card p-7 md:p-8 flex flex-col justify-between relative overflow-hidden group bg-gradient-to-br from-white/95 to-frost-base/90">
+          <div className="apple-card p-6 md:p-8 flex flex-col justify-between relative overflow-hidden group">
             {/* Ambient cold light splash */}
             <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-glacier-blue/[0.05] blur-3xl pointer-events-none" />
             
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-polar-cyan/10 border border-polar-cyan/20 text-polar-cyan text-[11px] font-semibold tracking-wider uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-polar-cyan animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-glacier-blue/10 border border-glacier-blue/20 text-glacier-blue text-[11px] font-semibold tracking-wider uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-glacier-blue animate-pulse" />
                 Siguiente Paso Recomendado
               </div>
 
               <div className="mt-4">
-                <span className="text-xs font-semibold text-arctic-secondary uppercase tracking-wider">
+                <span className="apple-caption text-arctic-secondary">
                   {nextMove.materia}
                 </span>
-                <h2 className="text-2xl md:text-3xl font-bold text-arctic-slate tracking-tight mt-1">
+                <h2 className="apple-title-2 text-arctic-slate mt-1">
                   {nextMove.tema}
                 </h2>
-                <p className="text-arctic-secondary text-sm max-w-lg mt-2 leading-relaxed">
+                <p className="apple-body text-arctic-secondary max-w-lg mt-2">
                   Tu plan curricular indica que este es el tema prioritario para consolidar hoy.
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-3.5 mt-6 pt-4 border-t border-black/[0.06]">
+            <div className="flex flex-wrap items-center gap-3 mt-6 pt-4 border-t border-black/[0.04]">
               <Link 
                 href={`/sesion/nueva?materia=${nextMove.materiaId}&tema=${nextMove.temaId}`}
                 className="btn-apple-primary text-xs py-2.5 px-6 font-semibold apple-tactile shadow-apple-sm"

@@ -116,25 +116,25 @@ export default async function HistorialPage({
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
       
-      {/* Apple Large Title Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-2 border-b border-black/[0.06]">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-1">
         <div>
           <span className="text-[11px] font-semibold text-arctic-tertiary uppercase tracking-wider">
             Bitácora de Estudio
           </span>
-          <h1 className="text-3xl font-bold tracking-tight text-arctic-slate mt-0.5">
+          <h1 className="apple-large-title text-arctic-slate mt-0.5">
             Historial de Sesiones
           </h1>
-          <p className="text-xs text-arctic-secondary mt-1">
+          <p className="apple-body text-xs text-arctic-secondary mt-1">
             Consulta los registros detallados de tu enfoque, productividad y métodos empleados.
           </p>
         </div>
 
         <Link 
           href="/sesion/nueva" 
-          className="btn-apple-primary text-xs py-2.5 px-5 apple-tactile inline-flex items-center gap-1.5 self-start sm:self-auto shadow-apple-sm"
+          className="btn-apple-primary text-xs py-2.5 px-5 apple-tactile inline-flex items-center gap-2 self-start sm:self-auto shadow-apple-sm"
         >
-          <Plus size={14} />
+          <Plus size={15} strokeWidth={2} />
           <span>Nueva sesión</span>
         </Link>
       </div>
@@ -155,7 +155,7 @@ export default async function HistorialPage({
               return (
                 <div 
                   key={s.id} 
-                  className="apple-card p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-glacier-blue/30 bg-gradient-to-r from-glacier-blue/[0.05] to-white shadow-apple-sm"
+                  className="apple-card p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border border-glacier-blue/30 shadow-apple-sm"
                 >
                   <div>
                     <div className="flex items-center gap-2 mb-1">
@@ -166,8 +166,8 @@ export default async function HistorialPage({
                         {minTranscurridos} minutos transcurridos
                       </span>
                     </div>
-                    <h3 className="font-bold text-lg text-arctic-slate">{(s.materias as any)?.nombre || "Sin materia"}</h3>
-                    <p className="text-arctic-secondary text-xs">{(s.temas as any)?.nombre || s.objetivo || "Sesión libre"}</p>
+                    <h3 className="apple-title-3 text-arctic-slate">{(s.materias as any)?.nombre || "Sin materia"}</h3>
+                    <p className="apple-subhead text-xs text-arctic-secondary">{(s.temas as any)?.nombre || s.objetivo || "Sesión libre"}</p>
                     {s.metodo_utilizado && (
                       <span className="inline-block text-[11px] text-arctic-tertiary mt-1">
                         Método: {s.metodo_utilizado}
@@ -177,9 +177,9 @@ export default async function HistorialPage({
 
                   <Link
                     href={`/sesion/activa/${s.id}`}
-                    className="btn-apple-primary text-xs py-2 px-5 font-semibold apple-tactile flex items-center gap-1.5 shrink-0 shadow-apple-sm"
+                    className="btn-apple-primary text-xs py-2 px-5 font-semibold apple-tactile flex items-center gap-2 shrink-0 shadow-apple-sm"
                   >
-                    <Play size={13} fill="currentColor" />
+                    <Play size={13} strokeWidth={2} />
                     <span>Continuar sesión</span>
                   </Link>
                 </div>
@@ -193,12 +193,12 @@ export default async function HistorialPage({
       <HistoryFilters materias={materias || []} />
 
       {/* Métricas estilo Apple Health en Cristal Blanco */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         <div className="apple-card p-5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-arctic-secondary font-medium">Minutos Totales</span>
-            <div className="w-7 h-7 rounded-xl bg-glacier-blue/10 text-glacier-blue flex items-center justify-center">
-              <Clock size={15} />
+            <div className="w-8 h-8 rounded-xl bg-glacier-blue/10 text-glacier-blue flex items-center justify-center">
+              <Clock size={16} strokeWidth={2} />
             </div>
           </div>
           <div className="flex items-baseline gap-1.5">
@@ -213,8 +213,8 @@ export default async function HistorialPage({
         <div className="apple-card p-5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-arctic-secondary font-medium">Efectividad de Metas</span>
-            <div className="w-7 h-7 rounded-xl bg-polar-cyan/10 text-polar-cyan flex items-center justify-center">
-              <Target size={15} />
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+              <Target size={16} strokeWidth={2} />
             </div>
           </div>
           <div className="flex items-baseline gap-1.5">
@@ -228,11 +228,11 @@ export default async function HistorialPage({
         <div className="apple-card p-5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs text-arctic-secondary font-medium">Método más Utilizado</span>
-            <div className="w-7 h-7 rounded-xl bg-cool-iris/10 text-cool-iris flex items-center justify-center">
-              <BookOpen size={15} />
+            <div className="w-8 h-8 rounded-xl bg-glacier-blue/10 text-glacier-blue flex items-center justify-center">
+              <BookOpen size={16} strokeWidth={2} />
             </div>
           </div>
-          <div className="text-lg font-bold text-arctic-slate truncate">
+          <div className="apple-headline text-arctic-slate truncate">
             {metodoFrecuente}
           </div>
           <div className="text-[11px] text-arctic-tertiary mt-1">
@@ -241,22 +241,22 @@ export default async function HistorialPage({
         </div>
       </div>
 
-      {/* Lista de Sesiones */}
+      {/* Lista de sesiones */}
       <section className="space-y-3">
-        <div className="flex items-center justify-between px-1">
-          <h2 className="text-base font-semibold text-arctic-slate tracking-tight">
-            Sesiones Registradas ({totalSesiones})
+        <div className="flex justify-between items-center px-1">
+          <h2 className="apple-title-3">
+            Sesiones registradas ({totalSesiones})
           </h2>
         </div>
 
         {totalSesiones === 0 ? (
           <div className="apple-card p-10 text-center text-arctic-secondary">
-            <BookOpen size={28} className="mx-auto mb-2 text-arctic-tertiary" />
+            <BookOpen size={28} strokeWidth={2} className="mx-auto mb-2 text-arctic-tertiary" />
             <p className="text-sm font-medium">No hay sesiones que coincidan con estos filtros.</p>
             <p className="text-xs text-arctic-tertiary mt-1">Prueba seleccionando otro rango o materia.</p>
           </div>
         ) : (
-          <div className="space-y-2.5">
+          <div className="space-y-3">
             {sesiones?.map((s) => {
               const minutosReales = Math.floor((s.tiempo_efectivo_segundos || 0) / 60);
               const fecha = new Date(s.hora_finalizacion);
@@ -266,7 +266,7 @@ export default async function HistorialPage({
               return (
                 <div 
                   key={s.id} 
-                  className="apple-card p-4 sm:p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 transition-all apple-tactile bg-white/95"
+                  className="apple-card p-4 sm:p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 transition-all apple-tactile"
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">

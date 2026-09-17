@@ -19,10 +19,10 @@ export default function StudyTrailWidget({ dias = 0 }: StudyTrailWidgetProps) {
           Tu Recorrido de Enfoque
         </span>
       </div>
-      <div className="apple-card p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-l-glacier-blue bg-white/95 shadow-apple-sm">
-        <div className="flex items-center gap-3.5">
+      <div className="apple-card p-5 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-apple-sm">
+        <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl bg-glacier-blue/10 text-glacier-blue flex items-center justify-center shrink-0">
-            <Flame size={20} />
+            <Flame size={20} strokeWidth={2} />
           </div>
           <div>
             <p className="text-base sm:text-lg font-semibold text-arctic-slate tracking-tight">

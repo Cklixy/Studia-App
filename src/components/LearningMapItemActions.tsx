@@ -69,9 +69,9 @@ export default function LearningMapItemActions({
       {isActual && (
         <button
           onClick={() => setIsChatOpen(true)}
-          className="btn-apple-secondary text-xs py-2 px-3.5 apple-tactile inline-flex items-center gap-1.5"
+          className="btn-apple-secondary text-xs py-2 px-3 apple-tactile inline-flex items-center gap-1.5"
         >
-          <MessageCircle size={13} className="text-glacier-blue" />
+          <MessageCircle size={13} strokeWidth={2} className="text-glacier-blue" />
           <span>Duda rápida</span>
         </button>
       )}

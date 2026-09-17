@@ -25,7 +25,7 @@ export default function HistoryFilters({ materias }: { materias: any[] }) {
   );
 
   return (
-    <div className="apple-card p-5 flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between border border-black/[0.07] bg-white/90 shadow-apple-sm">
+    <div className="apple-card p-4 sm:p-5 flex flex-col md:flex-row gap-4 items-stretch md:items-center justify-between shadow-apple-sm">
       <div className="flex flex-col sm:flex-row gap-3 items-center w-full md:w-auto">
         {/* Materia selector */}
         <div className="w-full sm:w-auto flex-1 sm:flex-initial">
@@ -43,10 +43,10 @@ export default function HistoryFilters({ materias }: { materias: any[] }) {
               ))}
             </select>
             <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-arctic-secondary">
-              <Filter size={13} />
+              <Filter size={14} strokeWidth={2} />
             </div>
             <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-arctic-secondary">
-              <ChevronDown size={13} />
+              <ChevronDown size={14} strokeWidth={2} />
             </div>
           </div>
         </div>
@@ -66,10 +66,10 @@ export default function HistoryFilters({ materias }: { materias: any[] }) {
               <option value="30d">Últimos 30 días</option>
             </select>
             <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-arctic-secondary">
-              <Calendar size={13} />
+              <Calendar size={14} strokeWidth={2} />
             </div>
             <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-arctic-secondary">
-              <ChevronDown size={13} />
+              <ChevronDown size={14} strokeWidth={2} />
             </div>
           </div>
         </div>
@@ -78,7 +78,7 @@ export default function HistoryFilters({ materias }: { materias: any[] }) {
       {(currentMateria || currentRange !== "all") && (
         <button
           onClick={() => router.push("/historial")}
-          className="text-xs text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile self-end md:self-center"
+          className="btn-apple-ghost text-xs px-3 py-1.5 apple-tactile self-end md:self-center"
         >
           Limpiar filtros
         </button>

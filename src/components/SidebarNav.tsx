@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { 
   Compass, 
   Clock, 
@@ -25,11 +25,12 @@ const links = [
 
 export default function SidebarNav() {
   const pathname = usePathname();
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <nav 
       aria-label="Navegación principal" 
-      className="flex items-center gap-0.5 sm:gap-2 p-1.5 sm:p-2.5 rounded-full bg-white/95 backdrop-blur-2xl border border-slate-300/80 shadow-[0_16px_45px_rgba(15,23,42,0.14),0_2px_6px_rgba(15,23,42,0.06)] ring-1 ring-white/90 max-w-[calc(100vw-1rem)] overflow-x-auto no-scrollbar select-none"
+      className="flex items-center gap-1 sm:gap-2 p-1.5 sm:p-2 rounded-full bg-white/80 backdrop-blur-2xl border border-black/[0.08] shadow-[0_16px_40px_rgba(0,0,0,0.10),0_2px_8px_rgba(0,0,0,0.04)] max-w-[calc(100vw-1rem)] overflow-x-auto no-scrollbar select-none"
     >
       {links.map(({ name, href, icon: Icon, highlight }) => {
         const isActive = pathname.startsWith(href);
@@ -38,17 +39,17 @@ export default function SidebarNav() {
             key={href}
             href={href}
             title={name}
-            className={`group relative flex items-center gap-1.5 sm:gap-2.5 py-2 sm:py-3 rounded-full font-semibold transition-all duration-200 apple-tactile shrink-0 ${
+            className={`group relative flex items-center gap-1.5 sm:gap-2.5 py-2 sm:py-2.5 rounded-full font-semibold transition-all duration-200 apple-tactile shrink-0 ${
               isActive
-                ? "text-white font-bold px-3 sm:px-5 shadow-sm"
-                : "text-arctic-slate/75 hover:text-arctic-slate hover:bg-black/[0.04] px-2 sm:px-4"
+                ? "text-white font-bold px-3.5 sm:px-5 shadow-sm"
+                : "text-arctic-slate/75 hover:text-arctic-slate hover:bg-black/[0.04] px-2 sm:px-3.5"
             }`}
           >
             {isActive && (
               <motion.div
-                layoutId="activeDockPill"
+                layoutId={shouldReduceMotion ? undefined : "activeDockPill"}
                 className="absolute inset-0 rounded-full bg-glacier-blue shadow-apple-glow"
-                transition={{
+                transition={shouldReduceMotion ? { duration: 0 } : {
                   type: "spring",
                   damping: 28,
                   stiffness: 380,
@@ -58,7 +59,8 @@ export default function SidebarNav() {
 
             <span className="relative z-10 flex items-center justify-center">
               <Icon 
-                size={20} 
+                size={19} 
+                strokeWidth={2}
                 className={`transition-colors duration-200 ${
                   isActive 
                     ? "text-white" 
@@ -69,7 +71,7 @@ export default function SidebarNav() {
               />
             </span>
 
-            <span className={`relative z-10 tracking-tight text-[11px] sm:text-[13px] md:text-sm whitespace-nowrap transition-all duration-200 ${isActive ? 'inline' : 'hidden sm:inline'}`}>
+            <span className={`relative z-10 tracking-tight text-[11px] sm:text-[13px] whitespace-nowrap transition-all duration-200 ${isActive ? 'inline' : 'hidden sm:inline'}`}>
               {name}
             </span>
 
