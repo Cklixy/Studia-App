@@ -347,3 +347,40 @@ button, a, [role="button"] {
     scroll-behavior: auto !important;
   }
 }
+
+/* ------------------------------------------------------------------
+   Preferencias de accesibilidad del sistema (auditoría A-15)
+   ------------------------------------------------------------------ */
+
+/* Menos transparencia: superficies opacas y sin desenfoque, para que el texto
+   no pierda contraste sobre lo que hay detrás. */
+@media (prefers-reduced-transparency: reduce) {
+  *,
+  *::before,
+  *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  .apple-glass,
+  .apple-glass-ultra,
+  .apple-card {
+    background: #ffffff !important;
+  }
+}
+
+/* Más contraste: bordes definidos y texto secundario más oscuro. */
+@media (prefers-contrast: more) {
+  :root {
+    --arctic-secondary: #3a3a3c;
+    --arctic-tertiary: #48484a;
+  }
+  .apple-card,
+  .apple-glass,
+  .apple-glass-ultra {
+    border: 1px solid #6e6e73 !important;
+  }
+  .text-arctic-secondary,
+  .text-arctic-tertiary {
+    color: #3a3a3c !important;
+  }
+}
