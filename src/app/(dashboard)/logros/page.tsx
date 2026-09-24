@@ -60,7 +60,7 @@ export default async function LogrosPage() {
         <div>
           <p className="apple-caption text-arctic-secondary">Nivel Académico</p>
           <p className="apple-title-2 text-arctic-slate tabular-nums mt-0.5">{racha?.xp_total || 0} XP acumulados</p>
-          <p className="apple-subhead text-xs text-arctic-secondary mt-0.5">{racha?.dias || 0} días de racha activa</p>
+          <p className="apple-subhead text-xs text-arctic-secondary mt-0.5">{(racha?.dias || 0) === 1 ? "1 día" : `${racha?.dias || 0} días`} de racha activa</p>
         </div>
       </div>
 
@@ -74,8 +74,8 @@ export default async function LogrosPage() {
               <div
                 key={badge.id}
                 className={`apple-card p-3.5 sm:p-5 flex flex-col items-center text-center gap-2.5 sm:gap-3 transition-all ${
-                  isUnlocked 
-                    ? 'border-glacier-blue/30 shadow-apple-sm' 
+                  isUnlocked
+                    ? 'border-glacier-blue/30 shadow-apple-sm'
                     : 'bg-frost-base/50 border-black/[0.06] opacity-50'
                 }`}
               >
@@ -86,7 +86,7 @@ export default async function LogrosPage() {
                 </div>
                 {!isUnlocked && (
                   <div className="flex items-center gap-1 text-[11px] font-medium text-arctic-tertiary">
-                    <Lock size={12} strokeWidth={2} /> 
+                    <Lock size={12} strokeWidth={2} />
                     <span>Bloqueado</span>
                   </div>
                 )}

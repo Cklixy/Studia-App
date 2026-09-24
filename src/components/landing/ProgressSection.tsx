@@ -6,7 +6,7 @@ export default function ProgressSection() {
     {
       materia: "Cálculo Diferencial",
       tema: "Límites algebraicos e indeterminaciones 0/0",
-      fecha: "Hoy · 17:23",
+      fecha: "Hoy",
       metodo: "Active Recall + Ejercicios de examen",
       duracion: "1 h 22 min",
       rating: "4.8",
@@ -14,7 +14,7 @@ export default function ProgressSection() {
     {
       materia: "Programación Orientada a Objetos",
       tema: "Polimorfismo, interfaces y patrones en TypeScript",
-      fecha: "Ayer · 18:24",
+      fecha: "Ayer",
       metodo: "Técnica Pomodoro + Práctica de código",
       duracion: "1 h 13 min",
       rating: "5.0",
@@ -22,7 +22,7 @@ export default function ProgressSection() {
     {
       materia: "Arquitectura de Computadores",
       tema: "Álgebra de Boole, compuertas lógicas y mapas de Karnaugh",
-      fecha: "15 sep · 16:45",
+      fecha: "Hace 3 días",
       metodo: "Práctica Deliberada + Diagramas",
       duracion: "55 min",
       rating: "4.7",
@@ -31,7 +31,7 @@ export default function ProgressSection() {
 
   return (
     <section className="px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full space-y-8 sm:space-y-10">
-      
+
       {/* Encabezado */}
       <div className="text-center space-y-2 max-w-2xl mx-auto">
         <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue">
@@ -46,10 +46,10 @@ export default function ProgressSection() {
       </div>
 
       <div className="space-y-6 w-full">
-        
+
         {/* Grid de 4 Estadísticas a Ancho Completo */}
         <div className="bg-white border border-black/[0.08] rounded-[24px] sm:rounded-[26px] shadow-[0_4px_20px_rgba(0,0,0,0.02)] grid grid-cols-2 lg:grid-cols-4 overflow-hidden text-left">
-          
+
           <div className="p-4 sm:p-7 border-b lg:border-b-0 border-r border-black/[0.06] flex flex-col justify-between gap-1.5 sm:gap-2">
             <span className="text-xs font-semibold text-arctic-secondary truncate">Sesiones registradas</span>
             <div className="my-0.5 sm:my-1">

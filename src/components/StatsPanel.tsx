@@ -98,7 +98,7 @@ export default function StatsPanel({
         <StatCard
           label="Tiempo de Enfoque"
           value={tiempoDisplay}
-          sublabel={`${totalMinutos} minutos acumulados`}
+          sublabel={`${totalMinutos === 1 ? "1 minuto acumulado" : `${totalMinutos} minutos acumulados`}`}
           accentBg="bg-glacier-blue/10"
           accentColor="text-glacier-blue"
           progressColor="bg-glacier-blue"
@@ -118,7 +118,7 @@ export default function StatsPanel({
         <StatCard
           label="Sesiones Completadas"
           value={totalSesiones}
-          unit="sesiones"
+          unit={totalSesiones === 1 ? "sesión" : "sesiones"}
           sublabel="Registros de estudio activo"
           accentBg="bg-glacier-blue/10"
           accentColor="text-glacier-blue"

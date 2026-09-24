@@ -13,7 +13,7 @@ export default function ExamsSection() {
   return (
     <section className="px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 xl:gap-20 items-center">
-        
+
         {/* Columna Izquierda: Texto (5 cols / ~42%) */}
         <div className="lg:col-span-5 text-left space-y-4 sm:space-y-5">
           <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue block">
@@ -48,7 +48,7 @@ export default function ExamsSection() {
         {/* Columna Derecha: Mockup Grande de Parcial (7 cols / ~58%) */}
         <div className="lg:col-span-7 w-full">
           <div className="rounded-[24px] sm:rounded-[28px] bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-4 sm:p-9 space-y-5 sm:space-y-6 text-left">
-            
+
             {/* Cabecera del Parcial */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-black/[0.05]">
               <div>
@@ -63,7 +63,7 @@ export default function ExamsSection() {
               <div className="flex items-center gap-2.5 sm:gap-3 self-start sm:self-auto">
                 <span className="text-xs font-medium text-arctic-secondary flex items-center gap-1.5">
                   <Calendar size={13} className="text-arctic-tertiary shrink-0" />
-                  18 septiembre
+                  En 12 días
                 </span>
                 <span className="text-[11px] sm:text-xs font-bold text-glacier-blue bg-glacier-blue/10 px-2.5 sm:px-3 py-1 rounded-full shrink-0">
                   72% preparado

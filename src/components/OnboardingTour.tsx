@@ -21,7 +21,7 @@ const STEPS: TourStep[] = [
     title: "Bienvenido a studia+",
     description:
       "Tu asistente de estudio inteligente. En menos de 2 minutos te mostramos todo lo que puedes hacer para estudiar con dirección.",
-    hint: "Navega con las flechas del teclado ← → o los botones de abajo.",
+    hint: "Avanza con «Siguiente» o, en computador, con las flechas ← → del teclado.",
   },
   {
     id: "materias",

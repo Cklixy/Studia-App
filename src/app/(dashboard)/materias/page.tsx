@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
+import { capitalizarInicio, plural } from "@/lib/texto";
 import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 import CreateMateriaForm from "@/components/CreateMateriaForm";
@@ -6,14 +7,14 @@ import StatsPanel from "@/components/StatsPanel";
 import StudyTrailWidget from "@/components/StudyTrailWidget";
 import Link from "next/link";
 import { getCachedMaterias } from "@/lib/data/materias";
-import { 
-  Flame, 
-  ArrowRight, 
-  Sparkles, 
-  BookOpen, 
-  Calendar, 
-  ChevronRight, 
-  CheckCircle2 
+import {
+  Flame,
+  ArrowRight,
+  Sparkles,
+  BookOpen,
+  Calendar,
+  ChevronRight,
+  CheckCircle2
 } from "lucide-react";
 
 // Client component diferido únicamente para Web Push API
@@ -75,22 +76,24 @@ export default async function MateriasPage() {
   ]);
 
   const rachaActual = rachaData?.dias || 0;
+  const sinMaterias = !materias || materias.length === 0;
+  const tieneActividad = (sesionesRecientes?.length || 0) > 0 || rachaActual > 0;
   const xpTotal = rachaData?.xp_total || 0;
   const nivelActual = rachaData?.nivel_actual || 1;
 
-  const xpEstaSemana = (sesionesSemana || []).reduce((acc, s) => 
+  const xpEstaSemana = (sesionesSemana || []).reduce((acc, s) =>
     acc + Math.floor((s.tiempo_efectivo_segundos || 0) / 60) * 10, 0
   );
-  
+
   // Calcular métricas
   const totalMinutos = Math.floor(
     (sesionesRecientes || []).reduce((acc, s) => acc + (s.tiempo_efectivo_segundos || 0), 0) / 60
   );
-  const sesionesExitosas = (sesionesRecientes || []).filter(s => 
+  const sesionesExitosas = (sesionesRecientes || []).filter(s =>
     s.resultado_logro === "Sí" || s.resultado_logro === "Si" || s.resultado_logro === "Parcialmente"
   ).length;
-  const efectividad = sesionesRecientes?.length 
-    ? Math.round((sesionesExitosas / sesionesRecientes.length) * 100) 
+  const efectividad = sesionesRecientes?.length
+    ? Math.round((sesionesExitosas / sesionesRecientes.length) * 100)
     : 0;
 
   // Pre-sort temas for each materia
@@ -132,26 +135,26 @@ export default async function MateriasPage() {
 
   return (
     <div className="flex flex-col gap-9 w-full animate-in fade-in duration-500">
-      
+
       {/* Apple Large Title Header en Grafito Pizarra */}
       <header className="flex flex-col md:flex-row justify-between md:items-end gap-4 pb-1">
         <div>
-          <span className="text-xs uppercase tracking-widest font-semibold text-arctic-secondary capitalize">
-            {fechaHoy}
+          <span className="text-xs tracking-wide font-semibold text-arctic-secondary">
+            {capitalizarInicio(fechaHoy)}
           </span>
           <h1 className="apple-large-title text-arctic-slate mt-1">
             Hola, {firstName}
           </h1>
           <p className="text-arctic-secondary text-sm mt-1">
-            {rachaActual > 0 
-              ? `Llevas ${rachaActual} días seguidos de enfoque académico. ¡Excelente constancia!`
+            {rachaActual > 0
+              ? `Llevas ${plural(rachaActual, "día seguido", "días seguidos")} de enfoque académico. ¡Excelente constancia!`
               : "Comienza una sesión hoy para activar tu racha de estudio."}
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-          <Link 
-            href="/rutas" 
+          <Link
+            href="/rutas"
             className="btn-apple-secondary text-xs font-semibold py-2 px-3.5 sm:px-4 apple-tactile inline-flex items-center gap-2 shrink-0"
           >
             <Sparkles size={14} className="text-glacier-blue" />
@@ -163,7 +166,7 @@ export default async function MateriasPage() {
 
       {/* Top Row: Apple Activity Gauge + Hero Focus Card en Vidrio Blanco */}
       <div className="grid grid-cols-1 sm:grid-cols-[240px_1fr] lg:grid-cols-[290px_1fr] gap-4 sm:gap-5">
-        
+
         {/* Apple Activity Gauge Card (Racha & XP) */}
         <div className="apple-card p-6 flex flex-col items-center justify-between text-center relative overflow-hidden group">
           <div className="w-full flex items-center justify-between text-xs text-arctic-secondary">
@@ -255,7 +258,7 @@ export default async function MateriasPage() {
           <div className="apple-card p-6 md:p-8 flex flex-col justify-between relative overflow-hidden group">
             {/* Ambient cold light splash */}
             <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-glacier-blue/[0.05] blur-3xl pointer-events-none" />
-            
+
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-glacier-blue/10 border border-glacier-blue/20 text-glacier-blue text-[11px] font-semibold tracking-wider uppercase">
                 <span className="w-1.5 h-1.5 rounded-full bg-glacier-blue animate-pulse" />
@@ -276,15 +279,15 @@ export default async function MateriasPage() {
             </div>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 mt-6 pt-4 border-t border-black/[0.04]">
-              <Link 
+              <Link
                 href={`/sesion/nueva?materia=${nextMove.materiaId}&tema=${nextMove.temaId}`}
                 className="btn-apple-primary text-xs py-2.5 px-6 font-semibold apple-tactile shadow-apple-sm text-center justify-center"
               >
                 <span>Comenzar sesión ahora</span>
                 <ArrowRight size={14} />
               </Link>
-              <Link 
-                href={`/materias/${nextMove.materiaId}`} 
+              <Link
+                href={`/materias/${nextMove.materiaId}`}
                 className="btn-apple-secondary text-xs py-2.5 px-4 apple-tactile text-center justify-center"
               >
                 <span>Explorar temario</span>
@@ -297,9 +300,13 @@ export default async function MateriasPage() {
             <div className="w-12 h-12 rounded-2xl bg-black/[0.03] border border-black/[0.06] flex items-center justify-center text-arctic-secondary mb-3">
               <BookOpen size={22} />
             </div>
-            <h2 className="text-lg font-semibold text-arctic-slate tracking-tight">Sin temas pendientes</h2>
+            <h2 className="text-lg font-semibold text-arctic-slate tracking-tight">
+              {sinMaterias ? "Crea tu primera materia" : "Sin temas pendientes"}
+            </h2>
             <p className="text-sm text-arctic-secondary max-w-sm mt-1 mb-5">
-              Has completado tus temas actuales o aún no registras asignaturas en tu plan.
+              {sinMaterias
+                ? "Agrega una asignatura (con la fecha de tu parcial, si ya la sabes) y después sus temas. studia+ te dirá qué estudiar primero."
+                : "Completaste los temas de tus materias. Agrega temas nuevos o crea otra materia."}
             </p>
             <CreateMateriaForm />
           </div>
@@ -307,6 +314,7 @@ export default async function MateriasPage() {
       </div>
 
       {/* Constellation Grid: Tus Materias */}
+      {!sinMaterias && (
       <section className="space-y-4">
         <div className="flex justify-between items-center px-1">
           <div>
@@ -322,8 +330,8 @@ export default async function MateriasPage() {
             const progressPct = temas.length > 0 ? Math.round((completedCount / temas.length) * 100) : 0;
 
             return (
-              <Link 
-                key={materia.id} 
+              <Link
+                key={materia.id}
                 href={`/materias/${materia.id}`}
                 className="apple-card p-5 flex flex-col justify-between group apple-tactile cursor-pointer"
               >
@@ -352,7 +360,7 @@ export default async function MateriasPage() {
                     <span className="font-semibold text-arctic-slate tabular-nums text-xs">{progressPct}%</span>
                   </div>
                   <div className="w-full bg-black/[0.05] rounded-full h-1.5 overflow-hidden">
-                    <div 
+                    <div
                       className="h-full rounded-full bg-glacier-blue transition-all duration-700 ease-out"
                       style={{ width: `${progressPct}%` }}
                     />
@@ -362,28 +370,25 @@ export default async function MateriasPage() {
             );
           })}
 
-          {materias?.length === 0 && (
-            <div className="apple-card p-10 text-center text-arctic-secondary md:col-span-3 flex flex-col items-center">
-              <BookOpen size={32} className="text-arctic-tertiary mb-3" />
-              <p className="text-sm font-medium text-arctic-slate">Aún no tienes materias registradas.</p>
-              <p className="text-xs text-arctic-secondary mt-1 mb-4">Crea tu primera materia para comenzar a organizar tus temas.</p>
-              <CreateMateriaForm />
-            </div>
-          )}
         </div>
       </section>
+      )}
 
-      {/* Gráficos de racha (Server Component puro sin cliente JS) */}
-      <StudyTrailWidget dias={rachaActual} />
+      {tieneActividad && (
+        <>
+          {/* Gráficos de racha (Server Component puro sin cliente JS) */}
+          <StudyTrailWidget dias={rachaActual} />
 
-      {/* Stats Summary Panel */}
-      <StatsPanel 
-        totalMinutos={totalMinutos} 
-        efectividad={efectividad} 
-        totalSesiones={sesionesRecientes?.length || 0} 
-        nivelActual={nivelActual} 
-        xpTotal={xpTotal} 
-      />
+          {/* Stats Summary Panel */}
+          <StatsPanel
+            totalMinutos={totalMinutos}
+            efectividad={efectividad}
+            totalSesiones={sesionesRecientes?.length || 0}
+            nivelActual={nivelActual}
+            xpTotal={xpTotal}
+          />
+        </>
+      )}
 
       {/* Push Notifications Settings */}
       <div className="pt-2">

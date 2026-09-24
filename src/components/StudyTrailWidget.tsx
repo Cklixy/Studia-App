@@ -26,7 +26,7 @@ export default function StudyTrailWidget({ dias = 0 }: StudyTrailWidgetProps) {
           </div>
           <div>
             <p className="text-base sm:text-lg font-semibold text-arctic-slate tracking-tight">
-              Has mantenido el ritmo por <span className="font-display font-bold text-glacier-blue mx-0.5">{dias}</span> {dias === 1 ? "día" : "días"} consecutivos.
+              Has mantenido el ritmo por <span className="font-display font-bold text-glacier-blue mx-0.5">{dias}</span> {dias === 1 ? "día consecutivo" : "días consecutivos"}.
             </p>
             <p className="text-xs text-arctic-secondary mt-0.5">La constancia diaria construye la ruta más directa hacia tus metas.</p>
           </div>
@@ -35,9 +35,9 @@ export default function StudyTrailWidget({ dias = 0 }: StudyTrailWidgetProps) {
           {/* Visualización conceptual de barras de constancia */}
           {[...Array(Math.min(dias, 7))].map((_, i) => (
             <div key={i} className="w-2.5 h-10 rounded-full bg-black/[0.05] flex flex-col justify-end overflow-hidden p-0.5">
-              <div 
-                className="w-full bg-glacier-blue rounded-full" 
-                style={{ 
+              <div
+                className="w-full bg-glacier-blue rounded-full"
+                style={{
                   height: `${Math.min(100, ((i + 1) / Math.min(dias, 7)) * 100)}%`,
                 }}
               />
