@@ -1,30 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, Trash2, AlertTriangle, X } from "lucide-react";
+import { Settings, Trash2, AlertTriangle } from "lucide-react";
+import Dialogo from "@/components/ui/Dialogo";
 
 export default function EditMateriaModal({ materia }: { materia: any }) {
   const router = useRouter();
+  const id = useId();
   const [isOpen, setIsOpen] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [nombre, setNombre] = useState(materia.nombre);
-  const [fechaParcial, setFechaParcial] = useState(materia.fecha_parcial ? materia.fecha_parcial.split('T')[0] : "");
+  const [fechaParcial, setFechaParcial] = useState(materia.fecha_parcial ? materia.fecha_parcial.split("T")[0] : "");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
     try {
-      await fetch(`/api/materias/${materia.id}`, {
+      const res = await fetch(`/api/materias/${materia.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nombre, fecha_parcial: fechaParcial || null }),
       });
+      if (!res.ok) throw new Error();
       setIsOpen(false);
       router.refresh();
-    } catch (err) {
-      console.error(err);
+    } catch {
+      setError("No pudimos guardar los cambios. Inténtalo de nuevo.");
     } finally {
       setLoading(false);
     }
@@ -32,128 +37,129 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
 
   const handleDelete = async () => {
     setLoading(true);
+    setError(null);
     try {
-      await fetch(`/api/materias/${materia.id}`, { method: "DELETE" });
+      const res = await fetch(`/api/materias/${materia.id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error();
       router.push("/materias");
       router.refresh();
-    } catch (err) {
-      console.error(err);
-    } finally {
+    } catch {
+      setError("No pudimos eliminar la materia. Inténtalo de nuevo.");
       setLoading(false);
     }
   };
 
-  if (!isOpen) {
-    return (
-      <button 
-        onClick={() => setIsOpen(true)} 
-        className="w-8 h-8 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
-      >
-        <Settings size={15} />
-      </button>
-    );
-  }
-
-  // Modal de confirmación de eliminación
-  if (confirmDelete) {
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-        <div className="apple-card p-6 rounded-2xl w-full max-w-sm border border-red-500/20 shadow-apple-lg animate-in zoom-in-95">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-9 h-9 rounded-xl bg-red-500/10 text-red-600 flex items-center justify-center shrink-0">
-              <AlertTriangle size={18} strokeWidth={2} />
-            </div>
-            <div>
-              <h3 className="apple-title-3">¿Eliminar materia?</h3>
-              <p className="apple-subhead">Esta acción no se puede deshacer.</p>
-            </div>
-          </div>
-          <p className="apple-body text-xs text-arctic-secondary mb-5 bg-red-500/[0.04] border border-red-500/15 rounded-xl p-3 leading-relaxed">
-            Se eliminarán permanentemente <b className="text-arctic-slate">&ldquo;{materia.nombre}&rdquo;</b> y todos sus temas y sesiones asociadas.
-          </p>
-          <div className="flex gap-3">
-            <button
-              onClick={() => setConfirmDelete(false)}
-              disabled={loading}
-              className="flex-1 btn-apple-ghost text-xs py-2 apple-tactile"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={handleDelete}
-              disabled={loading}
-              className="flex-1 btn-apple-destructive text-xs py-2 disabled:opacity-50 apple-tactile"
-            >
-              {loading ? "Eliminando..." : "Sí, eliminar"}
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-      <div className="apple-card p-6 rounded-2xl w-full max-w-md border border-black/[0.08] shadow-apple-lg animate-in zoom-in-95">
-        <div className="flex items-center justify-between pb-3.5 border-b border-black/[0.06] mb-4">
-          <h3 className="apple-title-3">Editar Materia</h3>
-          <button 
-            onClick={() => setIsOpen(false)}
-            className="w-7 h-7 rounded-full flex items-center justify-center text-arctic-tertiary hover:text-arctic-slate hover:bg-black/[0.05] transition-colors apple-tactile"
-          >
-            <X size={16} strokeWidth={2} />
-          </button>
-        </div>
+    <>
+      {/* El botón siempre existe, para que el foco vuelva a él al cerrar el diálogo */}
+      <button
+        type="button"
+        onClick={() => setIsOpen(true)}
+        aria-label={`Editar materia ${materia.nombre}`}
+        aria-haspopup="dialog"
+        className="w-11 h-11 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
+      >
+        <Settings size={17} aria-hidden="true" />
+      </button>
 
+      <Dialogo
+        abierto={isOpen && !confirmDelete}
+        onCerrar={() => { if (!confirmDelete) setIsOpen(false); }}
+        titulo="Editar materia"
+      >
+        {error && (
+          <div role="alert" className="mb-4 p-3 rounded-xl bg-cool-berry/10 border border-cool-berry/20 text-cool-berry text-sm">
+            {error}
+          </div>
+        )}
         <form onSubmit={handleUpdate} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-arctic-secondary mb-1">Nombre</label>
+            <label htmlFor={`${id}-nombre`} className="block text-sm font-medium text-arctic-slate mb-1.5">Nombre</label>
             <input
+              id={`${id}-nombre`}
               type="text"
               required
               value={nombre}
-              onChange={e => setNombre(e.target.value)}
-              className="w-full rounded-xl px-4 py-2.5 bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-xs text-arctic-slate transition-all"
+              onChange={(e) => setNombre(e.target.value)}
+              className="w-full rounded-xl px-4 py-2.5 bg-white border border-arctic-borde focus:border-glacier-blue focus:ring-2 focus:ring-glacier-blue/25 outline-none text-base text-arctic-slate transition-all"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-arctic-secondary mb-1">Fecha del parcial</label>
+            <label htmlFor={`${id}-fecha`} className="block text-sm font-medium text-arctic-slate mb-1.5">Fecha del parcial</label>
             <input
+              id={`${id}-fecha`}
               type="date"
               value={fechaParcial}
-              onChange={e => setFechaParcial(e.target.value)}
-              className="w-full rounded-xl px-4 py-2.5 bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-xs text-arctic-slate transition-all [color-scheme:light]"
+              onChange={(e) => setFechaParcial(e.target.value)}
+              className="w-full rounded-xl px-4 py-2.5 bg-white border border-arctic-borde focus:border-glacier-blue focus:ring-2 focus:ring-glacier-blue/25 outline-none text-base text-arctic-slate transition-all [color-scheme:light]"
             />
           </div>
-          <div className="flex justify-between items-center pt-3 border-t border-black/[0.06]">
+          <div className="flex justify-between items-center gap-2 pt-3 border-t border-black/[0.06]">
             <button
               type="button"
               onClick={() => setConfirmDelete(true)}
               disabled={loading}
-              className="flex items-center gap-1.5 text-red-600 hover:text-red-700 font-semibold text-xs transition-colors disabled:opacity-50 apple-tactile py-1 px-2 rounded-lg hover:bg-red-500/10"
+              className="flex items-center gap-1.5 text-red-700 hover:text-red-800 font-semibold text-sm transition-colors disabled:opacity-50 apple-tactile min-h-11 px-2 rounded-lg hover:bg-red-500/10"
             >
-              <Trash2 size={14} strokeWidth={2} /> 
+              <Trash2 size={15} strokeWidth={2} aria-hidden="true" />
               <span>Eliminar</span>
             </button>
             <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setIsOpen(false)}
-                className="btn-apple-ghost text-xs px-3.5 py-2 apple-tactile"
-              >
+              <button type="button" onClick={() => setIsOpen(false)} className="btn-apple-ghost text-sm px-3.5 min-h-11 apple-tactile">
                 Cancelar
               </button>
-              <button
-                type="submit"
-                disabled={loading}
-                className="btn-apple-primary text-xs py-2 px-5 disabled:opacity-50 apple-tactile shadow-apple-sm"
-              >
-                {loading ? "Guardando..." : "Guardar cambios"}
+              <button type="submit" disabled={loading} className="btn-apple-primary text-sm min-h-11 px-5 disabled:opacity-50 apple-tactile shadow-apple-sm">
+                {loading ? "Guardando…" : "Guardar cambios"}
               </button>
             </div>
           </div>
         </form>
-      </div>
-    </div>
+      </Dialogo>
+
+      {/* Confirmación de borrado */}
+      <Dialogo
+        abierto={isOpen && confirmDelete}
+        onCerrar={() => setConfirmDelete(false)}
+        titulo="¿Eliminar materia?"
+        descripcion="Esta acción no se puede deshacer."
+        tono="peligro"
+        anchoMaximo="sm"
+        icono={
+          <div className="w-9 h-9 rounded-xl bg-red-500/10 text-red-700 flex items-center justify-center">
+            <AlertTriangle size={18} strokeWidth={2} />
+          </div>
+        }
+      >
+        {error && (
+          <div role="alert" className="mb-4 p-3 rounded-xl bg-cool-berry/10 border border-cool-berry/20 text-cool-berry text-sm">
+            {error}
+          </div>
+        )}
+        {/* Las sesiones se conservan en el historial (sesiones.materia_id ON DELETE SET NULL) */}
+        <p className="text-sm text-arctic-slate mb-5 bg-red-500/[0.04] border border-red-500/15 rounded-xl p-3 leading-relaxed">
+          Se eliminarán <b>&ldquo;{materia.nombre}&rdquo;</b>, sus temas, su ruta y sus notas. Tus sesiones de estudio se
+          conservarán en el historial.
+        </p>
+        <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={() => setConfirmDelete(false)}
+            disabled={loading}
+            autoFocus
+            className="flex-1 btn-apple-ghost text-sm min-h-11 apple-tactile"
+          >
+            Cancelar
+          </button>
+          <button
+            type="button"
+            onClick={handleDelete}
+            disabled={loading}
+            className="flex-1 btn-apple-destructive text-sm min-h-11 disabled:opacity-50 apple-tactile"
+          >
+            {loading ? "Eliminando…" : "Sí, eliminar"}
+          </button>
+        </div>
+      </Dialogo>
+    </>
   );
 }
