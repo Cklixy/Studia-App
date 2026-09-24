@@ -39,7 +39,8 @@ export async function signup(formData: FormData) {
   if (error) {
     let message = error.message;
     if (error.message.includes("User already registered")) {
-      message = "Este correo ya está registrado. ¿Querías iniciar sesión? Haz clic en 'Inicia sesión aquí' abajo.";
+      message = "Si la dirección es válida recibirás un correo de confirmación en breve.";
+      // M8a: Mensaje genérico — no confirma si el correo existe en el sistema
     }
     redirect(`/registro?message=${encodeURIComponent(message)}`);
   }
