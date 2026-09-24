@@ -74,7 +74,7 @@ export default function SidebarNav() {
               />
             </span>
 
-            <span className={`relative z-10 tracking-tight text-[11px] sm:text-[13px] whitespace-nowrap transition-all duration-200 ${isActive ? 'inline' : 'hidden sm:inline'}`}>
+            <span className={`relative z-10 tracking-tight text-xs sm:text-[13px] whitespace-nowrap transition-all duration-200 ${isActive ? 'inline' : 'hidden sm:inline'}`}>
               {name}
             </span>
 

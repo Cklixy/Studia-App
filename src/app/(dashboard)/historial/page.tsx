@@ -122,7 +122,7 @@ export default async function HistorialPage({
       {/* 1. HEADER EDITORIAL */}
       <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 pb-2 border-b border-black/[0.04]">
         <div className="space-y-1">
-          <span className="text-[11px] font-semibold text-arctic-tertiary uppercase tracking-wider block">
+          <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider block">
             Bitácora de Estudio
           </span>
           <h1 className="apple-large-title text-arctic-slate tracking-tight">
@@ -152,11 +152,11 @@ export default async function HistorialPage({
 
       {/* 2. RESUMEN DE ACTIVIDAD (Franja unificada compacta con separadores sutiles) */}
       <section aria-labelledby="activity-summary-title" className="space-y-2.5">
-        <h2 id="activity-summary-title" className="text-[11px] font-semibold text-arctic-tertiary uppercase tracking-wider px-1">
+        <h2 id="activity-summary-title" className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider px-1">
           Actividad
         </h2>
 
-        <div className="bg-white/80 backdrop-blur-md border border-black/[0.06] rounded-[20px] shadow-[0_2px_12px_rgba(0,0,0,0.02)] grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-black/[0.06] overflow-hidden">
+        <div className="bg-white/80 backdrop-blur-md border border-black/[0.06] rounded-3xl shadow-[0_2px_12px_rgba(0,0,0,0.02)] grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-black/[0.06] overflow-hidden">
           {/* Tiempo Total */}
           <div className="p-5 sm:p-6 flex flex-col justify-between gap-1">
             <span className="text-xs font-medium text-arctic-secondary">
@@ -170,7 +170,7 @@ export default async function HistorialPage({
                 min
               </span>
             </div>
-            <span className="text-[11px] text-arctic-tertiary">
+            <span className="text-xs text-arctic-tertiary">
               {minutosTotales >= 60
                 ? `~${(minutosTotales / 60).toFixed(1)} horas de estudio`
                 : "Tiempo efectivo de estudio"}
@@ -187,7 +187,7 @@ export default async function HistorialPage({
                 {efectividad}%
               </span>
             </div>
-            <span className="text-[11px] text-arctic-tertiary">
+            <span className="text-xs text-arctic-tertiary">
               {exitosas} de {totalSesiones} objetivos logrados
             </span>
           </div>
@@ -202,7 +202,7 @@ export default async function HistorialPage({
                 {metodoFrecuente}
               </span>
             </div>
-            <span className="text-[11px] text-arctic-tertiary">
+            <span className="text-xs text-arctic-tertiary">
               Técnica con mayor constancia
             </span>
           </div>
@@ -214,7 +214,7 @@ export default async function HistorialPage({
         <section aria-labelledby="active-session-title" className="space-y-3">
           <div className="flex items-center gap-2 px-1">
             <span className="w-2 h-2 bg-glacier-blue rounded-full animate-pulse" />
-            <h2 id="active-session-title" className="text-[11px] uppercase tracking-wider font-semibold text-glacier-blue">
+            <h2 id="active-session-title" className="text-xs uppercase tracking-wider font-semibold text-glacier-blue">
               Sesión activa
             </h2>
           </div>
@@ -231,14 +231,14 @@ export default async function HistorialPage({
               return (
                 <div 
                   key={s.id} 
-                  className="rounded-[20px] bg-gradient-to-r from-glacier-blue/[0.035] via-white/95 to-white/90 border border-glacier-blue/25 p-5 sm:p-6 shadow-[0_4px_20px_-4px_rgba(0,113,227,0.1)] flex flex-col md:flex-row justify-between items-start md:items-center gap-5 transition-all"
+                  className="rounded-3xl bg-gradient-to-r from-glacier-blue/[0.035] via-white/95 to-white/90 border border-glacier-blue/25 p-5 sm:p-6 shadow-[0_4px_20px_-4px_rgba(0,113,227,0.1)] flex flex-col md:flex-row justify-between items-start md:items-center gap-5 transition-all"
                 >
                   <div className="flex items-start gap-3.5 sm:gap-4 flex-1 min-w-0">
                     <SubjectIconContainer subjectName={materiaNombre} size="md" className="mt-0.5" />
                     
                     <div className="space-y-1 min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-[11px] font-semibold text-glacier-blue bg-glacier-blue/10 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
+                        <span className="text-xs font-semibold text-glacier-blue bg-glacier-blue/10 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 bg-glacier-blue rounded-full animate-ping" />
                           En curso · {minTranscurridos} min
                         </span>
@@ -253,7 +253,7 @@ export default async function HistorialPage({
                       </p>
 
                       {s.metodo_utilizado && (
-                        <span className="inline-flex items-center gap-1 text-[11px] text-arctic-tertiary pt-0.5">
+                        <span className="inline-flex items-center gap-1 text-xs text-arctic-tertiary pt-0.5">
                           <BookOpen size={12} className="text-arctic-tertiary/70" />
                           {s.metodo_utilizado}
                         </span>
@@ -292,7 +292,7 @@ export default async function HistorialPage({
         </div>
 
         {totalSesiones === 0 ? (
-          <div className="bg-white/70 backdrop-blur-md border border-black/[0.05] rounded-[20px] p-10 sm:p-14 text-center">
+          <div className="bg-white/70 backdrop-blur-md border border-black/[0.05] rounded-3xl p-10 sm:p-14 text-center">
             <div className="w-12 h-12 rounded-2xl bg-black/[0.03] text-arctic-secondary flex items-center justify-center mx-auto mb-3">
               <BookOpen size={22} strokeWidth={1.8} className="text-arctic-tertiary" />
             </div>
@@ -314,7 +314,7 @@ export default async function HistorialPage({
               return (
                 <div 
                   key={s.id} 
-                  className="bg-white/80 hover:bg-white border border-black/[0.06] hover:border-glacier-blue/25 hover:shadow-[0_4px_16px_rgba(0,0,0,0.04)] rounded-[20px] p-4 sm:p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3.5 sm:gap-4 transition-all duration-150 hover:-translate-y-[1px]"
+                  className="bg-white/80 hover:bg-white border border-black/[0.06] hover:border-glacier-blue/25 hover:shadow-[0_4px_16px_rgba(0,0,0,0.04)] rounded-3xl p-4 sm:p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3.5 sm:gap-4 transition-all duration-150 hover:-translate-y-[1px]"
                 >
                   {/* Icono temático + Datos descriptivos */}
                   <div className="flex items-start gap-3.5 sm:gap-4 flex-1 min-w-0">
@@ -332,7 +332,7 @@ export default async function HistorialPage({
                       </p>
 
                       {/* Metadatos secundarios: Fecha y Método */}
-                      <div className="flex flex-wrap items-center gap-2 mt-1.5 text-[11px] text-arctic-tertiary">
+                      <div className="flex flex-wrap items-center gap-2 mt-1.5 text-xs text-arctic-tertiary">
                         <span>{fechaTexto}</span>
 
                         {s.metodo_utilizado && (

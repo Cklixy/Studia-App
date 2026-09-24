@@ -240,7 +240,7 @@ export default async function MateriasPage() {
               <span className="text-3xl font-bold tracking-tight text-arctic-slate tabular-nums">
                 {rachaActual}
               </span>
-              <span className="text-[10px] uppercase font-semibold tracking-wider text-arctic-secondary">
+              <span className="text-xs uppercase font-semibold tracking-wider text-arctic-secondary">
                 días
               </span>
             </div>
@@ -260,7 +260,7 @@ export default async function MateriasPage() {
             <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-glacier-blue/[0.05] blur-3xl pointer-events-none" />
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-glacier-blue/10 border border-glacier-blue/20 text-glacier-blue text-[11px] font-semibold tracking-wider uppercase">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-glacier-blue/10 border border-glacier-blue/20 text-glacier-blue text-xs font-semibold tracking-wider uppercase">
                 <span className="w-1.5 h-1.5 rounded-full bg-glacier-blue animate-pulse" />
                 Siguiente Paso Recomendado
               </div>
@@ -341,7 +341,7 @@ export default async function MateriasPage() {
                       {materia.nombre}
                     </h4>
                     {materia.fecha_parcial && (
-                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-cool-berry bg-cool-berry/10 border border-cool-berry/20 px-2 py-0.5 rounded-full shrink-0">
+                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-cool-berry bg-cool-berry/10 border border-cool-berry/20 px-2 py-0.5 rounded-full shrink-0">
                         <Calendar size={11} />
                         <span>{new Date(materia.fecha_parcial).toLocaleDateString("es-ES", { month: "short", day: "numeric" })}</span>
                       </span>
@@ -356,7 +356,7 @@ export default async function MateriasPage() {
                 {/* Progress bar */}
                 <div className="mt-5 pt-3 border-t border-black/[0.05]">
                   <div className="flex justify-between items-center text-xs mb-1.5">
-                    <span className="text-arctic-secondary text-[11px]">Progreso</span>
+                    <span className="text-arctic-secondary text-xs">Progreso</span>
                     <span className="font-semibold text-arctic-slate tabular-nums text-xs">{progressPct}%</span>
                   </div>
                   <div className="w-full bg-black/[0.05] rounded-full h-1.5 overflow-hidden">

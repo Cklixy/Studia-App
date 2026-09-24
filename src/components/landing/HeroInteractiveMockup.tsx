@@ -48,20 +48,20 @@ export default function HeroInteractiveMockup() {
   return (
     <div className="relative w-full max-w-xl mx-auto select-none">
       {/* Sombra ambiental muy suave */}
-      <div className="absolute -inset-2 bg-gradient-to-b from-glacier-blue/[0.08] to-transparent rounded-[32px] blur-2xl pointer-events-none" />
+      <div className="absolute -inset-2 bg-gradient-to-b from-glacier-blue/[0.08] to-transparent rounded-4xl blur-2xl pointer-events-none" />
 
       {/* Tarjeta de Demostración del Producto Real */}
-      <div className="relative bg-white/90 backdrop-blur-2xl border border-black/[0.07] rounded-[24px] shadow-[0_20px_50px_-12px_rgba(0,25,60,0.08),0_2px_8px_rgba(0,0,0,0.02)] p-6 sm:p-8 text-left transition-all">
+      <div className="relative bg-white/90 backdrop-blur-2xl border border-black/[0.07] rounded-3xl shadow-[0_20px_50px_-12px_rgba(0,25,60,0.08),0_2px_8px_rgba(0,0,0,0.02)] p-6 sm:p-8 text-left transition-all">
         
         {/* Cabecera de la tarjeta */}
         <div className="flex items-center justify-between pb-4 mb-5 border-b border-black/[0.05]">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-semibold text-arctic-tertiary uppercase tracking-wider">
+            <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider">
               Hoy · Siguiente sesión
             </span>
           </div>
 
-          <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all ${
+          <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold transition-all ${
             isActive 
               ? "bg-glacier-blue/10 text-glacier-blue" 
               : "bg-black/[0.04] text-arctic-secondary"
@@ -76,7 +76,7 @@ export default function HeroInteractiveMockup() {
         {/* 1. Materia y Tema */}
         <div className="space-y-3">
           <div className="flex items-start gap-3.5">
-            <div className="w-11 h-11 rounded-[14px] bg-blue-500/[0.08] border border-blue-500/15 text-blue-600 flex items-center justify-center shrink-0">
+            <div className="w-11 h-11 rounded-2xl bg-blue-500/[0.08] border border-blue-500/15 text-blue-600 flex items-center justify-center shrink-0">
               <Sigma size={20} strokeWidth={2} />
             </div>
 
@@ -101,14 +101,14 @@ export default function HeroInteractiveMockup() {
           <div className={`pt-2 transition-all duration-500 ${step >= 3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
             <div className="p-3 rounded-2xl bg-frost-base/90 border border-black/[0.04] flex items-center justify-between gap-3">
               <div className="space-y-0.5">
-                <span className="text-[10px] uppercase font-semibold text-arctic-tertiary tracking-wider block">
+                <span className="text-xs uppercase font-semibold text-arctic-tertiary tracking-wider block">
                   Método sugerido
                 </span>
                 <span className="text-xs font-semibold text-arctic-slate">
                   Técnica Pomodoro + Práctica activa
                 </span>
               </div>
-              <span className="text-[11px] font-medium text-arctic-secondary bg-white px-2 py-0.5 rounded-md border border-black/[0.04]">
+              <span className="text-xs font-medium text-arctic-secondary bg-white px-2 py-0.5 rounded-md border border-black/[0.04]">
                 25 min
               </span>
             </div>
@@ -125,7 +125,7 @@ export default function HeroInteractiveMockup() {
               <span className="text-2xl font-bold text-arctic-slate tabular-nums tracking-tight font-mono block">
                 {formatTimer(secondsLeft)}
               </span>
-              <span className="text-[10px] text-arctic-tertiary uppercase tracking-wider font-semibold">
+              <span className="text-xs text-arctic-tertiary uppercase tracking-wider font-semibold">
                 Bloque de enfoque
               </span>
             </div>
@@ -158,7 +158,7 @@ export default function HeroInteractiveMockup() {
 
         {/* Footer sutil de la card con estado */}
         {isActive && (
-          <div className="mt-3 text-center text-[11px] text-glacier-blue font-medium duration-300">
+          <div className="mt-3 text-center text-xs text-glacier-blue font-medium duration-300">
             Enfoque en marcha · Elimina distracciones
           </div>
         )}

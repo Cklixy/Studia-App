@@ -7,7 +7,7 @@ export default function AiTutorSection() {
         
         {/* Columna Izquierda: Explicación (5 cols / ~42%) */}
         <div className="lg:col-span-5 text-left space-y-4 sm:space-y-5">
-          <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue block">
+          <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue block">
             Tutor académico integrado
           </span>
 
@@ -38,7 +38,7 @@ export default function AiTutorSection() {
 
         {/* Columna Derecha: Ventana Realista Grande de Conversación (7 cols / ~58%) */}
         <div className="lg:col-span-7 w-full">
-          <div className="rounded-[24px] sm:rounded-[28px] bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-4 sm:p-9 text-left space-y-4 sm:space-y-5">
+          <div className="rounded-3xl sm:rounded-4xl bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-4 sm:p-9 text-left space-y-4 sm:space-y-5">
             
             {/* Cabecera del tutor */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pb-3.5 border-b border-black/[0.05]">
@@ -49,7 +49,7 @@ export default function AiTutorSection() {
                 </span>
               </div>
 
-              <span className="text-[11px] sm:text-xs text-arctic-tertiary font-medium shrink-0">
+              <span className="text-xs text-arctic-tertiary font-medium shrink-0">
                 Tema: Límites Indeterminados
               </span>
             </div>
@@ -80,7 +80,7 @@ export default function AiTutorSection() {
 
                 {/* Micro-ejercicio práctico */}
                 <div className="p-3.5 rounded-xl bg-white border border-black/[0.06] space-y-2">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-glacier-blue block">
+                  <span className="text-xs font-bold uppercase tracking-wider text-glacier-blue block">
                     Comprobación con un ejercicio
                   </span>
                   <p className="font-mono text-xs sm:text-sm font-bold text-arctic-slate">

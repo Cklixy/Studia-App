@@ -17,7 +17,7 @@ export default function StudyMapSection() {
         
         {/* Columna Izquierda: Explicación Editorial (5 cols / ~42%) */}
         <div className="lg:col-span-5 text-left space-y-4 sm:space-y-5">
-          <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue block">
+          <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue block">
             Estructura de aprendizaje
           </span>
 
@@ -48,12 +48,12 @@ export default function StudyMapSection() {
 
         {/* Columna Derecha: Mapa Visual Grande (7 cols / ~58%) */}
         <div className="lg:col-span-7 w-full">
-          <div className="rounded-[24px] sm:rounded-[28px] bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-4 sm:p-9 text-left">
+          <div className="rounded-3xl sm:rounded-4xl bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-4 sm:p-9 text-left">
             
             {/* Cabecera del Módulo */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 sm:pb-5 mb-5 sm:mb-6 border-b border-black/[0.05]">
               <div className="space-y-0.5">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-glacier-blue">
+                <span className="text-xs font-bold uppercase tracking-wider text-glacier-blue">
                   Cálculo Diferencial
                 </span>
                 <h3 className="text-base sm:text-xl font-bold text-arctic-slate tracking-tight">
@@ -116,18 +116,18 @@ export default function StudyMapSection() {
                         }`}>
                           {node.title}
                         </p>
-                        <p className="text-[11px] sm:text-xs text-arctic-secondary truncate">
+                        <p className="text-xs text-arctic-secondary truncate">
                           {node.note}
                         </p>
                       </div>
 
                       {isActive && (
-                        <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-glacier-blue bg-glacier-blue/10 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shrink-0 self-start sm:self-auto">
+                        <span className="text-xs font-bold uppercase tracking-wider text-glacier-blue bg-glacier-blue/10 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shrink-0 self-start sm:self-auto">
                           Tu sesión actual
                         </span>
                       )}
                       {isNext && (
-                        <span className="text-[9px] sm:text-[10px] font-semibold text-arctic-tertiary bg-black/[0.04] px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shrink-0 self-start sm:self-auto">
+                        <span className="text-xs font-semibold text-arctic-tertiary bg-black/[0.04] px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shrink-0 self-start sm:self-auto">
                           Siguiente paso
                         </span>
                       )}

@@ -34,7 +34,7 @@ export default function LandingFooter() {
         </div>
 
         {/* Fila Inferior con Mención Discreta a Gemini y Legal */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-arctic-tertiary text-center sm:text-left">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-arctic-tertiary text-center sm:text-left">
           <p>© {currentYear} studia+. Todos los derechos reservados.</p>
           
           <div className="flex flex-wrap items-center justify-center gap-x-2.5 sm:gap-x-3 gap-y-1">

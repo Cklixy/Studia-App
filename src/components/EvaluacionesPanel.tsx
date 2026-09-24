@@ -283,7 +283,7 @@ export default function EvaluacionesPanel({ materiaId }: { materiaId: string }) 
             >
               <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                 <span className="font-semibold text-xs text-arctic-slate truncate">{ev.nombre}</span>
-                <span className="text-[10px] sm:text-[11px] font-medium text-arctic-secondary bg-black/[0.04] px-2 py-0.5 rounded-full shrink-0">
+                <span className="text-xs font-medium text-arctic-secondary bg-black/[0.04] px-2 py-0.5 rounded-full shrink-0">
                   {ev.porcentaje}%
                 </span>
               </div>

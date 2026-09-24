@@ -34,7 +34,7 @@ const StatCard = ({
 }: StatCardProps) => (
   <div className="apple-card p-5 flex flex-col justify-between relative overflow-hidden group">
     <div className="flex items-center justify-between mb-3">
-      <span className="text-[12px] font-medium text-arctic-secondary tracking-tight">
+      <span className="text-xs font-medium text-arctic-secondary tracking-tight">
         {label}
       </span>
       <div className={`w-8 h-8 rounded-xl ${accentBg} ${accentColor} flex items-center justify-center shadow-apple-sm transition-transform duration-200 group-hover:scale-105`}>
@@ -55,7 +55,7 @@ const StatCard = ({
       </div>
 
       {sublabel && (
-        <div className="text-[11px] text-arctic-secondary mt-1 font-normal">
+        <div className="text-xs text-arctic-secondary mt-1 font-normal">
           {sublabel}
         </div>
       )}
@@ -88,7 +88,7 @@ export default function StatsPanel({
       <div className="flex flex-wrap items-center justify-between gap-2 px-1">
         <h3 className="apple-title-3 flex flex-wrap items-center gap-2">
           <span>Resumen de Actividad</span>
-          <span className="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/[0.04] text-arctic-tertiary">
+          <span className="text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/[0.04] text-arctic-tertiary">
             Últimos 30 días
           </span>
         </h3>

@@ -32,8 +32,8 @@ const DURATION_PRESETS = [25, 40, 50, 60];
 const getMethodIcon = (metodo: string) => {
   if (metodo.includes("Active Recall")) return <RotateCw size={22} className="text-glacier-blue" />;
   if (metodo.includes("Feynman")) return <Sparkles size={22} className="text-cool-iris" />;
-  if (metodo.includes("Pomodoro")) return <Clock size={22} className="text-cool-amber" />;
-  if (metodo.includes("Práctica")) return <Target size={22} className="text-polar-cyan" />;
+  if (metodo.includes("Pomodoro")) return <Clock size={22} className="text-amber-700" />;
+  if (metodo.includes("Práctica")) return <Target size={22} className="text-sky-700" />;
   return <MoreHorizontal size={22} className="text-cool-iris" />;
 };
 
@@ -196,7 +196,7 @@ export default function SessionWizard({
             )}
             <span className="font-semibold text-arctic-tertiary">Paso {step} de 5</span>
           </div>
-          <span className="text-[11px] font-medium text-arctic-tertiary">Configuración de Sesión</span>
+          <span className="text-xs font-medium text-arctic-tertiary">Configuración de Sesión</span>
         </div>
 
         <div className="flex items-center gap-1.5">
@@ -345,7 +345,7 @@ export default function SessionWizard({
                     className="p-3.5 rounded-xl border border-black/[0.07] bg-frost-base/60 text-left hover:border-glacier-blue/30 hover:bg-white transition-all flex justify-between items-center apple-tactile"
                   >
                     <span className="font-semibold text-sm text-arctic-slate">{t.nombre}</span>
-                    <span className="text-[10px] uppercase font-semibold text-arctic-tertiary px-2 py-0.5 rounded-full bg-black/[0.04]">
+                    <span className="text-xs uppercase font-semibold text-arctic-tertiary px-2 py-0.5 rounded-full bg-black/[0.04]">
                       {t.tipo_contenido || "Tema"}
                     </span>
                   </button>
@@ -443,7 +443,7 @@ export default function SessionWizard({
                 </p>
 
                 <div className="mt-4 pt-4 border-t border-black/[0.06] space-y-2">
-                  <span className="text-[11px] font-semibold text-arctic-tertiary uppercase tracking-wider block">
+                  <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider block">
                     Pasos a seguir
                   </span>
                   {recomendacion.pasos.map((p, i) => (

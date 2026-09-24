@@ -29,7 +29,7 @@ export default function AiAssistanceSection() {
       
       {/* Encabezado */}
       <div className="text-center space-y-3 max-w-2xl mx-auto">
-        <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue">
+        <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue">
           Asistencia con propósito
         </span>
         <h2 className="fluid-h2 font-bold tracking-tight text-arctic-slate">
@@ -45,9 +45,9 @@ export default function AiAssistanceSection() {
         {capabilities.map((cap) => (
           <div
             key={cap.title}
-            className="p-7 rounded-[24px] bg-white/80 border border-black/[0.06] shadow-[0_4px_16px_rgba(0,0,0,0.02)] space-y-4 text-left"
+            className="p-7 rounded-3xl bg-white/80 border border-black/[0.06] shadow-[0_4px_16px_rgba(0,0,0,0.02)] space-y-4 text-left"
           >
-            <div className="w-11 h-11 rounded-[14px] bg-glacier-blue/10 text-glacier-blue flex items-center justify-center">
+            <div className="w-11 h-11 rounded-2xl bg-glacier-blue/10 text-glacier-blue flex items-center justify-center">
               <cap.icon size={20} strokeWidth={2} />
             </div>
             <h3 className="text-base sm:text-lg font-bold text-arctic-slate tracking-tight">
@@ -61,7 +61,7 @@ export default function AiAssistanceSection() {
       </div>
 
       {/* Ejemplo visual del tutor */}
-      <div className="max-w-2xl mx-auto p-5 sm:p-6 rounded-[22px] bg-white/90 border border-black/[0.06] shadow-sm text-left flex items-start gap-4">
+      <div className="max-w-2xl mx-auto p-5 sm:p-6 rounded-3xl bg-white/90 border border-black/[0.06] shadow-sm text-left flex items-start gap-4">
         <div className="w-9 h-9 rounded-xl bg-cool-iris/10 text-cool-iris flex items-center justify-center shrink-0 font-bold text-xs">
           AI
         </div>

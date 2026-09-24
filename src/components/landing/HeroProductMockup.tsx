@@ -7,10 +7,10 @@ export default function HeroProductMockup() {
   return (
     <div className="relative w-full max-w-xl lg:max-w-none mx-auto select-none">
       {/* Sombra ambiental ultra-suave */}
-      <div className="absolute -inset-2 bg-gradient-to-b from-glacier-blue/[0.08] to-transparent rounded-[32px] blur-2xl pointer-events-none" />
+      <div className="absolute -inset-2 bg-gradient-to-b from-glacier-blue/[0.08] to-transparent rounded-4xl blur-2xl pointer-events-none" />
 
       {/* Ventana de Producto Real de studia+ */}
-      <div className="relative bg-white border border-black/[0.08] rounded-[24px] shadow-[0_24px_50px_-12px_rgba(0,25,60,0.09),0_2px_8px_rgba(0,0,0,0.03)] p-5 sm:p-8 text-left space-y-5 sm:space-y-6">
+      <div className="relative bg-white border border-black/[0.08] rounded-3xl shadow-[0_24px_50px_-12px_rgba(0,25,60,0.09),0_2px_8px_rgba(0,0,0,0.03)] p-5 sm:p-8 text-left space-y-5 sm:space-y-6">
         
         {/* Cabecera superior sutil de la ventana */}
         <div className="flex items-center justify-between pb-3.5 sm:pb-4 border-b border-black/[0.05]">
@@ -23,7 +23,7 @@ export default function HeroProductMockup() {
             </span>
           </div>
 
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-glacier-blue/10 text-glacier-blue">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-glacier-blue/10 text-glacier-blue">
             <span className="w-1.5 h-1.5 rounded-full bg-glacier-blue animate-pulse" />
             Preparada
           </span>
@@ -32,7 +32,7 @@ export default function HeroProductMockup() {
         {/* Bloque Materia y Tema */}
         <div className="space-y-3.5 sm:space-y-4">
           <div className="flex items-start gap-3 sm:gap-3.5">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-[14px] bg-blue-500/[0.08] border border-blue-500/15 text-blue-600 flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-blue-500/[0.08] border border-blue-500/15 text-blue-600 flex items-center justify-center shrink-0">
               <Sigma size={20} strokeWidth={2} />
             </div>
 
@@ -57,7 +57,7 @@ export default function HeroProductMockup() {
           {/* Método Recomendado */}
           <div className="p-3.5 sm:p-4 rounded-2xl bg-glacier-blue/[0.035] border border-glacier-blue/20 space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase font-bold text-glacier-blue tracking-wider block">
+              <span className="text-xs uppercase font-bold text-glacier-blue tracking-wider block">
                 Método recomendado
               </span>
               <span className="text-xs font-mono font-bold text-glacier-blue">
@@ -69,7 +69,7 @@ export default function HeroProductMockup() {
               <span className="text-sm font-bold text-arctic-slate">
                 Active Recall
               </span>
-              <span className="text-[11px] text-arctic-secondary">
+              <span className="text-xs text-arctic-secondary">
                 Preguntas activas + ejercicios
               </span>
             </div>

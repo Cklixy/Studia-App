@@ -6,7 +6,7 @@ export default function HeroPreviewCard() {
   return (
     <div className="relative w-full max-w-4xl mx-auto">
       {/* Cold light glow backdrop */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-glacier-blue/20 via-polar-cyan/15 to-cool-iris/20 rounded-[32px] blur-2xl opacity-70 pointer-events-none transform -translate-y-4" />
+      <div className="absolute -inset-1 bg-gradient-to-r from-glacier-blue/20 via-polar-cyan/15 to-cool-iris/20 rounded-4xl blur-2xl opacity-70 pointer-events-none transform -translate-y-4" />
 
       {/* Main Glassmorphic Dashboard Window */}
       <div className="relative rounded-3xl bg-white/85 backdrop-blur-2xl border border-white/90 shadow-[0_25px_60px_-15px_rgba(0,30,80,0.12),0_4px_16px_rgba(0,0,0,0.03)] p-5 sm:p-7 md:p-9 overflow-hidden transition-all duration-300">
@@ -59,7 +59,7 @@ export default function HeroPreviewCard() {
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="text-2xl font-bold text-arctic-slate tabular-nums">92%</span>
-                <span className="text-[10px] font-semibold text-arctic-secondary uppercase">Meta</span>
+                <span className="text-xs font-semibold text-arctic-secondary uppercase">Meta</span>
               </div>
             </div>
 
@@ -74,7 +74,7 @@ export default function HeroPreviewCard() {
             <div className="absolute -right-10 -top-10 w-44 h-44 rounded-full bg-glacier-blue/[0.06] blur-2xl pointer-events-none" />
 
             <div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-polar-cyan/10 border border-polar-cyan/20 text-polar-cyan text-[11px] font-semibold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-polar-cyan/10 border border-polar-cyan/20 text-sky-700 text-xs font-semibold uppercase tracking-wider">
                 <Sparkles size={12} />
                 Siguiente Paso Prioritario
               </div>
@@ -95,7 +95,7 @@ export default function HeroPreviewCard() {
             <div className="flex flex-wrap items-center justify-between gap-3 mt-6 pt-4 border-t border-black/[0.06]">
               <div className="flex items-center gap-3 text-xs text-arctic-secondary">
                 <span className="flex items-center gap-1"><Clock size={13} className="text-glacier-blue" /> 25 min</span>
-                <span className="flex items-center gap-1"><Target size={13} className="text-polar-cyan" /> 5 ejercicios</span>
+                <span className="flex items-center gap-1"><Target size={13} className="text-sky-700" /> 5 ejercicios</span>
               </div>
 
               <div className="btn-apple-primary text-xs py-2 px-4 inline-flex items-center gap-1.5 font-semibold shadow-apple-sm">
@@ -117,12 +117,12 @@ export default function HeroPreviewCard() {
               <p className="text-xs font-semibold text-arctic-slate">
                 Ruta optimizada con Gemini 3.6 Flash
               </p>
-              <p className="text-[11px] text-arctic-secondary">
+              <p className="text-xs text-arctic-secondary">
                 Se reorganizó tu calendario para maximizar tu retención antes del examen final.
               </p>
             </div>
           </div>
-          <span className="text-[11px] font-semibold text-glacier-blue px-3 py-1 rounded-full bg-glacier-blue/10 whitespace-nowrap">
+          <span className="text-xs font-semibold text-glacier-blue px-3 py-1 rounded-full bg-glacier-blue/10 whitespace-nowrap">
             Sincronizado
           </span>
         </div>

@@ -6,7 +6,7 @@ export default function ProgressAndHabitsSection() {
       
       {/* Encabezado */}
       <div className="text-center space-y-3 max-w-2xl mx-auto">
-        <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue">
+        <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue">
           Constancia y registro
         </span>
         <h2 className="fluid-h2 font-bold tracking-tight text-arctic-slate">
@@ -21,7 +21,7 @@ export default function ProgressAndHabitsSection() {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
         
         {/* Registro Semanal de Sesiones (7 cols) */}
-        <div className="md:col-span-7 rounded-[26px] bg-white border border-black/[0.08] shadow-[0_16px_40px_-12px_rgba(0,25,60,0.06)] p-6 sm:p-8 flex flex-col justify-between space-y-6 text-left">
+        <div className="md:col-span-7 rounded-3xl bg-white border border-black/[0.08] shadow-[0_16px_40px_-12px_rgba(0,25,60,0.06)] p-6 sm:p-8 flex flex-col justify-between space-y-6 text-left">
           
           <div className="flex items-center justify-between pb-4 border-b border-black/[0.05]">
             <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider">
@@ -66,7 +66,7 @@ export default function ProgressAndHabitsSection() {
             </div>
           </div>
 
-          <div className="text-[11px] text-arctic-tertiary pt-2 border-t border-black/[0.04] flex items-center justify-between">
+          <div className="text-xs text-arctic-tertiary pt-2 border-t border-black/[0.04] flex items-center justify-between">
             <span>Método más frecuente: Pomodoro</span>
             <span className="text-emerald-700 font-medium">85% metas cumplidas</span>
           </div>
@@ -74,7 +74,7 @@ export default function ProgressAndHabitsSection() {
         </div>
 
         {/* Gamificación Sutil (5 cols) */}
-        <div className="md:col-span-5 rounded-[26px] bg-white border border-black/[0.08] shadow-[0_16px_40px_-12px_rgba(0,25,60,0.06)] p-6 sm:p-8 flex flex-col justify-between space-y-6 text-left">
+        <div className="md:col-span-5 rounded-3xl bg-white border border-black/[0.08] shadow-[0_16px_40px_-12px_rgba(0,25,60,0.06)] p-6 sm:p-8 flex flex-col justify-between space-y-6 text-left">
           
           <div className="flex items-center justify-between pb-4 border-b border-black/[0.05]">
             <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider">
@@ -103,7 +103,7 @@ export default function ProgressAndHabitsSection() {
               <span className="text-arctic-secondary font-medium">Puntos de experiencia</span>
               <span className="font-bold text-glacier-blue">+240 XP esta semana</span>
             </div>
-            <p className="text-[11px] text-arctic-tertiary">
+            <p className="text-xs text-arctic-tertiary">
               Recompensa por sesiones completadas a tiempo
             </p>
           </div>

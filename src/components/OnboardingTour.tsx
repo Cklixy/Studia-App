@@ -213,12 +213,12 @@ export default function OnboardingTour() {
                     />
                   </div>
                   <div className="flex justify-between mt-1.5">
-                    <span className="text-[10px] font-semibold text-arctic-tertiary uppercase tracking-wider">
+                    <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider">
                       Paso {step + 1} de {STEPS.length}
                     </span>
                     <button
                       onClick={() => dismiss(false)}
-                      className="text-[11px] font-medium text-arctic-slate/80 hover:text-arctic-slate transition-colors min-h-6 px-2 -mr-2 inline-flex items-center"
+                      className="text-xs font-medium text-arctic-slate/80 hover:text-arctic-slate transition-colors min-h-6 px-2 -mr-2 inline-flex items-center"
                     >
                       Saltar tour →
                     </button>

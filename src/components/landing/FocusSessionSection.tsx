@@ -11,7 +11,7 @@ export default function FocusSessionSection() {
       
       {/* Encabezado */}
       <div className="text-center space-y-2 max-w-2xl mx-auto">
-        <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue">
+        <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue">
           Modo concentración
         </span>
         <h2 className="text-2xl sm:text-4xl xl:text-5xl font-bold tracking-tight text-arctic-slate">
@@ -21,14 +21,14 @@ export default function FocusSessionSection() {
 
       {/* Mockup de Sesión a Gran Escala (75% del ancho desktop con amplio espacio negativo) */}
       <div className="max-w-4xl mx-auto w-full">
-        <div className="rounded-[28px] sm:rounded-[32px] bg-white border border-black/[0.08] shadow-[0_25px_60px_-15px_rgba(0,25,60,0.07)] p-6 sm:p-14 md:p-20 text-center space-y-7 sm:space-y-10">
+        <div className="rounded-4xl sm:rounded-4xl bg-white border border-black/[0.08] shadow-[0_25px_60px_-15px_rgba(0,25,60,0.07)] p-6 sm:p-14 md:p-20 text-center space-y-7 sm:space-y-10">
           
           {/* Materia y Estado */}
           <div className="flex items-center justify-between border-b border-black/[0.05] pb-3.5 sm:pb-4">
             <span className="text-xs font-semibold text-arctic-secondary truncate">
               Cálculo Diferencial
             </span>
-            <span className="text-[11px] sm:text-xs font-bold text-glacier-blue bg-glacier-blue/10 px-2.5 sm:px-3 py-1 rounded-full shrink-0">
+            <span className="text-xs font-bold text-glacier-blue bg-glacier-blue/10 px-2.5 sm:px-3 py-1 rounded-full shrink-0">
               Bloque de 25 min
             </span>
           </div>

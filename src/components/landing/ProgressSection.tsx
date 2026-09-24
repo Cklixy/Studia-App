@@ -34,7 +34,7 @@ export default function ProgressSection() {
 
       {/* Encabezado */}
       <div className="text-center space-y-2 max-w-2xl mx-auto">
-        <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue">
+        <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue">
           Tu progreso también cuenta
         </span>
         <h2 className="text-2xl sm:text-4xl xl:text-5xl font-bold tracking-tight text-arctic-slate">
@@ -48,7 +48,7 @@ export default function ProgressSection() {
       <div className="space-y-6 w-full">
 
         {/* Grid de 4 Estadísticas a Ancho Completo */}
-        <div className="bg-white border border-black/[0.08] rounded-[24px] sm:rounded-[26px] shadow-[0_4px_20px_rgba(0,0,0,0.02)] grid grid-cols-2 lg:grid-cols-4 overflow-hidden text-left">
+        <div className="bg-white border border-black/[0.08] rounded-3xl sm:rounded-3xl shadow-[0_4px_20px_rgba(0,0,0,0.02)] grid grid-cols-2 lg:grid-cols-4 overflow-hidden text-left">
 
           <div className="p-4 sm:p-7 border-b lg:border-b-0 border-r border-black/[0.06] flex flex-col justify-between gap-1.5 sm:gap-2">
             <span className="text-xs font-semibold text-arctic-secondary truncate">Sesiones registradas</span>
@@ -57,7 +57,7 @@ export default function ProgressSection() {
                 04
               </span>
             </div>
-            <span className="text-[10px] sm:text-[11px] text-arctic-tertiary truncate">En la última semana</span>
+            <span className="text-xs text-arctic-tertiary truncate">En la última semana</span>
           </div>
 
           <div className="p-4 sm:p-7 border-b lg:border-b-0 lg:border-r border-black/[0.06] flex flex-col justify-between gap-1.5 sm:gap-2">
@@ -67,7 +67,7 @@ export default function ProgressSection() {
                 02h 35m
               </span>
             </div>
-            <span className="text-[10px] sm:text-[11px] text-arctic-tertiary truncate">Tiempo efectivo</span>
+            <span className="text-xs text-arctic-tertiary truncate">Tiempo efectivo</span>
           </div>
 
           <div className="p-4 sm:p-7 border-r lg:border-r border-black/[0.06] flex flex-col justify-between gap-1.5 sm:gap-2">
@@ -77,7 +77,7 @@ export default function ProgressSection() {
                 87%
               </span>
             </div>
-            <span className="text-[10px] sm:text-[11px] text-emerald-700 font-medium truncate">Metas completadas</span>
+            <span className="text-xs text-emerald-700 font-medium truncate">Metas completadas</span>
           </div>
 
           <div className="p-4 sm:p-7 flex flex-col justify-between gap-1.5 sm:gap-2">
@@ -88,7 +88,7 @@ export default function ProgressSection() {
                 12d
               </span>
             </div>
-            <span className="text-[10px] sm:text-[11px] text-glacier-blue font-semibold truncate">+120 XP acumulados</span>
+            <span className="text-xs text-glacier-blue font-semibold truncate">+120 XP acumulados</span>
           </div>
 
         </div>
@@ -108,7 +108,7 @@ export default function ProgressSection() {
             {exampleSessions.map((s) => (
               <div
                 key={s.tema}
-                className="bg-white border border-black/[0.06] hover:border-glacier-blue/30 rounded-[22px] p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 shadow-sm hover:shadow-[0_8px_24px_rgba(0,25,60,0.04)] transition-all text-left"
+                className="bg-white border border-black/[0.06] hover:border-glacier-blue/30 rounded-3xl p-4 sm:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 shadow-sm hover:shadow-[0_8px_24px_rgba(0,25,60,0.04)] transition-all text-left"
               >
                 <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">
                   <SubjectIconContainer subjectName={s.materia} size="md" className="mt-0.5 shrink-0" />
@@ -120,7 +120,7 @@ export default function ProgressSection() {
                     <p className="text-xs sm:text-sm text-arctic-secondary truncate">
                       {s.tema}
                     </p>
-                    <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 pt-0.5 text-[11px] text-arctic-tertiary">
+                    <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 pt-0.5 text-xs text-arctic-tertiary">
                       <span>{s.fecha}</span>
                       <span className="opacity-40">•</span>
                       <span className="text-arctic-secondary font-medium">{s.metodo}</span>

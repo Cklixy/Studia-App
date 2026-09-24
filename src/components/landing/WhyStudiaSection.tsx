@@ -29,7 +29,7 @@ export default function WhyStudiaSection() {
       
       {/* Encabezado */}
       <div className="text-center space-y-3 max-w-2xl mx-auto">
-        <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue">
+        <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue">
           Beneficios concretos
         </span>
         <h2 className="fluid-h2 font-bold tracking-tight text-arctic-slate">
@@ -45,7 +45,7 @@ export default function WhyStudiaSection() {
         {benefits.map((b) => (
           <div
             key={b.title}
-            className="p-6 sm:p-7 rounded-[22px] bg-white/80 border border-black/[0.06] shadow-[0_2px_10px_rgba(0,0,0,0.02)] space-y-4 text-left flex flex-col justify-between"
+            className="p-6 sm:p-7 rounded-3xl bg-white/80 border border-black/[0.06] shadow-[0_2px_10px_rgba(0,0,0,0.02)] space-y-4 text-left flex flex-col justify-between"
           >
             <div className="w-10 h-10 rounded-xl bg-glacier-blue/10 text-glacier-blue flex items-center justify-center">
               <b.icon size={19} strokeWidth={2} />

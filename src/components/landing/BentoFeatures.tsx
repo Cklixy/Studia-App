@@ -62,7 +62,7 @@ export default function BentoFeatures() {
                 <step.icon size={16} className="text-glacier-blue shrink-0" />
                 <div>
                   <p className="text-xs font-bold text-arctic-slate">{step.label}</p>
-                  <p className="text-[11px] text-arctic-secondary">{step.sub}</p>
+                  <p className="text-xs text-arctic-secondary">{step.sub}</p>
                 </div>
               </div>
             ))}
@@ -74,10 +74,10 @@ export default function BentoFeatures() {
           <div className="absolute -right-10 -bottom-10 w-48 h-48 rounded-full bg-polar-cyan/[0.08] blur-2xl pointer-events-none" />
 
           <div>
-            <div className="w-10 h-10 rounded-2xl bg-polar-cyan/10 text-polar-cyan flex items-center justify-center mb-4 shadow-apple-sm">
+            <div className="w-10 h-10 rounded-2xl bg-polar-cyan/10 text-sky-700 flex items-center justify-center mb-4 shadow-apple-sm">
               <Clock size={20} />
             </div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-polar-cyan">
+            <span className="text-xs font-semibold uppercase tracking-wider text-sky-700">
               Enfoque Físico
             </span>
             <h3 className="text-xl font-bold text-arctic-slate tracking-tight mt-1.5 mb-2.5">

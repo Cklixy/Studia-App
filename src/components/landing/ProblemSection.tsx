@@ -28,7 +28,7 @@ export default function ProblemSection() {
         {problems.map((p) => (
           <div
             key={p.title}
-            className="p-4 sm:p-6 rounded-[22px] bg-white border border-black/[0.06] shadow-[0_2px_8px_rgba(0,0,0,0.02)] space-y-2"
+            className="p-4 sm:p-6 rounded-3xl bg-white border border-black/[0.06] shadow-[0_2px_8px_rgba(0,0,0,0.02)] space-y-2"
           >
             <h3 className="text-sm sm:text-base font-bold text-arctic-slate tracking-tight">
               {p.title}

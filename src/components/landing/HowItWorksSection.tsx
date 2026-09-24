@@ -31,14 +31,14 @@ export default function HowItWorksSection() {
       desc: "studia+ analiza tu contexto y recomienda una estrategia de estudio efectiva.",
       visual: (
         <div className="p-4 rounded-2xl bg-frost-base border border-black/[0.04] space-y-2 text-left">
-          <span className="text-[10px] uppercase font-bold text-glacier-blue tracking-wider block">
+          <span className="text-xs uppercase font-bold text-glacier-blue tracking-wider block">
             Método recomendado
           </span>
           <div className="p-2.5 rounded-xl bg-white border border-black/[0.05] space-y-1">
             <span className="text-xs font-bold text-arctic-slate block">
               Active Recall
             </span>
-            <span className="text-[11px] text-arctic-secondary block">
+            <span className="text-xs text-arctic-secondary block">
               5 preguntas de retención + ejercicios prácticos
             </span>
           </div>
@@ -56,7 +56,7 @@ export default function HowItWorksSection() {
             <span className="font-mono text-sm font-bold text-glacier-blue bg-white px-2 py-0.5 rounded border border-black/[0.04]">
               25:00 Focus
             </span>
-            <span className="text-[10px] text-emerald-700 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded-full">
+            <span className="text-xs text-emerald-700 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded-full">
               En curso
             </span>
           </div>
@@ -73,7 +73,7 @@ export default function HowItWorksSection() {
       
       {/* Encabezado */}
       <div className="text-center space-y-2.5 max-w-3xl mx-auto">
-        <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue">
+        <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue">
           Cómo funciona
         </span>
         <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-arctic-slate">
@@ -89,14 +89,14 @@ export default function HowItWorksSection() {
         {steps.map((s) => (
           <div
             key={s.num}
-            className="p-5 sm:p-8 rounded-[26px] bg-white border border-black/[0.07] shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col justify-between space-y-5 sm:space-y-6 text-left"
+            className="p-5 sm:p-8 rounded-3xl bg-white border border-black/[0.07] shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col justify-between space-y-5 sm:space-y-6 text-left"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono font-bold text-glacier-blue bg-glacier-blue/10 px-2.5 py-0.5 rounded-full">
                   {s.num}
                 </span>
-                <span className="text-[11px] font-bold tracking-wider text-arctic-tertiary">
+                <span className="text-xs font-bold tracking-wider text-arctic-tertiary">
                   {s.stepName}
                 </span>
               </div>

@@ -15,7 +15,7 @@ export default function StudyTrailWidget({ dias = 0 }: StudyTrailWidgetProps) {
   return (
     <section className="space-y-2.5 duration-500">
       <div className="flex items-center gap-2 px-1">
-        <span className="text-[11px] font-semibold text-arctic-tertiary uppercase tracking-wider">
+        <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider">
           Tu Recorrido de Enfoque
         </span>
       </div>

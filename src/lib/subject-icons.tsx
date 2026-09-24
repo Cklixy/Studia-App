@@ -176,7 +176,7 @@ export function SubjectIconContainer({
 
   const sizeClasses = {
     sm: "w-9 h-9 rounded-xl",
-    md: "w-11 h-11 rounded-[14px]",
+    md: "w-11 h-11 rounded-2xl",
     lg: "w-12 h-12 rounded-2xl",
   };
 

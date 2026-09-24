@@ -42,7 +42,7 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
       {/* Roadmap Header */}
       <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-8 pb-6 border-b border-black/[0.06]">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-glacier-blue/10 text-glacier-blue text-[11px] font-semibold tracking-wider uppercase mb-2">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-glacier-blue/10 text-glacier-blue text-xs font-semibold tracking-wider uppercase mb-2">
             <span className="w-1.5 h-1.5 bg-glacier-blue rounded-full animate-pulse" />
             <span>Ruta Curricular</span>
           </div>
@@ -52,7 +52,7 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
         </div>
 
         <div className="sm:text-right">
-          <div className="text-[11px] uppercase tracking-wider text-arctic-secondary font-semibold mb-1">
+          <div className="text-xs uppercase tracking-wider text-arctic-secondary font-semibold mb-1">
             Progreso de Dominio
           </div>
           <div className="flex items-baseline gap-2 sm:justify-end">
@@ -103,7 +103,7 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
                       {tema.nombre}
                     </h4>
                     {tema.dificultad && (
-                      <span className={`text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full ${
+                      <span className={`text-xs uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full ${
                         isActual 
                           ? "bg-glacier-blue/10 text-glacier-blue border border-glacier-blue/20" 
                           : "bg-black/[0.05] text-arctic-secondary"

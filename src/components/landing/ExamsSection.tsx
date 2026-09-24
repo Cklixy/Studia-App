@@ -16,7 +16,7 @@ export default function ExamsSection() {
 
         {/* Columna Izquierda: Texto (5 cols / ~42%) */}
         <div className="lg:col-span-5 text-left space-y-4 sm:space-y-5">
-          <span className="text-[11px] uppercase tracking-widest font-semibold text-glacier-blue block">
+          <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue block">
             Planificación estratégica
           </span>
 
@@ -47,7 +47,7 @@ export default function ExamsSection() {
 
         {/* Columna Derecha: Mockup Grande de Parcial (7 cols / ~58%) */}
         <div className="lg:col-span-7 w-full">
-          <div className="rounded-[24px] sm:rounded-[28px] bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-4 sm:p-9 space-y-5 sm:space-y-6 text-left">
+          <div className="rounded-3xl sm:rounded-4xl bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-4 sm:p-9 space-y-5 sm:space-y-6 text-left">
 
             {/* Cabecera del Parcial */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-black/[0.05]">
@@ -65,7 +65,7 @@ export default function ExamsSection() {
                   <Calendar size={13} className="text-arctic-tertiary shrink-0" />
                   En 12 días
                 </span>
-                <span className="text-[11px] sm:text-xs font-bold text-glacier-blue bg-glacier-blue/10 px-2.5 sm:px-3 py-1 rounded-full shrink-0">
+                <span className="text-xs font-bold text-glacier-blue bg-glacier-blue/10 px-2.5 sm:px-3 py-1 rounded-full shrink-0">
                   72% preparado
                 </span>
               </div>
@@ -73,7 +73,7 @@ export default function ExamsSection() {
 
             {/* Lista de Temas del Parcial a Escala Amplia */}
             <div className="space-y-2 sm:space-y-2.5 text-xs">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-arctic-tertiary block mb-1.5 sm:mb-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-arctic-tertiary block mb-1.5 sm:mb-2">
                 Temas del examen:
               </span>
 
@@ -88,14 +88,14 @@ export default function ExamsSection() {
                         ? "bg-emerald-500/10 text-emerald-700 font-bold"
                         : "bg-black/[0.04] text-arctic-tertiary"
                     }`}>
-                      {t.done ? <Check size={13} strokeWidth={2.5} /> : <span className="text-[9px]">○</span>}
+                      {t.done ? <Check size={13} strokeWidth={2.5} /> : <span className="text-xs">○</span>}
                     </span>
                     <span className={`font-medium truncate text-xs sm:text-[13px] ${t.done ? "text-arctic-slate" : "text-arctic-secondary"}`}>
                       {t.title}
                     </span>
                   </div>
 
-                  <span className={`text-[11px] sm:text-xs shrink-0 ${t.done ? "text-emerald-700 font-semibold" : "text-arctic-tertiary"}`}>
+                  <span className={`text-xs shrink-0 ${t.done ? "text-emerald-700 font-semibold" : "text-arctic-tertiary"}`}>
                     {t.done ? "Dominado" : "Por repasar"}
                   </span>
                 </div>
