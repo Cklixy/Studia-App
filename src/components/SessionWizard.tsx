@@ -72,7 +72,10 @@ export default function SessionWizard({
   const [contexto, setContexto] = useState<StudyContext | "">("");
   
   const [recomendacion, setRecomendacion] = useState<Recommendation | null>(null);
-  const [duracion, setDuracion] = useState<number>(40);
+  // Origen de la recomendación, para decirle al estudiante de dónde viene
+  const [origenRecomendacion, setOrigenRecomendacion] = useState<"ia" | "reglas">("reglas");
+  // 25 min por defecto: el bloque Pomodoro que promete la landing
+  const [duracion, setDuracion] = useState<number>(25);
   const [objetivo, setObjetivo] = useState<string>("");
 
   const [temasLocales, setTemasLocales] = useState<any[]>([]);
@@ -90,8 +93,11 @@ export default function SessionWizard({
     }
   }, [materiaId]);
 
-  const handleNext = async () => {
+  // El valor recién elegido se pasa como argumento: setContexto(c) aún no se ha aplicado
+  // cuando handleNext se ejecuta en el mismo clic, y se enviaba el contexto vacío (400).
+  const handleNext = async (contextoElegido?: StudyContext) => {
     if (step === 4) {
+      const ctx = contextoElegido ?? contexto;
       setLoading(true);
       const matName = materiaId ? initialMaterias.find(m => m.id === materiaId)?.nombre : (customMateria || materiaNombre);
       const temName = customTema || temaNombre;
@@ -107,7 +113,7 @@ export default function SessionWizard({
             nivel_educativo: nivel,
             materia_nombre: matName,
             tema_nombre: temName,
-            contexto: contexto
+            contexto: ctx
           }),
           signal: controller.signal
         });
@@ -119,10 +125,12 @@ export default function SessionWizard({
         
         const aiRec = await res.json();
         setRecomendacion(aiRec);
+        setOrigenRecomendacion("ia");
       } catch (err) {
         console.warn("AI Recommendation failed, falling back to local engine:", err);
-        const localRec = getRecommendation(nivel, matName || "", contexto as StudyContext);
+        const localRec = getRecommendation(nivel, matName || "", ctx as StudyContext);
         setRecomendacion(localRec);
+        setOrigenRecomendacion("reglas");
       } finally {
         setLoading(false);
         setStep(s => s + 1);
@@ -394,10 +402,12 @@ export default function SessionWizard({
               {CONTEXTOS.map(c => (
                 <button 
                   key={c} 
-                  onClick={() => { setContexto(c); handleNext(); }} 
-                  className="p-3.5 rounded-xl border border-black/[0.07] bg-frost-base/60 text-left hover:border-glacier-blue/30 hover:bg-white transition-all text-xs font-medium text-arctic-secondary hover:text-arctic-slate apple-tactile"
+                  onClick={() => { setContexto(c); handleNext(c); }} 
+                  className="p-3.5 min-h-11 rounded-xl border border-black/[0.07] bg-frost-base/60 text-left hover:border-glacier-blue/30 hover:bg-white transition-all text-sm font-medium text-arctic-slate apple-tactile flex items-center gap-2"
                 >
-                  {c}
+                  {/* El emoji es decorativo: fuera del nombre accesible */}
+                  <span aria-hidden="true">{c.split(" ")[0]}</span>
+                  <span>{c.split(" ").slice(1).join(" ")}</span>
                 </button>
               ))}
             </div>
@@ -409,8 +419,8 @@ export default function SessionWizard({
       {step === 5 && recomendacion && (
         <div className="space-y-7 animate-in fade-in duration-400">
           <div>
-            <span className="text-[11px] font-semibold text-cool-iris uppercase tracking-wider">
-              Diagnóstico Cognitivo
+            <span className="text-xs font-semibold text-cool-iris uppercase tracking-wider">
+              {origenRecomendacion === "ia" ? "Sugerido por IA" : "Sugerido por reglas de estudio"}
             </span>
             <h2 className="text-2xl font-bold tracking-tight text-arctic-slate mt-0.5">
               Tu método sugerido
