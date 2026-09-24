@@ -134,7 +134,7 @@ export default async function MateriasPage() {
   }).format(new Date());
 
   return (
-    <div className="flex flex-col gap-9 w-full animate-in fade-in duration-500">
+    <div className="flex flex-col gap-9 w-full duration-500">
 
       {/* Apple Large Title Header en Grafito Pizarra */}
       <header className="flex flex-col md:flex-row justify-between md:items-end gap-4 pb-1">

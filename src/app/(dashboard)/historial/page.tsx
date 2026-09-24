@@ -117,7 +117,7 @@ export default async function HistorialPage({
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 sm:space-y-10 animate-in fade-in duration-300">
+    <div className="max-w-5xl mx-auto space-y-8 sm:space-y-10 duration-300">
       
       {/* 1. HEADER EDITORIAL */}
       <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 pb-2 border-b border-black/[0.04]">

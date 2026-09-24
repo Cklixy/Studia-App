@@ -76,7 +76,7 @@ export default function LandingNavbar() {
 
       {/* Menú Móvil Desplegable estilo iOS */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-black/[0.06] bg-white/95 backdrop-blur-2xl px-6 py-5 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="md:hidden border-b border-black/[0.06] bg-white/95 backdrop-blur-2xl px-6 py-5 space-y-4 duration-200">
           <nav className="flex flex-col space-y-3 text-sm font-medium text-arctic-slate">
             <a
               href="#como-funciona"

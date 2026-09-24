@@ -61,7 +61,7 @@ export default function CrearRutaIAPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
+    <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8 duration-700">
       <div className="flex items-center gap-3 text-glacier-blue mb-1">
         <Sparkles size={24} aria-hidden="true" />
         <h1 className="text-2xl sm:text-3xl font-display font-bold text-arctic-slate">Inteligencia de Ruta</h1>

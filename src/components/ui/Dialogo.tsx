@@ -80,7 +80,7 @@ export default function Dialogo({
       onClick={(e) => {
         if (e.target === ref.current) ref.current?.close();
       }}
-      className={`p-0 m-auto bg-transparent w-[calc(100%-2rem)] ${anchoMaximo === "sm" ? "max-w-sm" : "max-w-md"} backdrop:bg-black/35 backdrop:backdrop-blur-sm open:animate-in open:fade-in open:zoom-in-95 motion-reduce:animate-none`}
+      className={`p-0 m-auto bg-transparent w-[calc(100%-2rem)] ${anchoMaximo === "sm" ? "max-w-sm" : "max-w-md"} backdrop:bg-black/35 backdrop:backdrop-blur-sm motion-reduce:animate-none`}
     >
       <div className={`bg-white rounded-2xl p-6 shadow-apple-lg border ${tono === "peligro" ? "border-red-500/20" : "border-black/[0.08]"}`}>
         <div className="flex items-start justify-between gap-3 pb-4 mb-4 border-b border-black/[0.06]">

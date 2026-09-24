@@ -158,7 +158,7 @@ export default function HeroInteractiveMockup() {
 
         {/* Footer sutil de la card con estado */}
         {isActive && (
-          <div className="mt-3 text-center text-[11px] text-glacier-blue font-medium animate-in fade-in duration-300">
+          <div className="mt-3 text-center text-[11px] text-glacier-blue font-medium duration-300">
             Enfoque en marcha · Elimina distracciones
           </div>
         )}

@@ -21,7 +21,7 @@ export default async function EvaluacionesPage() {
   const materias = await getCachedMaterias(user.id, session?.access_token);
 
   return (
-    <div className="flex flex-col gap-8 w-full animate-in fade-in duration-500">
+    <div className="flex flex-col gap-8 w-full duration-500">
       <header className="pb-2 border-b border-black/[0.06]">
         <span className="text-[11px] uppercase tracking-wider font-semibold text-arctic-tertiary">
           Cálculo de Calificaciones

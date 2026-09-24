@@ -219,7 +219,7 @@ export default function SessionWizard({
 
       {/* Step 1: Nivel */}
       {step === 1 && (
-        <div className="space-y-6 animate-in fade-in duration-300">
+        <div className="space-y-6 duration-300">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
               ¿En qué nivel te encuentras?
@@ -248,7 +248,7 @@ export default function SessionWizard({
 
       {/* Step 2: Materia */}
       {step === 2 && (
-        <div className="space-y-6 animate-in fade-in duration-300">
+        <div className="space-y-6 duration-300">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
               ¿Qué materia vas a estudiar?
@@ -322,7 +322,7 @@ export default function SessionWizard({
 
       {/* Step 3: Tema */}
       {step === 3 && (
-        <div className="space-y-6 animate-in fade-in duration-300">
+        <div className="space-y-6 duration-300">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
               ¿Cuál es el tema específico?
@@ -380,7 +380,7 @@ export default function SessionWizard({
 
       {/* Step 4: Contexto */}
       {step === 4 && (
-        <div className="space-y-6 animate-in fade-in duration-300">
+        <div className="space-y-6 duration-300">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
               ¿Cuál es tu objetivo o situación?
@@ -418,7 +418,7 @@ export default function SessionWizard({
 
       {/* Step 5: Recomendación y Planificación */}
       {step === 5 && recomendacion && (
-        <div className="space-y-7 animate-in fade-in duration-400">
+        <div className="space-y-7 duration-400">
           <div>
             <span className="text-xs font-semibold text-cool-iris uppercase tracking-wider">
               {origenRecomendacion === "ia" ? "Sugerido por IA" : "Sugerido por reglas de estudio"}

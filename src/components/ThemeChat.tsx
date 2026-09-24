@@ -147,7 +147,7 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
         aria-modal="true"
         aria-labelledby={tituloId}
         aria-describedby={avisoId}
-        className="fixed inset-y-0 right-0 z-[61] w-full max-w-md bg-white border-l border-black/[0.08] shadow-apple-lg flex flex-col animate-in slide-in-from-right duration-300 motion-reduce:animate-none"
+        className="fixed inset-y-0 right-0 z-[61] w-full max-w-md bg-white border-l border-black/[0.08] shadow-apple-lg flex flex-col duration-300 motion-reduce:animate-none"
         style={{ paddingTop: "env(safe-area-inset-top)", paddingBottom: "env(safe-area-inset-bottom)" }}
       >
         {/* Cabecera */}

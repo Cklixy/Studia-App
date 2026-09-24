@@ -73,7 +73,7 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
   const route = (materia.study_routes as any[] || []).find((r: any) => r.estado === "ACTIVE") || null;
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
+    <div className="space-y-8 duration-500">
       <Link
         href="/materias"
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"

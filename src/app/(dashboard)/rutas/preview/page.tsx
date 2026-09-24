@@ -99,7 +99,7 @@ export default function RutaPreviewPage() {
   const minutes = totalMinutes % 60;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-10 pb-20 animate-in fade-in zoom-in-95 duration-500">
+    <div className="max-w-4xl mx-auto space-y-10 pb-20 duration-500">
       
       {/* Cabecera */}
       <section className="space-y-4 text-center">

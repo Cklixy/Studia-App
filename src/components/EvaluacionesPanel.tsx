@@ -108,7 +108,7 @@ export default function EvaluacionesPanel({ materiaId }: { materiaId: string }) 
   }
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300">
+    <div className="space-y-6 duration-300">
 
       {/* Tarjetas de métricas estilo Apple Health */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">

@@ -40,7 +40,7 @@ export default async function LogrosPage() {
   );
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-500">
+    <div className="max-w-4xl mx-auto space-y-8 duration-500">
       <header className="pb-2 border-b border-black/[0.06]">
         <span className="text-[11px] font-semibold text-arctic-tertiary uppercase tracking-wider">
           Gamificación y Metas
