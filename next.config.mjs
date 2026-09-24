@@ -13,6 +13,11 @@ try {
 }
 const origenSupabaseWs = origenSupabase.replace(/^https:/, "wss:");
 
+// La barra de comentarios de Vercel solo se inyecta en los despliegues Preview.
+// Orígenes según https://vercel.com/docs/vercel-toolbar/managing-toolbar
+const esPreview = process.env.VERCEL_ENV === "preview";
+const toolbar = (...origenes) => (esPreview ? " " + origenes.join(" ") : "");
+
 // Content-Security-Policy
 // - 'unsafe-inline' en script-src sigue siendo necesario: Next.js 14 inyecta scripts inline
 //   (payload RSC). Quitarlo exige nonces por petición, lo que vuelve dinámicas todas las
@@ -22,11 +27,12 @@ const origenSupabaseWs = origenSupabase.replace(/^https:/, "wss:");
 // - worker-src / manifest-src cubren el service worker (/sw.js) y /manifest.json.
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${esDesarrollo ? " 'unsafe-eval'" : ""}`,
-  "style-src 'self' 'unsafe-inline'",
-  "font-src 'self'",
-  "img-src 'self' data: blob:",
-  `connect-src 'self' ${origenSupabase} ${origenSupabaseWs}`,
+  `script-src 'self' 'unsafe-inline'${esDesarrollo ? " 'unsafe-eval'" : ""}${toolbar("https://vercel.live")}`,
+  `style-src 'self' 'unsafe-inline'${toolbar("https://vercel.live")}`,
+  `font-src 'self'${toolbar("https://vercel.live", "https://assets.vercel.com")}`,
+  `img-src 'self' data: blob:${toolbar("https://vercel.live", "https://vercel.com")}`,
+  `connect-src 'self' ${origenSupabase} ${origenSupabaseWs}${toolbar("https://vercel.live", "wss://ws-us3.pusher.com")}`,
+  `frame-src 'self'${toolbar("https://vercel.live")}`,
   "worker-src 'self'",
   "manifest-src 'self'",
   "object-src 'none'",
