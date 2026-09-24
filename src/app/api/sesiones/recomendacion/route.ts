@@ -47,6 +47,11 @@ export async function POST(request: NextRequest) {
     userRequests.push(now);
     rateLimitCache.set(userId, userRequests);
 
+    // Sin clave no se llama a Gemini (antes lo intentaba y recibía 403); el cliente usa las reglas
+    if (!process.env.GEMINI_API_KEY) {
+      return NextResponse.json({ codigo: "IA_NO_CONFIGURADA", error: "La IA no está configurada" }, { status: 503 });
+    }
+
     // 3. Prompt Injection Prevention & Validation
     const body = await request.json();
     const nivel = xss(body.nivel_educativo || "");

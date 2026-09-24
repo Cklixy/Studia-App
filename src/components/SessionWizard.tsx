@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import { StudyContext, getRecommendation, Recommendation } from "@/lib/recommendationEngine";
 import { ArrowRight, RotateCw, Clock, X, MoreHorizontal, Sparkles, ChevronLeft, Target } from "lucide-react";
 
+// "📝 Tengo un examen próximamente" sigue existiendo en el motor, pero no se ofrece: duplicaba
+// "🎯 Preparación para parcial, quiz o evaluación" (auditoría U-14).
 const CONTEXTOS: StudyContext[] = [
-  "📝 Tengo un examen próximamente",
+  "🎯 Preparación para parcial, quiz o evaluación",
   "📚 Necesito aprender un tema desde cero",
   "🔄 Necesito repasar",
   "🧠 Necesito memorizar información",
@@ -14,7 +16,6 @@ const CONTEXTOS: StudyContext[] = [
   "🧩 No entiendo el tema",
   "⏱️ Tengo poco tiempo",
   "📈 Quiero mejorar mi rendimiento",
-  "🎯 Preparación para parcial, quiz o evaluación",
   "🔬 Necesito preparar un laboratorio o proyecto",
   "📄 Necesito realizar una lectura o trabajo escrito"
 ];
