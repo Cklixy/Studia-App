@@ -15,10 +15,12 @@ export async function DELETE(
   const { error } = await supabase
     .from("evaluaciones")
     .delete()
-    .eq("id", params.id);
+    .eq("id", params.id)
+    .eq("user_id", user.id); // M6: filtro propietario — defensa en profundidad sobre RLS
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    // M7: Error genérico — no exponer error.message interno
+    return NextResponse.json({ error: "Error al eliminar la evaluación" }, { status: 500 });
   }
 
   return NextResponse.json({ message: "Evaluación eliminada" }, { status: 200 });
