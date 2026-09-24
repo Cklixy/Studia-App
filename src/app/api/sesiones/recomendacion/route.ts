@@ -120,8 +120,9 @@ El JSON debe tener exactamente esta estructura:
 
   } catch (error: any) {
     console.error("Gemini AI Error:", error);
+    // M7: No exponer error.message interno al cliente
     return NextResponse.json(
-      { error: "AI recommendation failed", details: error.message },
+      { error: "AI recommendation failed" },
       { status: 500 }
     );
   }

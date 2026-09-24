@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { createClient } from "@/utils/supabase/server";
+import { LRUCache } from "lru-cache";
+
+// A4: Rate limiter — máximo 10 mensajes por minuto por usuario
+const rateLimitCache = new LRUCache<string, number[]>({
+  max: 500,
+  ttl: 1000 * 60, // 1 minuto TTL
+});
+const MAX_MESSAGES_PER_MINUTE = 10;
 
 export async function POST(request: NextRequest) {
   try {
@@ -8,6 +16,21 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    // A4: Rate limiting (ventana deslizante, mismo patrón que recomendacion)
+    const userId = user.id;
+    const now = Date.now();
+    const windowStart = now - 60 * 1000;
+    let userRequests = rateLimitCache.get(userId) || [];
+    userRequests = userRequests.filter((ts) => ts > windowStart);
+    if (userRequests.length >= MAX_MESSAGES_PER_MINUTE) {
+      return NextResponse.json(
+        { error: "Has alcanzado el límite de mensajes por minuto. Inténtalo más tarde." },
+        { status: 429 }
+      );
+    }
+    userRequests.push(now);
+    rateLimitCache.set(userId, userRequests);
 
     const { message, temaNombre, materiaNombre, history } = await request.json();
 
