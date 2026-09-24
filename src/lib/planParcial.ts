@@ -44,7 +44,7 @@ export function calcularPlanParcial(materia: MateriaBasica, hoy: string = fechaL
   else if (pendientes.length === 0) mensaje = `${cuando}. Ya completaste todos los temas: dedica el tiempo a repasar y practicar.`;
   else if (diasRestantes <= 1) mensaje = `${cuando}. Repasa lo esencial de ${pendientes.length === 1 ? "el tema pendiente" : `los ${pendientes.length} temas pendientes`}.`;
   else
-    mensaje = `${cuando}. Te ${pendientes.length === 1 ? "queda 1 tema" : `quedan ${pendientes.length} temas`}: unos ${temasPorDia} por día y el día anterior para repasar.`;
+    mensaje = `${cuando}. Te ${pendientes.length === 1 ? "queda 1 tema" : `quedan ${pendientes.length} temas`}: ${temasPorDia === 1 ? "1 tema por día" : `unos ${temasPorDia} temas por día`} y el día anterior para repasar.`;
 
   return {
     materiaId: materia.id,
