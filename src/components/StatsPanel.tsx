@@ -88,7 +88,7 @@ export default function StatsPanel({
       <div className="flex flex-wrap items-center justify-between gap-2 px-1">
         <h3 className="apple-title-3 flex flex-wrap items-center gap-2">
           <span>Resumen de Actividad</span>
-          <span className="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/[0.04] text-arctic-secondary">
+          <span className="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/[0.04] text-arctic-tertiary">
             Últimos 30 días
           </span>
         </h3>

@@ -297,7 +297,7 @@ export default async function MateriasPage() {
             <div className="w-12 h-12 rounded-2xl bg-black/[0.03] border border-black/[0.06] flex items-center justify-center text-arctic-secondary mb-3">
               <BookOpen size={22} />
             </div>
-            <h3 className="text-lg font-semibold text-arctic-slate tracking-tight">Sin temas pendientes</h3>
+            <h2 className="text-lg font-semibold text-arctic-slate tracking-tight">Sin temas pendientes</h2>
             <p className="text-sm text-arctic-secondary max-w-sm mt-1 mb-5">
               Has completado tus temas actuales o aún no registras asignaturas en tu plan.
             </p>

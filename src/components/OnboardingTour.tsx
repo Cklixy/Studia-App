@@ -187,14 +187,14 @@ export default function OnboardingTour() {
                 {/* Botón cerrar */}
                 <button
                   onClick={() => dismiss(false)}
-                  className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/[0.05] hover:bg-black/[0.09] flex items-center justify-center text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile z-10"
+                  className="absolute top-3 right-3 w-10 h-10 rounded-full bg-black/[0.05] hover:bg-black/[0.09] flex items-center justify-center text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile z-10"
                   aria-label="Cerrar tutorial"
                 >
                   <X size={14} />
                 </button>
 
-                {/* Barra de progreso */}
-                <div className="mb-6 relative z-10">
+                {/* Barra de progreso (pr-12: deja sitio al botón cerrar para que no se solapen) */}
+                <div className="mb-6 relative z-10 pr-12">
                   <div
                     className="h-1 bg-black/[0.06] rounded-full overflow-hidden"
                     role="progressbar"
@@ -218,7 +218,7 @@ export default function OnboardingTour() {
                     </span>
                     <button
                       onClick={() => dismiss(false)}
-                      className="text-[10px] font-medium text-arctic-tertiary hover:text-arctic-secondary transition-colors"
+                      className="text-[11px] font-medium text-arctic-slate/80 hover:text-arctic-slate transition-colors min-h-6 px-2 -mr-2 inline-flex items-center"
                     >
                       Saltar tour →
                     </button>
@@ -283,7 +283,8 @@ export default function OnboardingTour() {
                       <button
                         onClick={handleNext}
                         className="btn-apple-primary flex-1 text-xs py-3 px-5 font-semibold apple-tactile shadow-apple-sm inline-flex items-center justify-center gap-2"
-                        aria-label={isLast ? "Finalizar tutorial y comenzar" : `Ir al paso ${step + 2}`}
+                        // El nombre accesible debe contener el texto visible (WCAG 2.5.3)
+                        aria-label={isLast ? "¡Comenzar! Finalizar tutorial" : `Siguiente: paso ${step + 2} de ${STEPS.length}`}
                         // eslint-disable-next-line jsx-a11y/no-autofocus
                         autoFocus
                       >
@@ -298,7 +299,7 @@ export default function OnboardingTour() {
 
                     {/* Dots de navegación */}
                     <div
-                      className="flex justify-center gap-1.5 pt-1"
+                      className="flex justify-center gap-0.5 pt-1"
                       role="tablist"
                       aria-label="Pasos del tutorial"
                     >
@@ -309,12 +310,18 @@ export default function OnboardingTour() {
                           aria-selected={i === step}
                           aria-label={`Ir al paso ${i + 1}: ${s.title}`}
                           onClick={() => setStep(i)}
-                          className={`rounded-full transition-all duration-300 apple-tactile ${
-                            i === step
-                              ? "w-5 h-1.5 bg-glacier-blue"
-                              : "w-1.5 h-1.5 bg-black/[0.14] hover:bg-black/[0.24]"
-                          }`}
-                        />
+                          // Área táctil de 24 px (WCAG 2.5.8); el punto visible sigue siendo pequeño
+                          className="group h-6 min-w-6 flex items-center justify-center apple-tactile"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className={`block rounded-full transition-all duration-300 ${
+                              i === step
+                                ? "w-5 h-1.5 bg-glacier-blue"
+                                : "w-1.5 h-1.5 bg-black/[0.14] group-hover:bg-black/[0.24]"
+                            }`}
+                          />
+                        </button>
                       ))}
                     </div>
                   </motion.div>
