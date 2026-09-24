@@ -6,6 +6,8 @@ import TemaItem from "@/components/TemaItem";
 import LearningMap from "@/components/LearningMap";
 import Link from "next/link";
 import { ArrowLeft, Sparkles, Calendar } from "lucide-react";
+import { calcularPlanParcial } from "@/lib/planParcial";
+import TarjetaPlanParcial from "@/components/TarjetaPlanParcial";
 
 // Lazy loading de componentes cliente pesados (modal y panel de evaluaciones)
 const EditMateriaModal = dynamic(() => import("@/components/EditMateriaModal"), {
@@ -96,6 +98,11 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
           )}
         </div>
       </div>
+
+      {(() => {
+        const plan = calcularPlanParcial(materia as any);
+        return plan ? <div className="mb-8"><TarjetaPlanParcial plan={plan} mostrarMateria={false} /></div> : null;
+      })()}
 
       {route ? (
         // Solo los temas de la ruta: los manuales se listan aparte en «Temario libre» (antes salían duplicados)

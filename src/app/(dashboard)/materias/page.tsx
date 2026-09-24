@@ -8,6 +8,8 @@ import StatsPanel from "@/components/StatsPanel";
 import StudyTrailWidget from "@/components/StudyTrailWidget";
 import Link from "next/link";
 import { getCachedMaterias } from "@/lib/data/materias";
+import { planesProximos } from "@/lib/planParcial";
+import TarjetaPlanParcial from "@/components/TarjetaPlanParcial";
 import {
   Flame,
   ArrowRight,
@@ -317,6 +319,11 @@ export default async function MateriasPage() {
           </div>
         )}
       </div>
+
+      {/* Plan hasta los parciales más cercanos (auditoría U-11) */}
+      {planesProximos(materias as any).slice(0, 2).map((plan) => (
+        <TarjetaPlanParcial key={plan.materiaId} plan={plan} />
+      ))}
 
       {/* Constellation Grid: Tus Materias */}
       {!sinMaterias && (

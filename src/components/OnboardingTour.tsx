@@ -52,7 +52,7 @@ const STEPS: TourStep[] = [
     emoji: "📝",
     title: "Controla tus notas",
     description:
-      "En Evaluaciones registras tus parciales, talleres y quizzes. Studia+ calcula automáticamente cuánto necesitas para aprobar cada materia.",
+      "En Parciales registras tus parciales, talleres y quizzes. studia+ calcula cuánto necesitas para aprobar cada materia.",
     hint: "¡Ya estás listo para comenzar! 🎉",
   },
 ];
