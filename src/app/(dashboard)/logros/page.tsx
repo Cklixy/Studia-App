@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Trophy, Lock } from "lucide-react";
+import { rachaVigente, xpInicioNivel, XP_POR_MINUTO } from "@/lib/racha";
 
 // Lista completa de badges posibles en el juego
 const ALL_BADGES = [
@@ -29,7 +30,7 @@ export default async function LogrosPage() {
       .eq("desbloqueado", true),
     supabase
       .from("rachas")
-      .select("dias, xp_total, nivel_actual")
+      .select("dias, xp_total, nivel_actual, ultima_actividad")
       .eq("user_id", user.id)
       .single()
   ]);
@@ -60,9 +61,45 @@ export default async function LogrosPage() {
         <div>
           <p className="apple-caption text-arctic-secondary">Nivel Académico</p>
           <p className="apple-title-2 text-arctic-slate tabular-nums mt-0.5">{racha?.xp_total || 0} XP acumulados</p>
-          <p className="apple-subhead text-xs text-arctic-secondary mt-0.5">{(racha?.dias || 0) === 1 ? "1 día" : `${racha?.dias || 0} días`} de racha activa</p>
+          <p className="apple-subhead text-xs text-arctic-secondary mt-0.5">{rachaVigente(racha) === 1 ? "1 día" : `${rachaVigente(racha)} días`} de racha activa</p>
+          {(() => {
+            const nivel = racha?.nivel_actual || 1;
+            const xp = racha?.xp_total || 0;
+            const inicio = xpInicioNivel(nivel);
+            const siguiente = xpInicioNivel(nivel + 1);
+            const pct = Math.min(100, Math.round(((xp - inicio) / (siguiente - inicio)) * 100));
+            return (
+              <div className="mt-3 w-full sm:w-72">
+                <div className="flex justify-between text-xs text-arctic-secondary mb-1">
+                  <span>Nivel {nivel + 1}</span>
+                  <span>Faltan {Math.max(0, siguiente - xp)} XP</span>
+                </div>
+                <div
+                  role="progressbar"
+                  aria-label={`Progreso hacia el nivel ${nivel + 1}`}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={pct}
+                  className="h-2 rounded-full bg-black/[0.06] overflow-hidden"
+                >
+                  <div className="h-full bg-glacier-blue rounded-full" style={{ width: `${pct}%` }} />
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
+
+      {/* Cómo funciona (antes no se explicaba en ninguna pantalla — auditoría U-13) */}
+      <section className="apple-card p-5 sm:p-6 shadow-apple-sm">
+        <h2 className="apple-title-3 mb-3">Cómo funciona tu progreso</h2>
+        <ul className="space-y-2 text-sm text-arctic-slate list-disc pl-5">
+          <li><strong>XP:</strong> ganas {XP_POR_MINUTO} XP por cada minuto de estudio efectivo (sin contar pausas) al finalizar una sesión.</li>
+          <li><strong>Nivel:</strong> subes de nivel al acumular XP (nivel 2 con 100 XP, nivel 3 con 400 XP, nivel 4 con 900 XP…).</li>
+          <li><strong>Racha:</strong> suma un día cada día (hora de Colombia) en que termines al menos una sesión. Si un día no estudias, vuelve a empezar; tu XP y tus insignias no se pierden.</li>
+          <li><strong>Insignias:</strong> se desbloquean al llegar a 3, 7, 14, 30, 50 y 100 días de racha.</li>
+        </ul>
+      </section>
 
       {/* Grid de badges */}
       <section className="space-y-4">

@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { capitalizarInicio, plural } from "@/lib/texto";
+import { rachaVigente } from "@/lib/racha";
 import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 import CreateMateriaForm from "@/components/CreateMateriaForm";
@@ -56,7 +57,7 @@ export default async function MateriasPage() {
 
     supabase
       .from("rachas")
-      .select("dias, xp_total, nivel_actual")
+      .select("dias, xp_total, nivel_actual, ultima_actividad")
       .eq("user_id", user.id)
       .single(),
 
@@ -75,7 +76,9 @@ export default async function MateriasPage() {
       .gte("hora_finalizacion", thirtyDaysAgo.toISOString())
   ]);
 
-  const rachaActual = rachaData?.dias || 0;
+  // Solo cuenta si la última sesión fue hoy o ayer (antes se mostraba una racha ya rota)
+  const rachaActual = rachaVigente(rachaData);
+  const rachaAnterior = rachaActual === 0 ? rachaData?.dias || 0 : 0;
   const sinMaterias = !materias || materias.length === 0;
   const tieneActividad = (sesionesRecientes?.length || 0) > 0 || rachaActual > 0;
   const xpTotal = rachaData?.xp_total || 0;
@@ -148,7 +151,9 @@ export default async function MateriasPage() {
           <p className="text-arctic-secondary text-sm mt-1">
             {rachaActual > 0
               ? `Llevas ${plural(rachaActual, "día seguido", "días seguidos")} de enfoque académico. ¡Excelente constancia!`
-              : "Comienza una sesión hoy para activar tu racha de estudio."}
+              : rachaAnterior > 1
+                ? `Tu racha anterior fue de ${rachaAnterior} días. Una sesión hoy empieza una nueva.`
+                : "Comienza una sesión hoy para activar tu racha de estudio."}
           </p>
         </div>
 

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { updateSessionSchema } from "@/lib/validations/sesiones";
 import { z } from "zod";
+import { calcularNuevaRacha, fechaLocal, nivelDesdeXp, XP_POR_MINUTO } from "@/lib/racha";
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
   try {
@@ -61,41 +62,19 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 
     // --- GAMIFICACIÓN ---
     // 10 XP por cada minuto completo de estudio efectivo
-    const gainedXp = Math.floor(tiempoEfectivo / 60) * 10;
-    
+    const gainedXp = Math.floor(tiempoEfectivo / 60) * XP_POR_MINUTO;
+
     const { data: racha } = await supabase
       .from("rachas")
       .select("dias, xp_total, nivel_actual, ultima_actividad")
       .eq("user_id", user.id)
       .single();
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    let newDias = 1;
-    let newXp = gainedXp;
-
-    if (racha) {
-        newXp = (racha.xp_total || 0) + gainedXp;
-        if (racha.ultima_actividad) {
-            const lastActivity = new Date(racha.ultima_actividad);
-            lastActivity.setHours(0, 0, 0, 0);
-            
-            if (lastActivity.getTime() === yesterday.getTime()) {
-                newDias = (racha.dias || 0) + 1; // Mantuvo la racha
-            } else if (lastActivity.getTime() === today.getTime()) {
-                newDias = racha.dias || 1; // Ya había estudiado hoy
-            } else {
-                newDias = 1; // Perdió la racha
-            }
-        }
-    }
-
-    // Fórmula simple de nivel: Nivel = trunc( sqrt(XP / 100) ) + 1
-    // Nivel 1 = 0 XP, Nivel 2 = 100 XP, Nivel 3 = 400 XP, Nivel 4 = 900 XP...
-    const newLevel = Math.floor(Math.sqrt(newXp / 100)) + 1;
+    // Día en hora de Colombia (antes: hora del servidor, UTC → el día cambiaba a las 19:00)
+    const newDias = calcularNuevaRacha(racha?.ultima_actividad, racha?.dias || 0);
+    const newXp = (racha?.xp_total || 0) + gainedXp;
+    // Nivel = ⌊√(XP/100)⌋ + 1 → nivel 2 = 100 XP, nivel 3 = 400 XP, nivel 4 = 900 XP…
+    const newLevel = nivelDesdeXp(newXp);
 
     await supabase
       .from("rachas")
@@ -104,7 +83,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
           dias: newDias,
           xp_total: newXp,
           nivel_actual: newLevel,
-          ultima_actividad: new Date().toISOString()
+          ultima_actividad: fechaLocal()
       }, { onConflict: 'user_id' });
 
     // --- RECOMPENSAS / INSIGNIAS ---
