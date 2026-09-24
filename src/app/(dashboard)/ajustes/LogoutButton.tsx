@@ -1,29 +1,24 @@
 "use client";
 
 import { LogOut } from "lucide-react";
-import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+// Cierra sesión con la ruta de servidor POST /auth/signout, que borra las cookies y
+// redirige a /login. Así /ajustes no carga el cliente de Supabase en el navegador
+// (~70 kB gzip solo para signOut).
 export default function LogoutButton() {
-  const router = useRouter();
-  const supabase = createClient();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const handleLogout = async () => {
-    setIsLoggingOut(true);
-    await supabase.auth.signOut();
-    router.push("/login");
-  };
-
   return (
-    <button 
-      onClick={handleLogout}
-      disabled={isLoggingOut}
-      className="flex items-center gap-2 px-4 py-2 bg-warm-coral/10 hover:bg-warm-coral/20 text-warm-coral rounded-xl font-medium transition-colors disabled:opacity-50"
-    >
-      <LogOut size={18} />
-      {isLoggingOut ? "Cerrando sesión..." : "Cerrar Sesión"}
-    </button>
+    <form action="/auth/signout" method="post" onSubmit={() => setIsLoggingOut(true)}>
+      <button
+        type="submit"
+        disabled={isLoggingOut}
+        className="flex items-center gap-2 px-4 py-2 bg-warm-coral/10 hover:bg-warm-coral/20 text-warm-coral rounded-xl font-medium transition-colors disabled:opacity-50"
+      >
+        <LogOut size={18} />
+        {isLoggingOut ? "Cerrando sesión..." : "Cerrar Sesión"}
+      </button>
+    </form>
   );
 }
