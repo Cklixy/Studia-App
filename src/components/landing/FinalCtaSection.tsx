@@ -1,11 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { useHaySesion } from "@/hooks/useHaySesion";
 
-interface FinalCtaSectionProps {
-  user?: { email?: string; id?: string } | null;
-}
-
-export default function FinalCtaSection({ user }: FinalCtaSectionProps) {
+export default function FinalCtaSection() {
+  const user = useHaySesion();
   return (
     <section className="px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full py-4 sm:py-8">
       <div className="rounded-[28px] sm:rounded-[32px] bg-white border border-black/[0.08] shadow-[0_25px_60px_-15px_rgba(0,25,60,0.07)] p-6 sm:p-16 md:p-20 text-center space-y-5 sm:space-y-6">

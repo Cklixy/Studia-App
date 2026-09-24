@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { createClient } from "@/utils/supabase/server";
 import LandingNavbar from "@/components/landing/LandingNavbar";
 import HeroProductMockup from "@/components/landing/HeroProductMockup";
 import ProblemSection from "@/components/landing/ProblemSection";
@@ -12,12 +10,10 @@ import ExamsSection from "@/components/landing/ExamsSection";
 import ProgressSection from "@/components/landing/ProgressSection";
 import FinalCtaSection from "@/components/landing/FinalCtaSection";
 import LandingFooter from "@/components/landing/LandingFooter";
-import { ArrowRight, Sparkles } from "lucide-react";
+import HeroCta from "@/components/landing/HeroCta";
 
-export default async function HomePage() {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
+// La landing es estática: no consulta la sesión en el servidor (ver useHaySesion).
+export default function HomePage() {
   return (
     <div className="min-h-screen bg-frost-base text-arctic-slate flex flex-col selection:bg-glacier-blue/15 selection:text-glacier-blue relative overflow-x-hidden">
       
@@ -25,7 +21,7 @@ export default async function HomePage() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-b from-glacier-blue/[0.05] via-transparent to-transparent blur-3xl pointer-events-none" />
 
       {/* 1. NAVBAR */}
-      <LandingNavbar user={user} />
+      <LandingNavbar />
 
       {/* CONTENIDO PRINCIPAL (HISTORIA SECUENCIAL) */}
       <main className="flex-1 space-y-16 sm:space-y-24 pb-14 sm:pb-20">
@@ -52,31 +48,7 @@ export default async function HomePage() {
               </p>
 
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 pt-2">
-                {user ? (
-                  <Link
-                    href="/materias"
-                    className="btn-apple-primary text-xs sm:text-sm py-3.5 px-8 font-semibold apple-tactile inline-flex items-center justify-center gap-2 shadow-apple-sm rounded-full"
-                  >
-                    <span>Ir a mis materias</span>
-                    <ArrowRight size={15} />
-                  </Link>
-                ) : (
-                  <>
-                    <Link
-                      href="/registro"
-                      className="btn-apple-primary text-xs sm:text-sm py-3.5 px-8 font-semibold apple-tactile inline-flex items-center justify-center gap-2 shadow-apple-sm rounded-full"
-                    >
-                      <span>Empezar gratis</span>
-                      <ArrowRight size={15} />
-                    </Link>
-                    <a
-                      href="#como-funciona"
-                      className="btn-apple-secondary text-xs sm:text-sm py-3.5 px-6 font-semibold apple-tactile rounded-full text-center"
-                    >
-                      <span>Ver cómo funciona</span>
-                    </a>
-                  </>
-                )}
+                <HeroCta />
               </div>
             </div>
 
@@ -113,7 +85,7 @@ export default async function HomePage() {
         <ProgressSection />
 
         {/* ===================== 11. CTA FINAL ===================== */}
-        <FinalCtaSection user={user} />
+        <FinalCtaSection />
 
       </main>
 

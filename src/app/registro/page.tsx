@@ -1,12 +1,10 @@
 import { signup } from "../login/actions";
 import Link from "next/link";
+import { Suspense } from "react";
 import BrandLogo from "@/components/BrandLogo";
+import MensajeAuth from "@/components/MensajeAuth";
 
-export default function RegisterPage({
-  searchParams,
-}: {
-  searchParams: { message: string };
-}) {
+export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-deep-ink flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
       {/* Glow ambiental */}
@@ -58,11 +56,9 @@ export default function RegisterPage({
             </Link>
           </div>
 
-          {searchParams?.message && (
-            <div className="mt-4 p-4 border border-warm-coral/30 text-warm-coral bg-warm-coral/5 rounded-lg text-center text-sm font-medium">
-              {searchParams.message}
-            </div>
-          )}
+          <Suspense fallback={null}>
+            <MensajeAuth variante="registro" />
+          </Suspense>
         </form>
       </div>
     </div>

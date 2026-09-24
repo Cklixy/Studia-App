@@ -4,12 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import { ArrowRight, Menu, X } from "lucide-react";
+import { useHaySesion } from "@/hooks/useHaySesion";
 
-interface LandingNavbarProps {
-  user?: { email?: string; id?: string } | null;
-}
-
-export default function LandingNavbar({ user }: LandingNavbarProps) {
+export default function LandingNavbar() {
+  const user = useHaySesion();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (

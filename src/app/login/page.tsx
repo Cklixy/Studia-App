@@ -1,12 +1,10 @@
 import { login } from "./actions";
 import Link from "next/link";
+import { Suspense } from "react";
 import BrandLogo from "@/components/BrandLogo";
+import MensajeAuth from "@/components/MensajeAuth";
 
-export default function LoginPage({
-  searchParams,
-}: {
-  searchParams: { message: string };
-}) {
+export default function LoginPage() {
   return (
     <div className="min-h-screen bg-deep-ink flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
       {/* Glow ambiental */}
@@ -58,17 +56,9 @@ export default function LoginPage({
             </Link>
           </div>
 
-          {searchParams?.message && (
-            <div className={`mt-4 p-3.5 rounded-xl text-center text-xs font-medium border ${
-              searchParams.message.toLowerCase().includes("éxito") || 
-              searchParams.message.toLowerCase().includes("exitosamente") || 
-              searchParams.message.toLowerCase().includes("correo")
-                ? "border-emerald-500/30 text-emerald-400 bg-emerald-500/10"
-                : "border-warm-coral/30 text-warm-coral bg-warm-coral/5"
-            }`}>
-              {searchParams.message}
-            </div>
-          )}
+          <Suspense fallback={null}>
+            <MensajeAuth variante="login" />
+          </Suspense>
         </form>
       </div>
     </div>
