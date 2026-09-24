@@ -14,7 +14,7 @@ export default function LogoutButton() {
       <button
         type="submit"
         disabled={isLoggingOut}
-        className="flex items-center gap-2 px-4 py-2 bg-warm-coral/10 hover:bg-warm-coral/20 text-warm-coral rounded-xl font-medium transition-colors disabled:opacity-50"
+        className="flex items-center gap-2 px-4 py-2 bg-cool-berry/10 hover:bg-cool-berry/20 text-cool-berry rounded-xl font-medium transition-colors disabled:opacity-50"
       >
         <LogOut size={18} />
         {isLoggingOut ? "Cerrando sesión..." : "Cerrar Sesión"}

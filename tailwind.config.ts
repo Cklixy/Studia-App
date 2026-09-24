@@ -9,8 +9,6 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
 
         // Apple Frosted White surfaces
         "frost-base": "#F4F6FB",
@@ -35,20 +33,6 @@ const config: Config = {
         // Borde de campos de formulario: 3,5:1 sobre blanco (WCAG 1.4.11)
         "arctic-borde": "#8A8A8E",
 
-        // Mappings for seamless backward compatibility
-        "system-base": "#F4F6FB",
-        "system-surface": "rgba(255, 255, 255, 0.75)",
-        "system-elevated": "#FFFFFF",
-        "deep-ink": "#F4F6FB",
-        "deep-surface": "rgba(255, 255, 255, 0.85)",
-        "deep-elevated": "#FFFFFF",
-        "electric-periwinkle": "#0066CC",
-        "signal-lime": "#0EA5E9",
-        "electric-lavender": "#4F46E5",
-        "warm-coral": "#C10A2B",
-        "text-primary": "#1D1D1F",
-        "text-secondary": "#6E6E73",
-        "text-tertiary": "#636366",
 
         // Apple HIG accents
         "apple-blue": "#0066CC",
