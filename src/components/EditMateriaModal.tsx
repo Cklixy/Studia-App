@@ -145,7 +145,7 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
             type="button"
             onClick={() => setConfirmDelete(false)}
             disabled={loading}
-            autoFocus
+            data-autofocus
             className="flex-1 btn-apple-ghost text-sm min-h-11 apple-tactile"
           >
             Cancelar

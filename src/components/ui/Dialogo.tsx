@@ -49,6 +49,8 @@ export default function Dialogo({
       const activo = document.activeElement as HTMLElement | null;
       if (activo && !activo.closest("dialog")) anteriorRef.current = activo;
       d.showModal();
+      // showModal enfoca el primer control (el botón Cerrar); se prefiere el marcado con data-autofocus
+      d.querySelector<HTMLElement>("[data-autofocus]")?.focus();
     } else if (!abierto && d.open) {
       d.close();
     }

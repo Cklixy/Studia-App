@@ -73,7 +73,7 @@ export default function CreateMateriaModal({ isOpen, onClose }: CreateMateriaMod
             id={`${id}-nombre`}
             type="text"
             required
-            autoFocus
+            data-autofocus
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
             className="w-full rounded-xl px-4 py-2.5 bg-white border border-arctic-borde focus:border-glacier-blue focus:ring-2 focus:ring-glacier-blue/25 outline-none text-base text-arctic-slate transition-all"

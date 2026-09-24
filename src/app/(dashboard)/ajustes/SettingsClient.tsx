@@ -200,6 +200,7 @@ function PrivacidadYDatos() {
             </label>
             <input
               id={idConfirmacion}
+              data-autofocus
               value={confirmacion}
               onChange={(e) => setConfirmacion(e.target.value)}
               autoComplete="off"
