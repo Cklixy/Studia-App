@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Trophy, Lock } from "lucide-react";
+import NavProgreso from "@/components/NavProgreso";
 import { rachaVigente, xpInicioNivel, XP_POR_MINUTO } from "@/lib/racha";
 
 // Lista completa de badges posibles en el juego
@@ -42,6 +43,7 @@ export default async function LogrosPage() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 duration-500">
+      <NavProgreso activo="logros" />
       <header className="pb-2 border-b border-black/[0.06]">
         <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider">
           Gamificación y Metas

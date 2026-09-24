@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getCachedMaterias } from "@/lib/data/materias";
 import { formatHumanDuration, formatNaturalDate, formatMinutesNumber } from "@/lib/format-session";
 import { SubjectIconContainer } from "@/lib/subject-icons";
+import NavProgreso from "@/components/NavProgreso";
 
 export default async function HistorialPage({
   searchParams,
@@ -118,6 +119,7 @@ export default async function HistorialPage({
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 sm:space-y-10 duration-300">
+      <NavProgreso activo="historial" />
       
       {/* 1. HEADER EDITORIAL */}
       <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 pb-2 border-b border-black/[0.04]">

@@ -29,7 +29,7 @@ const STEPS: TourStep[] = [
     title: "Organiza tus materias",
     description:
       "Crea tus asignaturas y agrega los temas que necesitas estudiar. Studia+ los recordará y te ayudará a organizarlos.",
-    hint: "Toca el ícono de brújula 🧭 en el dock inferior.",
+    hint: "Está en «Inicio», en la barra inferior.",
   },
   {
     id: "sesion",
@@ -37,7 +37,7 @@ const STEPS: TourStep[] = [
     title: "Inicia una sesión de estudio",
     description:
       "Cuando quieras estudiar, toca «Estudiar». La IA analizará tu contexto y te recomendará el método cognitivo más efectivo: Active Recall, Pomodoro, Feynman...",
-    hint: "Busca el ícono ▶ con el punto azul pulsante en el dock.",
+    hint: "Toca «Estudiar» en la barra inferior.",
   },
   {
     id: "rutas",
@@ -45,7 +45,7 @@ const STEPS: TourStep[] = [
     title: "Tu Plan IA personalizado",
     description:
       "En «Plan IA» generamos una ruta de estudio completa adaptada a tu nivel, materia y tiempo disponible. La IA hace el trabajo por ti.",
-    hint: "Toca el ícono ✨ en el dock.",
+    hint: "Toca «Crear ruta IA» en Inicio o dentro de una materia.",
   },
   {
     id: "evaluaciones",

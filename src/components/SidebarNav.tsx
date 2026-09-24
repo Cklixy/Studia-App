@@ -3,24 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
-import {
-  Compass,
-  Clock,
-  BookmarkCheck,
-  Sparkles,
-  Trophy,
-  PlayCircle,
-  SlidersHorizontal
-} from "lucide-react";
+import { Compass, PlayCircle, BookmarkCheck, BarChart3, SlidersHorizontal } from "lucide-react";
 
+// 5 destinos con etiqueta siempre visible (antes 7 iconos sin texto en móvil — auditoría U-12).
+// «Plan IA» se abre desde Inicio («Crear ruta IA») y desde cada materia; Logros vive dentro de Progreso.
 const links = [
-  { name: "Materias", href: "/materias", icon: Compass },
-  { name: "Estudiar", href: "/sesion/nueva", icon: PlayCircle, highlight: true },
-  { name: "Historial", href: "/historial", icon: Clock },
-  { name: "Evaluaciones", href: "/evaluaciones", icon: BookmarkCheck },
-  { name: "Plan IA", href: "/rutas", icon: Sparkles },
-  { name: "Logros", href: "/logros", icon: Trophy },
-  { name: "Ajustes", href: "/ajustes", icon: SlidersHorizontal },
+  { name: "Inicio", href: "/materias", icon: Compass, activoEn: ["/materias", "/rutas"] },
+  { name: "Estudiar", href: "/sesion/nueva", icon: PlayCircle, activoEn: ["/sesion"] },
+  { name: "Parciales", href: "/evaluaciones", icon: BookmarkCheck, activoEn: ["/evaluaciones"] },
+  { name: "Progreso", href: "/historial", icon: BarChart3, activoEn: ["/historial", "/logros"] },
+  { name: "Ajustes", href: "/ajustes", icon: SlidersHorizontal, activoEn: ["/ajustes"] },
 ];
 
 export default function SidebarNav() {
@@ -30,57 +22,28 @@ export default function SidebarNav() {
   return (
     <nav
       aria-label="Navegación principal"
-      className="flex items-center gap-1 sm:gap-2 p-1 sm:p-2 rounded-full bg-white/85 backdrop-blur-2xl border border-black/[0.08] shadow-[0_16px_40px_rgba(0,0,0,0.10),0_2px_8px_rgba(0,0,0,0.04)] max-w-[calc(100vw-1rem)] overflow-x-auto no-scrollbar select-none"
+      className="flex items-stretch gap-0.5 sm:gap-1.5 p-1 sm:p-1.5 rounded-3xl bg-white/90 backdrop-blur-2xl border border-black/[0.08] shadow-[0_16px_40px_rgba(0,0,0,0.10),0_2px_8px_rgba(0,0,0,0.04)] max-w-[calc(100vw-1rem)] select-none"
     >
-      {links.map(({ name, href, icon: Icon, highlight }) => {
-        const isActive = pathname.startsWith(href);
+      {links.map(({ name, href, icon: Icon, activoEn }) => {
+        const isActive = activoEn.some((ruta) => pathname.startsWith(ruta));
         return (
           <Link
             key={href}
             href={href}
-            title={name}
-            aria-label={name}
             aria-current={isActive ? "page" : undefined}
-            className={`group relative flex items-center justify-center gap-1.5 sm:gap-2.5 min-h-11 min-w-9 py-1.5 sm:py-2.5 rounded-full font-semibold transition-all duration-200 apple-tactile shrink-0 ${
-              isActive
-                ? "text-white font-bold px-3 sm:px-5 shadow-sm"
-                : "text-arctic-slate/75 hover:text-arctic-slate hover:bg-black/[0.04] px-2 sm:px-3.5"
+            className={`group relative flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 min-h-12 min-w-[3.75rem] sm:min-w-0 px-2 sm:px-4 py-1.5 rounded-2xl font-semibold transition-colors duration-200 apple-tactile ${
+              isActive ? "text-white" : "text-arctic-secondary hover:text-arctic-slate hover:bg-black/[0.04]"
             }`}
           >
             {isActive && (
               <motion.div
                 layoutId={shouldReduceMotion ? undefined : "activeDockPill"}
-                className="absolute inset-0 rounded-full bg-glacier-blue shadow-apple-glow"
-                transition={shouldReduceMotion ? { duration: 0 } : {
-                  type: "spring",
-                  damping: 28,
-                  stiffness: 380,
-                }}
+                className="absolute inset-0 rounded-2xl bg-glacier-blue shadow-apple-glow"
+                transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", damping: 28, stiffness: 380 }}
               />
             )}
-
-            <span className="relative z-10 flex items-center justify-center">
-              <Icon
-                aria-hidden="true"
-                size={19}
-                strokeWidth={2}
-                className={`transition-colors duration-200 ${
-                  isActive
-                    ? "text-white"
-                    : highlight
-                    ? "text-glacier-blue group-hover:text-glacier-blue"
-                    : "text-arctic-slate/70 group-hover:text-arctic-slate"
-                }`}
-              />
-            </span>
-
-            <span className={`relative z-10 tracking-tight text-xs sm:text-[13px] whitespace-nowrap transition-all duration-200 ${isActive ? 'inline' : 'hidden sm:inline'}`}>
-              {name}
-            </span>
-
-            {highlight && !isActive && (
-              <span aria-hidden="true" className="relative z-10 w-2 h-2 rounded-full bg-glacier-blue -ml-0.5" />
-            )}
+            <Icon aria-hidden="true" size={20} strokeWidth={2} className="relative z-10" />
+            <span className="relative z-10 text-xs sm:text-[13px] tracking-tight whitespace-nowrap">{name}</span>
           </Link>
         );
       })}
