@@ -45,6 +45,13 @@ export default function RootLayout({
         <meta name="theme-color" content="#F4F6FB" />
       </head>
       <body className="font-sans antialiased text-arctic-slate bg-frost-base">
+        {/* Enlace de salto (WCAG 2.4.1): visible solo al enfocarlo con el teclado */}
+        <a
+          href="#contenido"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-3 focus:rounded-xl focus:bg-white focus:text-arctic-slate focus:font-semibold focus:shadow-apple-lg focus:outline focus:outline-2 focus:outline-glacier-blue"
+        >
+          Saltar al contenido
+        </a>
         {children}
       </body>
     </html>

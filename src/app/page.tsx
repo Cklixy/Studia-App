@@ -24,7 +24,7 @@ export default function HomePage() {
       <LandingNavbar />
 
       {/* CONTENIDO PRINCIPAL (HISTORIA SECUENCIAL) */}
-      <main className="flex-1 space-y-16 sm:space-y-24 pb-14 sm:pb-20">
+      <main id="contenido" tabIndex={-1} className="flex-1 focus:outline-none space-y-16 sm:space-y-24 pb-14 sm:pb-20">
         
         {/* ===================== 2. HERO SECTION ===================== */}
         <section className="relative pt-6 sm:pt-14 md:pt-18 pb-4 sm:pb-8 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full">

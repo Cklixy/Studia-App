@@ -42,7 +42,7 @@ export default async function DashboardLayout({
       </header>
 
       {/* Main Content Viewport */}
-      <main className="flex-1 px-3 py-4 sm:px-6 lg:px-10 sm:py-8 max-w-[1280px] w-full mx-auto pb-32 sm:pb-36 md:pb-40">
+      <main id="contenido" tabIndex={-1} className="flex-1 focus:outline-none px-3 py-4 sm:px-6 lg:px-10 sm:py-8 max-w-[1280px] w-full mx-auto pb-32 sm:pb-36 md:pb-40">
         {children}
       </main>
 

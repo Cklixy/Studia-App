@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { revalidateMateriasCache } from "@/lib/data/materias";
+import { rutaSchema } from "@/lib/validations/rutas";
 
 export async function POST(request: Request) {
   try {
@@ -11,12 +12,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 });
     }
 
-    const body = await request.json();
-    const { materia_id, materia_nombre, titulo_ruta, prompt_original, temas } = body;
-
-    if (!temas || !Array.isArray(temas) || temas.length === 0) {
-      return NextResponse.json({ error: "Faltan temas en la ruta" }, { status: 400 });
+    const parsed = rutaSchema.safeParse(await request.json());
+    if (!parsed.success) {
+      return NextResponse.json({ error: parsed.error.issues[0]?.message || "Datos de la ruta no válidos" }, { status: 400 });
     }
+    const { materia_id, materia_nombre, titulo_ruta, prompt_original, temas } = parsed.data;
 
     // 1. Resolver la materia
     let finalMateriaId = materia_id;
