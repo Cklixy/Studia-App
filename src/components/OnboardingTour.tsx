@@ -253,7 +253,7 @@ export default function OnboardingTour() {
                     </div>
 
                     {/* Descripción */}
-                    <p className="text-sm text-arctic-secondary leading-relaxed">
+                    <p className="text-sm text-arctic-tertiary leading-relaxed">
                       {current.description}
                     </p>
 
@@ -261,7 +261,7 @@ export default function OnboardingTour() {
                     {current.hint && (
                       <div className="flex items-start gap-2.5 bg-glacier-blue/[0.06] border border-glacier-blue/[0.18] rounded-xl px-3.5 py-3">
                         <MapPin size={13} className="text-glacier-blue shrink-0 mt-0.5" aria-hidden="true" />
-                        <span className="text-xs font-medium text-glacier-blue/90 leading-relaxed">
+                        <span className="text-xs font-medium text-glacier-blue leading-relaxed">
                           {current.hint}
                         </span>
                       </div>
