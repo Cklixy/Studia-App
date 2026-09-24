@@ -1,11 +1,19 @@
+// Service worker de studia+: solo notificaciones push.
+// No intercepta peticiones (sin manejador "fetch"): antes reenviaba cada petición sin cachear
+// nada y, sin red, respondía con undefined, lo que rompía la navegación offline.
+
 self.addEventListener("push", (event) => {
-  const data = event.data ? event.data.json() : {};
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch {
+    // Payload no JSON: se usan los textos por defecto
+  }
 
   const title = data.title || "¡Notificación de studia+!";
   const options = {
     body: data.body || "No olvides estudiar hoy.",
-    icon: "/icon.png",
-    badge: "/badge.png",
+    icon: "/icons/icon-192x192.png",
     data: {
       url: data.url || "/",
     },
@@ -16,14 +24,15 @@ self.addEventListener("push", (event) => {
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  event.waitUntil(self.clients.openWindow(event.notification.data.url));
-});
 
-self.addEventListener("fetch", (event) => {
-  // Manejo básico de fetch para que la app cumpla con los requisitos PWA y sea instalable
-  event.respondWith(
-    fetch(event.request).catch(() => {
-      return caches.match(event.request);
-    })
-  );
+  // Solo se abren rutas del propio sitio
+  let destino = "/";
+  try {
+    const url = new URL(event.notification.data?.url || "/", self.location.origin);
+    if (url.origin === self.location.origin) destino = url.pathname + url.search;
+  } catch {
+    // URL inválida: se abre la raíz
+  }
+
+  event.waitUntil(self.clients.openWindow(destino));
 });

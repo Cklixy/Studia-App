@@ -1,32 +1,29 @@
 {
+  "id": "/",
   "name": "studia+ — Navegación Académica",
   "short_name": "studia+",
   "description": "Tu sistema de navegación académica impulsado por IA",
+  "lang": "es",
+  "dir": "ltr",
   "start_url": "/materias",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#F4F6FB",
   "theme_color": "#F4F6FB",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icon.jpg",
-      "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/icons/icon-192x192.svg",
+      "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/icons/icon-512x512.svg",
+      "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
-  "screenshots": [],
   "categories": ["education", "productivity"]
 }
