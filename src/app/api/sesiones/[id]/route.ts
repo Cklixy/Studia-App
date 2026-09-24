@@ -16,12 +16,33 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const body = await request.json();
     const validatedData = updateSessionSchema.parse(body);
 
+    // Una sesión solo se puede finalizar una vez: antes, repetir el PATCH volvía a sumar XP.
+    const { data: sesionActual } = await supabase
+      .from("sesiones")
+      .select("estado, hora_inicio")
+      .eq("id", sessionId)
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (!sesionActual) {
+      return NextResponse.json({ error: "Sesión no encontrada" }, { status: 404 });
+    }
+    if (sesionActual.estado === "finalizada") {
+      return NextResponse.json({ error: "La sesión ya estaba finalizada" }, { status: 409 });
+    }
+
+    // El tiempo efectivo no puede superar el tiempo real transcurrido desde el inicio
+    const transcurridoSegundos = sesionActual.hora_inicio
+      ? Math.max(0, Math.floor((Date.now() - new Date(sesionActual.hora_inicio).getTime()) / 1000))
+      : validatedData.tiempo_efectivo_segundos;
+    const tiempoEfectivo = Math.min(validatedData.tiempo_efectivo_segundos, transcurridoSegundos);
+
     const { data, error } = await supabase
       .from("sesiones")
       .update({
         estado: 'finalizada',
         hora_finalizacion: new Date().toISOString(),
-        tiempo_efectivo_segundos: validatedData.tiempo_efectivo_segundos,
+        tiempo_efectivo_segundos: tiempoEfectivo,
         pausas_count: validatedData.pausas_count,
         resultado_logro: validatedData.resultado_logro,
         calificacion_utilidad: validatedData.calificacion_utilidad,
@@ -29,16 +50,18 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       })
       .eq("id", sessionId)
       .eq("user_id", user.id)
+      .neq("estado", "finalizada") // evita la doble concesión si llegan dos PATCH a la vez
       .select("id, estado, tiempo_efectivo_segundos, hora_finalizacion, resultado_logro")
       .single();
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error || !data) {
+      // M7: no exponer error.message interno
+      return NextResponse.json({ error: "No se pudo finalizar la sesión" }, { status: error ? 500 : 409 });
     }
 
     // --- GAMIFICACIÓN ---
     // 10 XP por cada minuto completo de estudio efectivo
-    const gainedXp = Math.floor((validatedData.tiempo_efectivo_segundos || 0) / 60) * 10;
+    const gainedXp = Math.floor(tiempoEfectivo / 60) * 10;
     
     const { data: racha } = await supabase
       .from("rachas")
