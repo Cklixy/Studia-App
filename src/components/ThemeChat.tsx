@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useId, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { X, Send, Loader2, Sparkles, MessageCircle, RotateCcw } from "lucide-react";
+import TextoTutor from "./TextoTutor";
 
 interface ThemeChatProps {
   tema: any;
@@ -199,7 +200,7 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
                   }`}
                 >
                   <span className="sr-only">{msg.role === "user" ? "Tú: " : "Tutor: "}</span>
-                  {msg.text}
+                  {msg.role === "model" ? <TextoTutor texto={msg.text} /> : msg.text}
                 </div>
               </div>
             ))}
