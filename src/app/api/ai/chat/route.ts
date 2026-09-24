@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { MODELO_GEMINI } from "@/lib/ai/gemini";
+import { conReintentoGemini, esErrorIaSaturada, RESPUESTA_IA_SATURADA } from "@/lib/ai/gemini";
 import { createClient } from "@/utils/supabase/server";
 import { LRUCache } from "lru-cache";
 
@@ -45,9 +45,7 @@ export async function POST(request: NextRequest) {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({
-      model: MODELO_GEMINI,
-      systemInstruction: `Eres el tutor de studia+, un asistente académico experto y amigable.
+    const systemInstruction = `Eres el tutor de studia+, un asistente académico experto y amigable.
       El estudiante está trabajando en el tema "${temaNombre}" de la materia "${materiaNombre}".
       Tu rol es: 
       - Explicar conceptos de forma clara y con ejemplos prácticos
@@ -55,22 +53,24 @@ export async function POST(request: NextRequest) {
       - Ser conciso (máximo 3 párrafos por respuesta)
       - Si el tema es de ciencias exactas, puedes incluir fórmulas en texto plano
       - Hablar siempre en español
-      - Si te preguntan algo no académico, redirigir amablemente al tema`
-    });
+      - Si te preguntan algo no académico, redirigir amablemente al tema`;
 
-    const chat = model.startChat({
-      history: (history || []).map((msg: any) => ({
-        role: msg.role === "user" ? "user" : "model",
-        parts: [{ text: msg.text }]
-      }))
+    const response = await conReintentoGemini(async (modelo) => {
+      const model = genAI.getGenerativeModel({ model: modelo, systemInstruction });
+      const chat = model.startChat({
+        history: (history || []).map((msg: any) => ({
+          role: msg.role === "user" ? "user" : "model",
+          parts: [{ text: msg.text }]
+        }))
+      });
+      const result = await chat.sendMessage(message);
+      return result.response.text();
     });
-
-    const result = await chat.sendMessage(message);
-    const response = result.response.text();
 
     return NextResponse.json({ response });
   } catch (error: any) {
     console.error("Error in AI Chat:", error);
-    return NextResponse.json({ error: "Hubo un error procesando tu solicitud" }, { status: 500 });
+    if (esErrorIaSaturada(error)) return NextResponse.json(RESPUESTA_IA_SATURADA, { status: 503 });
+    return NextResponse.json({ error: "No pudimos obtener respuesta del tutor." }, { status: 500 });
   }
 }

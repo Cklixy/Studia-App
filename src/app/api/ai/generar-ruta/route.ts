@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
-import { MODELO_GEMINI } from "@/lib/ai/gemini";
+import { conReintentoGemini, esErrorIaSaturada, RESPUESTA_IA_SATURADA } from "@/lib/ai/gemini";
+
+// Generar una ruta tarda ~12 s por llamada; con reintentos puede superar el límite por defecto
+export const maxDuration = 60;
 import { createClient } from "@/utils/supabase/server";
 import { LRUCache } from "lru-cache";
 import xss from "xss";
@@ -85,14 +88,6 @@ export async function POST(request: Request) {
       required: ["materia", "titulo_ruta", "temas"],
     };
 
-    const model = genAI.getGenerativeModel({
-      model: MODELO_GEMINI,
-      generationConfig: {
-        responseMimeType: "application/json",
-        responseSchema: schema as any,
-      },
-    });
-
     // M5: Defensive Prompt Engineering — variables del usuario aisladas en etiquetas XML
     // El LLM recibe instrucción explícita de ignorar comandos dentro de <USER_INPUT>.
     const systemInstruction = `
@@ -119,15 +114,24 @@ Reglas de generación:
 5. Todo debe estar en español.
     `;
 
-    const result = await model.generateContent(systemInstruction);
-
-    const textResponse = result.response.text();
+    const textResponse = await conReintentoGemini(async (modelo) => {
+      const model = genAI.getGenerativeModel({
+        model: modelo,
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: schema as any,
+        },
+      });
+      const result = await model.generateContent(systemInstruction);
+      return result.response.text();
+    });
     const routeData = JSON.parse(textResponse);
 
     return NextResponse.json(routeData);
   } catch (error: any) {
     console.error("Error al generar ruta con IA:", error);
+    if (esErrorIaSaturada(error)) return NextResponse.json(RESPUESTA_IA_SATURADA, { status: 503 });
     // M7: No exponer error.message interno al cliente
-    return NextResponse.json({ error: "Error al conectar con la IA." }, { status: 500 });
+    return NextResponse.json({ error: "No pudimos generar la ruta. Inténtalo de nuevo." }, { status: 500 });
   }
 }

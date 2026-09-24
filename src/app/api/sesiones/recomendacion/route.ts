@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { MODELO_GEMINI } from "@/lib/ai/gemini";
+import { conReintentoGemini, esErrorIaSaturada, RESPUESTA_IA_SATURADA } from "@/lib/ai/gemini";
 import { LRUCache } from "lru-cache";
 import xss from "xss";
 
@@ -91,17 +91,17 @@ El JSON debe tener exactamente esta estructura:
 `;
 
     // 4. Call Gemini API
-    // gemini-1.5-flash ya no existe en la API: esta ruta respondía siempre 500
-    const model = genAI.getGenerativeModel({
-      model: MODELO_GEMINI,
-      generationConfig: {
-        responseMimeType: "application/json",
-        temperature: 0.2, // Low temperature for consistent formatting
-      }
+    const responseText = await conReintentoGemini(async (modelo) => {
+      const model = genAI.getGenerativeModel({
+        model: modelo,
+        generationConfig: {
+          responseMimeType: "application/json",
+          temperature: 0.2, // Low temperature for consistent formatting
+        }
+      });
+      const result = await model.generateContent(prompt);
+      return result.response.text();
     });
-
-    const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
     
     // Parse the JSON. We instructed it to return JSON, but it's safe to parse in a try-catch
     let recommendation;
@@ -121,6 +121,7 @@ El JSON debe tener exactamente esta estructura:
 
   } catch (error: any) {
     console.error("Gemini AI Error:", error);
+    if (esErrorIaSaturada(error)) return NextResponse.json(RESPUESTA_IA_SATURADA, { status: 503 });
     // M7: No exponer error.message interno al cliente
     return NextResponse.json(
       { error: "AI recommendation failed" },
