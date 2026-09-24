@@ -1,17 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
+import { timingSafeEqual } from "crypto";
 import webpush from "web-push";
-export const dynamic = 'force-dynamic';
 import { createClient } from "@supabase/supabase-js";
+
+export const dynamic = "force-dynamic";
 
 // A2: Dominios permitidos para push notifications.
 // Configura ALLOWED_PUSH_HOSTS en .env como lista separada por comas.
-// Fallback: dominios oficiales de FCM (Google) y Mozilla.
-const DEFAULT_ALLOWED_PUSH_HOSTS = new Set([
+// Fallback: servicios push oficiales de Chrome (FCM), Firefox (Mozilla), Safari/iOS (Apple)
+// y Edge (WNS). Una entrada que empieza por "." admite cualquier subdominio.
+const DEFAULT_ALLOWED_PUSH_HOSTS = [
   "fcm.googleapis.com",
   "updates.push.services.mozilla.com",
-  "updates-autopush.stage.mozaws.net", // staging de Mozilla
   "push.services.mozilla.com",
-]);
+  "web.push.apple.com",
+  ".notify.windows.com",
+];
+
+function hostPermitido(hostname: string, permitidos: string[]): boolean {
+  return permitidos.some((h) =>
+    h.startsWith(".") ? hostname.endsWith(h) : hostname === h
+  );
+}
+
+// Comparación en tiempo constante para no filtrar el secreto por tiempos de respuesta
+function secretoValido(authHeader: string | null, secreto: string): boolean {
+  const esperado = Buffer.from(`Bearer ${secreto}`);
+  const recibido = Buffer.from(authHeader ?? "");
+  return recibido.length === esperado.length && timingSafeEqual(recibido, esperado);
+}
 
 function isAllowedEndpoint(rawUrl: string): boolean {
   try {
@@ -20,9 +37,9 @@ function isAllowedEndpoint(rawUrl: string): boolean {
     if (url.protocol !== "https:") return false;
     // 2. Hostname en lista blanca
     const allowedHosts = process.env.ALLOWED_PUSH_HOSTS
-      ? new Set(process.env.ALLOWED_PUSH_HOSTS.split(",").map((h) => h.trim().toLowerCase()))
+      ? process.env.ALLOWED_PUSH_HOSTS.split(",").map((h) => h.trim().toLowerCase()).filter(Boolean)
       : DEFAULT_ALLOWED_PUSH_HOSTS;
-    return allowedHosts.has(url.hostname.toLowerCase());
+    return hostPermitido(url.hostname.toLowerCase(), allowedHosts);
   } catch {
     // URL malformada
     return false;
@@ -30,9 +47,23 @@ function isAllowedEndpoint(rawUrl: string): boolean {
 }
 
 export async function GET(request: NextRequest) {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-  const supabase = createClient(supabaseUrl || "https://placeholder.supabase.co", supabaseKey || "placeholder");
+  // 1. Proteger el endpoint con el secreto. Sin CRON_SECRET configurado se rechaza todo:
+  //    antes, "Bearer undefined" pasaba la comprobación.
+  const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret || !secretoValido(request.headers.get("Authorization"), cronSecret)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // La RPC solo la puede ejecutar service_role; no hay alternativa con la anon key.
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!supabaseUrl || !serviceRoleKey) {
+    console.error("Cron: faltan NEXT_PUBLIC_SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY");
+    return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 });
+  }
+  const supabase = createClient(supabaseUrl, serviceRoleKey, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
 
   if (process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
     webpush.setVapidDetails(
@@ -40,12 +71,6 @@ export async function GET(request: NextRequest) {
       process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
       process.env.VAPID_PRIVATE_KEY
     );
-  }
-
-  // 1. Proteger el endpoint con el secreto
-  const authHeader = request.headers.get("Authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
@@ -61,23 +86,17 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ message: "No reminders to send today!" });
     }
 
-    // A2: Validar cada endpoint antes de hacer fetch hacia él.
-    // Suscripciones con endpoint inválido se loguean y se limpian de la DB.
+    // A2: Validar cada endpoint antes de hacer fetch hacia él (SSRF).
+    // Solo se registra el host: el endpoint completo identifica al usuario.
     const invalidSubs: any[] = [];
     const validSubs = targetSubscriptions.filter((sub: any) => {
       if (isAllowedEndpoint(sub.endpoint)) return true;
-      console.warn("[SSRF-guard] Endpoint rechazado:", sub.endpoint, "— subscription_id:", sub.id);
+      let host = "url-invalida";
+      try { host = new URL(sub.endpoint).hostname; } catch {}
+      console.warn("[SSRF-guard] Endpoint rechazado, host:", host);
       invalidSubs.push(sub);
       return false;
     });
-
-    // Limpiar suscripciones con endpoints maliciosos/expirados
-    if (invalidSubs.length > 0) {
-      const invalidIds = invalidSubs.map((s: any) => s.id).filter(Boolean);
-      if (invalidIds.length > 0) {
-        await supabase.from("push_subscriptions").delete().in("id", invalidIds);
-      }
-    }
 
     if (validSubs.length === 0) {
       return NextResponse.json({ message: "No valid subscriptions to notify." });
@@ -98,8 +117,8 @@ export async function GET(request: NextRequest) {
           auth: sub.auth
         }
       };
-      return webpush.sendNotification(pushSubscription, notificationPayload).catch(err => {
-        console.error("Push failed for endpoint", sub.endpoint, err);
+      return webpush.sendNotification(pushSubscription, notificationPayload).catch((err) => {
+        console.error("Push fallido, status:", err?.statusCode ?? "desconocido");
       });
     });
 
