@@ -1,17 +1,31 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
+import { ES_PRODUCCION, URL_SITIO } from "@/lib/sitio";
+
+const descripcion = "Tu plataforma de estudio inteligente";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(URL_SITIO),
   title: "studia+",
-  description: "Tu plataforma de estudio inteligente",
+  description: descripcion,
   manifest: "/manifest.json",
+  // Los Preview de Vercel no deben indexarse
+  robots: ES_PRODUCCION ? undefined : { index: false, follow: false },
+  openGraph: {
+    type: "website",
+    locale: "es_CO",
+    siteName: "studia+",
+    title: "studia+",
+    description: descripcion,
+    images: [{ url: "/icons/icon-512x512.png", width: 512, height: 512, alt: "studia+" }],
+  },
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/icon.jpg", sizes: "512x512" },
+      { url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
     ],
-    apple: "/icon.jpg",
+    apple: "/icons/icon-192x192.png",
   },
   appleWebApp: {
     capable: true,
@@ -29,7 +43,6 @@ export default function RootLayout({
     <html lang="es" className={GeistSans.variable}>
       <head>
         <meta name="theme-color" content="#F4F6FB" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
       </head>
       <body className="font-sans antialiased text-arctic-slate bg-frost-base">
         {children}

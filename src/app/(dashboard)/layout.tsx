@@ -3,11 +3,17 @@ import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 import BrandLogo from "@/components/BrandLogo";
 import SidebarNav from "@/components/SidebarNav";
+import type { Metadata } from "next";
 
 // Cargado de forma dinámica (client-only) — depende de localStorage y motion
 const OnboardingTour = dynamic(() => import("@/components/OnboardingTour"), {
   ssr: false,
 });
+
+// Las páginas con sesión no deben indexarse
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 export default async function DashboardLayout({
   children,
