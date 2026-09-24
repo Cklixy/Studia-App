@@ -69,7 +69,7 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
             </div>
           </div>
           <p className="apple-body text-xs text-arctic-secondary mb-5 bg-red-500/[0.04] border border-red-500/15 rounded-xl p-3 leading-relaxed">
-            Se eliminarán permanentemente <b className="text-arctic-slate">"{materia.nombre}"</b> y todos sus temas y sesiones asociadas.
+            Se eliminarán permanentemente <b className="text-arctic-slate">&ldquo;{materia.nombre}&rdquo;</b> y todos sus temas y sesiones asociadas.
           </p>
           <div className="flex gap-3">
             <button

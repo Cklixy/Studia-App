@@ -70,10 +70,10 @@ export default function AiAssistanceSection() {
             Ejemplo de consulta en Cálculo Diferencial:
           </span>
           <p className="text-arctic-secondary leading-relaxed italic">
-            "¿Por qué un límite puede existir aunque la función no esté definida en ese punto?"
+            &ldquo;¿Por qué un límite puede existir aunque la función no esté definida en ese punto?&rdquo;
           </p>
           <p className="text-arctic-slate pt-1 leading-relaxed">
-            → "El límite describe hacia dónde se dirige el camino cuando te acercas, no lo que hay exactamente en el punto. Si dos personas caminan hacia el mismo puente desde lados opuestos, ambas apuntan al mismo destino, incluso si hay un pequeño hueco en medio."
+            → &ldquo;El límite describe hacia dónde se dirige el camino cuando te acercas, no lo que hay exactamente en el punto. Si dos personas caminan hacia el mismo puente desde lados opuestos, ambas apuntan al mismo destino, incluso si hay un pequeño hueco en medio.&rdquo;
           </p>
         </div>
       </div>
