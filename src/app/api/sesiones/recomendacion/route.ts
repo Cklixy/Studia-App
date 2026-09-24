@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { MODELO_GEMINI } from "@/lib/ai/gemini";
 import { LRUCache } from "lru-cache";
 import xss from "xss";
 
@@ -90,9 +91,9 @@ El JSON debe tener exactamente esta estructura:
 `;
 
     // 4. Call Gemini API
-    // Using gemini-1.5-flash as it is fast and cost-effective
-    const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash",
+    // gemini-1.5-flash ya no existe en la API: esta ruta respondía siempre 500
+    const model = genAI.getGenerativeModel({
+      model: MODELO_GEMINI,
       generationConfig: {
         responseMimeType: "application/json",
         temperature: 0.2, // Low temperature for consistent formatting

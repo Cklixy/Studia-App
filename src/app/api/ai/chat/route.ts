@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { MODELO_GEMINI } from "@/lib/ai/gemini";
 import { createClient } from "@/utils/supabase/server";
 import { LRUCache } from "lru-cache";
 
@@ -45,7 +46,7 @@ export async function POST(request: NextRequest) {
 
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: "gemini-3.6-flash",
+      model: MODELO_GEMINI,
       systemInstruction: `Eres el tutor de studia+, un asistente académico experto y amigable.
       El estudiante está trabajando en el tema "${temaNombre}" de la materia "${materiaNombre}".
       Tu rol es: 

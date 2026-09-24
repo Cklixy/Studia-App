@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
+import { MODELO_GEMINI } from "@/lib/ai/gemini";
 import { createClient } from "@/utils/supabase/server";
 import { LRUCache } from "lru-cache";
 import xss from "xss";
@@ -85,7 +86,7 @@ export async function POST(request: Request) {
     };
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-3.6-flash",
+      model: MODELO_GEMINI,
       generationConfig: {
         responseMimeType: "application/json",
         responseSchema: schema as any,
