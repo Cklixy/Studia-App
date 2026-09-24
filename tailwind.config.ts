@@ -21,10 +21,10 @@ const config: Config = {
         "frost-border-light": "rgba(255, 255, 255, 0.8)",
 
         // Cool tone accents
-        "glacier-blue": "#0071E3",
+        "glacier-blue": "#0066CC",
         "polar-cyan": "#0EA5E9",
         "ice-mint": "#06B6D4",
-        "cool-iris": "#6366F1",
+        "cool-iris": "#4F46E5",
         "cool-berry": "#C10A2B",
         "cool-amber": "#F59E0B",
 
@@ -40,16 +40,16 @@ const config: Config = {
         "deep-ink": "#F4F6FB",
         "deep-surface": "rgba(255, 255, 255, 0.85)",
         "deep-elevated": "#FFFFFF",
-        "electric-periwinkle": "#0071E3",
+        "electric-periwinkle": "#0066CC",
         "signal-lime": "#0EA5E9",
-        "electric-lavender": "#6366F1",
+        "electric-lavender": "#4F46E5",
         "warm-coral": "#C10A2B",
         "text-primary": "#1D1D1F",
         "text-secondary": "#6E6E73",
         "text-tertiary": "#636366",
 
         // Apple HIG accents
-        "apple-blue": "#0071E3",
+        "apple-blue": "#0066CC",
         "apple-green": "#34C759",
         "apple-orange": "#F59E0B",
         "apple-red": "#C10A2B",

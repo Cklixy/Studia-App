@@ -85,7 +85,7 @@ export default function ExamsSection() {
                   <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
                     <span className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 ${
                       t.done
-                        ? "bg-emerald-500/10 text-emerald-600 font-bold"
+                        ? "bg-emerald-500/10 text-emerald-700 font-bold"
                         : "bg-black/[0.04] text-arctic-tertiary"
                     }`}>
                       {t.done ? <Check size={13} strokeWidth={2.5} /> : <span className="text-[9px]">○</span>}
@@ -95,7 +95,7 @@ export default function ExamsSection() {
                     </span>
                   </div>
 
-                  <span className={`text-[11px] sm:text-xs shrink-0 ${t.done ? "text-emerald-600 font-semibold" : "text-arctic-tertiary"}`}>
+                  <span className={`text-[11px] sm:text-xs shrink-0 ${t.done ? "text-emerald-700 font-semibold" : "text-arctic-tertiary"}`}>
                     {t.done ? "Dominado" : "Por repasar"}
                   </span>
                 </div>

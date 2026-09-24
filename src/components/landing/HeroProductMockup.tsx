@@ -40,9 +40,9 @@ export default function HeroProductMockup() {
               <span className="text-xs font-semibold text-arctic-secondary block truncate">
                 Cálculo Diferencial
               </span>
-              <h3 className="text-lg sm:text-xl font-bold text-arctic-slate tracking-tight truncate">
+              <p className="text-lg sm:text-xl font-bold text-arctic-slate tracking-tight truncate">
                 Límites
-              </h3>
+              </p>
             </div>
           </div>
 

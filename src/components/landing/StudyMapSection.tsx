@@ -86,14 +86,14 @@ export default function StudyMapSection() {
                         ? "bg-white border-black/[0.08]"
                         : isCompleted
                         ? "bg-white/90 border-black/[0.04]"
-                        : "bg-white/60 border-black/[0.03] opacity-60"
+                        : "bg-white/60 border-black/[0.03]"
                     }`}
                   >
                     {/* Indicador de estado */}
                     <div
                       className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 text-xs font-bold ${
                         isCompleted
-                          ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
+                          ? "bg-emerald-500/10 text-emerald-700 border border-emerald-500/20"
                           : isActive
                           ? "bg-glacier-blue text-white shadow-apple-sm"
                           : "bg-black/[0.03] text-arctic-tertiary border border-black/[0.06]"
@@ -111,11 +111,11 @@ export default function StudyMapSection() {
                     {/* Info del tema */}
                     <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-3">
                       <div className="min-w-0">
-                        <h4 className={`text-xs sm:text-sm font-bold tracking-tight truncate ${
-                          isActive ? "text-glacier-blue" : "text-arctic-slate"
+                        <p className={`text-xs sm:text-sm font-bold tracking-tight truncate ${
+                          isActive ? "text-glacier-blue" : isCompleted || isNext ? "text-arctic-slate" : "text-arctic-secondary"
                         }`}>
                           {node.title}
-                        </h4>
+                        </p>
                         <p className="text-[11px] sm:text-xs text-arctic-secondary truncate">
                           {node.note}
                         </p>

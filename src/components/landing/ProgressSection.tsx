@@ -77,7 +77,7 @@ export default function ProgressSection() {
                 87%
               </span>
             </div>
-            <span className="text-[10px] sm:text-[11px] text-emerald-600 font-medium truncate">Metas completadas</span>
+            <span className="text-[10px] sm:text-[11px] text-emerald-700 font-medium truncate">Metas completadas</span>
           </div>
 
           <div className="p-4 sm:p-7 flex flex-col justify-between gap-1.5 sm:gap-2">
@@ -114,9 +114,9 @@ export default function ProgressSection() {
                   <SubjectIconContainer subjectName={s.materia} size="md" className="mt-0.5 shrink-0" />
 
                   <div className="min-w-0 flex-1 space-y-1">
-                    <h4 className="text-sm sm:text-base font-bold text-arctic-slate truncate">
+                    <p className="text-sm sm:text-base font-bold text-arctic-slate truncate">
                       {s.materia}
-                    </h4>
+                    </p>
                     <p className="text-xs sm:text-sm text-arctic-secondary truncate">
                       {s.tema}
                     </p>
@@ -132,7 +132,7 @@ export default function ProgressSection() {
                   <span className="text-sm sm:text-base font-bold text-arctic-slate font-mono tabular-nums">
                     {s.duracion}
                   </span>
-                  <div className="flex items-center gap-1 text-xs font-semibold text-amber-600/90 sm:mt-0.5">
+                  <div className="flex items-center gap-1 text-xs font-semibold text-amber-700 sm:mt-0.5">
                     <Star size={12} className="fill-amber-400 text-amber-500 shrink-0" />
                     <span>{s.rating}/5</span>
                   </div>

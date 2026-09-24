@@ -88,7 +88,7 @@ export default function AiTutorSection() {
                   </p>
                   <p className="text-xs text-arctic-secondary leading-relaxed">
                     Factorizamos el numerador: <span className="font-mono text-arctic-slate font-semibold">(x - 2)(x + 2)</span>. <br />
-                    Cancelamos <span className="font-mono text-arctic-slate font-semibold">(x - 2)</span> y evaluamos: <span className="font-semibold text-emerald-600">2 + 2 = 4</span>.
+                    Cancelamos <span className="font-mono text-arctic-slate font-semibold">(x - 2)</span> y evaluamos: <span className="font-semibold text-emerald-700">2 + 2 = 4</span>.
                   </p>
                 </div>
               </div>

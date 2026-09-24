@@ -68,7 +68,7 @@ export default function ProgressAndHabitsSection() {
 
           <div className="text-[11px] text-arctic-tertiary pt-2 border-t border-black/[0.04] flex items-center justify-between">
             <span>Método más frecuente: Pomodoro</span>
-            <span className="text-emerald-600 font-medium">85% metas cumplidas</span>
+            <span className="text-emerald-700 font-medium">85% metas cumplidas</span>
           </div>
 
         </div>

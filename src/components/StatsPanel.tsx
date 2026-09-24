@@ -110,7 +110,7 @@ export default function StatsPanel({
           value={`${efectividad}%`}
           sublabel="Metas de sesión cumplidas"
           accentBg="bg-emerald-500/10"
-          accentColor="text-emerald-600"
+          accentColor="text-emerald-700"
           progressColor="bg-emerald-500"
           icon={<Target size={16} strokeWidth={2} />}
           progress={efectividad}

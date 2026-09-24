@@ -56,7 +56,7 @@ export default function HowItWorksSection() {
             <span className="font-mono text-sm font-bold text-glacier-blue bg-white px-2 py-0.5 rounded border border-black/[0.04]">
               25:00 Focus
             </span>
-            <span className="text-[10px] text-emerald-600 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded-full">
+            <span className="text-[10px] text-emerald-700 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded-full">
               En curso
             </span>
           </div>
