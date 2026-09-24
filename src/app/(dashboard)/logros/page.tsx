@@ -76,17 +76,17 @@ export default async function LogrosPage() {
                 className={`apple-card p-3.5 sm:p-5 flex flex-col items-center text-center gap-2.5 sm:gap-3 transition-all ${
                   isUnlocked
                     ? 'border-glacier-blue/30 shadow-apple-sm'
-                    : 'bg-frost-base/50 border-black/[0.06] opacity-50'
+                    : 'bg-frost-base/50 border-dashed border-black/[0.12]'
                 }`}
               >
-                <div className={`text-4xl ${isUnlocked ? '' : 'grayscale'}`}>{badge.emoji}</div>
+                <div aria-hidden="true" className={`text-4xl ${isUnlocked ? '' : 'grayscale opacity-40'}`}>{badge.emoji}</div>
                 <div>
                   <p className="apple-headline">{badge.nombre}</p>
                   <p className="apple-subhead text-xs text-arctic-secondary mt-1 leading-relaxed">{badge.descripcion}</p>
                 </div>
                 {!isUnlocked && (
-                  <div className="flex items-center gap-1 text-[11px] font-medium text-arctic-tertiary">
-                    <Lock size={12} strokeWidth={2} />
+                  <div className="flex items-center gap-1 text-xs font-medium text-arctic-secondary">
+                    <Lock size={12} strokeWidth={2} aria-hidden="true" />
                     <span>Bloqueado</span>
                   </div>
                 )}

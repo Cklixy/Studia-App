@@ -33,6 +33,8 @@ export default async function NuevaSesionPage() {
 
   return (
     <div className="max-w-3xl mx-auto">
+      {/* Título de la página para lectores y navegación por encabezados (cada paso usa h2) */}
+      <h1 className="sr-only">Nueva sesión de estudio</h1>
       <SessionWizard initialMaterias={initialMaterias} />
     </div>
   );
