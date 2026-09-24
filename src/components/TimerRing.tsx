@@ -60,7 +60,7 @@ function TimerRingComponent({
 
   return (
     <div className="relative flex items-center justify-center w-60 h-60 sm:w-72 sm:h-72 md:w-80 md:h-80 mb-6 sm:mb-8 z-10 max-w-full aspect-square">
-      <svg className="w-full h-full transform -rotate-90" viewBox="0 0 280 280">
+      <svg className="w-full h-full transform -rotate-90" viewBox="0 0 280 280" aria-hidden="true" focusable="false">
         {/* Background Track */}
         <circle
           cx="140"
