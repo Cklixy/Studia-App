@@ -20,10 +20,15 @@ function urlBase64ToUint8Array(base64String: string) {
   return outputArray;
 }
 
-export default function PushNotificationManager() {
+// El cron (vercel.json) se ejecuta a las 20:00 UTC = 3:00 p. m. en Colombia.
+// Antes el texto prometía un recordatorio «todas las noches» (auditoría U-16).
+const HORA_RECORDATORIO = "3:00 p. m.";
+
+export default function PushNotificationManager({ compacto = false }: { compacto?: boolean }) {
   const [isSupported, setIsSupported] = useState(false);
   const [subscription, setSubscription] = useState<PushSubscription | null>(null);
   const [loading, setLoading] = useState(false);
+  const [aviso, setAviso] = useState<{ tipo: "error" | "exito"; texto: string } | null>(null);
 
   useEffect(() => {
     if ("serviceWorker" in navigator && "PushManager" in window) {
@@ -47,70 +52,113 @@ export default function PushNotificationManager() {
 
   async function subscribeToPush() {
     setLoading(true);
+    setAviso(null);
     try {
+      if (typeof Notification !== "undefined" && Notification.permission === "denied") {
+        setAviso({
+          tipo: "error",
+          texto: "Las notificaciones están bloqueadas en tu navegador. Actívalas en los ajustes del sitio y vuelve a intentarlo.",
+        });
+        return;
+      }
       const registration = await navigator.serviceWorker.ready;
       const sub = await registration.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
       });
-      
-      // Save subscription in our backend
-      await fetch("/api/notifications/subscribe", {
+
+      const res = await fetch("/api/notifications/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(sub),
       });
+      if (!res.ok) throw new Error("guardar");
 
       setSubscription(sub);
+      setAviso({ tipo: "exito", texto: `Listo: te avisaremos a las ${HORA_RECORDATORIO} los días que aún no hayas estudiado.` });
     } catch (err) {
       console.error("Failed to subscribe to push notifications", err);
+      setAviso({
+        tipo: "error",
+        texto:
+          typeof Notification !== "undefined" && Notification.permission === "denied"
+            ? "No diste permiso para las notificaciones. Puedes activarlo en los ajustes del sitio."
+            : "No pudimos activar el recordatorio. Inténtalo de nuevo.",
+      });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   async function unsubscribeFromPush() {
     setLoading(true);
+    setAviso(null);
     try {
       if (subscription) {
+        // Primero la base (si no, el cron seguía enviando a esta suscripción) y luego el navegador
+        await fetch("/api/notifications/subscribe", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ endpoint: subscription.endpoint }),
+        });
         await subscription.unsubscribe();
         setSubscription(null);
+        setAviso({ tipo: "exito", texto: "Recordatorio desactivado." });
       }
     } catch (err) {
       console.error("Failed to unsubscribe", err);
+      setAviso({ tipo: "error", texto: "No pudimos desactivar el recordatorio. Inténtalo de nuevo." });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   if (!isSupported) {
-    return null; // Si no está soportado, es mejor no mostrar ruido en la interfaz
+    return compacto ? (
+      <p className="text-sm text-arctic-secondary">
+        Tu navegador no admite notificaciones. En iPhone, añade studia+ a la pantalla de inicio para activarlas.
+      </p>
+    ) : null;
   }
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center gap-6 apple-card p-6 border-l-4 border-l-cool-berry shadow-apple-sm">
+    <div className={compacto ? "space-y-3" : "flex flex-col md:flex-row md:items-center gap-6 apple-card p-6 border-l-4 border-l-glacier-blue shadow-apple-sm"}>
       <div className="flex-1">
         <h3 className="font-bold flex items-center gap-2 text-arctic-slate mb-1 text-base">
-          <Bell size={18} className="text-cool-berry" /> Señal de Ruta
+          <Bell size={18} className="text-glacier-blue" aria-hidden="true" /> Recordatorio diario
         </h3>
         <p className="text-sm text-arctic-secondary">
-          Activa las notificaciones para que studia+ te recuerde continuar tu navegación todas las noches.
+          {subscription
+            ? `Activado: te avisaremos a las ${HORA_RECORDATORIO} (hora de Colombia) si ese día aún no has estudiado.`
+            : `Recibe un aviso a las ${HORA_RECORDATORIO} (hora de Colombia) los días que aún no hayas estudiado, para no perder tu racha.`}
         </p>
+        {aviso && (
+          <p
+            role={aviso.tipo === "error" ? "alert" : "status"}
+            className={`text-sm mt-2 font-medium ${aviso.tipo === "error" ? "text-cool-berry" : "text-emerald-800"}`}
+          >
+            {aviso.texto}
+          </p>
+        )}
       </div>
       <div>
         {subscription ? (
           <button
+            type="button"
             onClick={unsubscribeFromPush}
             disabled={loading}
-            className="btn-apple-secondary text-xs sm:text-sm py-2 px-4 inline-flex items-center gap-2 apple-tactile disabled:opacity-50"
+            className="btn-apple-secondary text-sm min-h-11 px-4 inline-flex items-center gap-2 apple-tactile disabled:opacity-50"
           >
-            <BellOff size={16} /> Silenciar señal
+            <BellOff size={16} aria-hidden="true" /> Desactivar recordatorio
           </button>
         ) : (
           <button
+            type="button"
             onClick={subscribeToPush}
             disabled={loading}
-            className="btn-apple-primary text-xs sm:text-sm py-2.5 px-5 font-semibold inline-flex items-center gap-2 apple-tactile shadow-apple-sm disabled:opacity-50"
+            className="btn-apple-primary text-sm min-h-11 px-5 font-semibold inline-flex items-center gap-2 apple-tactile shadow-apple-sm disabled:opacity-50"
           >
-            <Bell size={15} /> Activar señal
+            <Bell size={15} aria-hidden="true" /> Activar recordatorio
           </button>
         )}
       </div>
