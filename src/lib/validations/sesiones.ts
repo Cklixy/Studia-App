@@ -15,8 +15,10 @@ export const createSessionSchema = z.object({
 });
 
 export const updateSessionSchema = z.object({
-  tiempo_efectivo_segundos: z.number().int().min(0),
-  pausas_count: z.number().int().min(0).default(0),
+  // A3: tope máximo para evitar XP/racha inflables
+  // 86400 s = 24 h; ninguna sesión real supera ese valor
+  tiempo_efectivo_segundos: z.number().int().min(0).max(86400),
+  pausas_count: z.number().int().min(0).max(500).default(0),
   resultado_logro: z.enum(["Sí", "Parcialmente", "No", "Si"]).transform(val => val === "Sí" ? "Si" : val),
   calificacion_utilidad: z.enum(["Sí mucho", "Sí", "Más o menos", "No", "Si mucho", "Si", "Mas o menos"]).transform(val => val.normalize("NFD").replace(/[\u0300-\u036f]/g, "")),
   calificacion_productividad: z.number().int().min(1).max(5),
