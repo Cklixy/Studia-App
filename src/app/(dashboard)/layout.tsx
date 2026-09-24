@@ -1,7 +1,13 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import dynamic from "next/dynamic";
 import BrandLogo from "@/components/BrandLogo";
 import SidebarNav from "@/components/SidebarNav";
+
+// Cargado de forma dinámica (client-only) — depende de localStorage y motion
+const OnboardingTour = dynamic(() => import("@/components/OnboardingTour"), {
+  ssr: false,
+});
 
 export default async function DashboardLayout({
   children,
@@ -38,6 +44,9 @@ export default async function DashboardLayout({
       <div className="fixed left-1/2 -translate-x-1/2 z-50 pointer-events-auto px-2 sm:px-3 max-w-full" style={{bottom: 'max(1rem, calc(env(safe-area-inset-bottom, 0px) + 0.5rem))'}} >
         <SidebarNav />
       </div>
+
+      {/* Onboarding Tour — solo para usuarios nuevos */}
+      <OnboardingTour />
     </div>
   );
 }
