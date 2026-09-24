@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
-import { 
-  Compass, 
-  Clock, 
-  BookmarkCheck, 
-  Sparkles, 
-  Trophy, 
-  PlayCircle, 
-  SlidersHorizontal 
+import {
+  Compass,
+  Clock,
+  BookmarkCheck,
+  Sparkles,
+  Trophy,
+  PlayCircle,
+  SlidersHorizontal
 } from "lucide-react";
 
 const links = [
@@ -28,8 +28,8 @@ export default function SidebarNav() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <nav 
-      aria-label="Navegación principal" 
+    <nav
+      aria-label="Navegación principal"
       className="flex items-center gap-1 sm:gap-2 p-1 sm:p-2 rounded-full bg-white/85 backdrop-blur-2xl border border-black/[0.08] shadow-[0_16px_40px_rgba(0,0,0,0.10),0_2px_8px_rgba(0,0,0,0.04)] max-w-[calc(100vw-1rem)] overflow-x-auto no-scrollbar select-none"
     >
       {links.map(({ name, href, icon: Icon, highlight }) => {
@@ -39,7 +39,9 @@ export default function SidebarNav() {
             key={href}
             href={href}
             title={name}
-            className={`group relative flex items-center gap-1.5 sm:gap-2.5 py-1.5 sm:py-2.5 rounded-full font-semibold transition-all duration-200 apple-tactile shrink-0 ${
+            aria-label={name}
+            aria-current={isActive ? "page" : undefined}
+            className={`group relative flex items-center justify-center gap-1.5 sm:gap-2.5 min-h-11 min-w-9 py-1.5 sm:py-2.5 rounded-full font-semibold transition-all duration-200 apple-tactile shrink-0 ${
               isActive
                 ? "text-white font-bold px-3 sm:px-5 shadow-sm"
                 : "text-arctic-slate/75 hover:text-arctic-slate hover:bg-black/[0.04] px-2 sm:px-3.5"
@@ -58,16 +60,17 @@ export default function SidebarNav() {
             )}
 
             <span className="relative z-10 flex items-center justify-center">
-              <Icon 
-                size={19} 
+              <Icon
+                aria-hidden="true"
+                size={19}
                 strokeWidth={2}
                 className={`transition-colors duration-200 ${
-                  isActive 
-                    ? "text-white" 
-                    : highlight 
-                    ? "text-glacier-blue group-hover:text-glacier-blue" 
+                  isActive
+                    ? "text-white"
+                    : highlight
+                    ? "text-glacier-blue group-hover:text-glacier-blue"
                     : "text-arctic-slate/70 group-hover:text-arctic-slate"
-                }`} 
+                }`}
               />
             </span>
 
@@ -76,7 +79,7 @@ export default function SidebarNav() {
             </span>
 
             {highlight && !isActive && (
-              <span className="relative z-10 w-2 h-2 rounded-full bg-glacier-blue shadow-[0_0_8px_rgba(0,113,227,0.8)] animate-pulse -ml-0.5" />
+              <span aria-hidden="true" className="relative z-10 w-2 h-2 rounded-full bg-glacier-blue -ml-0.5" />
             )}
           </Link>
         );

@@ -46,6 +46,8 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
         materia_id,
         route_id,
         tipo_contenido,
+        minutos_estimados,
+        dificultad,
         created_at
       ),
       study_routes (
@@ -64,7 +66,7 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
   }
 
   // Extraer temas ordenados y ruta activa desde la consulta única
-  const temas = (materia.temas as any[] || []).sort((a: any, b: any) => 
+  const temas = (materia.temas as any[] || []).sort((a: any, b: any) =>
     (a.orden ?? 999) - (b.orden ?? 999) || new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
   );
 
@@ -72,14 +74,14 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <Link 
-        href="/materias" 
+      <Link
+        href="/materias"
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
       >
         <ArrowLeft size={14} />
         <span>Volver a mis materias</span>
       </Link>
-      
+
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-black/[0.06]">
         <div>
           <div className="flex items-center gap-3">
@@ -96,7 +98,8 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
       </div>
 
       {route ? (
-        <LearningMap temas={temas || []} route={route} />
+        // Solo los temas de la ruta: los manuales se listan aparte en «Temario libre» (antes salían duplicados)
+        <LearningMap temas={(temas || []).filter((t: any) => t.route_id === route.id)} route={route} />
       ) : (
         <div className="apple-card p-8 mb-8 border border-dashed border-black/[0.12] bg-white/70 text-center">
           <div className="w-10 h-10 rounded-2xl bg-cool-iris/10 text-cool-iris flex items-center justify-center mx-auto mb-3">
@@ -124,7 +127,7 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
           ) : (
             <div className="grid gap-2">
               {temas?.filter(t => !t.route_id).map((tema) => (
-                <TemaItem key={tema.id} tema={tema} />
+                <TemaItem key={tema.id} tema={tema} materiaNombre={materia.nombre} />
               ))}
             </div>
           )}

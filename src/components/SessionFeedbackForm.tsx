@@ -1,14 +1,54 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Star } from "lucide-react";
 
-export default function SessionFeedbackForm({ session, elapsed, pauses }: { session: any, elapsed: number, pauses: number }) {
+// Grupo de opciones con radios nativos: el lector anuncia pregunta, opción y estado
+// (antes eran botones sin estado y las estrellas se llamaban todas "★").
+function GrupoOpciones({
+  pregunta,
+  nombre,
+  opciones,
+  valor,
+  onChange,
+}: {
+  pregunta: string;
+  nombre: string;
+  opciones: string[];
+  valor: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <fieldset className="space-y-3">
+      <legend className="text-lg sm:text-xl font-bold text-arctic-slate mb-3">{pregunta}</legend>
+      <div className="flex gap-2 flex-wrap">
+        {opciones.map((opt) => (
+          <label key={opt} className="cursor-pointer">
+            <input
+              type="radio"
+              name={nombre}
+              value={opt}
+              checked={valor === opt}
+              onChange={() => onChange(opt)}
+              className="peer sr-only"
+            />
+            <span className="inline-flex items-center min-h-11 px-4 border rounded-full text-sm font-medium transition border-arctic-borde text-arctic-slate hover:border-glacier-blue peer-checked:bg-glacier-blue peer-checked:text-white peer-checked:border-glacier-blue peer-focus-visible:ring-2 peer-focus-visible:ring-glacier-blue peer-focus-visible:ring-offset-2">
+              {opt}
+            </span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
+export default function SessionFeedbackForm({ session, elapsed, pauses }: { session: any; elapsed: number; pauses: number }) {
   const router = useRouter();
+  const id = useId();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Form State
   const [utilidad, setUtilidad] = useState<string>("");
   const [productividad, setProductividad] = useState<number>(0);
   const [logro, setLogro] = useState<string>("");
@@ -16,7 +56,7 @@ export default function SessionFeedbackForm({ session, elapsed, pauses }: { sess
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!utilidad || !productividad || !logro) {
-      setError("Por favor completa todas las preguntas.");
+      setError("Responde las tres preguntas para guardar la sesión.");
       return;
     }
 
@@ -32,13 +72,13 @@ export default function SessionFeedbackForm({ session, elapsed, pauses }: { sess
           pausas_count: pauses,
           resultado_logro: logro,
           calificacion_utilidad: utilidad,
-          calificacion_productividad: productividad
+          calificacion_productividad: productividad,
         }),
       });
 
       if (!res.ok) {
-        const d = await res.json();
-        throw new Error(d.error || "Error al guardar el feedback");
+        const d = await res.json().catch(() => ({}));
+        throw new Error(typeof d.error === "string" ? d.error : "No pudimos guardar la sesión. Inténtalo de nuevo.");
       }
 
       router.push("/materias");
@@ -48,88 +88,79 @@ export default function SessionFeedbackForm({ session, elapsed, pauses }: { sess
     }
   };
 
-  const formatMinutes = (seconds: number) => {
-    return Math.floor(seconds / 60);
-  };
+  const minutos = Math.floor(elapsed / 60);
+  const resumen = [
+    { etiqueta: "Materia", valor: session.materias?.nombre || "—" },
+    { etiqueta: "Tiempo efectivo", valor: `${minutos} ${minutos === 1 ? "minuto" : "minutos"}` },
+    { etiqueta: "Planificado", valor: `${session.duracion_planificada_minutos} min` },
+    { etiqueta: "Pausas", valor: String(pauses) },
+  ];
 
   return (
-    <form onSubmit={handleSubmit} className="surface-elevated p-4 sm:p-8 space-y-6 sm:space-y-8">
-      {/* Resumen de Datos */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 mb-6 sm:mb-8">
-        <div className="bg-white/5 border border-white/5 p-3 sm:p-4 rounded-xl text-center">
-          <span className="block text-xs sm:text-sm opacity-50 uppercase tracking-wide">Materia</span>
-          <strong className="text-sm sm:text-lg truncate block">{session.materias?.nombre}</strong>
-        </div>
-        <div className="bg-white/5 border border-white/5 p-3 sm:p-4 rounded-xl text-center">
-          <span className="block text-xs sm:text-sm opacity-50 uppercase tracking-wide">Tiempo Efectivo</span>
-          <strong className="text-sm sm:text-lg block">{formatMinutes(elapsed)} min</strong>
-        </div>
-        <div className="bg-white/5 border border-white/5 p-3 sm:p-4 rounded-xl text-center">
-          <span className="block text-xs sm:text-sm opacity-50 uppercase tracking-wide">Planificado</span>
-          <strong className="text-sm sm:text-lg block">{session.duracion_planificada_minutos} min</strong>
-        </div>
-        <div className="bg-white/5 border border-white/5 p-3 sm:p-4 rounded-xl text-center">
-          <span className="block text-xs sm:text-sm opacity-50 uppercase tracking-wide">Pausas</span>
-          <strong className="text-sm sm:text-lg block">{pauses}</strong>
-        </div>
-      </div>
+    <form onSubmit={handleSubmit} className="apple-card p-4 sm:p-8 space-y-7 sm:space-y-8">
+      {/* Resumen */}
+      <dl className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4">
+        {resumen.map(({ etiqueta, valor }) => (
+          <div key={etiqueta} className="bg-frost-base border border-black/[0.06] p-3 sm:p-4 rounded-xl text-center">
+            <dt className="text-xs sm:text-sm text-arctic-secondary uppercase tracking-wide">{etiqueta}</dt>
+            <dd className="text-sm sm:text-lg font-semibold text-arctic-slate truncate">{valor}</dd>
+          </div>
+        ))}
+      </dl>
 
-      {error && <div className="text-red-500 bg-red-500/10 p-4 rounded">{error}</div>}
+      <GrupoOpciones
+        pregunta="¿Te sirvió esta sesión?"
+        nombre={`${id}-utilidad`}
+        opciones={["Sí mucho", "Sí", "Más o menos", "No"]}
+        valor={utilidad}
+        onChange={setUtilidad}
+      />
 
-      <div className="space-y-4">
-        <h3 className="text-xl font-bold">¿Te sirvió esta sesión?</h3>
-        <div className="flex gap-2 flex-wrap">
-          {["Sí mucho", "Sí", "Más o menos", "No"].map(opt => (
-            <button
-              key={opt}
-              type="button"
-              onClick={() => setUtilidad(opt)}
-              className={`px-4 py-2 border rounded-full text-sm font-medium transition ${utilidad === opt ? 'bg-electric-periwinkle text-deep-ink border-electric-periwinkle' : 'border-white/10 text-text-secondary hover:border-white/30 hover:text-white'}`}
-            >
-              {opt}
-            </button>
+      <fieldset className="space-y-3">
+        <legend className="text-lg sm:text-xl font-bold text-arctic-slate mb-3">¿Qué tan productiva fue tu sesión?</legend>
+        <div className="flex gap-1">
+          {[1, 2, 3, 4, 5].map((estrella) => (
+            <label key={estrella} className="cursor-pointer">
+              <input
+                type="radio"
+                name={`${id}-productividad`}
+                value={estrella}
+                checked={productividad === estrella}
+                onChange={() => setProductividad(estrella)}
+                className="peer sr-only"
+              />
+              <span className="sr-only">{estrella} de 5</span>
+              <span
+                aria-hidden="true"
+                className="w-11 h-11 flex items-center justify-center rounded-lg peer-focus-visible:ring-2 peer-focus-visible:ring-glacier-blue"
+              >
+                <Star
+                  size={28}
+                  strokeWidth={1.75}
+                  className={estrella <= productividad ? "fill-amber-400 text-amber-600" : "text-arctic-borde"}
+                />
+              </span>
+            </label>
           ))}
         </div>
-      </div>
+      </fieldset>
 
-      <div className="space-y-4">
-        <h3 className="text-xl font-bold">¿Qué tan productiva fue tu sesión?</h3>
-        <div className="flex gap-2 text-3xl">
-          {[1, 2, 3, 4, 5].map(star => (
-            <button
-              key={star}
-              type="button"
-              onClick={() => setProductividad(star)}
-              className={`transition ${star <= productividad ? 'text-yellow-500 hover:scale-110' : 'text-foreground/20 hover:text-foreground/40'}`}
-            >
-              ★
-            </button>
-          ))}
+      <GrupoOpciones
+        pregunta="¿Lograste tu objetivo?"
+        nombre={`${id}-logro`}
+        opciones={["Sí", "Parcialmente", "No"]}
+        valor={logro}
+        onChange={setLogro}
+      />
+
+      {error && (
+        <div role="alert" className="text-cool-berry bg-cool-berry/10 border border-cool-berry/20 p-3.5 rounded-xl text-sm font-medium">
+          {error}
         </div>
-      </div>
+      )}
 
-      <div className="space-y-3 sm:space-y-4">
-        <h3 className="text-lg sm:text-xl font-bold">¿Lograste tu objetivo?</h3>
-        <div className="flex flex-wrap gap-2">
-          {["Sí", "Parcialmente", "No"].map(opt => (
-            <button
-              key={opt}
-              type="button"
-              onClick={() => setLogro(opt)}
-              className={`px-4 py-2 border rounded-full text-sm font-medium transition ${logro === opt ? 'bg-electric-periwinkle text-deep-ink border-electric-periwinkle' : 'border-white/10 text-text-secondary hover:border-white/30 hover:text-white'}`}
-            >
-              {opt}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <button
-        type="submit"
-        disabled={loading || !utilidad || !productividad || !logro}
-        className="btn-action w-full justify-center disabled:opacity-50 disabled:hover:scale-100"
-      >
-        {loading ? "Guardando..." : "Guardar y finalizar"}
+      <button type="submit" disabled={loading} className="btn-action w-full justify-center min-h-11 disabled:opacity-50 disabled:hover:scale-100">
+        {loading ? "Guardando…" : "Guardar y finalizar"}
       </button>
     </form>
   );

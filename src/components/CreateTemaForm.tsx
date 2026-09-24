@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 
@@ -10,6 +10,7 @@ export default function CreateTemaForm({ materiaId }: { materiaId: string }) {
   const [tipo, setTipo] = useState("Lectura");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const id = useId();
 
   const tiposDisponibles = ["Lectura", "Video", "Ejercicio", "Resumen", "Otro"];
 
@@ -48,15 +49,16 @@ export default function CreateTemaForm({ materiaId }: { materiaId: string }) {
   return (
     <form onSubmit={handleSubmit} className="apple-card p-4 sm:p-5 mb-6 flex flex-col sm:flex-row sm:items-end gap-3 shadow-apple-sm">
       {error && (
-        <p className="text-red-600 w-full text-xs font-medium border border-red-500/20 bg-red-500/10 p-2.5 rounded-xl">
+        <p role="alert" className="text-red-700 w-full text-sm font-medium border border-red-500/20 bg-red-500/10 p-2.5 rounded-xl">
           {error}
         </p>
       )}
       <div className="flex-1 w-full min-w-0">
-        <label className="block mb-1.5 text-xs font-medium text-arctic-secondary">
+        <label htmlFor={`${id}-nombre`} className="block mb-1.5 text-sm font-medium text-arctic-slate">
           Nombre del tema nuevo
         </label>
         <input
+          id={`${id}-nombre`}
           type="text"
           required
           value={nombre}
@@ -66,10 +68,11 @@ export default function CreateTemaForm({ materiaId }: { materiaId: string }) {
         />
       </div>
       <div className="w-full sm:w-auto">
-        <label className="block mb-1.5 text-xs font-medium text-arctic-secondary">
-          Tipo de formato
+        <label htmlFor={`${id}-tipo`} className="block mb-1.5 text-sm font-medium text-arctic-slate">
+          Tipo de contenido
         </label>
         <select
+          id={`${id}-tipo`}
           value={tipo}
           onChange={(e) => setTipo(e.target.value)}
           className="w-full sm:w-auto rounded-xl px-3 py-2 text-xs bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-arctic-slate transition-all cursor-pointer"
@@ -84,7 +87,7 @@ export default function CreateTemaForm({ materiaId }: { materiaId: string }) {
         disabled={loading || !nombre.trim()}
         className="w-full sm:w-auto btn-apple-primary text-xs py-2 px-4 h-[38px] disabled:opacity-40 apple-tactile shadow-apple-sm flex items-center justify-center gap-1.5 shrink-0"
       >
-        <Plus size={14} strokeWidth={2} />
+        <Plus size={14} strokeWidth={2} aria-hidden="true" />
         <span>{loading ? "..." : "Añadir Tema"}</span>
       </button>
     </form>

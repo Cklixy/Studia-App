@@ -55,9 +55,12 @@ export default function LearningMapItemActions({
   return (
     <>
       <button
+        type="button"
         onClick={toggleCompleted}
         disabled={loading}
-        className="hover:text-arctic-slate transition-colors underline decoration-black/20 underline-offset-4 text-[11px] apple-tactile"
+        aria-pressed={isCompleted}
+        aria-label={isCompleted ? `Desmarcar «${tema.nombre}» como completado` : `Marcar «${tema.nombre}» como completado`}
+        className="hover:text-arctic-slate transition-colors underline decoration-black/30 underline-offset-4 text-xs min-h-11 px-1 apple-tactile"
       >
         {loading
           ? "Actualizando..."
