@@ -17,4 +17,5 @@ export const RUTAS_PRIVADAS = [
   "/rutas",
   "/api/",
   "/auth/",
+  "/nueva-contrasena",
 ];

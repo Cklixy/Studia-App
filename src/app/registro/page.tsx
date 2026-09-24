@@ -1,66 +1,34 @@
-import { signup } from "../login/actions";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
-import BrandLogo from "@/components/BrandLogo";
-import MensajeAuth from "@/components/MensajeAuth";
+import { signup } from "../login/actions";
+import MarcoAuth, { CampoCorreo } from "@/components/auth/MarcoAuth";
+import CampoContrasena from "@/components/auth/CampoContrasena";
+import { LONGITUD_MINIMA_CONTRASENA } from "@/lib/auth/mensajes";
+
+export const metadata: Metadata = { title: "Crear cuenta · studia+" };
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen bg-deep-ink flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
-      {/* Glow ambiental */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-electric-periwinkle/5 rounded-full blur-[120px] pointer-events-none -mt-32 -ml-32"></div>
+    <MarcoAuth titulo="Crear cuenta" subtitulo="Regístrate gratis en studia+ para organizar tu estudio">
+      <form className="flex flex-col gap-5">
+        <CampoCorreo autoFocus />
+        <CampoContrasena
+          autoComplete="new-password"
+          minLength={LONGITUD_MINIMA_CONTRASENA}
+          ayuda={`Mínimo ${LONGITUD_MINIMA_CONTRASENA} caracteres. Evita contraseñas que uses en otros sitios.`}
+        />
 
-      <div className="w-full max-w-md surface-elevated p-6 sm:p-8 md:p-10 relative z-10">
-        <div className="flex flex-col items-center mb-8 sm:mb-10">
-          <BrandLogo className="mb-4" />
-          <h1 className="text-2xl font-display font-semibold text-text-primary text-center">Crear cuenta</h1>
-          <p className="text-xs text-text-secondary mt-1 text-center">Regístrate en studia+ para organizar tu estudio</p>
-        </div>
-        
-        <form className="flex flex-col gap-6 text-text-primary">
-          <div>
-            <label className="block text-sm uppercase tracking-widest text-text-secondary font-bold mb-2" htmlFor="email">
-              Correo Electrónico
-            </label>
-            <input
-              className="w-full px-4 py-3 rounded-lg bg-deep-surface border border-white/10 focus:border-electric-periwinkle outline-none transition-colors"
-              name="email"
-              placeholder="tu@correo.com"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm uppercase tracking-widest text-text-secondary font-bold mb-2" htmlFor="password">
-              Contraseña
-            </label>
-            <input
-              className="w-full px-4 py-3 rounded-lg bg-deep-surface border border-white/10 focus:border-electric-periwinkle outline-none transition-colors"
-              type="password"
-              name="password"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-          
-          <button
-            formAction={signup}
-            className="btn-action w-full mt-2 flex justify-center"
-          >
-            Registrarse
-          </button>
+        <button formAction={signup} className="btn-action w-full mt-1 flex justify-center min-h-11">
+          Crear cuenta
+        </button>
 
-          <div className="text-center mt-4">
-            <span className="text-sm text-text-secondary">¿Ya tienes una cuenta? </span>
-            <Link href="/login" className="text-sm text-electric-periwinkle font-bold hover:text-white transition-colors">
-              Inicia sesión aquí
-            </Link>
-          </div>
-
-          <Suspense fallback={null}>
-            <MensajeAuth variante="registro" />
-          </Suspense>
-        </form>
-      </div>
-    </div>
+        <p className="text-center text-sm text-arctic-secondary mt-2">
+          ¿Ya tienes una cuenta?{" "}
+          <Link href="/login" className="font-semibold text-glacier-blue hover:underline underline-offset-2">
+            Inicia sesión
+          </Link>
+        </p>
+      </form>
+    </MarcoAuth>
   );
 }

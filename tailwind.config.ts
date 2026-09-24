@@ -32,6 +32,8 @@ const config: Config = {
         "arctic-slate": "#1D1D1F",
         "arctic-secondary": "#6E6E73",
         "arctic-tertiary": "#636366",
+        // Borde de campos de formulario: 3,5:1 sobre blanco (WCAG 1.4.11)
+        "arctic-borde": "#8A8A8E",
 
         // Mappings for seamless backward compatibility
         "system-base": "#F4F6FB",
