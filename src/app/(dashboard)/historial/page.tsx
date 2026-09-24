@@ -357,7 +357,7 @@ export default async function HistorialPage({
                     </div>
 
                     {s.calificacion_productividad && (
-                      <div className="flex items-center gap-1 text-xs font-semibold text-amber-600/90 sm:mt-0.5">
+                      <div className="flex items-center gap-1 text-xs font-semibold text-amber-700 sm:mt-0.5">
                         <Star size={11} className="fill-amber-400 text-amber-500" />
                         <span className="tabular-nums">{s.calificacion_productividad}/5</span>
                       </div>
