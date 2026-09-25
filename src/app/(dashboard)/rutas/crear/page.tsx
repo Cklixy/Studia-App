@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowRight, Clock, Target, BookOpen, ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { Sparkles, ChevronLeft, Loader2 } from "lucide-react";
 
 export default function CrearRutaIAPage() {
   const router = useRouter();
@@ -37,7 +38,7 @@ export default function CrearRutaIAPage() {
         // El fallo casi nunca es culpa de la petición: no pedir "ser más específico"
         throw new Error(
           d.codigo === "IA_SATURADA"
-            ? "La IA está saturada en este momento. Tu texto se conservó: vuelve a pulsar «Crear plan de estudio» en unos segundos."
+            ? "La IA está saturada en este momento. Tu texto se conservó: vuelve a pulsar «Crear plan» en unos segundos."
             : res.status === 429
               ? d.error || "Alcanzaste el límite de rutas por hora. Inténtalo más tarde."
               : "No pudimos generar la ruta. Revisa tu conexión e inténtalo de nuevo."
@@ -60,129 +61,60 @@ export default function CrearRutaIAPage() {
     }
   };
 
-  return (
-    <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8 duration-700">
-      <div className="flex items-center gap-3 text-acento mb-1">
-        <Sparkles size={24} aria-hidden="true" />
-        <h1 className="text-2xl sm:text-3xl font-display font-bold text-tinta">Inteligencia de Ruta</h1>
-      </div>
-      <p className="text-tinta-2 text-sm sm:text-base">
-        La IA organizará los temas en el orden ideal para que llegues a tu objetivo.
-      </p>
+  const selectores = [
+    { id: "ruta-nivel", etiqueta: "Nivel", valor: nivelEducativo, fijar: setNivelEducativo, opciones: [["Colegio", "Colegio"], ["Universidad", "Universidad"], ["Técnico / Tecnológico", "Técnico o tecnológico"], ["Aprendizaje Personal", "Por mi cuenta"]] },
+    { id: "ruta-objetivo", etiqueta: "Objetivo", valor: objetivo, fijar: setObjetivo, opciones: [["Aprender desde cero", "Aprender desde cero"], ["Prepararme para un parcial", "Preparar un parcial"], ["Repasar conceptos", "Repasar"], ["Profundizar en el tema", "Profundizar"]] },
+    { id: "ruta-tiempo", etiqueta: "Tiempo al día", valor: tiempoDiario, fijar: setTiempoDiario, opciones: [["15 minutos al día", "15 min"], ["30 minutos al día", "30 min"], ["1 hora al día", "1 hora"], ["2+ horas al día", "2 horas o más"]] },
+  ] as const;
 
-      <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
-        
-        {/* Main Prompt */}
-        <div className="tarjeta p-5 sm:p-6 relative overflow-hidden group">
-          <label htmlFor="ruta-peticion" className="block text-xs uppercase tracking-widest font-bold text-tinta-2 mb-3 relative z-10">
-            ¿Qué necesitas aprender?
-          </label>
+  // Plan con IA (rediseño 4.2): una pregunta abierta y lo demás opcional y plegado.
+  return (
+    <div className="max-w-2xl flex flex-col gap-6">
+      <div>
+        <Link href="/materias" className="-ml-2 inline-flex min-h-11 items-center gap-1 px-2 text-sm font-semibold text-tinta-2 hover:text-tinta">
+          <ChevronLeft aria-hidden="true" size={18} /> Materias
+        </Link>
+        <h1 className="titulo-1 mt-2">Plan con IA</h1>
+        <p className="subtitulo mt-1.5">Cuéntale qué tienes que aprender y la IA arma una materia con sus temas en orden. Puedes revisarlo antes de guardarlo.</p>
+      </div>
+
+      <form onSubmit={handleSubmit} aria-busy={loading} className="flex flex-col gap-5">
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="ruta-peticion" className="text-sm font-semibold">¿Qué necesitas aprender?</label>
           <textarea
             id="ruta-peticion"
             required
             autoFocus
+            rows={4}
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Ej. Tengo un parcial de cálculo diferencial sobre límites el viernes..."
-            className="w-full h-28 sm:h-32 bg-transparent text-lg sm:text-xl font-medium outline-none resize-none relative z-10 text-tinta placeholder:text-tinta-3/60"
-          ></textarea>
+            placeholder="Ej. Tengo parcial de cálculo diferencial sobre límites el viernes"
+            className="campo resize-y text-lg"
+          />
         </div>
 
-        {/* Optional Context */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-          <div className="tarjeta p-4 sm:p-5">
-            <label htmlFor="ruta-nivel" className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-tinta-2 mb-2.5">
-              <BookOpen size={14} aria-hidden="true" /> Nivel (Opcional)
-            </label>
-            <div className="relative">
-              <select
-                id="ruta-nivel"
-                value={nivelEducativo}
-                onChange={(e) => setNivelEducativo(e.target.value)}
-                className="w-full appearance-none bg-fondo border border-linea rounded-xl px-4 py-2.5 text-xs sm:text-sm font-medium text-tinta hover:border-linea-fuerte focus:outline-none focus:border-acento transition-colors cursor-pointer"
-              >
-                <option value="">Selecciona...</option>
-                <option value="Colegio">Colegio</option>
-                <option value="Universidad">Universidad</option>
-                <option value="Técnico / Tecnológico">Técnico / Tecnológico</option>
-                <option value="Aprendizaje Personal">Aprendizaje Personal</option>
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-tinta-3">
-                <ChevronDown size={16} aria-hidden="true" />
+        <details className="rounded-2xl border border-linea bg-superficie px-4">
+          <summary className="flex min-h-12 cursor-pointer items-center font-semibold text-tinta-2">Afinar el plan (opcional)</summary>
+          <div className="grid gap-3 pb-4 sm:grid-cols-3">
+            {selectores.map((s) => (
+              <div key={s.id} className="flex flex-col gap-1.5">
+                <label htmlFor={s.id} className="text-sm font-semibold">{s.etiqueta}</label>
+                <select id={s.id} value={s.valor} onChange={(e) => s.fijar(e.target.value)} className="campo">
+                  <option value="">Sin preferencia</option>
+                  {s.opciones.map(([v, e]) => <option key={v} value={v}>{e}</option>)}
+                </select>
               </div>
-            </div>
+            ))}
           </div>
+        </details>
 
-          <div className="tarjeta p-4 sm:p-5">
-            <label htmlFor="ruta-objetivo" className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-tinta-2 mb-2.5">
-              <Target size={14} aria-hidden="true" /> Objetivo (Opcional)
-            </label>
-            <div className="relative">
-              <select
-                id="ruta-objetivo"
-                value={objetivo}
-                onChange={(e) => setObjetivo(e.target.value)}
-                className="w-full appearance-none bg-fondo border border-linea rounded-xl px-4 py-2.5 text-xs sm:text-sm font-medium text-tinta hover:border-linea-fuerte focus:outline-none focus:border-acento transition-colors cursor-pointer"
-              >
-                <option value="">Selecciona...</option>
-                <option value="Aprender desde cero">Aprender desde cero</option>
-                <option value="Prepararme para un parcial">Preparar un parcial</option>
-                <option value="Repasar conceptos">Repasar conceptos</option>
-                <option value="Profundizar en el tema">Profundizar</option>
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-tinta-3">
-                <ChevronDown size={16} aria-hidden="true" />
-              </div>
-            </div>
-          </div>
+        {error && <p role="alert" className="rounded-xl bg-error-suave px-4 py-3 text-sm font-semibold text-error">{error}</p>}
 
-          <div className="tarjeta p-4 sm:p-5">
-            <label htmlFor="ruta-tiempo" className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-tinta-2 mb-2.5">
-              <Clock size={14} aria-hidden="true" /> Tiempo (Opcional)
-            </label>
-            <div className="relative">
-              <select
-                id="ruta-tiempo"
-                value={tiempoDiario}
-                onChange={(e) => setTiempoDiario(e.target.value)}
-                className="w-full appearance-none bg-fondo border border-linea rounded-xl px-4 py-2.5 text-xs sm:text-sm font-medium text-tinta hover:border-linea-fuerte focus:outline-none focus:border-acento transition-colors cursor-pointer"
-              >
-                <option value="">Selecciona...</option>
-                <option value="15 minutos al día">15 min/día</option>
-                <option value="30 minutos al día">30 min/día</option>
-                <option value="1 hora al día">1 hora/día</option>
-                <option value="2+ horas al día">2+ horas/día</option>
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-tinta-3">
-                <ChevronDown size={16} aria-hidden="true" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {error && (
-          <div role="alert" className="p-3.5 border border-error/20 text-error bg-error/10 rounded-xl text-sm font-medium text-center">
-            {error}
-          </div>
-        )}
-
-        <div className="flex justify-end pt-2">
-          <button
-            type="submit"
-            disabled={loading || !prompt}
-            className="w-full sm:w-auto btn-primario py-3 px-7 text-xs font-semibold tactil shadow-1 flex items-center justify-center gap-2 disabled:opacity-50"
-          >
-            {loading ? (
-              <span className="flex items-center gap-2">
-                <Sparkles size={16} className="animate-pulse" /> Generando plan...
-              </span>
-            ) : (
-              <span className="flex items-center gap-2">
-                Crear plan de estudio <ArrowRight size={16} />
-              </span>
-            )}
-          </button>
-        </div>
+        <button type="submit" disabled={loading || !prompt.trim()} className="btn-primario text-base min-h-12 sm:self-start">
+          {loading ? <Loader2 aria-hidden="true" size={18} className="animate-spin" /> : <Sparkles aria-hidden="true" size={18} />}
+          {loading ? "Armando tu plan… (unos segundos)" : "Crear plan"}
+        </button>
+        {loading && <p role="status" className="text-sm text-tinta-2">La IA está ordenando los temas. No cierres esta pantalla.</p>}
       </form>
     </div>
   );
