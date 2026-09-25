@@ -22,7 +22,7 @@ export default async function ResumenSesionPage({ params, searchParams }: { para
     .single();
 
   if (error || !session) {
-    return redirect("/materias");
+    return redirect("/hoy");
   }
 
   const elapsed = parseInt(searchParams.elapsed || "0", 10);

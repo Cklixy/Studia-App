@@ -24,8 +24,8 @@ export default function ErrorDashboard({ error, reset }: { error: Error & { dige
         <button type="button" onClick={reset} className="btn-primario text-sm min-h-11 px-5 inline-flex items-center justify-center gap-2">
           <RotateCcw size={15} aria-hidden="true" /> Reintentar
         </button>
-        <Link href="/materias" className="btn-secundario text-sm min-h-11 px-5 inline-flex items-center justify-center">
-          Ir a mis materias
+        <Link href="/hoy" className="btn-secundario">
+          Ir a mi día
         </Link>
       </div>
     </div>

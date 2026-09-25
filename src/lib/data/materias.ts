@@ -100,6 +100,7 @@ export async function revalidateMateriasCache(userId?: string) {
     if (userId) {
       revalidateTag(`materias-${userId}`);
     }
+    revalidatePath("/hoy");
     revalidatePath("/materias");
     revalidatePath("/sesion/nueva");
     revalidatePath("/evaluaciones");

@@ -12,8 +12,8 @@ export async function GET(request: NextRequest) {
   const type = searchParams.get("type") as EmailOtpType | null;
 
   // Solo rutas internas: evita redirecciones abiertas con ?next=https://otro-sitio
-  const nextParam = searchParams.get("next") || "/materias";
-  const next = nextParam.startsWith("/") && !nextParam.startsWith("//") ? nextParam : "/materias";
+  const nextParam = searchParams.get("next") || "/hoy";
+  const next = nextParam.startsWith("/") && !nextParam.startsWith("//") ? nextParam : "/hoy";
 
   const supabase = createClient();
   let error: { message: string } | null = null;

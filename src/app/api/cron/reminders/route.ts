@@ -106,7 +106,7 @@ export async function GET(request: NextRequest) {
     const notificationPayload = JSON.stringify({
       title: "🔥 ¡No pierdas tu racha!",
       body: "Aún no has estudiado hoy. Entra a studia+ y completa al menos una sesión de 10 minutos para mantener tu racha.",
-      url: "/materias"
+      url: "/hoy"
     });
 
     const sendPromises = validSubs.map((sub: any) => {

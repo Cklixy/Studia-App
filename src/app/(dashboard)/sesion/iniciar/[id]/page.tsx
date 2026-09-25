@@ -34,7 +34,7 @@ export default async function IniciarSesionDirectaPage({ params }: { params: { i
     .single();
 
   if (!tema) {
-    return redirect("/materias");
+    return redirect("/hoy");
   }
 
   return (

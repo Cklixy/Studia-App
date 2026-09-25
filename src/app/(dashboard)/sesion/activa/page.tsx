@@ -5,5 +5,5 @@ import { redirect } from "next/navigation";
  * Elimina 'use client', hooks y librerías cliente innecesarias.
  */
 export default function SesionActivaRedirectPage() {
-  redirect("/materias");
+  redirect("/hoy");
 }

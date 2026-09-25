@@ -23,7 +23,7 @@ export default async function ActiveSessionPage({ params }: { params: { id: stri
     .single();
 
   if (error || !session || session.estado !== 'activa') {
-    return redirect("/materias");
+    return redirect("/hoy");
   }
 
   return (

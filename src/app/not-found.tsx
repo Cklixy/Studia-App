@@ -13,7 +13,7 @@ export default function NotFound() {
       <h1 className="titulo-1 mt-2">No encontramos esta página</h1>
       <p className="subtitulo mt-3 max-w-sm">Puede que el enlace esté mal escrito o que la página ya no exista.</p>
       <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-        <Link href="/materias" className="btn-primario">Ir a mi día</Link>
+        <Link href="/hoy" className="btn-primario">Ir a mi día</Link>
         <Link href="/" className="btn-secundario">Ir al inicio</Link>
       </div>
     </main>

@@ -26,7 +26,7 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/materias");
+  redirect("/hoy");
 }
 
 export async function signup(formData: FormData) {
@@ -42,7 +42,7 @@ export async function signup(formData: FormData) {
 
   const { data: signupData, error } = await supabase.auth.signUp({
     ...data,
-    options: { emailRedirectTo: `${origenActual()}/auth/confirm?next=/materias` },
+    options: { emailRedirectTo: `${origenActual()}/auth/confirm?next=/hoy` },
   });
 
   if (error) {
@@ -58,7 +58,7 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/materias");
+  redirect("/hoy");
 }
 
 // Paso 1 de la recuperación: envía el enlace para crear una contraseña nueva.
@@ -104,5 +104,5 @@ export async function actualizarContrasena(formData: FormData) {
   }
 
   revalidatePath("/", "layout");
-  redirect("/materias");
+  redirect("/hoy");
 }

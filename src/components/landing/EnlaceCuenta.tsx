@@ -7,7 +7,7 @@ import { useHaySesion } from "@/hooks/useHaySesion";
 export default function EnlaceCuenta() {
   const haySesion = useHaySesion();
   return (
-    <Link href={haySesion ? "/materias" : "/login"} className="btn-secundario text-sm px-4">
+    <Link href={haySesion ? "/hoy" : "/login"} className="btn-secundario text-sm px-4">
       {haySesion ? "Ir a mi día" : "Entrar"}
     </Link>
   );

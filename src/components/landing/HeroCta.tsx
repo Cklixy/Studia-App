@@ -10,7 +10,7 @@ export default function HeroCta({ secundaria = true }: { secundaria?: boolean })
 
   return (
     <>
-      <Link href={haySesion ? "/materias" : "/registro"} className="btn-primario text-base min-h-12 px-6">
+      <Link href={haySesion ? "/hoy" : "/registro"} className="btn-primario text-base min-h-12 px-6">
         <span>{haySesion ? "Ir a mi día" : "Empieza gratis"}</span>
         <ArrowRight aria-hidden="true" size={18} />
       </Link>

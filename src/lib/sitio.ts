@@ -8,6 +8,7 @@ export const ES_PRODUCCION = process.env.VERCEL_ENV
 
 // Rutas que requieren sesión: nunca deben aparecer en buscadores.
 export const RUTAS_PRIVADAS = [
+  "/hoy",
   "/materias",
   "/sesion",
   "/evaluaciones",

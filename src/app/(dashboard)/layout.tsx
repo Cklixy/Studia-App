@@ -1,14 +1,9 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import dynamic from "next/dynamic";
 import BrandLogo from "@/components/BrandLogo";
 import SidebarNav from "@/components/SidebarNav";
+import Avisos from "@/components/ui/Avisos";
 import type { Metadata } from "next";
-
-// Cargado de forma dinámica (client-only) — depende de localStorage y motion
-const OnboardingTour = dynamic(() => import("@/components/OnboardingTour"), {
-  ssr: false,
-});
 
 // Las páginas con sesión no deben indexarse
 export const metadata: Metadata = {
@@ -30,29 +25,29 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="min-h-dvh text-tinta flex flex-col bg-fondo relative">
-      {/* Top Navigation & Brand Header */}
-      <header className="sticky top-0 z-40 w-full barra-superior border-b border-linea shadow-2 transition-all select-none" style={{paddingTop: 'env(safe-area-inset-top, 0px)'}}>
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-8 h-[64px] sm:h-[72px] flex items-center justify-between">
-          {/* Brand Logo */}
-          <div className="flex items-center gap-3">
-            <BrandLogo />
-          </div>
+    <div className="min-h-dvh flex flex-col">
+      <header className="barra-superior sticky top-0 z-40 select-none" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center">
+          <BrandLogo href="/hoy" />
         </div>
       </header>
 
-      {/* Main Content Viewport */}
-      <main id="contenido" tabIndex={-1} className="flex-1 focus:outline-none px-3 py-4 sm:px-6 lg:px-10 sm:py-8 max-w-[1280px] w-full mx-auto pb-32 sm:pb-36 md:pb-40">
+      {/* pb reserva el alto del dock + la zona segura: nada queda tapado (problema 2 de la línea base) */}
+      <main
+        id="contenido"
+        tabIndex={-1}
+        className="flex-1 focus:outline-none w-full max-w-5xl mx-auto px-4 sm:px-6 pt-6 sm:pt-10"
+        style={{ paddingBottom: "calc(7rem + env(safe-area-inset-bottom, 0px))" }}
+      >
         {children}
       </main>
 
-      {/* Floating Apple Dock at the Bottom */}
-      <div className="fixed left-1/2 -translate-x-1/2 z-50 pointer-events-auto px-2 sm:px-3 max-w-full" style={{bottom: 'max(1rem, calc(env(safe-area-inset-bottom, 0px) + 0.5rem))'}} >
+      {/* Dock: barra completa en móvil, píldora flotante desde sm */}
+      <div className="fixed inset-x-0 bottom-0 z-50 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 sm:bottom-4">
         <SidebarNav />
       </div>
 
-      {/* Onboarding Tour — solo para usuarios nuevos */}
-      <OnboardingTour />
+      <Avisos />
     </div>
   );
 }

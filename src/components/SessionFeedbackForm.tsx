@@ -81,7 +81,7 @@ export default function SessionFeedbackForm({ session, elapsed, pauses }: { sess
         throw new Error(typeof d.error === "string" ? d.error : "No pudimos guardar la sesión. Inténtalo de nuevo.");
       }
 
-      router.push("/materias");
+      router.push("/hoy");
     } catch (err: any) {
       setError(err.message);
       setLoading(false);

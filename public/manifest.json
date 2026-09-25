@@ -5,7 +5,7 @@
   "description": "Sabe qué estudiar hoy y llega preparado a tus parciales.",
   "lang": "es",
   "dir": "ltr",
-  "start_url": "/materias",
+  "start_url": "/hoy",
   "scope": "/",
   "display": "standalone",
   "background_color": "#F6F3EC",
