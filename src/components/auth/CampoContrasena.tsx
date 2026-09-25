@@ -22,8 +22,8 @@ export default function CampoContrasena({
   const idAyuda = `${id}-ayuda`;
 
   return (
-    <div>
-      <label htmlFor={id} className="block text-sm font-semibold text-tinta mb-2">
+    <div className="flex flex-col gap-1.5">
+      <label htmlFor={id} className="text-sm font-semibold text-tinta">
         {etiqueta}
       </label>
       <div className="relative">
@@ -35,7 +35,7 @@ export default function CampoContrasena({
           required
           minLength={minLength}
           aria-describedby={ayuda ? idAyuda : undefined}
-          className="w-full pl-4 pr-12 py-3 rounded-xl bg-superficie border border-linea-fuerte text-tinta text-base focus:border-acento focus:ring-2 focus:ring-acento/25 outline-none transition-colors"
+          className="campo pr-12"
         />
         <button
           type="button"
@@ -48,7 +48,7 @@ export default function CampoContrasena({
         </button>
       </div>
       {ayuda && (
-        <p id={idAyuda} className="text-xs text-tinta-2 mt-1.5">
+        <p id={idAyuda} className="text-xs text-tinta-2">
           {ayuda}
         </p>
       )}

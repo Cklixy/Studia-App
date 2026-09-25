@@ -3,33 +3,31 @@ import Link from "next/link";
 import { login } from "./actions";
 import MarcoAuth, { CampoCorreo } from "@/components/auth/MarcoAuth";
 import CampoContrasena from "@/components/auth/CampoContrasena";
+import BotonEnviar from "@/components/auth/BotonEnviar";
 
-export const metadata: Metadata = { title: "Iniciar sesión · studia+" };
+export const metadata: Metadata = { title: "Entrar · studia+" };
 
 export default function LoginPage() {
   return (
-    <MarcoAuth titulo="Iniciar sesión" subtitulo="Ingresa a tu cuenta de studia+">
+    <MarcoAuth
+      titulo="Hola de nuevo"
+      subtitulo="Entra para ver qué te toca estudiar hoy."
+      pie={
+        <>
+          ¿Aún no tienes cuenta?{" "}
+          <Link href="/registro" className="font-semibold text-acento underline underline-offset-2">Crea una gratis</Link>
+        </>
+      }
+    >
       <form className="flex flex-col gap-5">
         <CampoCorreo autoFocus />
-        <div>
+        <div className="flex flex-col gap-2">
           <CampoContrasena autoComplete="current-password" />
-          <div className="mt-2 text-right">
-            <Link href="/recuperar" className="text-sm font-semibold text-acento hover:underline underline-offset-2">
-              ¿Olvidaste tu contraseña?
-            </Link>
-          </div>
-        </div>
-
-        <button formAction={login} className="btn-primario w-full mt-1 flex justify-center min-h-11">
-          Iniciar sesión
-        </button>
-
-        <p className="text-center text-sm text-tinta-2 mt-2">
-          ¿Aún no tienes cuenta?{" "}
-          <Link href="/registro" className="font-semibold text-acento hover:underline underline-offset-2">
-            Regístrate
+          <Link href="/recuperar" className="self-end inline-flex min-h-11 items-center text-sm font-semibold text-acento underline underline-offset-2">
+            ¿Olvidaste tu contraseña?
           </Link>
-        </p>
+        </div>
+        <BotonEnviar accion={login} textoEnviando="Entrando…">Entrar</BotonEnviar>
       </form>
     </MarcoAuth>
   );

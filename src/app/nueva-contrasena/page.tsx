@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { actualizarContrasena } from "../login/actions";
 import MarcoAuth from "@/components/auth/MarcoAuth";
 import CampoContrasena from "@/components/auth/CampoContrasena";
+import BotonEnviar from "@/components/auth/BotonEnviar";
 import { createClient } from "@/utils/supabase/server";
 import { conMensaje, LONGITUD_MINIMA_CONTRASENA } from "@/lib/auth/mensajes";
 
@@ -17,7 +18,7 @@ export default async function NuevaContrasenaPage() {
   }
 
   return (
-    <MarcoAuth titulo="Crea una contraseña nueva" subtitulo="Después entrarás directamente a tus materias.">
+    <MarcoAuth titulo="Crea una contraseña nueva" subtitulo="Después entrarás directamente a tu día.">
       <form className="flex flex-col gap-5">
         <CampoContrasena
           etiqueta="Nueva contraseña"
@@ -25,9 +26,7 @@ export default async function NuevaContrasenaPage() {
           minLength={LONGITUD_MINIMA_CONTRASENA}
           ayuda={`Mínimo ${LONGITUD_MINIMA_CONTRASENA} caracteres.`}
         />
-        <button formAction={actualizarContrasena} className="btn-primario w-full mt-1 flex justify-center min-h-11">
-          Guardar contraseña
-        </button>
+        <BotonEnviar accion={actualizarContrasena} textoEnviando="Guardando…">Guardar contraseña</BotonEnviar>
       </form>
     </MarcoAuth>
   );
