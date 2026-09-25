@@ -102,8 +102,6 @@
 /* La cabecera es fija: al navegar o saltar a un ancla, el contenido no debe quedar debajo */
 html {
   scroll-padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
-  /* …ni debajo del dock al moverse con Tab (WCAG 2.4.11, foco no tapado) */
-  scroll-padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
 }
 
 body {
