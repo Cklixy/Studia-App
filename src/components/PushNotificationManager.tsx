@@ -130,7 +130,7 @@ export default function PushNotificationManager({ compacto = false }: { compacto
         <p className="text-sm text-tinta-2">
           {subscription
             ? `Activado: te avisaremos a las ${HORA_RECORDATORIO} (hora de Colombia) si ese día aún no has estudiado.`
-            : `Recibe un aviso a las ${HORA_RECORDATORIO} (hora de Colombia) los días que aún no hayas estudiado, para no perder tu racha.`}
+            : `Recibe un aviso a las ${HORA_RECORDATORIO} (hora de Colombia) solo los días que aún no hayas estudiado. Nada más.`}
         </p>
         {aviso && (
           <p
