@@ -88,25 +88,9 @@ export default function SessionFeedbackForm({ session, elapsed, pauses }: { sess
     }
   };
 
-  const minutos = Math.floor(elapsed / 60);
-  const resumen = [
-    { etiqueta: "Materia", valor: session.materias?.nombre || "—" },
-    { etiqueta: "Tiempo efectivo", valor: `${minutos} ${minutos === 1 ? "minuto" : "minutos"}` },
-    { etiqueta: "Planificado", valor: `${session.duracion_planificada_minutos} min` },
-    { etiqueta: "Pausas", valor: String(pauses) },
-  ];
 
   return (
     <form onSubmit={handleSubmit} className="apple-card p-4 sm:p-8 space-y-7 sm:space-y-8">
-      {/* Resumen */}
-      <dl className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4">
-        {resumen.map(({ etiqueta, valor }) => (
-          <div key={etiqueta} className="bg-frost-base border border-black/[0.06] p-3 sm:p-4 rounded-xl text-center">
-            <dt className="text-xs sm:text-sm text-arctic-secondary uppercase tracking-wide">{etiqueta}</dt>
-            <dd className="text-sm sm:text-lg font-semibold text-arctic-slate truncate">{valor}</dd>
-          </div>
-        ))}
-      </dl>
 
       <GrupoOpciones
         pregunta="¿Te sirvió esta sesión?"
