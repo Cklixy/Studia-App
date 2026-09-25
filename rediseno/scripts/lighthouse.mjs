@@ -1,17 +1,17 @@
-// Rediseño · Fase 0: Lighthouse de páginas públicas de producción (móvil y escritorio), 3 ejecuciones → mediana.
+// Rediseño: Lighthouse de páginas públicas. Uso: node lighthouse-base.mjs [baseUrl] [salida] [rutas]. Por defecto, producción (móvil y escritorio), 3 ejecuciones → mediana.
 import fs from "node:fs";
 import puppeteer from "puppeteer-core";
 import lighthouse from "lighthouse";
 import desktopConfig from "lighthouse/core/config/desktop-config.js";
 
-const BASE = "https://studia-app-one.vercel.app";
-const OUT = "C:/Users/Juan/Documents/Studia-App/rediseno/antes/lighthouse";
+const BASE = process.argv[2] || "https://studia-app-one.vercel.app";
+const OUT = process.argv[3] || "C:/Users/Juan/Documents/Studia-App/rediseno/antes/lighthouse";
 fs.mkdirSync(OUT, { recursive: true });
 const browser = await puppeteer.launch({ executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe", headless: true, args: ["--no-sandbox"] });
 const port = new URL(browser.wsEndpoint()).port;
 const med = (a) => [...a].sort((x, y) => x - y)[Math.floor(a.length / 2)];
 const filas = [];
-for (const ruta of ["/", "/login"]) {
+for (const ruta of (process.argv[4] || "/,/login").split(",")) {
   for (const modo of ["movil", "escritorio"]) {
     const runs = [];
     for (let i = 0; i < 3; i++) {
@@ -22,7 +22,7 @@ for (const ruta of ["/", "/login"]) {
       runs.push({ perf: lhr.categories.performance.score * 100, a11y: lhr.categories.accessibility.score * 100, bp: lhr.categories["best-practices"].score * 100, seo: lhr.categories.seo.score * 100,
         lcp: lhr.audits["largest-contentful-paint"].numericValue, cls: lhr.audits["cumulative-layout-shift"].numericValue, tbt: lhr.audits["total-blocking-time"].numericValue,
         fcp: lhr.audits["first-contentful-paint"].numericValue, jsKB: js / 1024, fuentesKB: fuentes / 1024, totalKB: lhr.audits["total-byte-weight"].numericValue / 1024 });
-      if (i === 0) fs.writeFileSync(`${OUT}/${ruta === "/" ? "landing" : "login"}-${modo}.json`, JSON.stringify(lhr));
+      if (i === 0) fs.writeFileSync(`${OUT}/${ruta === "/" ? "landing" : ruta.slice(1).split("/").join("-")}-${modo}.json`, JSON.stringify(lhr));
     }
     const f = { ruta, modo };
     for (const k of Object.keys(runs[0])) f[k] = Math.round(med(runs.map((r) => r[k])) * (k === "cls" ? 1000 : 1)) / (k === "cls" ? 1000 : 1);
