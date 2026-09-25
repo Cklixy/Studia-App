@@ -5,6 +5,7 @@ import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { useHaySesion } from "@/hooks/useHaySesion";
+import { CTA_PRINCIPAL } from "@/lib/landing";
 
 export default function LandingNavbar() {
   const user = useHaySesion();
@@ -26,8 +27,8 @@ export default function LandingNavbar() {
             <a href="#funciones" className="hover:text-arctic-slate transition-colors">
               Funciones
             </a>
-            <a href="#ia" className="hover:text-arctic-slate transition-colors">
-              IA
+            <a href="#preguntas" className="hover:text-arctic-slate transition-colors">
+              Preguntas
             </a>
           </nav>
         </div>
@@ -54,7 +55,7 @@ export default function LandingNavbar() {
                 href="/registro"
                 className="btn-apple-primary text-xs py-2 px-4.5 font-semibold apple-tactile inline-flex items-center gap-1.5 shadow-apple-sm rounded-full"
               >
-                <span>Empezar gratis</span>
+                <span>{CTA_PRINCIPAL}</span>
                 <ArrowRight size={13} />
               </Link>
             </>
@@ -93,11 +94,11 @@ export default function LandingNavbar() {
               Funciones
             </a>
             <a
-              href="#ia"
+              href="#preguntas"
               onClick={() => setMobileMenuOpen(false)}
               className="py-1 hover:text-glacier-blue transition-colors"
             >
-              IA
+              Preguntas
             </a>
           </nav>
 
@@ -124,7 +125,7 @@ export default function LandingNavbar() {
                   onClick={() => setMobileMenuOpen(false)}
                   className="btn-apple-primary text-xs py-2.5 px-4 font-semibold text-center rounded-full"
                 >
-                  Empezar gratis →
+                  {CTA_PRINCIPAL} →
                 </Link>
               </>
             )}

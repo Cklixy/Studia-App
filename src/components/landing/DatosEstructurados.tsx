@@ -1,4 +1,5 @@
 import { DESCRIPCION_SITIO, NOMBRE_SITIO, URL_SITIO } from "@/lib/sitio";
+import { PREGUNTAS_FRECUENTES } from "@/lib/landing";
 
 /**
  * Datos estructurados (JSON-LD) de la home: qué es studia+ para los buscadores.
@@ -6,7 +7,7 @@ import { DESCRIPCION_SITIO, NOMBRE_SITIO, URL_SITIO } from "@/lib/sitio";
  *   El plan Pro se añade a `offers` solo cuando se pueda comprar; sin `aggregateRating` mientras
  *   no haya reseñas reales.
  * - Organization y WebSite: nombre, URL y logo de la marca.
- * La pregunta frecuente (FAQPage) se añade en la fase B, junto con la sección visible.
+ * - FAQPage: las mismas preguntas y respuestas que la sección visible (Google exige que coincidan).
  */
 export default function DatosEstructurados() {
   const datos = {
@@ -39,6 +40,15 @@ export default function DatosEstructurados() {
         url: `${URL_SITIO}/`,
         inLanguage: "es-CO",
         publisher: { "@id": `${URL_SITIO}/#organizacion` },
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${URL_SITIO}/#preguntas`,
+        mainEntity: PREGUNTAS_FRECUENTES.map(({ pregunta, respuesta }) => ({
+          "@type": "Question",
+          name: pregunta,
+          acceptedAnswer: { "@type": "Answer", text: respuesta },
+        })),
       },
     ],
   };

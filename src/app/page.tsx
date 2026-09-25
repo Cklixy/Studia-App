@@ -1,16 +1,6 @@
 import LandingNavbar from "@/components/landing/LandingNavbar";
-import HeroProductMockup from "@/components/landing/HeroProductMockup";
-import ProblemSection from "@/components/landing/ProblemSection";
-import HowItWorksSection from "@/components/landing/HowItWorksSection";
-import StudyMapSection from "@/components/landing/StudyMapSection";
-import MethodRecommendationSection from "@/components/landing/MethodRecommendationSection";
-import FocusSessionSection from "@/components/landing/FocusSessionSection";
-import AiTutorSection from "@/components/landing/AiTutorSection";
-import ExamsSection from "@/components/landing/ExamsSection";
-import ProgressSection from "@/components/landing/ProgressSection";
-import FinalCtaSection from "@/components/landing/FinalCtaSection";
+import { Hero, ProblemaSolucion, PlanDeEstudio, SesionEnfoque, ParcialesNotas, Habitos, PreguntasFrecuentes, CtaFinal } from "@/components/landing/Secciones";
 import LandingFooter from "@/components/landing/LandingFooter";
-import HeroCta from "@/components/landing/HeroCta";
 import DatosEstructurados from "@/components/landing/DatosEstructurados";
 import type { Metadata } from "next";
 import { DESCRIPCION_SITIO, NOMBRE_SITIO, TITULO_HOME } from "@/lib/sitio";
@@ -37,87 +27,33 @@ export const metadata: Metadata = {
 };
 
 // La landing es estática: no consulta la sesión en el servidor (ver useHaySesion).
+// 8 secciones (plan de la landing, fase B): hero, problema → solución, plan de estudio, sesión,
+// parciales, hábitos, preguntas frecuentes y CTA final.
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-frost-base text-arctic-slate flex flex-col selection:bg-glacier-blue/15 selection:text-glacier-blue relative overflow-x-hidden">
-      
-      {/* Luz ambiental sutil */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-b from-glacier-blue/[0.05] via-transparent to-transparent blur-3xl pointer-events-none" />
-
       <DatosEstructurados />
 
-      {/* 1. NAVBAR */}
+      {/* Luz ambiental sutil */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] max-w-full h-[350px] bg-gradient-to-b from-glacier-blue/[0.05] via-transparent to-transparent blur-3xl pointer-events-none"
+      />
+
       <LandingNavbar />
 
-      {/* CONTENIDO PRINCIPAL (HISTORIA SECUENCIAL) */}
-      <main id="contenido" tabIndex={-1} className="flex-1 focus:outline-none space-y-16 sm:space-y-24 pb-14 sm:pb-20">
-        
-        {/* ===================== 2. HERO SECTION ===================== */}
-        <section className="relative pt-6 sm:pt-14 md:pt-18 pb-4 sm:pb-8 px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 xl:gap-16 items-center">
-            
-            {/* Columna Izquierda: Texto Editorial Grande (5 cols en desktop) */}
-            <div className="lg:col-span-5 text-center lg:text-left space-y-5 sm:space-y-6">
-              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white border border-black/[0.06] shadow-sm text-xs font-semibold text-arctic-slate">
-                <span>✦</span>
-                <span>Tu estudio, con dirección</span>
-              </div>
-
-              <h1 className="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-arctic-slate leading-[0.98]">
-                Estudia <br className="hidden sm:inline lg:hidden xl:inline" />
-                con <br className="hidden xl:inline" />
-                dirección.
-              </h1>
-
-              <p className="text-base sm:text-lg text-arctic-secondary leading-relaxed font-normal max-w-lg mx-auto lg:mx-0">
-                studia+ organiza tus materias, te ayuda a decidir qué estudiar y recomienda cómo abordar cada tema para que puedas concentrarte en lo que realmente importa.
-              </p>
-
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 pt-2">
-                <HeroCta />
-              </div>
-            </div>
-
-            {/* Columna Derecha: Mockup Grande de Producto Real (7 cols en desktop) */}
-            <div className="lg:col-span-7 w-full">
-              <HeroProductMockup />
-            </div>
-
-          </div>
-        </section>
-
-        {/* ===================== 3. PROBLEMA ===================== */}
-        <ProblemSection />
-
-        {/* ===================== 4. CÓMO FUNCIONA ===================== */}
-        <HowItWorksSection />
-
-        {/* ===================== 5. MAPA DE ESTUDIO ===================== */}
-        <StudyMapSection />
-
-        {/* ===================== 6. MÉTODO RECOMENDADO ===================== */}
-        <MethodRecommendationSection />
-
-        {/* ===================== 7. SESIÓN DE ENFOQUE ===================== */}
-        <FocusSessionSection />
-
-        {/* ===================== 8. TUTOR IA ===================== */}
-        <AiTutorSection />
-
-        {/* ===================== 9. PARCIALES ===================== */}
-        <ExamsSection />
-
-        {/* ===================== 10. PROGRESO ===================== */}
-        <ProgressSection />
-
-        {/* ===================== 11. CTA FINAL ===================== */}
-        <FinalCtaSection />
-
+      <main id="contenido" tabIndex={-1} className="flex-1 focus:outline-none space-y-28 sm:space-y-36 pb-20 sm:pb-28">
+        <Hero />
+        <ProblemaSolucion />
+        <PlanDeEstudio />
+        <SesionEnfoque />
+        <ParcialesNotas />
+        <Habitos />
+        <PreguntasFrecuentes />
+        <CtaFinal />
       </main>
 
-      {/* ===================== 12. FOOTER ===================== */}
       <LandingFooter />
-
     </div>
   );
 }

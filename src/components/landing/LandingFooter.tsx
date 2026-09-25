@@ -24,8 +24,8 @@ export default function LandingFooter() {
             <a href="#funciones" className="hover:text-arctic-slate transition-colors">
               Funciones
             </a>
-            <a href="#ia" className="hover:text-arctic-slate transition-colors">
-              IA
+            <a href="#preguntas" className="hover:text-arctic-slate transition-colors">
+              Preguntas
             </a>
             <Link href="/login" className="hover:text-arctic-slate transition-colors">
               Iniciar sesión
