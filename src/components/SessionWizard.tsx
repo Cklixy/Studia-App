@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { StudyContext, getRecommendation, Recommendation } from "@/lib/recommendationEngine";
 import { ArrowRight, RotateCw, Clock, X, MoreHorizontal, Sparkles, ChevronLeft, Target } from "lucide-react";
+import SelectorAmbientes from "@/components/musica/SelectorAmbientes";
 
 // "📝 Tengo un examen próximamente" sigue existiendo en el motor, pero no se ofrece: duplicaba
 // "🎯 Preparación para parcial, quiz o evaluación" (auditoría U-14).
@@ -500,6 +501,15 @@ export default function SessionWizard({
               />
             </div>
           </div>
+
+          {/* Sonido opcional: se puede elegir aquí o después, desde la sesión */}
+          <section aria-labelledby="titulo-sonido" className="space-y-3">
+            <div>
+              <h3 id="titulo-sonido" className="apple-headline text-arctic-slate">Sonido de fondo (opcional)</h3>
+              <p className="text-xs text-arctic-secondary mt-0.5">Toca uno para escucharlo. Seguirá sonando durante la sesión y no afecta el temporizador.</p>
+            </div>
+            <SelectorAmbientes compacto />
+          </section>
 
           <div className="pt-2 flex flex-col sm:flex-row gap-3 items-center">
             <button 
