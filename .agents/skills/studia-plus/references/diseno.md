@@ -52,6 +52,7 @@ En Tailwind lo habitual es `text-xs`/`text-sm` para UI densa. **Mínimo 12 px** 
 - **Botones**: `btn-apple-primary` (azul, pastilla, sombra azul), `btn-apple-secondary` (gris translúcido), `btn-apple-ghost` (texto), `btn-apple-destructive` (rojo suave). Añade `apple-tactile` (escala 0.97 al pulsar) y `min-h-11`. Iconos lucide a 14–18 px con `gap-2`.
 - **Inputs**: `w-full rounded-xl px-4 py-2.5 bg-white border border-arctic-borde focus:border-glacier-blue focus:ring-2 focus:ring-glacier-blue/25 outline-none text-base text-arctic-slate`. Siempre con `<label htmlFor>`; obligatorio con `*` `aria-hidden`.
 - **Errores**: `<div role="alert" className="p-3 rounded-xl bg-cool-berry/10 border border-cool-berry/20 text-cool-berry text-sm">`.
+- **Hojas inferiores**: `components/ui/Hoja.tsx` (bottom sheet sobre `<dialog>`, se arrastra hacia abajo para cerrar) para confirmaciones rápidas y paneles como el de música.
 - **Modales**: usa siempre `components/ui/Dialogo.tsx` (`<dialog>` nativo + portal, `tono="peligro"` para destructivos, `data-autofocus` en el campo principal). No crees modales propios.
 - **Navegación**: dock flotante inferior (`SidebarNav.tsx`) con 5 destinos con etiqueta visible: Inicio, Estudiar, Parciales, Progreso, Ajustes. No añadas un sexto; los destinos nuevos cuelgan de uno existente (p. ej. Logros dentro de Progreso). El `main` lleva `pb-32+` para que el dock no tape nada.
 - **Header**: vidrio `apple-glass-ultra`, sticky, 64/72 px, solo logo.
@@ -70,6 +71,9 @@ En Tailwind lo habitual es `text-xs`/`text-sm` para UI densa. **Mínimo 12 px** 
 - Resortes (`type: "spring", damping ~28, stiffness ~380`) para cambios de posición; CSS `cubic-bezier(0.16, 1, 0.3, 1)` (`--ease-apple-spring`) de 120–200 ms para hover/pulsación.
 - Siempre respeta reduced motion (`useReducedMotion()` → sin `layoutId` y `duration: 0`); el CSS global ya anula animaciones.
 - Animaciones cortas y con propósito (feedback, continuidad). Nada de rebotes largos, parallax ni animaciones en bucle salvo el shimmer.
+
+- **Sonido**: el reproductor vive en `components/musica/` con un único `<audio>` en `ReproductorProvider` (layout del dashboard). Nunca suena solo; la sesión solo emite `emitirEstadoSesion()` y el temporizador no depende del audio. Ambientes en `lib/ambientes.ts`.
+- **Modo concentración**: la sesión activa pone `data-enfoque` en `<body>` y oculta header y dock (`.ocultar-en-enfoque`); sigue en tema claro.
 
 ## Voz y textos
 
