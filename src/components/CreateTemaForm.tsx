@@ -64,7 +64,7 @@ export default function CreateTemaForm({ materiaId, destacado = false }: { mater
           onChange={(e) => setTexto(e.target.value)}
           rows={destacado ? 4 : 2}
           autoFocus={destacado}
-          placeholder={"Límites laterales\nDerivada por definición"}
+          placeholder={"Ej.: Límites laterales\nDerivada por definición"}
           aria-describedby={`${id}-ayuda${error ? ` ${id}-error` : ""}`}
           aria-invalid={error ? true : undefined}
           className="campo resize-y"

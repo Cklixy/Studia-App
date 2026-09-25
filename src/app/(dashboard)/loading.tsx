@@ -1,14 +1,17 @@
-// Estado de carga al navegar entre pantallas con sesión. Antes no había ninguno:
-// con red lenta la pantalla anterior se quedaba quieta sin señal de que algo pasaba.
+// Estado de carga al navegar entre pantallas con sesión: esqueleto con la forma de las pantallas
+// del rediseño (título, tarjeta principal y lista), para que el cambio no «salte» al cargar.
 export default function CargandoDashboard() {
   return (
-    <div role="status" aria-live="polite" className="space-y-4 max-w-4xl mx-auto">
+    <div role="status" aria-live="polite" aria-busy="true" className="flex flex-col gap-6">
       <span className="sr-only">Cargando…</span>
-      <div aria-hidden="true" className="h-8 w-56 rounded-xl bg-hundido motion-safe:animate-pulse" />
-      <div aria-hidden="true" className="h-4 w-80 max-w-full rounded-lg bg-hundido motion-safe:animate-pulse" />
-      <div aria-hidden="true" className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-        <div className="h-40 rounded-3xl bg-superficie border border-linea motion-safe:animate-pulse" />
-        <div className="h-40 rounded-3xl bg-superficie border border-linea motion-safe:animate-pulse" />
+      <div aria-hidden="true" className="flex flex-col gap-2">
+        <div className="esqueleto h-4 w-40" />
+        <div className="esqueleto h-10 w-64 max-w-full" />
+      </div>
+      <div aria-hidden="true" className="esqueleto h-48 rounded-2xl" />
+      <div aria-hidden="true" className="flex flex-col gap-2">
+        <div className="esqueleto h-16 rounded-2xl" />
+        <div className="esqueleto h-16 rounded-2xl" />
       </div>
     </div>
   );
