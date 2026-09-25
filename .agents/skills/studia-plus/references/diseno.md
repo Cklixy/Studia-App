@@ -72,7 +72,7 @@ En Tailwind lo habitual es `text-xs`/`text-sm` para UI densa. **Mínimo 12 px** 
 - Siempre respeta reduced motion (`useReducedMotion()` → sin `layoutId` y `duration: 0`); el CSS global ya anula animaciones.
 - Animaciones cortas y con propósito (feedback, continuidad). Nada de rebotes largos, parallax ni animaciones en bucle salvo el shimmer.
 
-- **Sonido**: el reproductor vive en `components/musica/` con un único `<audio>` en `ReproductorProvider` (layout del dashboard). Nunca suena solo; la sesión solo emite `emitirEstadoSesion()` y el temporizador no depende del audio. Ambientes en `lib/ambientes.ts`.
+- **Sonido**: vive en `components/musica/`. `ReproductorProvider` (layout del dashboard) maneja tres fuentes: ambientes (bucle), lo-fi CC0 (lista con fundido cruzado de 2 s) y Spotify (reproductor compacto del iFrame API, `SpotifyMini`, que se registra en el proveedor). En la sesión, todo el sonido va dentro de la tarjeta de enfoque (`SonidoEnfoque`), nunca flotando aparte. Nunca suena solo; la sesión solo emite `emitirEstadoSesion()`. Licencias en `public/audio/LICENCIAS.md`: solo CC0 o dominio público.
 - **Modo concentración**: la sesión activa pone `data-enfoque` en `<body>` y oculta header y dock (`.ocultar-en-enfoque`); sigue en tema claro.
 
 ## Voz y textos
