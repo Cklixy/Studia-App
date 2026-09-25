@@ -34,6 +34,9 @@ Migraciones en `supabase/migrations/000NN_descripcion_en_espanol.sql`, numeradas
 ## Lógica de dominio (`src/lib`)
 
 - `racha.ts` — día local de Colombia (`fechaLocal`, `restarDias`), `calcularNuevaRacha`, `rachaVigente` (solo cuenta si la última actividad fue hoy o ayer), XP = 10 por minuto efectivo, nivel = ⌊√(XP/100)⌋ + 1.
+- `siguientePaso.ts` — qué estudiar hoy: materia con el parcial más cercano (≤ 21 días), luego la más avanzada; dentro de ella el tema por `orden`, con una frase de motivo.
+- Semana: `inicioSemanaLocal()` (lunes 00:00 en Colombia). Meta semanal en `user_metadata.meta_semanal_minutos` (sin migración).
+- Fechas y horas mostradas desde el servidor: siempre con `ZONA_HORARIA` (`formatNaturalDate`, `formatearFechaLocal`); el servidor corre en UTC.
 - `planParcial.ts` — plan hasta el parcial: días restantes, temas pendientes, temas por día (deja el día anterior para repasar).
 - `recommendationEngine.ts` — recomendación de método por reglas (contexto + tipo de materia) como respaldo de la IA.
 - `data/materias.ts` — `getCachedMaterias` (fetch a PostgREST con `next: { revalidate: 180, tags }`) y `revalidateMateriasCache(userId)`; llámala tras mutar materias/temas.
