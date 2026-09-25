@@ -20,7 +20,7 @@ export default function MarcoAuth({
       <div className="w-full max-w-md bg-white rounded-3xl border border-black/[0.06] shadow-apple-md p-6 sm:p-8 md:p-10 relative z-10">
         <div className="flex flex-col items-center mb-8">
           <BrandLogo className="mb-4" />
-          <h1 className="text-2xl font-semibold text-arctic-slate text-center">{titulo}</h1>
+          <h1 className="apple-title-2 text-arctic-slate text-center">{titulo}</h1>
           <p className="text-sm text-arctic-secondary mt-1 text-center">{subtitulo}</p>
         </div>
 
