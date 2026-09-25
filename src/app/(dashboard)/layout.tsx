@@ -34,7 +34,7 @@ export default async function DashboardLayout({
     <ReproductorProvider>
     <div className="min-h-dvh text-arctic-slate flex flex-col bg-frost-base relative">
       {/* Top Navigation & Brand Header */}
-      <header className="ocultar-en-enfoque sticky top-0 z-40 w-full apple-glass-ultra border-b border-black/[0.05] shadow-[0_2px_12px_rgba(0,0,0,0.03)] transition-all select-none" style={{paddingTop: 'env(safe-area-inset-top, 0px)'}}>
+      <header className="ocultar-en-enfoque borde-desplazamiento sticky top-0 z-40 w-full apple-glass-ultra select-none" style={{paddingTop: 'env(safe-area-inset-top, 0px)'}}>
         <div className="max-w-[1280px] mx-auto px-4 sm:px-8 h-[64px] sm:h-[72px] flex items-center justify-between">
           {/* Brand Logo */}
           <div className="flex items-center gap-3">

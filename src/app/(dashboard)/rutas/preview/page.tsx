@@ -68,7 +68,28 @@ export default function RutaPreviewPage() {
   };
 
   if (!routeData) {
-    return <div className="p-8 text-center text-arctic-secondary animate-pulse">Cargando mapa...</div>;
+    // Esqueleto con la forma de la ruta (título, datos y paradas) en lugar de un texto parpadeante
+    return (
+      <div className="max-w-4xl mx-auto space-y-8" aria-busy="true">
+        <span className="sr-only">Cargando la ruta…</span>
+        <div className="flex flex-col items-center gap-3" aria-hidden="true">
+          <div className="h-6 w-40 rounded-full apple-shimmer" />
+          <div className="h-9 w-3/4 max-w-lg rounded-xl apple-shimmer" />
+          <div className="h-4 w-56 rounded-lg apple-shimmer" />
+        </div>
+        <div className="space-y-3" aria-hidden="true">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="apple-card p-5 flex items-center gap-4">
+              <div className="w-10 h-10 rounded-full apple-shimmer shrink-0" />
+              <div className="flex-1 space-y-2">
+                <div className="h-4 w-1/2 rounded-lg apple-shimmer" />
+                <div className="h-3 w-3/4 rounded-lg apple-shimmer" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   const toggleTema = (index: number) => {
