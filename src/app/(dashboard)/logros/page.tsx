@@ -1,18 +1,19 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { Trophy, Lock } from "lucide-react";
+import { Trophy, Lock, Flame, Zap, Star, Gem, Crown, CheckCircle2 } from "lucide-react";
 import NavProgreso from "@/components/NavProgreso";
 import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
 import { rachaVigente, xpInicioNivel, XP_POR_MINUTO } from "@/lib/racha";
 
-// Lista completa de badges posibles en el juego
+// Lista completa de insignias. Íconos en lugar de emojis: se ven igual en todos los dispositivos
+// y siguen el color del sistema (azul si está desbloqueada, gris si no).
 const ALL_BADGES = [
-  { id: "racha_3", nombre: "Primer Ritmo", descripcion: "3 días de racha consecutivos", emoji: "🔥", milestone: 3 },
-  { id: "racha_7", nombre: "Una Semana Exacta", descripcion: "7 días de racha consecutivos", emoji: "⚡", milestone: 7 },
-  { id: "racha_14", nombre: "Dos Semanas", descripcion: "14 días de racha consecutivos", emoji: "🌟", milestone: 14 },
-  { id: "racha_30", nombre: "El Mensual", descripcion: "30 días de racha consecutivos", emoji: "🏆", milestone: 30 },
-  { id: "racha_50", nombre: "Imparable", descripcion: "50 días de racha consecutivos", emoji: "💎", milestone: 50 },
-  { id: "racha_100", nombre: "Leyenda", descripcion: "100 días de racha consecutivos", emoji: "👑", milestone: 100 },
+  { id: "racha_3", nombre: "Primer Ritmo", descripcion: "3 días de racha consecutivos", icono: Flame, milestone: 3 },
+  { id: "racha_7", nombre: "Una Semana Exacta", descripcion: "7 días de racha consecutivos", icono: Zap, milestone: 7 },
+  { id: "racha_14", nombre: "Dos Semanas", descripcion: "14 días de racha consecutivos", icono: Star, milestone: 14 },
+  { id: "racha_30", nombre: "El Mensual", descripcion: "30 días de racha consecutivos", icono: Trophy, milestone: 30 },
+  { id: "racha_50", nombre: "Imparable", descripcion: "50 días de racha consecutivos", icono: Gem, milestone: 50 },
+  { id: "racha_100", nombre: "Leyenda", descripcion: "100 días de racha consecutivos", icono: Crown, milestone: 100 },
 ];
 
 export default async function LogrosPage() {
@@ -101,7 +102,7 @@ export default async function LogrosPage() {
 
       {/* Grid de badges */}
       <section className="space-y-4">
-        <h2 className="apple-title-3">Insignias de Racha</h2>
+        <h2 className="apple-title-3">Insignias de racha</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
           {ALL_BADGES.map(badge => {
             const isUnlocked = badgesDesbloqueados.has(`¡Racha de ${badge.milestone} días lograda!`);
@@ -114,15 +115,27 @@ export default async function LogrosPage() {
                     : 'bg-frost-base/50 border-dashed border-black/[0.12]'
                 }`}
               >
-                <div aria-hidden="true" className={`text-4xl ${isUnlocked ? '' : 'grayscale opacity-40'}`}>{badge.emoji}</div>
+                <div
+                  aria-hidden="true"
+                  className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
+                    isUnlocked ? "bg-glacier-blue text-white shadow-apple-glow" : "bg-black/[0.04] text-arctic-tertiary"
+                  }`}
+                >
+                  <badge.icono size={26} strokeWidth={2} />
+                </div>
                 <div>
                   <p className="apple-headline">{badge.nombre}</p>
                   <p className="apple-subhead text-xs text-arctic-secondary mt-1 leading-relaxed">{badge.descripcion}</p>
                 </div>
-                {!isUnlocked && (
+                {isUnlocked ? (
+                  <div className="flex items-center gap-1 text-xs font-medium text-emerald-700">
+                    <CheckCircle2 size={12} strokeWidth={2} aria-hidden="true" />
+                    <span>Desbloqueada</span>
+                  </div>
+                ) : (
                   <div className="flex items-center gap-1 text-xs font-medium text-arctic-secondary">
                     <Lock size={12} strokeWidth={2} aria-hidden="true" />
-                    <span>Bloqueado</span>
+                    <span>Bloqueada</span>
                   </div>
                 )}
               </div>
