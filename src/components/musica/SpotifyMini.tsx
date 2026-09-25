@@ -4,107 +4,77 @@ import { useEffect, useRef } from "react";
 import { useReproductor } from "./ReproductorProvider";
 
 // Reproductor compacto de Spotify (80 px) con la playlist del usuario, dentro de la tarjeta de enfoque.
-// Usa el iFrame API de los embeds de Spotify (no la Web API): no requiere registrar la app ni
-// OAuth y no tiene el límite de 5 usuarios del modo desarrollo. Spotify decide qué suena completo:
-// con una sesión de Premium en el navegador suenan las canciones completas; si no, avances de 30 s.
-// https://developer.spotify.com/documentation/embeds/references/iframe-api
+//
+// Se incrusta el <iframe> del embed directamente y se habla con él por postMessage, con el mismo
+// protocolo que usa el iFrame API oficial. No se carga el script del iFrame API porque usa eval(),
+// que la CSP de producción bloquea (con él, el reproductor nunca aparecía en producción).
+// Protocolo (iframe → página): { type: "ready" } y { type: "playback_update", payload: { isPaused } }.
+// Protocolo (página → iframe): { command: "load_complete_ack" | "play" | "pause" | "resume" | "toggle" }.
+// Spotify decide qué suena completo: con sesión de Premium en el navegador, canciones completas;
+// si no, muestras cortas.
 
-const SCRIPT = "https://open.spotify.com/embed/iframe-api/v1";
+const ORIGEN = "https://open.spotify.com";
 
-type Controlador = {
-  loadUri: (uri: string) => void;
-  play: () => void;
-  pause: () => void;
-  resume: () => void;
-  togglePlay: () => void;
-  addListener: (evento: string, fn: (e: { data: { isPaused?: boolean } }) => void) => void;
-  destroy?: () => void;
-};
-type ApiSpotify = {
-  createController: (
-    el: HTMLElement,
-    opciones: { uri: string; width?: string | number; height?: number },
-    listo: (c: Controlador) => void
-  ) => void;
-};
-
-declare global {
-  interface Window {
-    onSpotifyIframeApiReady?: (api: ApiSpotify) => void;
-    __studiaApiSpotify?: Promise<ApiSpotify>;
-  }
-}
-
-/** Carga el script del iFrame API una sola vez por página. */
-function cargarApi(): Promise<ApiSpotify> {
-  if (!window.__studiaApiSpotify) {
-    window.__studiaApiSpotify = new Promise((resolver) => {
-      window.onSpotifyIframeApiReady = (api) => resolver(api);
-      const s = document.createElement("script");
-      s.src = SCRIPT;
-      s.async = true;
-      document.body.appendChild(s);
-    });
-  }
-  return window.__studiaApiSpotify;
+/** spotify:playlist:ID → https://open.spotify.com/embed/playlist/ID */
+function urlEmbed(uri: string): string {
+  const [, tipo, id] = uri.split(":");
+  return `${ORIGEN}/embed/${tipo}/${id}?utm_source=iframe-api`;
 }
 
 export default function SpotifyMini({ uri, reproducirAlCargar }: { uri: string; reproducirAlCargar: boolean }) {
-  const contenedorRef = useRef<HTMLDivElement>(null);
-  const controladorRef = useRef<Controlador | null>(null);
-  const uriRef = useRef(uri);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const reproducirRef = useRef(reproducirAlCargar);
   const { registrarSpotify, informarSpotify } = useReproductor();
 
-  // Crear el reproductor una vez; el iFrame API reemplaza el elemento destino por un <iframe>
   useEffect(() => {
-    let cancelado = false;
-    const contenedor = contenedorRef.current;
-    if (!contenedor) return;
-    const destino = document.createElement("div");
-    contenedor.appendChild(destino);
+    const enviar = (command: string) => iframeRef.current?.contentWindow?.postMessage({ command }, ORIGEN);
 
-    cargarApi().then((api) => {
-      if (cancelado) return;
-      api.createController(destino, { uri: uriRef.current, width: "100%", height: 80 }, (c) => {
-        if (cancelado) {
-          c.destroy?.();
-          return;
-        }
-        controladorRef.current = c;
-        registrarSpotify(c);
-        c.addListener("playback_update", (e) => informarSpotify(e.data.isPaused === false));
-        // Viene de un toque en «Reproducir en Spotify»; Safari puede exigir tocar el propio reproductor
-        if (reproducirAlCargar) c.addListener("ready", () => c.play());
-      });
+    registrarSpotify({
+      pause: () => enviar("pause"),
+      resume: () => enviar("resume"),
+      togglePlay: () => enviar("toggle"),
     });
 
-    return () => {
-      cancelado = true;
-      controladorRef.current?.destroy?.();
-      controladorRef.current = null;
-      registrarSpotify(null);
-      contenedor.replaceChildren();
+    const alMensaje = (e: MessageEvent) => {
+      if (e.origin !== ORIGEN || e.source !== iframeRef.current?.contentWindow) return;
+      const datos = e.data as { type?: string; payload?: { isPaused?: boolean } } | null;
+      if (datos?.type === "ready") {
+        enviar("load_complete_ack");
+        // Viene de un toque en «Reproducir»; si el navegador lo bloquea, basta tocar ▶ en el reproductor
+        if (reproducirRef.current) {
+          reproducirRef.current = false;
+          enviar("play");
+        }
+      } else if (datos?.type === "playback_update") {
+        informarSpotify(datos.payload?.isPaused === false);
+      }
     };
-    // Solo al montar: los cambios de playlist se cargan con loadUri
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
+    window.addEventListener("message", alMensaje);
+    return () => {
+      window.removeEventListener("message", alMensaje);
+      registrarSpotify(null);
+    };
+  }, [registrarSpotify, informarSpotify]);
+
+  // Cambiar de playlist viene de pulsar «Reproducir»: se carga la nueva y se reproduce al estar lista
+  const uriPrevio = useRef(uri);
   useEffect(() => {
-    if (uri === uriRef.current) return;
-    uriRef.current = uri;
-    // El cambio de playlist viene de pulsar «Reproducir»: se carga y se reproduce
-    const c = controladorRef.current;
-    if (c) {
-      c.loadUri(uri);
-      c.play();
-    }
+    if (uri === uriPrevio.current) return;
+    uriPrevio.current = uri;
+    reproducirRef.current = true;
   }, [uri]);
 
   return (
-    <div
-      ref={contenedorRef}
-      className="w-full h-20 rounded-xl overflow-hidden bg-black/[0.04] [&_iframe]:block [&_iframe]:border-0"
-      aria-label="Reproductor de Spotify"
+    <iframe
+      ref={iframeRef}
+      key={uri}
+      src={urlEmbed(uri)}
+      title="Reproductor de Spotify"
+      width="100%"
+      height={80}
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      className="block w-full h-20 rounded-xl border-0 bg-black/[0.04]"
     />
   );
 }
