@@ -8,7 +8,7 @@ import { CTA_CON_SESION, CTA_PRINCIPAL } from "@/lib/landing";
 export default function FinalCtaSection() {
   const haySesion = useHaySesion();
   return (
-    <section aria-labelledby="cta-final-titulo" className="px-4 sm:px-8 md:px-12 lg:px-16 max-w-[1200px] mx-auto w-full">
+    <section id="cta-final" aria-labelledby="cta-final-titulo" data-revelar className="px-4 sm:px-8 md:px-12 lg:px-16 max-w-[1200px] mx-auto w-full">
       <div className="apple-card rounded-4xl p-8 sm:p-16 text-center shadow-apple-lg">
         <h2 id="cta-final-titulo" className="text-3xl sm:text-5xl font-bold tracking-[-0.035em] leading-[1.08] text-arctic-slate text-balance">
           Tu próximo parcial ya puede tener un plan.

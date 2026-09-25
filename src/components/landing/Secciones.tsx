@@ -19,6 +19,7 @@ import HeroCta from "./HeroCta";
 import FinalCtaSection from "./FinalCtaSection";
 import { MockHabitos, MockMetodo, MockNotas, MockParaHoy, MockRuta, MockTarjetaEnfoque, MockTutor } from "./Mockups";
 import { PREGUNTAS_FRECUENTES } from "@/lib/landing";
+import { SimuladorNota } from "./Interactivos";
 
 // Secciones de la landing (plan de la landing, fase B): una sola historia en 8 pasos.
 // qué es → por qué → un día con studia+ → sesión → parcial → hábito → dudas → empezar.
@@ -69,7 +70,7 @@ function SeccionFuncion({
   invertida?: boolean;
 }) {
   return (
-    <section id={id} aria-labelledby={`${id}-titulo`} className={`${CONTENEDOR} scroll-mt-24`}>
+    <section id={id} aria-labelledby={`${id}-titulo`} data-revelar className={`${CONTENEDOR} scroll-mt-24`}>
       <div className="grid gap-10 lg:gap-16 lg:grid-cols-2 items-center">
         <div className={invertida ? "lg:order-2" : ""}>
           <p className="text-sm font-semibold tracking-wide text-glacier-blue">{etiqueta}</p>
@@ -88,7 +89,7 @@ function SeccionFuncion({
 /** 1. Hero: qué es studia+ y para quién, en una frase; la tarjeta de enfoque real al lado. */
 export function Hero() {
   return (
-    <section className={`${CONTENEDOR} pt-10 sm:pt-16 lg:pt-20`}>
+    <section id="hero" className={`${CONTENEDOR} pt-10 sm:pt-16 lg:pt-20`}>
       <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-center">
         <div className="text-center lg:text-left">
           <p className="text-sm font-semibold tracking-wide text-glacier-blue">Para estudiantes de universidad y colegio</p>
@@ -118,7 +119,7 @@ export function ProblemaSolucion() {
     { icono: Timer, problema: "Te distraes", solucion: "Sesiones con tiempo, sonido de fondo y nada más en la pantalla." },
   ];
   return (
-    <section id="como-funciona" aria-labelledby="como-funciona-titulo" className={`${CONTENEDOR} scroll-mt-24`}>
+    <section id="como-funciona" aria-labelledby="como-funciona-titulo" data-revelar className={`${CONTENEDOR} scroll-mt-24`}>
       <div className="text-center max-w-2xl mx-auto">
         <p className="text-sm font-semibold tracking-wide text-glacier-blue">Cómo funciona</p>
         <h2 id="como-funciona-titulo" className="text-3xl sm:text-4xl font-bold tracking-[-0.03em] leading-[1.1] text-arctic-slate mt-2">
@@ -203,7 +204,12 @@ export function ParcialesNotas() {
         { icono: ListChecks, titulo: "Cuánto necesitas", texto: "El promedio que te falta en el porcentaje restante para llegar a 3,0." },
         { icono: SlidersHorizontal, titulo: "¿Y si saco…?", texto: "Mueve la nota esperada y mira al instante cómo quedaría tu nota final." },
       ]}
-      mockup={<MockNotas />}
+      mockup={
+        <>
+          <MockNotas />
+          <SimuladorNota />
+        </>
+      }
     />
   );
 }
@@ -230,7 +236,7 @@ export function Habitos() {
 /** 7. Preguntas frecuentes (acordeón nativo: accesible y sin JavaScript). */
 export function PreguntasFrecuentes() {
   return (
-    <section id="preguntas" aria-labelledby="preguntas-titulo" className={`${CONTENEDOR} max-w-3xl scroll-mt-24`}>
+    <section id="preguntas" aria-labelledby="preguntas-titulo" data-revelar className={`${CONTENEDOR} max-w-3xl scroll-mt-24`}>
       <h2 id="preguntas-titulo" className="text-3xl sm:text-4xl font-bold tracking-[-0.03em] leading-[1.1] text-arctic-slate text-center">
         Preguntas frecuentes
       </h2>

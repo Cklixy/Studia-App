@@ -424,3 +424,20 @@ dialog [tabindex="-1"]:focus-visible {
 .ecualizador-barra {
   animation: ecualizador 0.9s ease-in-out infinite;
 }
+
+/* Landing: secciones que entran al aparecer en pantalla (skill apple-design §4 y §7).
+   Solo si el JS activó el revelado (html.revelar-activo): sin JS, o para buscadores, todo se ve.
+   Curva de resorte sin rebote; solo transform y opacity para no afectar CLS ni INP. */
+html.revelar-activo [data-revelar] {
+  transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.revelar-activo [data-revelar]:not([data-visible]) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+@media (prefers-reduced-motion: reduce) {
+  html.revelar-activo [data-revelar] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

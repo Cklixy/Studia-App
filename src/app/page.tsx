@@ -2,6 +2,8 @@ import LandingNavbar from "@/components/landing/LandingNavbar";
 import { Hero, ProblemaSolucion, PlanDeEstudio, SesionEnfoque, ParcialesNotas, Habitos, PreguntasFrecuentes, CtaFinal } from "@/components/landing/Secciones";
 import LandingFooter from "@/components/landing/LandingFooter";
 import DatosEstructurados from "@/components/landing/DatosEstructurados";
+import Revelador from "@/components/landing/Revelador";
+import { CtaMovilFijo } from "@/components/landing/Interactivos";
 import type { Metadata } from "next";
 import { DESCRIPCION_SITIO, NOMBRE_SITIO, TITULO_HOME } from "@/lib/sitio";
 
@@ -54,6 +56,10 @@ export default function HomePage() {
       </main>
 
       <LandingFooter />
+
+      {/* Movimiento y barra móvil (fase C): pequeños componentes de cliente, sin dibujar el contenido */}
+      <Revelador />
+      <CtaMovilFijo />
     </div>
   );
 }

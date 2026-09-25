@@ -1,3 +1,4 @@
+import { AnilloVivo } from "./Interactivos";
 import { CalendarClock, CheckCircle2, Circle, Flame, Pause, Sparkles, Trophy, Zap, Star } from "lucide-react";
 
 // Mockups de la landing: pantallas reales de la app dibujadas en HTML (no capturas), con los
@@ -33,32 +34,11 @@ function Ecualizador() {
 
 /** Tarjeta de enfoque de la sesión activa: anillo, tiempo, pausa y fila «Sonando». */
 export function MockTarjetaEnfoque() {
-  const R = 100;
-  const C = 2 * Math.PI * R;
   return (
     <Marco className="max-w-sm mx-auto w-full shadow-apple-lg">
       <p className="text-xs font-semibold tracking-wide text-arctic-secondary text-center">Cálculo I</p>
       <p className="apple-title-3 text-arctic-slate text-center mt-0.5">Límites laterales</p>
-      <div className="relative w-56 h-56 mx-auto my-5">
-        <svg viewBox="0 0 240 240" className="w-full h-full -rotate-90">
-          <circle cx="120" cy="120" r={R} className="stroke-black/[0.06]" strokeWidth="12" fill="none" />
-          <circle
-            cx="120"
-            cy="120"
-            r={R}
-            stroke="#0066CC"
-            strokeWidth="12"
-            strokeLinecap="round"
-            fill="none"
-            strokeDasharray={C}
-            strokeDashoffset={C * 0.38}
-          />
-        </svg>
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-5xl font-medium tracking-[-0.04em] text-arctic-slate tabular-nums">15:32</span>
-          <span className="text-sm text-arctic-secondary mt-1.5 tabular-nums">Llevas 09:28</span>
-        </div>
-      </div>
+      <AnilloVivo />
       <div className="w-14 h-14 rounded-full bg-white border border-black/[0.08] shadow-apple-md flex items-center justify-center mx-auto">
         <Pause size={22} fill="currentColor" className="text-arctic-slate" />
       </div>
@@ -165,7 +145,7 @@ export function MockTutor() {
   );
 }
 
-/** Notas y ponderaciones con la nota necesaria y el simulador. */
+/** Notas y ponderaciones con la nota necesaria (el simulador interactivo va aparte: SimuladorNota). */
 export function MockNotas() {
   return (
     <Marco>
@@ -189,19 +169,6 @@ export function MockNotas() {
       <div className="flex gap-4 mt-2 text-xs text-arctic-secondary">
         <span className="inline-flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-glacier-blue" />Calificado 60%</span>
         <span className="inline-flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-glacier-blue/35" />Sin nota 25%</span>
-      </div>
-      <div className="mt-5 pt-4 border-t border-black/[0.06]">
-        <p className="text-sm font-semibold text-arctic-slate">¿Y si saco…?</p>
-        <div className="flex items-center gap-3 mt-2">
-          <div className="flex-1 h-1.5 rounded-full bg-black/[0.08] relative">
-            <div className="absolute inset-y-0 left-0 w-[70%] rounded-full bg-glacier-blue" />
-            <div className="absolute top-1/2 left-[70%] -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white border border-black/10 shadow-apple-sm" />
-          </div>
-          <span className="text-xl font-bold text-arctic-slate tabular-nums">3,5</span>
-        </div>
-        <p className="text-sm text-arctic-slate mt-2">
-          Nota final: <strong className="tabular-nums">3,68</strong> · <span className="text-emerald-700 font-semibold">apruebas</span>
-        </p>
       </div>
     </Marco>
   );
