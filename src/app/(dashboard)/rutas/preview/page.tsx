@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, CheckCircle2, Clock, Navigation, Zap } from "lucide-react";
+import { CheckCircle2, ChevronDown, ChevronUp, Clock, Navigation, Zap } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
+import { fundido, resorte } from "@/lib/movimiento";
 
 export default function RutaPreviewPage() {
   const router = useRouter();
+  const reducido = useReducedMotion();
   const [routeData, setRouteData] = useState<any>(null);
   const [temas, setTemas] = useState<any[]>([]);
   const [saving, setSaving] = useState(false);
@@ -120,12 +123,12 @@ export default function RutaPreviewPage() {
   const minutes = totalMinutes % 60;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-10 pb-20 duration-500">
+    <div className="max-w-4xl mx-auto space-y-10 pb-20">
 
       {/* Cabecera */}
       <section className="space-y-4 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-glacier-blue/10 text-glacier-blue rounded-full text-xs font-bold uppercase tracking-widest mb-2 border border-glacier-blue/20">
-          <Zap size={14} /> Ruta Generada por IA
+        <div className="tracking-wide inline-flex items-center gap-2 px-3 py-1 bg-glacier-blue/10 text-glacier-blue rounded-full text-xs font-semibold mb-2 border border-glacier-blue/20">
+          <Zap size={14} aria-hidden="true" /> Ruta generada por IA
         </div>
         <h1 className="apple-large-title text-arctic-slate">
           {routeData.titulo_ruta}
@@ -134,18 +137,24 @@ export default function RutaPreviewPage() {
           Materia identificada: <span className="text-arctic-slate font-semibold">{routeData.materia}</span>
         </p>
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-arctic-secondary pt-2">
-          <span className="flex items-center gap-1.5"><Navigation size={15} /> {selectedTemas.length} paradas seleccionadas</span>
-          <span className="flex items-center gap-1.5"><Clock size={15} /> Tiempo est. {hours > 0 ? `${hours}h ` : ''}{minutes}m</span>
+          <span className="flex items-center gap-1.5"><Navigation size={15} aria-hidden="true" /> {selectedTemas.length} {selectedTemas.length === 1 ? "tema seleccionado" : "temas seleccionados"}</span>
+          <span className="flex items-center gap-1.5"><Clock size={15} aria-hidden="true" /> Tiempo estimado: {hours > 0 ? `${hours} h ` : ''}{minutes} min</span>
         </div>
       </section>
 
       {/* Trazado de ruta (Visualización Vertical) */}
       <section className="apple-card p-6 md:p-10 relative overflow-hidden">
-        <h2 className="text-sm uppercase tracking-widest font-bold text-arctic-secondary mb-10 text-center">Plan de Navegación</h2>
+        <h2 className="apple-title-3 text-arctic-slate mb-1">Temas de la ruta</h2>
+        <p className="text-sm text-arctic-secondary mb-8">Quita los que no necesites y ordénalos a tu gusto antes de guardar.</p>
 
         <div className="relative border-l-2 border-black/[0.1] ml-4 md:ml-8 space-y-12">
           {temas.map((tema: any, index: number) => (
-            <div key={tema.originalIndex} className={`relative pl-8 md:pl-12 group transition-opacity ${!tema.selected ? 'opacity-40' : ''}`}>
+            <motion.div
+              key={tema.originalIndex}
+              layout={!reducido}
+              transition={reducido ? fundido : resorte}
+              className={`relative pl-8 md:pl-12 group transition-opacity ${!tema.selected ? 'opacity-40' : ''}`}
+            >
               {/* Nodo */}
               <div className={`absolute -left-[11px] top-1 w-5 h-5 rounded-full flex items-center justify-center transition-colors ${
                 tema.selected
@@ -165,23 +174,23 @@ export default function RutaPreviewPage() {
                         onChange={() => toggleTema(index)}
                         className="w-4 h-4 rounded border-arctic-borde bg-white text-glacier-blue focus:ring-glacier-blue focus:ring-offset-white"
                       />
-                      <h3 className={`text-xl font-bold ${tema.selected ? 'text-arctic-slate' : 'text-arctic-secondary line-through'}`}>
+                      <h3 className={`apple-title-3 ${tema.selected ? 'text-arctic-slate' : 'text-arctic-secondary line-through'}`}>
                         {tema.nombre}
                       </h3>
                     </label>
 
-                    <span className={`text-xs font-bold px-2 py-0.5 rounded ${
-                      tema.dificultad?.toLowerCase().includes('básic') || tema.dificultad?.toLowerCase().includes('fundamento') ? 'bg-glacier-blue/20 text-glacier-blue' :
-                      tema.dificultad?.toLowerCase().includes('avanzad') ? 'bg-cool-berry/20 text-cool-berry' :
-                      'bg-white/10 text-arctic-secondary'
+                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                      tema.dificultad?.toLowerCase().includes('básic') || tema.dificultad?.toLowerCase().includes('fundamento') ? 'bg-glacier-blue/10 text-glacier-blue' :
+                      tema.dificultad?.toLowerCase().includes('avanzad') ? 'bg-cool-berry/10 text-cool-berry' :
+                      'bg-black/[0.05] text-arctic-secondary'
                     }`}>
                       {tema.dificultad || 'Intermedio'}
                     </span>
                     <span className="text-xs text-arctic-secondary flex items-center gap-1">
-                      <Clock size={12} /> {tema.minutos_estimados} min
+                      <Clock size={12} aria-hidden="true" /> {tema.minutos_estimados} min
                     </span>
                   </div>
-                  <p className="text-arctic-secondary text-sm md:text-base leading-relaxed pl-6">
+                  <p className="text-arctic-secondary text-sm leading-relaxed pl-6">
                     {tema.descripcion}
                   </p>
                 </div>
@@ -193,49 +202,49 @@ export default function RutaPreviewPage() {
                     onClick={() => moveTema(index, 'up')}
                     disabled={index === 0}
                     aria-label={`Mover «${tema.nombre}» arriba`}
-                    className="w-11 h-11 flex items-center justify-center text-lg text-arctic-secondary hover:text-arctic-slate hover:bg-black/[0.05] rounded-lg disabled:opacity-30 disabled:hover:bg-transparent"
+                    className="w-11 h-11 flex items-center justify-center text-arctic-secondary hover:text-arctic-slate hover:bg-black/[0.05] rounded-full disabled:opacity-30 disabled:hover:bg-transparent apple-tactile"
                     title="Mover arriba"
                   >
-                    <span aria-hidden="true">↑</span>
+                    <ChevronUp size={18} aria-hidden="true" />
                   </button>
                   <button
                     type="button"
                     onClick={() => moveTema(index, 'down')}
                     disabled={index === temas.length - 1}
                     aria-label={`Mover «${tema.nombre}» abajo`}
-                    className="w-11 h-11 flex items-center justify-center text-lg text-arctic-secondary hover:text-arctic-slate hover:bg-black/[0.05] rounded-lg disabled:opacity-30 disabled:hover:bg-transparent"
+                    className="w-11 h-11 flex items-center justify-center text-arctic-secondary hover:text-arctic-slate hover:bg-black/[0.05] rounded-full disabled:opacity-30 disabled:hover:bg-transparent apple-tactile"
                     title="Mover abajo"
                   >
-                    <span aria-hidden="true">↓</span>
+                    <ChevronDown size={18} aria-hidden="true" />
                   </button>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
 
       {error && (
-        <div className="p-4 bg-cool-berry/10 border border-cool-berry/30 text-cool-berry rounded-lg text-center font-medium">
+        <div role="alert" className="p-3 rounded-xl bg-cool-berry/10 border border-cool-berry/20 text-cool-berry text-sm text-center">
           {error}
         </div>
       )}
 
       {/* Controles */}
-      <section className="flex flex-col-reverse sm:flex-row gap-3 justify-between items-center bg-white/90 backdrop-blur-xl p-4 rounded-2xl border border-black/[0.08] shadow-apple-md">
+      <section className="flex flex-col-reverse sm:flex-row gap-3 justify-between items-center apple-glass p-4 rounded-2xl shadow-apple-md">
         <button
           onClick={handleDiscard}
           disabled={saving}
-          className="w-full sm:w-auto px-5 py-2.5 text-xs font-semibold text-arctic-secondary hover:text-arctic-slate transition-colors text-center"
+          className="w-full sm:w-auto btn-apple-ghost text-sm min-h-11 apple-tactile"
         >
-          Descartar mapa
+          Descartar ruta
         </button>
         <button
           onClick={handleSaveRoute}
           disabled={saving}
-          className="w-full sm:w-auto btn-apple-primary py-3 px-6 text-xs font-semibold apple-tactile shadow-apple-sm flex justify-center items-center gap-2"
+          className="w-full sm:w-auto btn-apple-primary text-sm min-h-12 px-6 apple-tactile"
         >
-          {saving ? "Guardando..." : <><CheckCircle2 size={16} /> <span>Confirmar Ruta</span></>}
+          {saving ? "Guardando…" : <><CheckCircle2 size={16} aria-hidden="true" /> <span>Guardar ruta</span></>}
         </button>
       </section>
 
