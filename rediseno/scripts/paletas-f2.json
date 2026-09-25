@@ -1,0 +1,32 @@
+{
+  "Claro · papel": {
+    "colores": { "fondo": "#F6F3EC", "superficie": "#FFFDF8", "hundido": "#EFEAE0", "linea-fuerte": "#8C8577", "tinta": "#1C2230", "tinta-2": "#4A5160", "tinta-3": "#636977", "acento": "#2743C4", "acento-hover": "#1F37A6", "sobre-acento": "#FFFFFF", "acento-suave": "#E6EAFB", "resaltador": "#FFD84D", "exito": "#1F7A4D", "exito-suave": "#E3F1E8", "error": "#B3261E", "error-suave": "#F9E5E3", "aviso": "#855400", "aviso-suave": "#FBEFD5" },
+    "pares": [
+      ["tinta","fondo","texto"],["tinta","superficie","texto"],["tinta","hundido","texto"],
+      ["tinta-2","fondo","texto"],["tinta-2","superficie","texto"],["tinta-2","hundido","texto"],
+      ["tinta-3","fondo","texto"],["tinta-3","superficie","texto"],["tinta-3","hundido","texto"],
+      ["acento","fondo","texto"],["acento","superficie","texto"],["acento","hundido","texto"],["acento","acento-suave","texto"],
+      ["sobre-acento","acento","texto"],["sobre-acento","acento-hover","texto"],["sobre-acento","error","texto"],["sobre-acento","exito","texto"],
+      ["tinta","resaltador","texto"],
+      ["exito","superficie","texto"],["exito","exito-suave","texto"],["exito","fondo","texto"],
+      ["error","superficie","texto"],["error","error-suave","texto"],["error","fondo","texto"],
+      ["aviso","superficie","texto"],["aviso","aviso-suave","texto"],["aviso","fondo","texto"],
+      ["linea-fuerte","superficie","ui"],["linea-fuerte","fondo","ui"],["acento","fondo","ui"],["exito","hundido","ui"],["acento","hundido","ui"],["aviso","hundido","ui"],["error","hundido","ui"]
+    ]
+  },
+  "Oscuro · lámpara": {
+    "colores": { "fondo": "#14161B", "superficie": "#1C1F26", "hundido": "#252932", "linea-fuerte": "#6E7482", "tinta": "#EDE8DE", "tinta-2": "#BDB8AE", "tinta-3": "#9C978E", "acento": "#9AABFF", "acento-hover": "#B3C0FF", "sobre-acento": "#10131A", "acento-suave": "#262C45", "resaltador": "#E8C547", "sobre-resaltador": "#14161B", "exito": "#6FD39B", "exito-suave": "#1C3328", "error": "#FF8F86", "error-suave": "#3D2224", "aviso": "#EDB95A", "aviso-suave": "#3A2F1A" },
+    "pares": [
+      ["tinta","fondo","texto"],["tinta","superficie","texto"],["tinta","hundido","texto"],
+      ["tinta-2","fondo","texto"],["tinta-2","superficie","texto"],["tinta-2","hundido","texto"],
+      ["tinta-3","fondo","texto"],["tinta-3","superficie","texto"],["tinta-3","hundido","texto"],
+      ["acento","fondo","texto"],["acento","superficie","texto"],["acento","hundido","texto"],["acento","acento-suave","texto"],
+      ["sobre-acento","acento","texto"],["sobre-acento","acento-hover","texto"],["sobre-acento","error","texto"],["sobre-acento","exito","texto"],
+      ["sobre-resaltador","resaltador","texto"],
+      ["exito","superficie","texto"],["exito","exito-suave","texto"],["exito","fondo","texto"],
+      ["error","superficie","texto"],["error","error-suave","texto"],["error","fondo","texto"],
+      ["aviso","superficie","texto"],["aviso","aviso-suave","texto"],["aviso","fondo","texto"],
+      ["linea-fuerte","superficie","ui"],["linea-fuerte","fondo","ui"],["acento","fondo","ui"],["exito","hundido","ui"],["acento","hundido","ui"],["aviso","hundido","ui"],["error","hundido","ui"]
+    ]
+  }
+}
