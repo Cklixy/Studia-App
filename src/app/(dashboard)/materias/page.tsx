@@ -2,30 +2,33 @@ import { createClient } from "@/utils/supabase/server";
 import { capitalizarInicio, formatearFechaLocal, plural } from "@/lib/texto";
 import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
 import ListaEscalonada from "@/components/ui/ListaEscalonada";
-import { rachaVigente } from "@/lib/racha";
+import { fechaLocal, inicioSemanaLocal, nivelDesdeXp, rachaVigente, ZONA_HORARIA } from "@/lib/racha";
 import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 import CreateMateriaForm from "@/components/CreateMateriaForm";
-import StatsPanel from "@/components/StatsPanel";
-import StudyTrailWidget from "@/components/StudyTrailWidget";
 import Link from "next/link";
 import { getCachedMaterias } from "@/lib/data/materias";
 import { planesProximos } from "@/lib/planParcial";
-import TarjetaPlanParcial from "@/components/TarjetaPlanParcial";
-import {
-  Flame,
-  ArrowRight,
-  Sparkles,
-  BookOpen,
-  Calendar,
-  ChevronRight,
-  CheckCircle2
-} from "lucide-react";
+import { calcularSiguientePaso } from "@/lib/siguientePaso";
+import TarjetaHoy from "@/components/inicio/TarjetaHoy";
+import TarjetaSemana from "@/components/inicio/TarjetaSemana";
+import { Sparkles, Calendar, ChevronRight } from "lucide-react";
 
 // Client component diferido únicamente para Web Push API
 const PushNotificationManager = dynamic(() => import("@/components/PushNotificationManager"), {
   ssr: false,
 });
+
+/** Color de la insignia del parcial según lo que falta: solo es roja cuando de verdad urge. */
+function tonoParcial(diasRestantes: number) {
+  if (diasRestantes <= 7) return "text-cool-berry bg-cool-berry/10 border-cool-berry/20";
+  if (diasRestantes <= 14) return "text-amber-700 bg-amber-500/10 border-amber-500/25";
+  return "text-arctic-secondary bg-black/[0.04] border-black/[0.06]";
+}
+
+function diasHasta(fecha: string, hoy: string) {
+  return Math.round((Date.parse(`${fecha.slice(0, 10)}T00:00:00Z`) - Date.parse(`${hoy}T00:00:00Z`)) / 86_400_000);
+}
 
 export default async function MateriasPage() {
   const supabase = createClient();
@@ -42,107 +45,42 @@ export default async function MateriasPage() {
   } = await supabase.auth.getSession();
 
   const firstName = user.user_metadata?.full_name?.split(" ")[0] || user.email?.split("@")[0] || "Estudiante";
+  const metaSemanal = Number(user.user_metadata?.meta_semanal_minutos) || null;
 
-  const inicioSemana = new Date();
-  inicioSemana.setDate(inicioSemana.getDate() - inicioSemana.getDay());
-  inicioSemana.setHours(0, 0, 0, 0);
-
-  const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-  // Consultas en paralelo optimizadas con caché para materias
-  const [
-    materias,
-    { data: rachaData },
-    { data: sesionesSemana },
-    { data: sesionesRecientes }
-  ] = await Promise.all([
+  const [materias, { data: rachaData }, { data: sesionesSemana }] = await Promise.all([
     getCachedMaterias(user.id, session?.access_token),
-
-    supabase
-      .from("rachas")
-      .select("dias, xp_total, nivel_actual, ultima_actividad")
-      .eq("user_id", user.id)
-      .single(),
-
+    supabase.from("rachas").select("dias, xp_total, nivel_actual, ultima_actividad").eq("user_id", user.id).single(),
     supabase
       .from("sesiones")
       .select("tiempo_efectivo_segundos")
       .eq("user_id", user.id)
       .eq("estado", "finalizada")
-      .gte("hora_finalizacion", inicioSemana.toISOString()),
-
-    supabase
-      .from("sesiones")
-      .select("tiempo_efectivo_segundos, calificacion_productividad, resultado_logro, metodo_utilizado, hora_finalizacion")
-      .eq("user_id", user.id)
-      .eq("estado", "finalizada")
-      .gte("hora_finalizacion", thirtyDaysAgo.toISOString())
+      .gte("hora_finalizacion", inicioSemanaLocal()),
   ]);
 
   // Solo cuenta si la última sesión fue hoy o ayer (antes se mostraba una racha ya rota)
   const rachaActual = rachaVigente(rachaData);
   const rachaAnterior = rachaActual === 0 ? rachaData?.dias || 0 : 0;
   const sinMaterias = !materias || materias.length === 0;
-  const tieneActividad = (sesionesRecientes?.length || 0) > 0 || rachaActual > 0;
   const xpTotal = rachaData?.xp_total || 0;
-  const nivelActual = rachaData?.nivel_actual || 1;
+  const minutosSemana = Math.floor((sesionesSemana || []).reduce((acc, s) => acc + (s.tiempo_efectivo_segundos || 0), 0) / 60);
 
-  const xpEstaSemana = (sesionesSemana || []).reduce((acc, s) =>
-    acc + Math.floor((s.tiempo_efectivo_segundos || 0) / 60) * 10, 0
-  );
+  const hoy = fechaLocal();
+  const paso = calcularSiguientePaso(materias);
+  // Los demás parciales cercanos (el de «Hoy» ya se muestra arriba)
+  const otrosParciales = planesProximos(materias)
+    .filter((p) => p.materiaId !== paso?.materiaId)
+    .slice(0, 3);
 
-  // Calcular métricas
-  const totalMinutos = Math.floor(
-    (sesionesRecientes || []).reduce((acc, s) => acc + (s.tiempo_efectivo_segundos || 0), 0) / 60
-  );
-  const sesionesExitosas = (sesionesRecientes || []).filter(s =>
-    s.resultado_logro === "Sí" || s.resultado_logro === "Si" || s.resultado_logro === "Parcialmente"
-  ).length;
-  const efectividad = sesionesRecientes?.length
-    ? Math.round((sesionesExitosas / sesionesRecientes.length) * 100)
-    : 0;
-
-  // Pre-sort temas for each materia
-  if (materias) {
-    materias.forEach(m => {
-      if (m.temas) {
-        m.temas.sort((a: any, b: any) => {
-          if (a.orden !== null && b.orden !== null) return a.orden - b.orden;
-          return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-        });
-      }
-    });
-  }
-
-  // Calculate Next Move (The first pending theme across all subjects)
-  let nextMove: { materia: string; materiaId: string; tema: string; temaId: string } | null = null;
-  if (materias) {
-    for (const materia of materias) {
-      const pendingTemas = materia.temas?.filter((t: any) => t.estado !== 'completado') || [];
-      if (pendingTemas.length > 0) {
-        pendingTemas.sort((a: any, b: any) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
-        nextMove = {
-          materia: materia.nombre,
-          materiaId: materia.id,
-          tema: pendingTemas[0].nombre,
-          temaId: pendingTemas[0].id
-        };
-        break;
-      }
-    }
-  }
-
-  // Today formatted in Spanish
-  const fechaHoy = new Intl.DateTimeFormat("es-ES", {
+  const fechaHoy = new Intl.DateTimeFormat("es-CO", {
     weekday: "long",
     day: "numeric",
     month: "long",
+    timeZone: ZONA_HORARIA,
   }).format(new Date());
 
   return (
-    <div className="flex flex-col gap-9 w-full">
-
+    <div className="flex flex-col gap-8 sm:gap-10 w-full">
       <EncabezadoPantalla
         etiqueta={capitalizarInicio(fechaHoy)}
         titulo={`Hola, ${firstName}`}
@@ -167,241 +105,110 @@ export default async function MateriasPage() {
         }
       />
 
-      {/* Top Row: Apple Activity Gauge + Hero Focus Card en Vidrio Blanco */}
-      <div className="grid grid-cols-1 sm:grid-cols-[240px_1fr] lg:grid-cols-[290px_1fr] gap-4 sm:gap-5">
+      {/* Hoy + Tu semana */}
+      <ListaEscalonada className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-4 sm:gap-5" classNameElemento="grid">
+        <TarjetaHoy paso={paso} sinMaterias={sinMaterias} />
+        <TarjetaSemana
+          racha={rachaActual}
+          minutosSemana={minutosSemana}
+          metaMinutos={metaSemanal}
+          nivel={nivelDesdeXp(xpTotal)}
+          xpTotal={xpTotal}
+        />
+      </ListaEscalonada>
 
-        {/* Apple Activity Gauge Card (Racha & XP) */}
-        <div className="apple-card p-6 flex flex-col items-center justify-between text-center relative overflow-hidden group">
-          <div className="w-full flex items-center justify-between text-xs text-arctic-secondary">
-            <span className="font-medium tracking-tight">Racha de Estudio</span>
-            <span className="flex items-center gap-1 text-cool-berry font-semibold">
-              <Flame size={14} className="fill-cool-berry text-cool-berry" />
-              {rachaActual}d
-            </span>
-          </div>
+      {/* Otros parciales próximos */}
+      {otrosParciales.length > 0 && (
+        <section aria-labelledby="parciales-titulo" className="space-y-3">
+          <h2 id="parciales-titulo" className="apple-title-3 text-arctic-slate px-1">
+            Próximos parciales
+          </h2>
+          <ul className="apple-card p-0 divide-y divide-black/[0.06] overflow-hidden">
+            {otrosParciales.map((p) => (
+              <li key={p.materiaId}>
+                <Link
+                  href={`/materias/${p.materiaId}`}
+                  className="flex items-center gap-4 px-5 py-4 min-h-14 hover:bg-black/[0.02] transition-colors"
+                >
+                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border shrink-0 tabular-nums ${tonoParcial(p.diasRestantes)}`}>
+                    {p.diasRestantes === 0 ? "Hoy" : p.diasRestantes === 1 ? "Mañana" : `${p.diasRestantes} días`}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-semibold text-arctic-slate truncate">{p.materiaNombre}</span>
+                    <span className="block text-xs text-arctic-secondary truncate">
+                      {formatearFechaLocal(p.fechaParcial, { weekday: "long", day: "numeric", month: "long" })} ·{" "}
+                      {p.temasPendientes === 0 ? "todo listo para repasar" : plural(p.temasPendientes, "tema pendiente", "temas pendientes")}
+                    </span>
+                  </span>
+                  <ChevronRight size={16} className="text-arctic-tertiary shrink-0" aria-hidden="true" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
-          {/* Activity Ring Dial en Tonos Fríos */}
-          <div className="relative w-36 h-36 my-4 flex items-center justify-center">
-            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
-              {/* Outer light track */}
-              <circle
-                cx="60"
-                cy="60"
-                r="48"
-                className="stroke-black/[0.06]"
-                strokeWidth="9"
-                fill="none"
-              />
-              {/* Outer Activity Progress: Glacier to Polar Cyan */}
-              <circle
-                cx="60"
-                cy="60"
-                r="48"
-                stroke="url(#glacierGradient)"
-                strokeWidth="9"
-                strokeLinecap="round"
-                fill="none"
-                strokeDasharray={`${2 * Math.PI * 48}`}
-                strokeDashoffset={`${2 * Math.PI * 48 * (1 - Math.min(1, rachaActual / 7))}`}
-                className="transition-all duration-1000 ease-out"
-              />
-              {/* Inner light track for XP */}
-              <circle
-                cx="60"
-                cy="60"
-                r="36"
-                className="stroke-black/[0.04]"
-                strokeWidth="7"
-                fill="none"
-              />
-              <circle
-                cx="60"
-                cy="60"
-                r="36"
-                stroke="url(#irisGradient)"
-                strokeWidth="7"
-                strokeLinecap="round"
-                fill="none"
-                strokeDasharray={`${2 * Math.PI * 36}`}
-                strokeDashoffset={`${2 * Math.PI * 36 * (1 - Math.min(1, (xpEstaSemana % 500) / 500))}`}
-                className="transition-all duration-1000 ease-out"
-              />
-              <defs>
-                <linearGradient id="glacierGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#0066CC" />
-                  <stop offset="100%" stopColor="#0EA5E9" />
-                </linearGradient>
-                <linearGradient id="irisGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#4F46E5" />
-                  <stop offset="100%" stopColor="#06B6D4" />
-                </linearGradient>
-              </defs>
-            </svg>
-
-            {/* Metric Center */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-3xl font-bold tracking-tight text-arctic-slate tabular-nums">
-                {rachaActual}
-              </span>
-              <span className="text-xs uppercase font-semibold tracking-wider text-arctic-secondary">
-                días
-              </span>
-            </div>
-          </div>
-
-          {/* Bottom XP Chip */}
-          <div className="w-full pt-3 border-t border-black/[0.04] flex items-center justify-between text-xs">
-            <span className="text-arctic-secondary">Esta semana:</span>
-            <span className="font-semibold text-glacier-blue">+{xpEstaSemana} XP</span>
-          </div>
-        </div>
-
-        {/* Hero Next Move Focus Card en Vidrio Blanco */}
-        {nextMove ? (
-          <div className="apple-card p-6 md:p-8 flex flex-col justify-between relative overflow-hidden group">
-            {/* Ambient cold light splash */}
-            <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-glacier-blue/[0.05] blur-3xl pointer-events-none" />
-
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-glacier-blue/10 border border-glacier-blue/20 text-glacier-blue text-xs font-semibold tracking-wider uppercase">
-                <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-glacier-blue" />
-                Siguiente Paso Recomendado
-              </div>
-
-              <div className="mt-4">
-                <span className="apple-caption text-arctic-secondary">
-                  {nextMove.materia}
-                </span>
-                <h2 className="apple-title-2 text-arctic-slate mt-1">
-                  {nextMove.tema}
-                </h2>
-                <p className="apple-body text-arctic-secondary max-w-lg mt-2">
-                  Tu plan curricular indica que este es el tema prioritario para consolidar hoy.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 mt-6 pt-4 border-t border-black/[0.04]">
-              <Link
-                href={`/sesion/nueva?materia=${nextMove.materiaId}&tema=${nextMove.temaId}`}
-                className="btn-apple-primary text-xs py-2.5 px-6 font-semibold apple-tactile shadow-apple-sm text-center justify-center"
-              >
-                <span>Comenzar sesión ahora</span>
-                <ArrowRight size={14} />
-              </Link>
-              <Link
-                href={`/materias/${nextMove.materiaId}`}
-                className="btn-apple-secondary text-xs py-2.5 px-4 apple-tactile text-center justify-center"
-              >
-                <span>Explorar temario</span>
-                <ChevronRight size={14} />
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <div className="apple-card p-8 flex flex-col justify-center items-center text-center relative overflow-hidden">
-            <div className="w-12 h-12 rounded-2xl bg-black/[0.03] border border-black/[0.06] flex items-center justify-center text-arctic-secondary mb-3">
-              <BookOpen size={22} />
-            </div>
-            <h2 className="text-lg font-semibold text-arctic-slate tracking-tight">
-              {sinMaterias ? "Crea tu primera materia" : "Sin temas pendientes"}
-            </h2>
-            <p className="text-sm text-arctic-secondary max-w-sm mt-1 mb-5">
-              {sinMaterias
-                ? "Agrega una asignatura (con la fecha de tu parcial, si ya la sabes) y después sus temas. studia+ te dirá qué estudiar primero."
-                : "Completaste los temas de tus materias. Agrega temas nuevos o crea otra materia."}
-            </p>
-            <CreateMateriaForm />
-          </div>
-        )}
-      </div>
-
-      {/* Plan hasta los parciales más cercanos (auditoría U-11) */}
-      {planesProximos(materias as any).slice(0, 2).map((plan) => (
-        <TarjetaPlanParcial key={plan.materiaId} plan={plan} />
-      ))}
-
-      {/* Constellation Grid: Tus Materias */}
+      {/* Tus materias */}
       {!sinMaterias && (
-      <section className="space-y-4">
-        <div className="flex justify-between items-center px-1">
-          <div>
-            <h2 className="apple-title-2 text-arctic-slate">Tus materias</h2>
-            <p className="text-xs text-arctic-secondary">Estructura tus asignaturas y monitorea el avance de cada una</p>
+        <section aria-labelledby="materias-titulo" className="space-y-4">
+          <div className="px-1">
+            <h2 id="materias-titulo" className="apple-title-2 text-arctic-slate">Tus materias</h2>
+            <p className="text-xs text-arctic-secondary mt-0.5">Estructura tus asignaturas y monitorea el avance de cada una</p>
           </div>
-        </div>
 
-        <ListaEscalonada className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4" classNameElemento="grid">
-          {materias?.map((materia) => {
-            const temas = materia.temas || [];
-            const completedCount = temas.filter((t: any) => t.estado === 'completado').length;
-            const progressPct = temas.length > 0 ? Math.round((completedCount / temas.length) * 100) : 0;
+          <ListaEscalonada className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4" classNameElemento="grid">
+            {materias?.map((materia) => {
+              const temas = materia.temas || [];
+              const completedCount = temas.filter((t) => t.estado === "completado").length;
+              const progressPct = temas.length > 0 ? Math.round((completedCount / temas.length) * 100) : 0;
+              const dias = materia.fecha_parcial ? diasHasta(materia.fecha_parcial, hoy) : null;
 
-            return (
-              <Link
-                key={materia.id}
-                href={`/materias/${materia.id}`}
-                className="apple-card p-5 flex flex-col justify-between group apple-tactile cursor-pointer"
-              >
-                <div>
-                  <div className="flex justify-between items-start gap-2 mb-2">
-                    <h4 className="text-base font-semibold text-arctic-slate tracking-tight group-hover:text-glacier-blue transition-colors">
-                      {materia.nombre}
-                    </h4>
-                    {materia.fecha_parcial && (
-                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-cool-berry bg-cool-berry/10 border border-cool-berry/20 px-2 py-0.5 rounded-full shrink-0">
-                        <Calendar size={11} />
-                        <span>{formatearFechaLocal(materia.fecha_parcial, { month: "short", day: "numeric" })}</span>
-                      </span>
-                    )}
+              return (
+                <Link
+                  key={materia.id}
+                  href={`/materias/${materia.id}`}
+                  className="apple-card p-5 flex flex-col justify-between group apple-tactile cursor-pointer"
+                >
+                  <div>
+                    <div className="flex justify-between items-start gap-2 mb-2">
+                      <h3 className="text-base font-semibold text-arctic-slate tracking-tight group-hover:text-glacier-blue transition-colors">
+                        {materia.nombre}
+                      </h3>
+                      {materia.fecha_parcial && dias !== null && dias >= 0 && (
+                        <span
+                          className={`inline-flex items-center gap-1 text-xs font-semibold border px-2 py-0.5 rounded-full shrink-0 ${tonoParcial(dias)}`}
+                        >
+                          <Calendar size={12} aria-hidden="true" />
+                          <span>
+                            <span className="sr-only">Parcial el </span>
+                            {formatearFechaLocal(materia.fecha_parcial, { month: "short", day: "numeric" })}
+                          </span>
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-arctic-secondary">
+                      {completedCount} de {temas.length} temas completados
+                    </p>
                   </div>
 
-                  <p className="text-xs text-arctic-secondary">
-                    {completedCount} de {temas.length} temas dominados
-                  </p>
-                </div>
-
-                {/* Progress bar */}
-                <div className="mt-5 pt-3 border-t border-black/[0.05]">
-                  <div className="flex justify-between items-center text-xs mb-1.5">
-                    <span className="text-arctic-secondary text-xs">Progreso</span>
-                    <span className="font-semibold text-arctic-slate tabular-nums text-xs">{progressPct}%</span>
+                  <div className="mt-5 pt-3 border-t border-black/[0.05]">
+                    <div className="flex justify-between items-center text-xs mb-1.5">
+                      <span className="text-arctic-secondary">Progreso</span>
+                      <span className="font-semibold text-arctic-slate tabular-nums">{progressPct}%</span>
+                    </div>
+                    <div className="w-full bg-black/[0.05] rounded-full h-1.5 overflow-hidden">
+                      <div className="h-full rounded-full bg-glacier-blue" style={{ width: `${progressPct}%` }} />
+                    </div>
                   </div>
-                  <div className="w-full bg-black/[0.05] rounded-full h-1.5 overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-glacier-blue transition-all duration-700 ease-out"
-                      style={{ width: `${progressPct}%` }}
-                    />
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
-
-        </ListaEscalonada>
-      </section>
+                </Link>
+              );
+            })}
+          </ListaEscalonada>
+        </section>
       )}
 
-      {tieneActividad && (
-        <>
-          {/* Gráficos de racha (Server Component puro sin cliente JS) */}
-          <StudyTrailWidget dias={rachaActual} />
-
-          {/* Stats Summary Panel */}
-          <StatsPanel
-            totalMinutos={totalMinutos}
-            efectividad={efectividad}
-            totalSesiones={sesionesRecientes?.length || 0}
-            nivelActual={nivelActual}
-            xpTotal={xpTotal}
-          />
-        </>
-      )}
-
-      {/* Push Notifications Settings */}
-      <div className="pt-2">
-        <PushNotificationManager />
-      </div>
+      {/* Recordatorio diario: se oculta si ya está activado o si el usuario lo cerró */}
+      <PushNotificationManager descartable />
     </div>
   );
 }

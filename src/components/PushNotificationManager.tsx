@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Bell, BellOff } from "lucide-react";
+import { Bell, BellOff, X } from "lucide-react";
 
 const publicVapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY || "";
 
@@ -23,12 +23,40 @@ function urlBase64ToUint8Array(base64String: string) {
 // El cron (vercel.json) se ejecuta a las 20:00 UTC = 3:00 p. m. en Colombia.
 // Antes el texto prometía un recordatorio «todas las noches» (auditoría U-16).
 const HORA_RECORDATORIO = "3:00 p. m.";
+const CLAVE_AVISO_CERRADO = "studia_aviso_recordatorio_cerrado";
 
-export default function PushNotificationManager({ compacto = false }: { compacto?: boolean }) {
+/**
+ * `descartable` (Inicio): la tarjeta se oculta si el recordatorio ya está activado o si el usuario
+ * la cerró; desde Ajustes (`compacto`) siempre se puede gestionar.
+ */
+export default function PushNotificationManager({
+  compacto = false,
+  descartable = false,
+}: {
+  compacto?: boolean;
+  descartable?: boolean;
+}) {
   const [isSupported, setIsSupported] = useState(false);
   const [subscription, setSubscription] = useState<PushSubscription | null>(null);
   const [loading, setLoading] = useState(false);
   const [aviso, setAviso] = useState<{ tipo: "error" | "exito"; texto: string } | null>(null);
+  const [cerrado, setCerrado] = useState(true); // oculto hasta leer la preferencia en el cliente
+  const [comprobado, setComprobado] = useState(false);
+
+  useEffect(() => {
+    try {
+      setCerrado(localStorage.getItem(CLAVE_AVISO_CERRADO) === "1");
+    } catch {
+      setCerrado(false);
+    }
+  }, []);
+
+  const cerrarAviso = () => {
+    setCerrado(true);
+    try {
+      localStorage.setItem(CLAVE_AVISO_CERRADO, "1");
+    } catch {}
+  };
 
   useEffect(() => {
     if ("serviceWorker" in navigator && "PushManager" in window) {
@@ -47,6 +75,8 @@ export default function PushNotificationManager({ compacto = false }: { compacto
       setSubscription(sub);
     } catch (err) {
       console.error("Service Worker registration failed", err);
+    } finally {
+      setComprobado(true);
     }
   }
 
@@ -121,8 +151,21 @@ export default function PushNotificationManager({ compacto = false }: { compacto
     ) : null;
   }
 
+  // En Inicio: nada que ofrecer si ya está activado (salvo el aviso de éxito recién mostrado) o si se cerró
+  if (descartable && (cerrado || !comprobado || (subscription && !aviso))) return null;
+
   return (
-    <div className={compacto ? "space-y-3" : "flex flex-col md:flex-row md:items-center gap-6 apple-card p-6 border-l-4 border-l-glacier-blue shadow-apple-sm"}>
+    <div className={compacto ? "space-y-3" : "relative flex flex-col md:flex-row md:items-center gap-4 md:gap-6 apple-card p-6 pr-14 shadow-apple-sm"}>
+      {descartable && (
+        <button
+          type="button"
+          onClick={cerrarAviso}
+          aria-label="Cerrar aviso del recordatorio"
+          className="absolute top-3 right-3 w-11 h-11 rounded-full flex items-center justify-center text-arctic-secondary hover:text-arctic-slate hover:bg-black/[0.05] transition-colors"
+        >
+          <X size={16} aria-hidden="true" />
+        </button>
+      )}
       <div className="flex-1">
         <h3 className="font-bold flex items-center gap-2 text-arctic-slate mb-1 text-base">
           <Bell size={18} className="text-glacier-blue" aria-hidden="true" /> Recordatorio diario

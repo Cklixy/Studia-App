@@ -66,3 +66,15 @@ export function nivelDesdeXp(xp: number): number {
 export function xpInicioNivel(nivel: number): number {
   return Math.pow(Math.max(1, nivel) - 1, 2) * 100;
 }
+
+/**
+ * Inicio de la semana (lunes 00:00, hora de Colombia) como ISO UTC.
+ * Antes el dashboard usaba el domingo en la zona del servidor (UTC), así que la semana
+ * empezaba el sábado a las 19:00 en Colombia.
+ */
+export function inicioSemanaLocal(fecha: Date = new Date()): string {
+  const hoy = fechaLocal(fecha);
+  const diaSemana = new Date(`${hoy}T12:00:00Z`).getUTCDay(); // 0 = domingo
+  const lunes = restarDias(hoy, (diaSemana + 6) % 7);
+  return `${lunes}T05:00:00.000Z`; // Colombia es UTC−5 todo el año
+}
