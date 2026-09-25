@@ -27,13 +27,13 @@ const toolbar = (...origenes) => (esPreview ? " " + origenes.join(" ") : "");
 // - worker-src / manifest-src cubren el service worker (/sw.js) y /manifest.json.
 const csp = [
   "default-src 'self'",
-  // open.spotify.com y embed-cdn.spotifycdn.com: iFrame API y reproductor compacto de Spotify
-  // en la sesión activa (el script de open.spotify.com carga el resto desde su CDN)
-  `script-src 'self' 'unsafe-inline' https://open.spotify.com https://embed-cdn.spotifycdn.com${esDesarrollo ? " 'unsafe-eval'" : ""}${toolbar("https://vercel.live")}`,
+  `script-src 'self' 'unsafe-inline'${esDesarrollo ? " 'unsafe-eval'" : ""}${toolbar("https://vercel.live")}`,
   `style-src 'self' 'unsafe-inline'${toolbar("https://vercel.live")}`,
   `font-src 'self'${toolbar("https://vercel.live", "https://assets.vercel.com")}`,
   `img-src 'self' data: blob:${toolbar("https://vercel.live", "https://vercel.com")}`,
   `connect-src 'self' ${origenSupabase} ${origenSupabaseWs}${toolbar("https://vercel.live", "wss://ws-us3.pusher.com")}`,
+  // open.spotify.com: reproductor compacto de Spotify en la sesión activa. Se incrusta el iframe sin
+  // el script del iFrame API (usa eval, que esta CSP bloquea en producción)
   `frame-src 'self' https://open.spotify.com${toolbar("https://vercel.live")}`,
   "worker-src 'self'",
   "manifest-src 'self'",
