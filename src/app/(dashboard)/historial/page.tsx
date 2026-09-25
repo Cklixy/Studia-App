@@ -220,6 +220,9 @@ export default async function HistorialPage({
                 0,
                 Math.floor((Date.now() - new Date(s.hora_inicio).getTime()) / 60000)
               );
+              // Una sesión que lleva mucho más de lo planificado se abandonó sin finalizar (antes decía
+              // «En curso · 736 min»): se muestra como «Sin terminar» con la fecha en que empezó
+              const abandonada = minTranscurridos > Math.max((s.duracion_planificada_minutos || 25) * 2, 120);
               const materiaNombre = (s.materias as any)?.nombre;
               const temaNombre = (s.temas as any)?.nombre || s.objetivo || "Sesión libre";
 
@@ -234,8 +237,10 @@ export default async function HistorialPage({
                     <div className="space-y-1 min-w-0 flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-xs font-semibold text-glacier-blue bg-glacier-blue/10 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 bg-glacier-blue rounded-full animate-ping" />
-                          En curso · {minTranscurridos} min
+                          <span aria-hidden="true" className="w-1.5 h-1.5 bg-glacier-blue rounded-full" />
+                          {abandonada
+                            ? `Sin terminar · ${formatNaturalDate(s.hora_inicio)}`
+                            : `En curso · ${minTranscurridos} min`}
                         </span>
                       </div>
                       
