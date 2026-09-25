@@ -15,6 +15,7 @@ export default async function ResumenSesionPage({ params, searchParams }: { para
     .select(`
       id,
       duracion_planificada_minutos,
+      tema_id,
       materias ( nombre ),
       temas ( nombre )
     `)
@@ -29,8 +30,14 @@ export default async function ResumenSesionPage({ params, searchParams }: { para
   const pauses = parseInt(searchParams.pauses || "0", 10);
 
   return (
-    <div className="max-w-2xl mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-8 text-center">¡Sesión Finalizada! 🎉</h1>
+    <div className="max-w-xl mx-auto flex flex-col gap-6">
+      <header className="text-center">
+        <p className="antetitulo">{(session.materias as any)?.nombre || "Sesión de estudio"}</p>
+        <h1 className="titulo-1 mt-2">
+          ¡Sesión <span className="resaltado resaltado-animado">completada</span>!
+        </h1>
+        <p className="subtitulo mt-2">Cuéntanos cómo te fue: tres toques y listo.</p>
+      </header>
       <SessionFeedbackForm session={session} elapsed={elapsed} pauses={pauses} />
     </div>
   );

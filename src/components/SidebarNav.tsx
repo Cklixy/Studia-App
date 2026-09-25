@@ -16,6 +16,8 @@ const links = [
 
 export default function SidebarNav() {
   const pathname = usePathname();
+  // Modo foco: durante la sesión activa no hay navegación que distraiga (se sale con «Salir»)
+  if (pathname.startsWith("/sesion/activa")) return null;
 
   return (
     <nav

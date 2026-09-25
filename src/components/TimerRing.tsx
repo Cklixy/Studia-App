@@ -5,6 +5,7 @@ import { useEffect, useRef, memo } from "react";
 interface TimerRingProps {
   durationSeconds: number;
   isActive: boolean;
+  completada?: boolean;
   getPreciseElapsedMs: () => number;
   radius?: number;
   children?: React.ReactNode;
@@ -21,6 +22,7 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 function TimerRingComponent({
   durationSeconds,
   isActive,
+  completada = false,
   getPreciseElapsedMs,
   radius = RADIUS,
   children,
@@ -59,15 +61,15 @@ function TimerRingComponent({
   }, [isActive, durationSeconds, getPreciseElapsedMs, circumference]);
 
   return (
-    <div className="relative flex items-center justify-center w-60 h-60 sm:w-72 sm:h-72 md:w-80 md:h-80 mb-6 sm:mb-8 z-10 max-w-full aspect-square">
+    <div className="relative flex items-center justify-center w-72 h-72 sm:w-80 sm:h-80 max-w-[85vw] max-h-[85vw] aspect-square">
       <svg className="w-full h-full transform -rotate-90" viewBox="0 0 280 280" aria-hidden="true" focusable="false">
-        {/* Background Track */}
+        {/* Pista */}
         <circle
           cx="140"
           cy="140"
           r={radius}
           className="stroke-linea"
-          strokeWidth="10"
+          strokeWidth="8"
           fill="none"
         />
 
@@ -77,21 +79,13 @@ function TimerRingComponent({
           cx="140"
           cy="140"
           r={radius}
-          stroke={isActive ? "url(#activeTimerGradient)" : "#F59E0B"}
-          strokeWidth="10"
+          strokeWidth="8"
           strokeLinecap="round"
           fill="none"
           strokeDasharray={circumference}
           strokeDashoffset={circumference}
-          className="transition-colors duration-300"
+          className={`transition-colors duration-media ${completada ? "stroke-exito" : isActive ? "stroke-acento" : "stroke-aviso"}`}
         />
-
-        <defs>
-          <linearGradient id="activeTimerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#0071E3" />
-            <stop offset="100%" stopColor="#0EA5E9" />
-          </linearGradient>
-        </defs>
       </svg>
 
       {/* Centro del reloj (texto aislado de la animación de cuadro) */}

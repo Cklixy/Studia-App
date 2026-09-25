@@ -99,6 +99,11 @@
   --sombra-3: 0 24px 48px -12px rgb(0 0 0 / 0.6);
 }
 
+/* La cabecera es fija: al navegar o saltar a un ancla, el contenido no debe quedar debajo */
+html {
+  scroll-padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+}
+
 body {
   color: rgb(var(--tinta));
   background: rgb(var(--fondo));
