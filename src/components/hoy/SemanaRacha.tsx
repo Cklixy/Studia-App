@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { Check, ChevronRight } from "lucide-react";
 import { plural } from "@/lib/texto";
 
 type Dia = { letra: string; fecha: string; hecho: boolean; esHoy: boolean; futuro: boolean };
@@ -34,12 +34,12 @@ export default function SemanaRacha({
     <section aria-labelledby="titulo-semana">
       <h2 id="titulo-semana" className="antetitulo mb-3">Tu semana</h2>
       <div className="tarjeta p-4 sm:p-5">
-        <ol className="grid grid-cols-7 gap-1 text-center">
+        <ol className="grid grid-cols-7 gap-0.5 sm:gap-1 text-center">
           {dias.map((d) => (
             <li key={d.fecha}>
               <span aria-hidden="true" className={`block text-xs font-semibold ${d.esHoy ? "text-acento" : "text-tinta-3"}`}>{d.letra}</span>
               <span
-                className={`mx-auto mt-1.5 w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold ${
+                className={`mx-auto mt-1.5 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-xs font-bold ${
                   d.hecho
                     ? "bg-acento text-sobre-acento"
                     : d.esHoy
@@ -65,8 +65,8 @@ export default function SemanaRacha({
           <span className="text-tinta-2">
             Esta semana: <strong className="text-tinta">+{xpSemana} XP</strong>
           </span>
-          <Link href="/logros" className="inline-flex min-h-11 items-center font-semibold text-acento">
-            Tu progreso
+          <Link href="/logros" className="inline-flex min-h-11 items-center gap-0.5 font-semibold text-acento">
+            Tu progreso <ChevronRight aria-hidden="true" size={16} />
           </Link>
         </div>
       </div>
