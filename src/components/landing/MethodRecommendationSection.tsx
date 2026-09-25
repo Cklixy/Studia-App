@@ -128,9 +128,9 @@ export default function MethodRecommendationSection() {
                 <span className="tracking-wide text-xs font-bold text-glacier-blue block">
                   Estrategia recomendada
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-arctic-slate tracking-tight">
+                <p className="text-xl sm:text-2xl font-bold text-arctic-slate tracking-tight">
                   {current.method}
-                </h3>
+                </p>
                 <p className="text-xs sm:text-sm text-arctic-secondary">
                   {current.note}
                 </p>

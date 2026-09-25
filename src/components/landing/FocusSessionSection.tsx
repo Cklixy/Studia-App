@@ -40,9 +40,9 @@ export default function FocusSessionSection() {
             </span>
 
             <div className="space-y-1.5 sm:space-y-2 max-w-md mx-auto">
-              <h3 className="text-base sm:text-xl md:text-2xl font-bold text-arctic-slate tracking-tight">
+              <p className="text-base sm:text-xl md:text-2xl font-bold text-arctic-slate tracking-tight">
                 Límites indeterminados 0/0
-              </h3>
+              </p>
               
               <p className="text-xs sm:text-sm text-arctic-secondary leading-relaxed">
                 <span className="font-semibold text-arctic-slate">Objetivo:</span>{" "}

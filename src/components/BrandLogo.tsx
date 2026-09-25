@@ -8,7 +8,7 @@ export default function BrandLogo({ className = "", showText = true }: { classNa
       <div className="w-9 h-9 relative rounded-xl overflow-hidden shadow-apple-sm border border-black/[0.08] transition-transform duration-200 group-hover:scale-105 shrink-0">
         <Image
           src="/favicon.svg"
-          alt="studia+ icon"
+          alt=""
           width={36}
           height={36}
           className="w-full h-full object-contain"

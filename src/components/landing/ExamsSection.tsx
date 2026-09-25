@@ -55,9 +55,9 @@ export default function ExamsSection() {
                 <span className="text-xs font-semibold text-glacier-blue block">
                   Cálculo Diferencial
                 </span>
-                <h3 className="text-lg sm:text-xl font-bold text-arctic-slate tracking-tight">
+                <p className="text-lg sm:text-xl font-bold text-arctic-slate tracking-tight">
                   Segundo Parcial
-                </h3>
+                </p>
               </div>
 
               <div className="flex items-center gap-2.5 sm:gap-3 self-start sm:self-auto">

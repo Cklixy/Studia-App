@@ -56,9 +56,9 @@ export default function StudyMapSection() {
                 <span className="tracking-wide text-xs font-bold text-glacier-blue">
                   Cálculo Diferencial
                 </span>
-                <h3 className="text-base sm:text-xl font-bold text-arctic-slate tracking-tight">
-                  Ruta de Estudio: Límites y Continuidad
-                </h3>
+                <p className="text-base sm:text-xl font-bold text-arctic-slate tracking-tight">
+                  Ruta de estudio: Límites y continuidad
+                </p>
               </div>
 
               <span className="text-xs text-arctic-secondary bg-frost-base px-3 py-1 rounded-full border border-black/[0.04] self-start sm:self-auto font-medium">
