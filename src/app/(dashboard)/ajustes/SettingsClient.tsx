@@ -1,115 +1,43 @@
 "use client";
 
-import { useId, useRef, useState } from "react";
-import { User, Bell, Shield, Download, Trash2, AlertTriangle } from "lucide-react";
+import { useId, useState } from "react";
+import { Download, Trash2, AlertTriangle, Loader2 } from "lucide-react";
 import LogoutButton from "./LogoutButton";
+import SelectorTema from "./SelectorTema";
 import PushNotificationManager from "@/components/PushNotificationManager";
 import Dialogo from "@/components/ui/Dialogo";
 
-type Pestana = "perfil" | "notificaciones" | "privacidad";
-
-// Solo ajustes que funcionan de verdad. Antes había interruptores sin efecto, una pestaña de
-// facturación ficticia y un botón de descarga sin acción (auditoría U-07).
-const PESTANAS: { key: Pestana; label: string; icon: React.ReactNode }[] = [
-  { key: "perfil", label: "Mi perfil", icon: <User size={16} aria-hidden="true" /> },
-  { key: "notificaciones", label: "Notificaciones", icon: <Bell size={16} aria-hidden="true" /> },
-  { key: "privacidad", label: "Privacidad y datos", icon: <Shield size={16} aria-hidden="true" /> },
-];
-
+// Ajustes (rediseño 4.7): una sola página agrupada en lugar de pestañas (a 390 px se cortaban y
+// escondían lo importante). Solo ajustes que funcionan de verdad (auditoría U-07).
 export default function SettingsClient({ email }: { email: string }) {
-  const [activeTab, setActiveTab] = useState<Pestana>("perfil");
-  const base = useId();
-  const refs = useRef<Record<Pestana, HTMLButtonElement | null>>({ perfil: null, notificaciones: null, privacidad: null });
-
-  // Navegación de pestañas con flechas, Inicio y Fin (patrón ARIA de tabs)
-  const alTeclear = (e: React.KeyboardEvent, indice: number) => {
-    const total = PESTANAS.length;
-    let siguiente: number | null = null;
-    if (e.key === "ArrowRight" || e.key === "ArrowDown") siguiente = (indice + 1) % total;
-    if (e.key === "ArrowLeft" || e.key === "ArrowUp") siguiente = (indice - 1 + total) % total;
-    if (e.key === "Home") siguiente = 0;
-    if (e.key === "End") siguiente = total - 1;
-    if (siguiente === null) return;
-    e.preventDefault();
-    const clave = PESTANAS[siguiente].key;
-    setActiveTab(clave);
-    refs.current[clave]?.focus();
-  };
-
   return (
-    <div className="space-y-6 mt-6 md:grid md:grid-cols-3 md:gap-8 md:space-y-0">
-      <div
-        role="tablist"
-        aria-label="Secciones de ajustes"
-        aria-orientation="horizontal"
-        className="flex md:flex-col gap-1.5 overflow-x-auto no-scrollbar pb-1 md:pb-0 shrink-0"
-      >
-        {PESTANAS.map(({ key, label, icon }, i) => (
-          <button
-            key={key}
-            ref={(el) => { refs.current[key] = el; }}
-            role="tab"
-            id={`${base}-tab-${key}`}
-            aria-selected={activeTab === key}
-            aria-controls={`${base}-panel-${key}`}
-            tabIndex={activeTab === key ? 0 : -1}
-            onClick={() => setActiveTab(key)}
-            onKeyDown={(e) => alTeclear(e, i)}
-            className={`flex items-center gap-2 px-3.5 min-h-11 rounded-xl text-sm font-semibold transition-all tactil whitespace-nowrap shrink-0 md:w-full ${
-              activeTab === key
-                ? "bg-superficie text-tinta shadow-1 border border-linea"
-                : "text-tinta-2 hover:bg-hundido hover:text-tinta"
-            }`}
-          >
-            <span className={activeTab === key ? "text-acento" : ""}>{icon}</span>
-            <span>{label}</span>
-          </button>
-        ))}
-      </div>
+    <div className="flex flex-col gap-10">
+      <section aria-labelledby="aj-cuenta" className="flex flex-col gap-3">
+        <h2 id="aj-cuenta" className="titulo-2">Cuenta</h2>
+        <div className="tarjeta p-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0">
+            <p className="text-sm font-semibold text-tinta-2">Correo</p>
+            <p className="font-semibold text-tinta break-all">{email}</p>
+          </div>
+          <LogoutButton />
+        </div>
+      </section>
 
-      <div
-        role="tabpanel"
-        id={`${base}-panel-${activeTab}`}
-        aria-labelledby={`${base}-tab-${activeTab}`}
-        tabIndex={0}
-        className="md:col-span-2 space-y-6 focus-visible:outline-none"
-      >
-        {activeTab === "perfil" && (
-          <>
-            <section className="tarjeta p-6 md:p-8 shadow-1">
-              <h2 className="titulo-3 mb-4 flex items-center gap-2">
-                <User size={18} strokeWidth={2} className="text-acento" aria-hidden="true" />
-                <span>Información personal</span>
-              </h2>
-              <p className="block text-sm font-semibold text-tinta-2 mb-1.5">Correo electrónico</p>
-              <p className="w-full bg-fondo border border-linea rounded-xl px-4 py-2.5 text-sm font-medium text-tinta break-all">
-                {email}
-              </p>
-              <p className="text-sm text-tinta-2 mt-1.5">
-                Es el correo con el que inicias sesión en studia+.
-              </p>
-            </section>
+      <section aria-labelledby="aj-apariencia" className="flex flex-col gap-3">
+        <h2 id="aj-apariencia" className="titulo-2">Apariencia</h2>
+        <div className="tarjeta p-5">
+          <SelectorTema />
+        </div>
+      </section>
 
-            <section className="tarjeta p-6 md:p-8 shadow-1">
-              <h2 className="titulo-3 mb-2">Sesión</h2>
-              <p className="text-sm text-tinta-2 mb-5">Cierra la sesión en este dispositivo.</p>
-              <LogoutButton />
-            </section>
-          </>
-        )}
+      <section aria-labelledby="aj-recordatorios" className="flex flex-col gap-3">
+        <h2 id="aj-recordatorios" className="titulo-2">Recordatorios</h2>
+        <div className="tarjeta p-5">
+          <PushNotificationManager compacto />
+        </div>
+      </section>
 
-        {activeTab === "notificaciones" && (
-          <section className="tarjeta p-6 md:p-8 shadow-1">
-            <h2 className="titulo-3 mb-4 flex items-center gap-2">
-              <Bell size={18} strokeWidth={2} className="text-acento" aria-hidden="true" />
-              <span>Notificaciones</span>
-            </h2>
-            <PushNotificationManager compacto />
-          </section>
-        )}
-
-        {activeTab === "privacidad" && <PrivacidadYDatos />}
-      </div>
+      <PrivacidadYDatos />
     </div>
   );
 }
@@ -141,41 +69,33 @@ function PrivacidadYDatos() {
   };
 
   return (
-    <>
-      <section className="tarjeta p-6 md:p-8 shadow-1">
-        <h2 className="titulo-3 mb-2 flex items-center gap-2">
-          <Download size={18} strokeWidth={2} className="text-acento" aria-hidden="true" />
-          <span>Descargar mis datos</span>
-        </h2>
-        <p className="text-sm text-tinta-2 mb-4">
-          Un archivo JSON con tus materias, temas, sesiones, notas, rutas y progreso.
-        </p>
-        <a
-          href="/api/cuenta/exportar"
-          download
-          className="btn-secundario text-sm min-h-11 px-4 inline-flex items-center gap-2 tactil"
-        >
-          <Download size={15} aria-hidden="true" /> Descargar (.json)
-        </a>
-      </section>
-
-      <section className="tarjeta p-6 md:p-8 border border-error/20 shadow-1">
-        <h2 className="titulo-3 text-error mb-2 flex items-center gap-2">
-          <Trash2 size={18} strokeWidth={2} aria-hidden="true" />
-          <span>Eliminar mi cuenta</span>
-        </h2>
-        <p className="text-sm text-tinta-2 mb-4">
-          Borra tu cuenta y todos tus datos de forma permanente. Te recomendamos descargarlos antes.
-        </p>
-        <button
-          type="button"
-          onClick={() => { setConfirmacion(""); setError(null); setDialogo(true); }}
-          aria-haspopup="dialog"
-          className="btn-peligro text-sm min-h-11 px-4 tactil"
-        >
-          <Trash2 size={15} aria-hidden="true" /> Eliminar mi cuenta
-        </button>
-      </section>
+    <section aria-labelledby="aj-datos" className="flex flex-col gap-3">
+      <h2 id="aj-datos" className="titulo-2">Tus datos</h2>
+      <div className="tarjeta divide-y divide-linea">
+        <div className="p-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h3 className="encabezado">Descargar mis datos</h3>
+            <p className="text-sm text-tinta-2">Un archivo con tus materias, temas, sesiones, notas y progreso.</p>
+          </div>
+          <a href="/api/cuenta/exportar" download className="btn-secundario shrink-0">
+            <Download aria-hidden="true" size={18} /> Descargar
+          </a>
+        </div>
+        <div className="p-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h3 className="encabezado">Eliminar mi cuenta</h3>
+            <p className="text-sm text-tinta-2">Borra tu cuenta y todos tus datos para siempre. Descárgalos antes si los quieres.</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => { setConfirmacion(""); setError(null); setDialogo(true); }}
+            aria-haspopup="dialog"
+            className="btn-peligro shrink-0"
+          >
+            <Trash2 aria-hidden="true" size={18} /> Eliminar cuenta
+          </button>
+        </div>
+      </div>
 
       <Dialogo
         abierto={dialogo}
@@ -185,17 +105,15 @@ function PrivacidadYDatos() {
         tono="peligro"
         anchoMaximo="sm"
         icono={
-          <div className="w-9 h-9 rounded-xl bg-error/10 text-error flex items-center justify-center">
+          <div className="w-9 h-9 rounded-xl bg-error-suave text-error flex items-center justify-center">
             <AlertTriangle size={18} strokeWidth={2} />
           </div>
         }
       >
-        <form onSubmit={eliminarCuenta} className="space-y-4">
-          <p className="text-sm text-tinta">
-            Se borrarán tus materias, temas, sesiones, notas, rutas, racha y XP.
-          </p>
-          <div>
-            <label htmlFor={idConfirmacion} className="block text-sm font-medium text-tinta mb-1.5">
+        <form onSubmit={eliminarCuenta} className="flex flex-col gap-4">
+          <p className="text-tinta">Se borrarán tus materias, temas, sesiones, notas, planes, racha y XP.</p>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor={idConfirmacion} className="text-sm font-semibold">
               Escribe <strong>ELIMINAR</strong> para confirmar
             </label>
             <input
@@ -205,28 +123,19 @@ function PrivacidadYDatos() {
               onChange={(e) => setConfirmacion(e.target.value)}
               autoComplete="off"
               autoCapitalize="characters"
-              className="w-full rounded-xl px-4 py-2.5 bg-superficie border border-linea-fuerte focus:border-error focus:ring-2 focus:ring-error/25 outline-none text-base text-tinta"
+              className="campo"
             />
           </div>
-          {error && (
-            <p role="alert" className="text-sm text-error bg-error/10 border border-error/20 rounded-xl p-3">
-              {error}
-            </p>
-          )}
-          <div className="flex gap-3">
-            <button type="button" onClick={() => setDialogo(false)} className="flex-1 btn-fantasma text-sm min-h-11 tactil">
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              disabled={confirmacion !== "ELIMINAR" || cargando}
-              className="flex-1 btn-peligro text-sm min-h-11 disabled:opacity-50 tactil"
-            >
-              {cargando ? "Eliminando…" : "Eliminar definitivamente"}
+          {error && <p role="alert" className="rounded-xl bg-error-suave p-3 text-sm font-semibold text-error">{error}</p>}
+          <div className="flex flex-col-reverse gap-2 sm:flex-row">
+            <button type="button" onClick={() => setDialogo(false)} className="flex-1 btn-secundario">Cancelar</button>
+            <button type="submit" disabled={confirmacion !== "ELIMINAR" || cargando} className="flex-1 btn-peligro">
+              {cargando && <Loader2 aria-hidden="true" size={18} className="animate-spin" />}
+              {cargando ? "Eliminando…" : "Eliminar para siempre"}
             </button>
           </div>
         </form>
       </Dialogo>
-    </>
+    </section>
   );
 }
