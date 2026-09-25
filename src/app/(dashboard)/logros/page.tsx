@@ -1,139 +1,116 @@
-import { createClient } from "@/utils/supabase/server";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { Trophy, Lock } from "lucide-react";
+import { Flame, Zap, Star, Trophy, Gem, Crown, Check, ChevronDown } from "lucide-react";
+import { createClient } from "@/utils/supabase/server";
 import NavProgreso from "@/components/NavProgreso";
+import BarraProgreso from "@/components/ui/BarraProgreso";
 import { rachaVigente, xpInicioNivel, XP_POR_MINUTO } from "@/lib/racha";
+import { plural } from "@/lib/texto";
 
-// Lista completa de badges posibles en el juego
-const ALL_BADGES = [
-  { id: "racha_3", nombre: "Primer Ritmo", descripcion: "3 días de racha consecutivos", emoji: "🔥", milestone: 3 },
-  { id: "racha_7", nombre: "Una Semana Exacta", descripcion: "7 días de racha consecutivos", emoji: "⚡", milestone: 7 },
-  { id: "racha_14", nombre: "Dos Semanas", descripcion: "14 días de racha consecutivos", emoji: "🌟", milestone: 14 },
-  { id: "racha_30", nombre: "El Mensual", descripcion: "30 días de racha consecutivos", emoji: "🏆", milestone: 30 },
-  { id: "racha_50", nombre: "Imparable", descripcion: "50 días de racha consecutivos", emoji: "💎", milestone: 50 },
-  { id: "racha_100", nombre: "Leyenda", descripcion: "100 días de racha consecutivos", emoji: "👑", milestone: 100 },
+export const metadata: Metadata = { title: "Logros · studia+" };
+
+// Insignias por racha (las mismas reglas de siempre; solo cambia la presentación)
+const INSIGNIAS = [
+  { id: "racha_3", nombre: "Primer ritmo", meta: 3, icono: Flame },
+  { id: "racha_7", nombre: "Una semana", meta: 7, icono: Zap },
+  { id: "racha_14", nombre: "Dos semanas", meta: 14, icono: Star },
+  { id: "racha_30", nombre: "Un mes", meta: 30, icono: Trophy },
+  { id: "racha_50", nombre: "Imparable", meta: 50, icono: Gem },
+  { id: "racha_100", nombre: "Leyenda", meta: 100, icono: Crown },
 ];
 
+// Progreso · Logros (rediseño 4.6, principio 6): celebra lo conseguido y muestra el siguiente paso
+// alcanzable; lo bloqueado dice cuánto falta en vez de «Bloqueado».
 export default async function LogrosPage() {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return redirect("/login");
 
-  // Leer recompensas desbloqueadas y datos de racha en paralelo
-  const [
-    { data: recompensas },
-    { data: racha }
-  ] = await Promise.all([
-    supabase
-      .from("recompensas")
-      .select("descripcion, created_at")
-      .eq("user_id", user.id)
-      .eq("desbloqueado", true),
-    supabase
-      .from("rachas")
-      .select("dias, xp_total, nivel_actual, ultima_actividad")
-      .eq("user_id", user.id)
-      .single()
+  const [{ data: recompensas }, { data: racha }] = await Promise.all([
+    supabase.from("recompensas").select("descripcion, created_at").eq("user_id", user.id).eq("desbloqueado", true),
+    supabase.from("rachas").select("dias, xp_total, nivel_actual, ultima_actividad").eq("user_id", user.id).maybeSingle(),
   ]);
 
-  // Mapear qué badges están desbloqueados basándose en la descripción guardada
-  const badgesDesbloqueados = new Set(
-    (recompensas || []).map(r => r.descripcion)
-  );
+  const logradas = new Set((recompensas || []).map((r) => r.descripcion));
+  const dias = rachaVigente(racha);
+  const nivel = racha?.nivel_actual || 1;
+  const xp = racha?.xp_total || 0;
+  const inicio = xpInicioNivel(nivel);
+  const siguiente = xpInicioNivel(nivel + 1);
+  const pct = Math.min(100, Math.round(((xp - inicio) / (siguiente - inicio)) * 100));
+  const conseguida = (meta: number) => logradas.has(`¡Racha de ${meta} días lograda!`);
+  const proxima = INSIGNIAS.find((i) => !conseguida(i.meta));
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 duration-500">
-      <NavProgreso activo="logros" />
-      <header className="pb-2 border-b border-linea">
-        <span className="text-xs font-semibold text-tinta-3 uppercase tracking-wider">
-          Gamificación y Metas
-        </span>
-        <div className="mt-0.5">
-          <span className="antetitulo text-tinta-2">Reconocimientos</span>
-          <h1 className="titulo-1 text-tinta mt-1">Mis Logros</h1>
-        </div>
-        <p className="cuerpo text-xs text-tinta-2 mt-1">Insignias desbloqueadas y metas de constancia académica.</p>
+    <div className="flex flex-col gap-8">
+      <header className="flex flex-col gap-4">
+        <h1 className="titulo-1">Progreso</h1>
+        <NavProgreso activo="logros" />
       </header>
 
-      {/* Nivel actual */}
-      <div className="tarjeta p-5 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 shadow-1 text-center sm:text-left">
-        <div className="w-16 h-16 rounded-2xl bg-acento/10 border-2 border-acento/30 flex items-center justify-center font-display text-2xl font-bold text-acento shrink-0 shadow-1">
-          {racha?.nivel_actual || 1}
+      <section aria-labelledby="titulo-nivel" className="tarjeta p-5 sm:p-6 flex items-center gap-5">
+        <div className="shrink-0 w-20 h-20 rounded-3xl bg-acento-suave flex flex-col items-center justify-center">
+          <span className="text-xs font-semibold text-acento">Nivel</span>
+          <span className="font-display text-4xl leading-none text-acento">{nivel}</span>
         </div>
-        <div>
-          <p className="antetitulo text-tinta-2">Nivel Académico</p>
-          <p className="titulo-2 text-tinta tabular-nums mt-0.5">{racha?.xp_total || 0} XP acumulados</p>
-          <p className="subtitulo text-xs text-tinta-2 mt-0.5">{rachaVigente(racha) === 1 ? "1 día" : `${rachaVigente(racha)} días`} de racha activa</p>
-          {(() => {
-            const nivel = racha?.nivel_actual || 1;
-            const xp = racha?.xp_total || 0;
-            const inicio = xpInicioNivel(nivel);
-            const siguiente = xpInicioNivel(nivel + 1);
-            const pct = Math.min(100, Math.round(((xp - inicio) / (siguiente - inicio)) * 100));
-            return (
-              <div className="mt-3 w-full sm:w-72">
-                <div className="flex justify-between text-xs text-tinta-2 mb-1">
-                  <span>Nivel {nivel + 1}</span>
-                  <span>Faltan {Math.max(0, siguiente - xp)} XP</span>
-                </div>
-                <div
-                  role="progressbar"
-                  aria-label={`Progreso hacia el nivel ${nivel + 1}`}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-valuenow={pct}
-                  className="h-2 rounded-full bg-hundido overflow-hidden"
-                >
-                  <div className="h-full bg-acento rounded-full" style={{ width: `${pct}%` }} />
-                </div>
-              </div>
-            );
-          })()}
+        <div className="min-w-0 flex-1">
+          <h2 id="titulo-nivel" className="titulo-3 tabular-nums">{xp} XP</h2>
+          <p className="text-sm text-tinta-2">{dias > 0 ? `${plural(dias, "día seguido", "días seguidos")} estudiando` : "Tu racha empieza con la próxima sesión"}</p>
+          <BarraProgreso valor={pct} etiqueta={`Progreso hacia el nivel ${nivel + 1}`} textoValor={`Faltan ${Math.max(0, siguiente - xp)} XP`} className="mt-3" />
+          <p className="text-xs text-tinta-2 mt-1.5">Faltan {Math.max(0, siguiente - xp)} XP para el nivel {nivel + 1} (≈ {Math.ceil(Math.max(0, siguiente - xp) / XP_POR_MINUTO)} min de estudio)</p>
         </div>
-      </div>
+      </section>
 
-      {/* Cómo funciona (antes no se explicaba en ninguna pantalla — auditoría U-13) */}
-      <section className="tarjeta p-5 sm:p-6 shadow-1">
-        <h2 className="titulo-3 mb-3">Cómo funciona tu progreso</h2>
-        <ul className="space-y-2 text-sm text-tinta list-disc pl-5">
-          <li><strong>XP:</strong> ganas {XP_POR_MINUTO} XP por cada minuto de estudio efectivo (sin contar pausas) al finalizar una sesión.</li>
-          <li><strong>Nivel:</strong> subes de nivel al acumular XP (nivel 2 con 100 XP, nivel 3 con 400 XP, nivel 4 con 900 XP…).</li>
-          <li><strong>Racha:</strong> suma un día cada día (hora de Colombia) en que termines al menos una sesión. Si un día no estudias, vuelve a empezar; tu XP y tus insignias no se pierden.</li>
-          <li><strong>Insignias:</strong> se desbloquean al llegar a 3, 7, 14, 30, 50 y 100 días de racha.</li>
+      {proxima && (
+        <section aria-labelledby="titulo-proxima" className="rounded-2xl border-2 border-acento/30 bg-acento-suave p-5 flex items-center gap-4">
+          <span className="shrink-0 w-14 h-14 rounded-2xl bg-superficie text-acento flex items-center justify-center">
+            <proxima.icono aria-hidden="true" size={28} />
+          </span>
+          <div>
+            <h2 id="titulo-proxima" className="text-sm font-semibold text-acento">Tu próxima insignia</h2>
+            <p className="titulo-3">{proxima.nombre}</p>
+            <p className="text-sm text-tinta-2">
+              {proxima.meta - dias > 0 ? `Te ${proxima.meta - dias === 1 ? "falta 1 día" : `faltan ${proxima.meta - dias} días`} seguidos.` : "¡La consigues con tu próxima sesión!"}
+            </p>
+          </div>
+        </section>
+      )}
+
+      <section aria-labelledby="titulo-insignias" className="flex flex-col gap-3">
+        <h2 id="titulo-insignias" className="titulo-2">Insignias</h2>
+        <ul className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {INSIGNIAS.map(({ id, nombre, meta, icono: Icono }) => {
+            const ok = conseguida(meta);
+            return (
+              <li key={id} className={`tarjeta p-4 flex flex-col items-center text-center gap-2 ${ok ? "" : "bg-fondo border-dashed"}`}>
+                <span className={`w-12 h-12 rounded-2xl flex items-center justify-center ${ok ? "bg-resaltador text-sobre-resaltador" : "bg-hundido text-tinta-3"}`}>
+                  <Icono aria-hidden="true" size={24} />
+                </span>
+                <p className="encabezado">{nombre}</p>
+                <p className="text-sm text-tinta-2">{meta} días seguidos</p>
+                {ok ? (
+                  <span className="chip chip-exito"><Check aria-hidden="true" size={14} />Conseguida</span>
+                ) : (
+                  <span className="chip">Faltan {Math.max(1, meta - dias)} días</span>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </section>
 
-      {/* Grid de badges */}
-      <section className="space-y-4">
-        <h2 className="titulo-3">Insignias de Racha</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-          {ALL_BADGES.map(badge => {
-            const isUnlocked = badgesDesbloqueados.has(`¡Racha de ${badge.milestone} días lograda!`);
-            return (
-              <div
-                key={badge.id}
-                className={`tarjeta p-3.5 sm:p-5 flex flex-col items-center text-center gap-2.5 sm:gap-3 transition-all ${
-                  isUnlocked
-                    ? 'border-acento/30 shadow-1'
-                    : 'bg-fondo/50 border-dashed border-linea'
-                }`}
-              >
-                <div aria-hidden="true" className={`text-4xl ${isUnlocked ? '' : 'grayscale opacity-40'}`}>{badge.emoji}</div>
-                <div>
-                  <p className="encabezado">{badge.nombre}</p>
-                  <p className="subtitulo text-xs text-tinta-2 mt-1 leading-relaxed">{badge.descripcion}</p>
-                </div>
-                {!isUnlocked && (
-                  <div className="flex items-center gap-1 text-xs font-medium text-tinta-2">
-                    <Lock size={12} strokeWidth={2} aria-hidden="true" />
-                    <span>Bloqueado</span>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </section>
+      <details className="tarjeta p-5 group">
+        <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 titulo-3 [&::-webkit-details-marker]:hidden">
+          Cómo funciona tu progreso
+          <ChevronDown aria-hidden="true" size={20} className="text-tinta-2 transition-transform duration-media group-open:rotate-180" />
+        </summary>
+        <ul className="mt-3 flex flex-col gap-2 text-tinta list-disc pl-5">
+          <li><strong>XP:</strong> {XP_POR_MINUTO} XP por cada minuto de estudio efectivo (sin pausas) al terminar una sesión.</li>
+          <li><strong>Nivel:</strong> nivel 2 con 100 XP, nivel 3 con 400 XP, nivel 4 con 900 XP…</li>
+          <li><strong>Racha:</strong> suma un día cada día (hora de Colombia) en que termines al menos una sesión.</li>
+          <li><strong>Si un día no estudias:</strong> la racha vuelve a empezar, pero tu XP, tu nivel y tus insignias se quedan contigo. Retomar cuenta más que no fallar nunca.</li>
+        </ul>
+      </details>
     </div>
   );
 }

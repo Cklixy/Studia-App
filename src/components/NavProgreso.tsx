@@ -14,7 +14,7 @@ export default function NavProgreso({ activo }: { activo: "historial" | "logros"
           href={o.href}
           aria-current={activo === o.clave ? "page" : undefined}
           className={`min-h-11 px-5 inline-flex items-center rounded-xl text-sm font-semibold transition-colors ${
-            activo === o.clave ? "bg-superficie text-tinta shadow-1" : "text-tinta-2 hover:text-tinta"
+            activo === o.clave ? "bg-superficie text-tinta shadow-1 ring-1 ring-linea-fuerte" : "text-tinta-2 hover:text-tinta"
           }`}
         >
           {o.etiqueta}
