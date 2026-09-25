@@ -39,22 +39,22 @@ export default function MethodRecommendationSection() {
         
         {/* Columna Izquierda: Texto y Controles Interactivos (5 cols / ~42%) */}
         <div className="lg:col-span-5 text-left space-y-5 sm:space-y-6">
-          <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue block">
+          <span className="text-xs uppercase tracking-widest font-semibold text-acento block">
             Estrategia de estudio
           </span>
 
-          <h2 className="text-2xl sm:text-4xl xl:text-5xl font-bold tracking-tight text-arctic-slate leading-[1.08]">
+          <h2 className="text-2xl sm:text-4xl xl:text-5xl font-bold tracking-tight text-tinta leading-[1.08]">
             No todos los temas <br />
             se estudian igual.
           </h2>
 
-          <p className="text-sm sm:text-base text-arctic-secondary leading-relaxed">
+          <p className="text-sm sm:text-base text-tinta-2 leading-relaxed">
             studia+ evalúa tu tiempo disponible, tu nivel de comprensión y tu objetivo antes de iniciar, sugiriendo la técnica con mayor evidencia para ese momento.
           </p>
 
           {/* Selector de Contexto Interactivo */}
           <div className="space-y-2.5 sm:space-y-3 pt-1 sm:pt-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-arctic-tertiary block">
+            <span className="text-xs font-bold uppercase tracking-wider text-tinta-3 block">
               Prueba un contexto diferente:
             </span>
             <div className="flex flex-col sm:flex-row lg:flex-col gap-2 sm:gap-2.5">
@@ -68,16 +68,16 @@ export default function MethodRecommendationSection() {
                   onClick={() => setContext(btn.id as any)}
                   className={`p-3 sm:p-3.5 rounded-2xl text-left transition-all border ${
                     context === btn.id
-                      ? "bg-white border-glacier-blue/40 shadow-sm ring-2 ring-glacier-blue/10"
-                      : "bg-white/60 border-black/[0.05] hover:bg-white hover:border-black/[0.1]"
+                      ? "bg-superficie border-acento/40 shadow-1 ring-2 ring-acento/10"
+                      : "bg-superficie border-linea hover:bg-superficie hover:border-linea"
                   }`}
                 >
                   <span className={`text-xs font-bold block ${
-                    context === btn.id ? "text-glacier-blue" : "text-arctic-slate"
+                    context === btn.id ? "text-acento" : "text-tinta"
                   }`}>
                     {btn.label}
                   </span>
-                  <span className="text-xs text-arctic-secondary block mt-0.5">
+                  <span className="text-xs text-tinta-2 block mt-0.5">
                     {btn.desc}
                   </span>
                 </button>
@@ -88,59 +88,59 @@ export default function MethodRecommendationSection() {
 
         {/* Columna Derecha: UI Grande de Recomendación (7 cols / ~58%) */}
         <div className="lg:col-span-7 w-full">
-          <div className="rounded-3xl sm:rounded-4xl bg-white border border-black/[0.08] shadow-[0_20px_50px_-15px_rgba(0,25,60,0.06)] p-4 sm:p-9 text-left space-y-5 sm:space-y-6">
+          <div className="rounded-3xl sm:rounded-4xl bg-superficie border border-linea shadow-2 p-4 sm:p-9 text-left space-y-5 sm:space-y-6">
             
             {/* Cabecera de la prescripción */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-4 border-b border-black/[0.05]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-4 border-b border-linea">
               <div className="min-w-0">
-                <span className="text-xs font-semibold text-arctic-tertiary block">
+                <span className="text-xs font-semibold text-tinta-3 block">
                   Configuración Académica
                 </span>
-                <span className="text-xs sm:text-sm font-bold text-arctic-slate truncate block">
+                <span className="text-xs sm:text-sm font-bold text-tinta truncate block">
                   Cálculo Diferencial · Límites 0/0
                 </span>
               </div>
 
-              <span className="text-xs font-bold text-glacier-blue bg-glacier-blue/10 px-3 py-1 rounded-full self-start sm:self-auto shrink-0">
+              <span className="text-xs font-bold text-acento bg-acento/10 px-3 py-1 rounded-full self-start sm:self-auto shrink-0">
                 {current.tag}
               </span>
             </div>
 
             {/* Parámetros de la sesión */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-              <div className="p-3 rounded-xl bg-frost-base border border-black/[0.04]">
-                <span className="text-xs uppercase font-bold text-arctic-tertiary block">Tema</span>
-                <span className="font-bold text-arctic-slate block mt-0.5">Límites 0/0</span>
+              <div className="p-3 rounded-xl bg-fondo border border-linea">
+                <span className="text-xs uppercase font-bold text-tinta-3 block">Tema</span>
+                <span className="font-bold text-tinta block mt-0.5">Límites 0/0</span>
               </div>
-              <div className="p-3 rounded-xl bg-frost-base border border-black/[0.04]">
-                <span className="text-xs uppercase font-bold text-arctic-tertiary block">Nivel actual</span>
-                <span className="font-semibold text-arctic-slate block mt-0.5">Entendido parcialmente</span>
+              <div className="p-3 rounded-xl bg-fondo border border-linea">
+                <span className="text-xs uppercase font-bold text-tinta-3 block">Nivel actual</span>
+                <span className="font-semibold text-tinta block mt-0.5">Entendido parcialmente</span>
               </div>
-              <div className="p-3 rounded-xl bg-frost-base border border-black/[0.04]">
-                <span className="text-xs uppercase font-bold text-arctic-tertiary block">Duración</span>
-                <span className="font-mono font-bold text-glacier-blue block mt-0.5">{current.duration}</span>
+              <div className="p-3 rounded-xl bg-fondo border border-linea">
+                <span className="text-xs uppercase font-bold text-tinta-3 block">Duración</span>
+                <span className="font-mono font-bold text-acento block mt-0.5">{current.duration}</span>
               </div>
             </div>
 
             {/* Bloque Destacado del Método */}
-            <div className="p-5 sm:p-6 rounded-2xl bg-glacier-blue/[0.035] border border-glacier-blue/20 space-y-4">
+            <div className="p-5 sm:p-6 rounded-2xl bg-acento/[0.035] border border-acento/20 space-y-4">
               <div className="space-y-1">
-                <span className="text-xs uppercase font-bold text-glacier-blue tracking-wider block">
+                <span className="text-xs uppercase font-bold text-acento tracking-wider block">
                   Estrategia Recomendada
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-arctic-slate tracking-tight">
+                <h3 className="text-xl sm:text-2xl font-bold text-tinta tracking-tight">
                   {current.method}
                 </h3>
-                <p className="text-xs sm:text-sm text-arctic-secondary">
+                <p className="text-xs sm:text-sm text-tinta-2">
                   {current.note}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1 text-xs">
                 {current.items.map((it) => (
-                  <div key={it} className="p-3 rounded-xl bg-white border border-black/[0.04] flex items-center gap-2">
-                    <Check size={14} className="text-glacier-blue shrink-0" strokeWidth={2.5} />
-                    <span className="font-medium text-arctic-slate">{it}</span>
+                  <div key={it} className="p-3 rounded-xl bg-superficie border border-linea flex items-center gap-2">
+                    <Check size={14} className="text-acento shrink-0" strokeWidth={2.5} />
+                    <span className="font-medium text-tinta">{it}</span>
                   </div>
                 ))}
               </div>
@@ -150,7 +150,7 @@ export default function MethodRecommendationSection() {
             <div className="pt-2">
               <Link
                 href="/registro"
-                className="w-full btn-apple-primary py-3.5 px-6 rounded-xl font-semibold text-xs apple-tactile inline-flex items-center justify-center gap-2 shadow-apple-sm"
+                className="w-full btn-primario py-3.5 px-6 rounded-xl font-semibold text-xs tactil inline-flex items-center justify-center gap-2 shadow-1"
               >
                 <Play size={14} fill="currentColor" />
                 <span>Empezar sesión con este método</span>

@@ -44,26 +44,26 @@ export default async function LogrosPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-8 duration-500">
       <NavProgreso activo="logros" />
-      <header className="pb-2 border-b border-black/[0.06]">
-        <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider">
+      <header className="pb-2 border-b border-linea">
+        <span className="text-xs font-semibold text-tinta-3 uppercase tracking-wider">
           Gamificación y Metas
         </span>
         <div className="mt-0.5">
-          <span className="apple-caption text-arctic-secondary">Reconocimientos</span>
-          <h1 className="apple-large-title text-arctic-slate mt-1">Mis Logros</h1>
+          <span className="antetitulo text-tinta-2">Reconocimientos</span>
+          <h1 className="titulo-1 text-tinta mt-1">Mis Logros</h1>
         </div>
-        <p className="apple-body text-xs text-arctic-secondary mt-1">Insignias desbloqueadas y metas de constancia académica.</p>
+        <p className="cuerpo text-xs text-tinta-2 mt-1">Insignias desbloqueadas y metas de constancia académica.</p>
       </header>
 
       {/* Nivel actual */}
-      <div className="apple-card p-5 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 shadow-apple-sm text-center sm:text-left">
-        <div className="w-16 h-16 rounded-2xl bg-glacier-blue/10 border-2 border-glacier-blue/30 flex items-center justify-center font-display text-2xl font-bold text-glacier-blue shrink-0 shadow-apple-sm">
+      <div className="tarjeta p-5 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 shadow-1 text-center sm:text-left">
+        <div className="w-16 h-16 rounded-2xl bg-acento/10 border-2 border-acento/30 flex items-center justify-center font-display text-2xl font-bold text-acento shrink-0 shadow-1">
           {racha?.nivel_actual || 1}
         </div>
         <div>
-          <p className="apple-caption text-arctic-secondary">Nivel Académico</p>
-          <p className="apple-title-2 text-arctic-slate tabular-nums mt-0.5">{racha?.xp_total || 0} XP acumulados</p>
-          <p className="apple-subhead text-xs text-arctic-secondary mt-0.5">{rachaVigente(racha) === 1 ? "1 día" : `${rachaVigente(racha)} días`} de racha activa</p>
+          <p className="antetitulo text-tinta-2">Nivel Académico</p>
+          <p className="titulo-2 text-tinta tabular-nums mt-0.5">{racha?.xp_total || 0} XP acumulados</p>
+          <p className="subtitulo text-xs text-tinta-2 mt-0.5">{rachaVigente(racha) === 1 ? "1 día" : `${rachaVigente(racha)} días`} de racha activa</p>
           {(() => {
             const nivel = racha?.nivel_actual || 1;
             const xp = racha?.xp_total || 0;
@@ -72,7 +72,7 @@ export default async function LogrosPage() {
             const pct = Math.min(100, Math.round(((xp - inicio) / (siguiente - inicio)) * 100));
             return (
               <div className="mt-3 w-full sm:w-72">
-                <div className="flex justify-between text-xs text-arctic-secondary mb-1">
+                <div className="flex justify-between text-xs text-tinta-2 mb-1">
                   <span>Nivel {nivel + 1}</span>
                   <span>Faltan {Math.max(0, siguiente - xp)} XP</span>
                 </div>
@@ -82,9 +82,9 @@ export default async function LogrosPage() {
                   aria-valuemin={0}
                   aria-valuemax={100}
                   aria-valuenow={pct}
-                  className="h-2 rounded-full bg-black/[0.06] overflow-hidden"
+                  className="h-2 rounded-full bg-hundido overflow-hidden"
                 >
-                  <div className="h-full bg-glacier-blue rounded-full" style={{ width: `${pct}%` }} />
+                  <div className="h-full bg-acento rounded-full" style={{ width: `${pct}%` }} />
                 </div>
               </div>
             );
@@ -93,9 +93,9 @@ export default async function LogrosPage() {
       </div>
 
       {/* Cómo funciona (antes no se explicaba en ninguna pantalla — auditoría U-13) */}
-      <section className="apple-card p-5 sm:p-6 shadow-apple-sm">
-        <h2 className="apple-title-3 mb-3">Cómo funciona tu progreso</h2>
-        <ul className="space-y-2 text-sm text-arctic-slate list-disc pl-5">
+      <section className="tarjeta p-5 sm:p-6 shadow-1">
+        <h2 className="titulo-3 mb-3">Cómo funciona tu progreso</h2>
+        <ul className="space-y-2 text-sm text-tinta list-disc pl-5">
           <li><strong>XP:</strong> ganas {XP_POR_MINUTO} XP por cada minuto de estudio efectivo (sin contar pausas) al finalizar una sesión.</li>
           <li><strong>Nivel:</strong> subes de nivel al acumular XP (nivel 2 con 100 XP, nivel 3 con 400 XP, nivel 4 con 900 XP…).</li>
           <li><strong>Racha:</strong> suma un día cada día (hora de Colombia) en que termines al menos una sesión. Si un día no estudias, vuelve a empezar; tu XP y tus insignias no se pierden.</li>
@@ -105,26 +105,26 @@ export default async function LogrosPage() {
 
       {/* Grid de badges */}
       <section className="space-y-4">
-        <h2 className="apple-title-3">Insignias de Racha</h2>
+        <h2 className="titulo-3">Insignias de Racha</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
           {ALL_BADGES.map(badge => {
             const isUnlocked = badgesDesbloqueados.has(`¡Racha de ${badge.milestone} días lograda!`);
             return (
               <div
                 key={badge.id}
-                className={`apple-card p-3.5 sm:p-5 flex flex-col items-center text-center gap-2.5 sm:gap-3 transition-all ${
+                className={`tarjeta p-3.5 sm:p-5 flex flex-col items-center text-center gap-2.5 sm:gap-3 transition-all ${
                   isUnlocked
-                    ? 'border-glacier-blue/30 shadow-apple-sm'
-                    : 'bg-frost-base/50 border-dashed border-black/[0.12]'
+                    ? 'border-acento/30 shadow-1'
+                    : 'bg-fondo/50 border-dashed border-linea'
                 }`}
               >
                 <div aria-hidden="true" className={`text-4xl ${isUnlocked ? '' : 'grayscale opacity-40'}`}>{badge.emoji}</div>
                 <div>
-                  <p className="apple-headline">{badge.nombre}</p>
-                  <p className="apple-subhead text-xs text-arctic-secondary mt-1 leading-relaxed">{badge.descripcion}</p>
+                  <p className="encabezado">{badge.nombre}</p>
+                  <p className="subtitulo text-xs text-tinta-2 mt-1 leading-relaxed">{badge.descripcion}</p>
                 </div>
                 {!isUnlocked && (
-                  <div className="flex items-center gap-1 text-xs font-medium text-arctic-secondary">
+                  <div className="flex items-center gap-1 text-xs font-medium text-tinta-2">
                     <Lock size={12} strokeWidth={2} aria-hidden="true" />
                     <span>Bloqueado</span>
                   </div>

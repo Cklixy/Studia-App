@@ -19,8 +19,8 @@ export default function MensajeAuth() {
       role={esExito ? "status" : "alert"}
       className={`mb-6 p-3.5 rounded-xl text-sm font-medium border flex items-start gap-2.5 ${
         esExito
-          ? "border-emerald-600/30 text-emerald-800 bg-emerald-500/10"
-          : "border-cool-berry/30 text-cool-berry bg-cool-berry/5"
+          ? "border-exito/30 text-exito bg-exito/10"
+          : "border-error/30 text-error bg-error/5"
       }`}
     >
       {esExito ? (

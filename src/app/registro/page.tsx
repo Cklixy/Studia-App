@@ -18,13 +18,13 @@ export default function RegisterPage() {
           ayuda={`Mínimo ${LONGITUD_MINIMA_CONTRASENA} caracteres. Evita contraseñas que uses en otros sitios.`}
         />
 
-        <button formAction={signup} className="btn-action w-full mt-1 flex justify-center min-h-11">
+        <button formAction={signup} className="btn-primario w-full mt-1 flex justify-center min-h-11">
           Crear cuenta
         </button>
 
-        <p className="text-center text-sm text-arctic-secondary mt-2">
+        <p className="text-center text-sm text-tinta-2 mt-2">
           ¿Ya tienes una cuenta?{" "}
-          <Link href="/login" className="font-semibold text-glacier-blue hover:underline underline-offset-2">
+          <Link href="/login" className="font-semibold text-acento hover:underline underline-offset-2">
             Inicia sesión
           </Link>
         </p>

@@ -66,7 +66,7 @@ function TimerRingComponent({
           cx="140"
           cy="140"
           r={radius}
-          className="stroke-black/[0.05]"
+          className="stroke-linea"
           strokeWidth="10"
           fill="none"
         />

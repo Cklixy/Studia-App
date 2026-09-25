@@ -23,7 +23,7 @@ export default function CampoContrasena({
 
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-semibold text-arctic-slate mb-2">
+      <label htmlFor={id} className="block text-sm font-semibold text-tinta mb-2">
         {etiqueta}
       </label>
       <div className="relative">
@@ -35,20 +35,20 @@ export default function CampoContrasena({
           required
           minLength={minLength}
           aria-describedby={ayuda ? idAyuda : undefined}
-          className="w-full pl-4 pr-12 py-3 rounded-xl bg-white border border-arctic-borde text-arctic-slate text-base focus:border-glacier-blue focus:ring-2 focus:ring-glacier-blue/25 outline-none transition-colors"
+          className="w-full pl-4 pr-12 py-3 rounded-xl bg-superficie border border-linea-fuerte text-tinta text-base focus:border-acento focus:ring-2 focus:ring-acento/25 outline-none transition-colors"
         />
         <button
           type="button"
           onClick={() => setVisible((v) => !v)}
           aria-pressed={visible}
           aria-label={visible ? "Ocultar contraseña" : "Mostrar contraseña"}
-          className="absolute right-1 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-lg text-arctic-secondary hover:text-arctic-slate"
+          className="absolute right-1 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-lg text-tinta-2 hover:text-tinta"
         >
           {visible ? <EyeOff size={18} aria-hidden="true" /> : <Eye size={18} aria-hidden="true" />}
         </button>
       </div>
       {ayuda && (
-        <p id={idAyuda} className="text-xs text-arctic-secondary mt-1.5">
+        <p id={idAyuda} className="text-xs text-tinta-2 mt-1.5">
           {ayuda}
         </p>
       )}

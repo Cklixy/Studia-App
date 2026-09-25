@@ -27,9 +27,9 @@ export function getSubjectVisualConfig(subjectName?: string | null): SubjectVisu
   if (!subjectName) {
     return {
       Icon: BookOpen,
-      bgClass: "bg-black/[0.04]",
-      textClass: "text-arctic-secondary",
-      borderClass: "border-black/[0.05]",
+      bgClass: "bg-hundido",
+      textClass: "text-tinta-2",
+      borderClass: "border-linea",
     };
   }
 
@@ -51,9 +51,9 @@ export function getSubjectVisualConfig(subjectName?: string | null): SubjectVisu
   ) {
     return {
       Icon: normalized.includes("integral") || normalized.includes("calculo") ? Sigma : Calculator,
-      bgClass: "bg-blue-500/[0.08]",
-      textClass: "text-blue-600",
-      borderClass: "border-blue-500/15",
+      bgClass: "bg-acento/[0.08]",
+      textClass: "text-acento",
+      borderClass: "border-acento/15",
     };
   }
 
@@ -67,9 +67,9 @@ export function getSubjectVisualConfig(subjectName?: string | null): SubjectVisu
   ) {
     return {
       Icon: Cpu,
-      bgClass: "bg-indigo-500/[0.08]",
-      textClass: "text-indigo-600",
-      borderClass: "border-indigo-500/15",
+      bgClass: "bg-acento/[0.08]",
+      textClass: "text-acento",
+      borderClass: "border-acento/15",
     };
   }
 
@@ -85,9 +85,9 @@ export function getSubjectVisualConfig(subjectName?: string | null): SubjectVisu
   ) {
     return {
       Icon: Code2,
-      bgClass: "bg-cyan-500/[0.08]",
-      textClass: "text-cyan-700",
-      borderClass: "border-cyan-500/15",
+      bgClass: "bg-acento/[0.08]",
+      textClass: "text-acento",
+      borderClass: "border-acento/15",
     };
   }
 
@@ -100,9 +100,9 @@ export function getSubjectVisualConfig(subjectName?: string | null): SubjectVisu
   ) {
     return {
       Icon: Network,
-      bgClass: "bg-teal-500/[0.08]",
-      textClass: "text-teal-700",
-      borderClass: "border-teal-500/15",
+      bgClass: "bg-acento/[0.08]",
+      textClass: "text-acento",
+      borderClass: "border-acento/15",
     };
   }
 
@@ -115,9 +115,9 @@ export function getSubjectVisualConfig(subjectName?: string | null): SubjectVisu
   ) {
     return {
       Icon: Atom,
-      bgClass: "bg-violet-500/[0.08]",
-      textClass: "text-violet-600",
-      borderClass: "border-violet-500/15",
+      bgClass: "bg-acento/[0.08]",
+      textClass: "text-acento",
+      borderClass: "border-acento/15",
     };
   }
 
@@ -131,9 +131,9 @@ export function getSubjectVisualConfig(subjectName?: string | null): SubjectVisu
   ) {
     return {
       Icon: FlaskConical,
-      bgClass: "bg-emerald-500/[0.08]",
-      textClass: "text-emerald-700",
-      borderClass: "border-emerald-500/15",
+      bgClass: "bg-exito/[0.08]",
+      textClass: "text-exito",
+      borderClass: "border-exito/15",
     };
   }
 
@@ -146,18 +146,18 @@ export function getSubjectVisualConfig(subjectName?: string | null): SubjectVisu
   ) {
     return {
       Icon: Sparkles,
-      bgClass: "bg-amber-500/[0.08]",
-      textClass: "text-amber-700",
-      borderClass: "border-amber-500/15",
+      bgClass: "bg-aviso/[0.08]",
+      textClass: "text-aviso",
+      borderClass: "border-aviso/15",
     };
   }
 
   // Fallback por defecto
   return {
     Icon: BookOpen,
-    bgClass: "bg-black/[0.04]",
-    textClass: "text-arctic-secondary",
-    borderClass: "border-black/[0.06]",
+    bgClass: "bg-hundido",
+    textClass: "text-tinta-2",
+    borderClass: "border-linea",
   };
 }
 

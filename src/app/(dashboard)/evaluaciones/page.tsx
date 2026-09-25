@@ -22,14 +22,14 @@ export default async function EvaluacionesPage() {
 
   return (
     <div className="flex flex-col gap-8 w-full duration-500">
-      <header className="pb-2 border-b border-black/[0.06]">
-        <span className="text-xs uppercase tracking-wider font-semibold text-arctic-tertiary">
+      <header className="pb-2 border-b border-linea">
+        <span className="text-xs uppercase tracking-wider font-semibold text-tinta-3">
           Cálculo de Calificaciones
         </span>
-        <h1 className="text-3xl font-bold tracking-tight text-arctic-slate mt-0.5">
+        <h1 className="text-3xl font-bold tracking-tight text-tinta mt-0.5">
           Evaluaciones
         </h1>
-        <p className="text-arctic-secondary text-sm mt-1">
+        <p className="text-tinta-2 text-sm mt-1">
           Gestiona tus calificaciones y calcula tu nota acumulada por materia en tiempo real.
         </p>
       </header>

@@ -99,9 +99,9 @@ export default function EvaluacionesPanel({ materiaId }: { materiaId: string }) 
     return (
       <div className="space-y-4 animate-pulse">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="h-28 apple-card" />
-          <div className="h-28 apple-card" />
-          <div className="h-28 apple-card" />
+          <div className="h-28 tarjeta" />
+          <div className="h-28 tarjeta" />
+          <div className="h-28 tarjeta" />
         </div>
       </div>
     );
@@ -114,92 +114,92 @@ export default function EvaluacionesPanel({ materiaId }: { materiaId: string }) 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
 
         {/* Porcentaje evaluado */}
-        <div className="apple-card p-5 flex flex-col justify-between">
+        <div className="tarjeta p-5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs text-arctic-secondary font-medium">Porcentaje Evaluado</span>
-            <span className="text-xs font-semibold text-glacier-blue">{porcentajeRestante}% por calificar</span>
+            <span className="text-xs text-tinta-2 font-medium">Porcentaje Evaluado</span>
+            <span className="text-xs font-semibold text-acento">{porcentajeRestante}% por calificar</span>
           </div>
           <div className="flex items-baseline gap-1 mt-1">
-            <span className="text-3xl font-bold text-arctic-slate tabular-nums">{porcentajeTotal}%</span>
-            <span className="text-xs text-arctic-secondary">/ 100%</span>
+            <span className="text-3xl font-bold text-tinta tabular-nums">{porcentajeTotal}%</span>
+            <span className="text-xs text-tinta-2">/ 100%</span>
           </div>
-          <div className="mt-3 w-full bg-black/[0.05] rounded-full h-1.5 overflow-hidden" aria-hidden="true">
+          <div className="mt-3 w-full bg-hundido rounded-full h-1.5 overflow-hidden" aria-hidden="true">
             <div
-              className="h-full bg-glacier-blue rounded-full transition-all duration-700 ease-out"
+              className="h-full bg-acento rounded-full transition-all duration-700 ease-out"
               style={{ width: `${Math.min(100, porcentajeTotal)}%` }}
             />
           </div>
           {porcentajePendiente > 0 && (
-            <p className="text-xs text-arctic-secondary mt-2">
+            <p className="text-xs text-tinta-2 mt-2">
               {porcentajePendiente}% registrado, pendiente de nota
             </p>
           )}
         </div>
 
         {/* Nota acumulada */}
-        <div className="apple-card p-5 flex flex-col justify-between">
+        <div className="tarjeta p-5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs text-arctic-secondary font-medium">Nota Acumulada</span>
-            <div className="w-6 h-6 rounded-lg bg-polar-cyan/10 text-sky-700 flex items-center justify-center" aria-hidden="true">
+            <span className="text-xs text-tinta-2 font-medium">Nota Acumulada</span>
+            <div className="w-6 h-6 rounded-lg bg-acento/10 text-acento flex items-center justify-center" aria-hidden="true">
               <Award size={13} />
             </div>
           </div>
           <div className="flex items-baseline gap-1 mt-1">
-            <span className="text-3xl font-bold text-arctic-slate tabular-nums">
+            <span className="text-3xl font-bold text-tinta tabular-nums">
               {porcentajeTotal > 0 ? notaActualSobreEvaluado.toFixed(2) : "—"}
             </span>
-            <span className="text-xs text-arctic-secondary">/ 5.0</span>
+            <span className="text-xs text-tinta-2">/ 5.0</span>
           </div>
-          <div className="text-xs text-arctic-secondary mt-2">
+          <div className="text-xs text-tinta-2 mt-2">
             {porcentajeTotal > 0 ? `Promedio sobre el ${porcentajeTotal}% calificado` : "Aún no tienes notas registradas"}
           </div>
         </div>
 
         {/* Requerimiento para aprobar */}
-        <div className="apple-card p-5 flex flex-col justify-between">
+        <div className="tarjeta p-5 flex flex-col justify-between">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs text-arctic-secondary font-medium">Para Aprobar (3.0)</span>
+            <span className="text-xs text-tinta-2 font-medium">Para Aprobar (3.0)</span>
             {(porcentajeRestante === 0 ? notaFinalAprobada : notaNecesaria <= 0) ? (
-              <CheckCircle2 size={15} className="text-glacier-blue" aria-hidden="true" />
+              <CheckCircle2 size={15} className="text-acento" aria-hidden="true" />
             ) : (
-              <AlertCircle size={15} className="text-cool-berry" aria-hidden="true" />
+              <AlertCircle size={15} className="text-error" aria-hidden="true" />
             )}
           </div>
           <div className="mt-1">
             {porcentajeRestante === 0 ? (
               notaFinalAprobada ? (
-                <span className="text-xl font-bold text-glacier-blue">¡Materia aprobada! <span aria-hidden="true">🎉</span></span>
+                <span className="text-xl font-bold text-acento">¡Materia aprobada! <span aria-hidden="true">🎉</span></span>
               ) : (
-                <span className="text-lg font-bold text-cool-berry">Nota final {acumuladaAportada.toFixed(2)}: no alcanza 3,0</span>
+                <span className="text-lg font-bold text-error">Nota final {acumuladaAportada.toFixed(2)}: no alcanza 3,0</span>
               )
             ) : notaNecesaria > 5.0 ? (
-              <span className="text-lg font-bold text-cool-berry">Necesitas más de 5,0: habla con tu docente</span>
+              <span className="text-lg font-bold text-error">Necesitas más de 5,0: habla con tu docente</span>
             ) : notaNecesaria <= 0 ? (
-              <span className="text-xl font-bold text-glacier-blue">Aprobado asegurado</span>
+              <span className="text-xl font-bold text-acento">Aprobado asegurado</span>
             ) : (
               <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-cool-berry tabular-nums">
+                <span className="text-3xl font-bold text-error tabular-nums">
                   {notaNecesaria.toFixed(2)}
                 </span>
-                <span className="text-xs text-arctic-secondary">promedio</span>
+                <span className="text-xs text-tinta-2">promedio</span>
               </div>
             )}
           </div>
-          <div className="text-xs text-arctic-secondary mt-2">
+          <div className="text-xs text-tinta-2 mt-2">
             {porcentajeRestante > 0 ? `En el ${porcentajeRestante}% que falta por calificar` : "100% calificado"}
           </div>
         </div>
       </div>
 
       {/* Formulario para agregar evaluación */}
-      <form onSubmit={handleAdd} className="apple-card p-5">
-        <h4 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-3">
+      <form onSubmit={handleAdd} className="tarjeta p-5">
+        <h4 className="text-xs font-semibold text-tinta-3 uppercase tracking-wider mb-3">
           Agregar nueva nota o parcial
         </h4>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
           <div className="w-full sm:col-span-1">
-            <label htmlFor={`${idCampo}-nombre`} className="block text-xs font-medium text-arctic-secondary mb-1">
+            <label htmlFor={`${idCampo}-nombre`} className="block text-xs font-medium text-tinta-2 mb-1">
               Nombre de la evaluación
             </label>
             <input
@@ -209,12 +209,12 @@ export default function EvaluacionesPanel({ materiaId }: { materiaId: string }) 
               value={nombre}
               onChange={e => setNombre(e.target.value)}
               placeholder="Ej. Parcial 1, Taller 2..."
-              className="w-full bg-frost-base border border-black/[0.08] rounded-xl px-3.5 py-2 text-xs text-arctic-slate placeholder:text-arctic-tertiary outline-none focus:border-glacier-blue transition-all"
+              className="w-full bg-fondo border border-linea rounded-xl px-3.5 py-2 text-xs text-tinta placeholder:text-tinta-3 outline-none focus:border-acento transition-all"
             />
           </div>
 
           <div className="w-full">
-            <label htmlFor={`${idCampo}-peso`} className="block text-xs font-medium text-arctic-secondary mb-1">
+            <label htmlFor={`${idCampo}-peso`} className="block text-xs font-medium text-tinta-2 mb-1">
               Peso (%)
             </label>
             <input
@@ -227,12 +227,12 @@ export default function EvaluacionesPanel({ materiaId }: { materiaId: string }) 
               value={porcentaje}
               onChange={e => setPorcentaje(e.target.value)}
               placeholder="25"
-              className="w-full bg-frost-base border border-black/[0.08] rounded-xl px-3.5 py-2 text-xs text-arctic-slate outline-none focus:border-glacier-blue font-mono tabular-nums"
+              className="w-full bg-fondo border border-linea rounded-xl px-3.5 py-2 text-xs text-tinta outline-none focus:border-acento font-mono tabular-nums"
             />
           </div>
 
           <div className="w-full">
-            <label htmlFor={`${idCampo}-nota`} className="block text-xs font-medium text-arctic-secondary mb-1">
+            <label htmlFor={`${idCampo}-nota`} className="block text-xs font-medium text-tinta-2 mb-1">
               Nota (0-5) <span className="font-normal">· déjala vacía si aún no la tienes</span>
             </label>
             <input
@@ -244,14 +244,14 @@ export default function EvaluacionesPanel({ materiaId }: { materiaId: string }) 
               value={nota}
               onChange={e => setNota(e.target.value)}
               placeholder="Opcional"
-              className="w-full bg-frost-base border border-black/[0.08] rounded-xl px-3.5 py-2 text-xs text-arctic-slate outline-none focus:border-glacier-blue font-mono tabular-nums"
+              className="w-full bg-fondo border border-linea rounded-xl px-3.5 py-2 text-xs text-tinta outline-none focus:border-acento font-mono tabular-nums"
             />
           </div>
 
           <button
             type="submit"
             disabled={porcentajeRegistrado >= 100}
-            className="btn-apple-primary text-xs py-2 px-5 disabled:opacity-40 apple-tactile shrink-0 w-full sm:w-auto shadow-apple-sm"
+            className="btn-primario text-xs py-2 px-5 disabled:opacity-40 tactil shrink-0 w-full sm:w-auto shadow-1"
           >
             <Plus size={13} aria-hidden="true" />
             <span>Agregar</span>
@@ -259,7 +259,7 @@ export default function EvaluacionesPanel({ materiaId }: { materiaId: string }) 
         </div>
 
         {error && (
-          <p role="alert" className="text-cool-berry text-xs mt-3 bg-cool-berry/10 p-2.5 rounded-xl border border-cool-berry/20 font-medium">
+          <p role="alert" className="text-error text-xs mt-3 bg-error/10 p-2.5 rounded-xl border border-error/20 font-medium">
             {error}
           </p>
         )}
@@ -267,35 +267,35 @@ export default function EvaluacionesPanel({ materiaId }: { materiaId: string }) 
 
       {/* Lista de Evaluaciones */}
       <div className="space-y-2">
-        <h4 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider px-1">
+        <h4 className="text-xs font-semibold text-tinta-3 uppercase tracking-wider px-1">
           Desglose ({evaluaciones.length})
         </h4>
 
         {evaluaciones.length === 0 ? (
-          <div className="apple-card p-6 text-center text-xs text-arctic-secondary">
+          <div className="tarjeta p-6 text-center text-xs text-tinta-2">
             No has registrado evaluaciones para esta materia aún.
           </div>
         ) : (
           evaluaciones.map(ev => (
             <div
               key={ev.id}
-              className="apple-card p-3 sm:p-3.5 px-3.5 sm:px-4 flex justify-between items-center gap-2.5 group transition-all"
+              className="tarjeta p-3 sm:p-3.5 px-3.5 sm:px-4 flex justify-between items-center gap-2.5 group transition-all"
             >
               <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-                <span className="font-semibold text-xs text-arctic-slate truncate">{ev.nombre}</span>
-                <span className="text-xs font-medium text-arctic-secondary bg-black/[0.04] px-2 py-0.5 rounded-full shrink-0">
+                <span className="font-semibold text-xs text-tinta truncate">{ev.nombre}</span>
+                <span className="text-xs font-medium text-tinta-2 bg-hundido px-2 py-0.5 rounded-full shrink-0">
                   {ev.porcentaje}%
                 </span>
               </div>
 
               <div className="flex items-center gap-2.5 sm:gap-4 shrink-0">
-                <span className="font-bold text-xs sm:text-sm text-arctic-slate font-mono tabular-nums">
+                <span className="font-bold text-xs sm:text-sm text-tinta font-mono tabular-nums">
                   {ev.nota_obtenida !== null ? Number(ev.nota_obtenida).toFixed(1) : "Pendiente"}
                 </span>
                 <button
                   onClick={() => handleDelete(ev.id)}
                   aria-label={`Eliminar ${ev.nombre}`}
-                  className="text-arctic-secondary hover:text-cool-berry transition-colors w-10 h-10 flex items-center justify-center rounded-lg hover:bg-cool-berry/10 apple-tactile"
+                  className="text-tinta-2 hover:text-error transition-colors w-10 h-10 flex items-center justify-center rounded-lg hover:bg-error/10 tactil"
                 >
                   <Trash2 size={15} aria-hidden="true" />
                 </button>

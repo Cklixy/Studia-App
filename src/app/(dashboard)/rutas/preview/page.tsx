@@ -68,7 +68,7 @@ export default function RutaPreviewPage() {
   };
 
   if (!routeData) {
-    return <div className="p-8 text-center text-arctic-secondary animate-pulse">Cargando mapa...</div>;
+    return <div className="p-8 text-center text-tinta-2 animate-pulse">Cargando mapa...</div>;
   }
 
   const toggleTema = (index: number) => {
@@ -103,35 +103,35 @@ export default function RutaPreviewPage() {
 
       {/* Cabecera */}
       <section className="space-y-4 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-glacier-blue/10 text-glacier-blue rounded-full text-xs font-bold uppercase tracking-widest mb-2 border border-glacier-blue/20">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-acento/10 text-acento rounded-full text-xs font-bold uppercase tracking-widest mb-2 border border-acento/20">
           <Zap size={14} /> Ruta Generada por IA
         </div>
-        <h1 className="text-2xl sm:text-4xl md:text-5xl font-display font-bold text-arctic-slate">
+        <h1 className="text-2xl sm:text-4xl md:text-5xl font-display font-bold text-tinta">
           {routeData.titulo_ruta}
         </h1>
-        <p className="text-base sm:text-xl text-arctic-secondary">
-          Materia identificada: <span className="text-arctic-slate font-semibold">{routeData.materia}</span>
+        <p className="text-base sm:text-xl text-tinta-2">
+          Materia identificada: <span className="text-tinta font-semibold">{routeData.materia}</span>
         </p>
-        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-arctic-secondary pt-2">
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-tinta-2 pt-2">
           <span className="flex items-center gap-1.5"><Navigation size={15} /> {selectedTemas.length} paradas seleccionadas</span>
           <span className="flex items-center gap-1.5"><Clock size={15} /> Tiempo est. {hours > 0 ? `${hours}h ` : ''}{minutes}m</span>
         </div>
       </section>
 
       {/* Trazado de ruta (Visualización Vertical) */}
-      <section className="apple-card p-6 md:p-10 relative overflow-hidden">
-        <h2 className="text-sm uppercase tracking-widest font-bold text-arctic-secondary mb-10 text-center">Plan de Navegación</h2>
+      <section className="tarjeta p-6 md:p-10 relative overflow-hidden">
+        <h2 className="text-sm uppercase tracking-widest font-bold text-tinta-2 mb-10 text-center">Plan de Navegación</h2>
 
-        <div className="relative border-l-2 border-black/[0.1] ml-4 md:ml-8 space-y-12">
+        <div className="relative border-l-2 border-linea ml-4 md:ml-8 space-y-12">
           {temas.map((tema: any, index: number) => (
             <div key={tema.originalIndex} className={`relative pl-8 md:pl-12 group transition-opacity ${!tema.selected ? 'opacity-40' : ''}`}>
               {/* Nodo */}
               <div className={`absolute -left-[11px] top-1 w-5 h-5 rounded-full flex items-center justify-center transition-colors ${
                 tema.selected
-                  ? 'bg-white border-2 border-glacier-blue group-hover:bg-glacier-blue'
-                  : 'bg-white border-2 border-arctic-borde'
+                  ? 'bg-superficie border-2 border-acento group-hover:bg-acento'
+                  : 'bg-superficie border-2 border-linea-fuerte'
               }`}>
-                {tema.selected && <div className="w-1.5 h-1.5 bg-glacier-blue rounded-full group-hover:bg-frost-base transition-colors"></div>}
+                {tema.selected && <div className="w-1.5 h-1.5 bg-acento rounded-full group-hover:bg-fondo transition-colors"></div>}
               </div>
 
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
@@ -142,25 +142,25 @@ export default function RutaPreviewPage() {
                         type="checkbox"
                         checked={tema.selected}
                         onChange={() => toggleTema(index)}
-                        className="w-4 h-4 rounded border-arctic-borde bg-white text-glacier-blue focus:ring-glacier-blue focus:ring-offset-white"
+                        className="w-4 h-4 rounded border-linea-fuerte bg-superficie text-acento focus:ring-acento focus:ring-offset-white"
                       />
-                      <h3 className={`text-xl font-bold ${tema.selected ? 'text-arctic-slate' : 'text-arctic-secondary line-through'}`}>
+                      <h3 className={`text-xl font-bold ${tema.selected ? 'text-tinta' : 'text-tinta-2 line-through'}`}>
                         {tema.nombre}
                       </h3>
                     </label>
 
                     <span className={`text-xs font-bold px-2 py-0.5 rounded ${
-                      tema.dificultad?.toLowerCase().includes('básic') || tema.dificultad?.toLowerCase().includes('fundamento') ? 'bg-glacier-blue/20 text-glacier-blue' :
-                      tema.dificultad?.toLowerCase().includes('avanzad') ? 'bg-cool-berry/20 text-cool-berry' :
-                      'bg-white/10 text-arctic-secondary'
+                      tema.dificultad?.toLowerCase().includes('básic') || tema.dificultad?.toLowerCase().includes('fundamento') ? 'bg-acento/20 text-acento' :
+                      tema.dificultad?.toLowerCase().includes('avanzad') ? 'bg-error/20 text-error' :
+                      'bg-superficie text-tinta-2'
                     }`}>
                       {tema.dificultad || 'Intermedio'}
                     </span>
-                    <span className="text-xs text-arctic-secondary flex items-center gap-1">
+                    <span className="text-xs text-tinta-2 flex items-center gap-1">
                       <Clock size={12} /> {tema.minutos_estimados} min
                     </span>
                   </div>
-                  <p className="text-arctic-secondary text-sm md:text-base leading-relaxed pl-6">
+                  <p className="text-tinta-2 text-sm md:text-base leading-relaxed pl-6">
                     {tema.descripcion}
                   </p>
                 </div>
@@ -172,7 +172,7 @@ export default function RutaPreviewPage() {
                     onClick={() => moveTema(index, 'up')}
                     disabled={index === 0}
                     aria-label={`Mover «${tema.nombre}» arriba`}
-                    className="w-11 h-11 flex items-center justify-center text-lg text-arctic-secondary hover:text-arctic-slate hover:bg-black/[0.05] rounded-lg disabled:opacity-30 disabled:hover:bg-transparent"
+                    className="w-11 h-11 flex items-center justify-center text-lg text-tinta-2 hover:text-tinta hover:bg-hundido rounded-lg disabled:opacity-30 disabled:hover:bg-transparent"
                     title="Mover arriba"
                   >
                     <span aria-hidden="true">↑</span>
@@ -182,7 +182,7 @@ export default function RutaPreviewPage() {
                     onClick={() => moveTema(index, 'down')}
                     disabled={index === temas.length - 1}
                     aria-label={`Mover «${tema.nombre}» abajo`}
-                    className="w-11 h-11 flex items-center justify-center text-lg text-arctic-secondary hover:text-arctic-slate hover:bg-black/[0.05] rounded-lg disabled:opacity-30 disabled:hover:bg-transparent"
+                    className="w-11 h-11 flex items-center justify-center text-lg text-tinta-2 hover:text-tinta hover:bg-hundido rounded-lg disabled:opacity-30 disabled:hover:bg-transparent"
                     title="Mover abajo"
                   >
                     <span aria-hidden="true">↓</span>
@@ -195,24 +195,24 @@ export default function RutaPreviewPage() {
       </section>
 
       {error && (
-        <div className="p-4 bg-cool-berry/10 border border-cool-berry/30 text-cool-berry rounded-lg text-center font-medium">
+        <div className="p-4 bg-error/10 border border-error/30 text-error rounded-lg text-center font-medium">
           {error}
         </div>
       )}
 
       {/* Controles */}
-      <section className="flex flex-col-reverse sm:flex-row gap-3 justify-between items-center bg-white/90 backdrop-blur-xl p-4 rounded-2xl border border-black/[0.08] shadow-apple-md">
+      <section className="flex flex-col-reverse sm:flex-row gap-3 justify-between items-center bg-superficie backdrop-blur-xl p-4 rounded-2xl border border-linea shadow-2">
         <button
           onClick={handleDiscard}
           disabled={saving}
-          className="w-full sm:w-auto px-5 py-2.5 text-xs font-semibold text-arctic-secondary hover:text-arctic-slate transition-colors text-center"
+          className="w-full sm:w-auto px-5 py-2.5 text-xs font-semibold text-tinta-2 hover:text-tinta transition-colors text-center"
         >
           Descartar mapa
         </button>
         <button
           onClick={handleSaveRoute}
           disabled={saving}
-          className="w-full sm:w-auto btn-apple-primary py-3 px-6 text-xs font-semibold apple-tactile shadow-apple-sm flex justify-center items-center gap-2"
+          className="w-full sm:w-auto btn-primario py-3 px-6 text-xs font-semibold tactil shadow-1 flex justify-center items-center gap-2"
         >
           {saving ? "Guardando..." : <><CheckCircle2 size={16} /> <span>Confirmar Ruta</span></>}
         </button>

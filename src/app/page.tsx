@@ -15,10 +15,10 @@ import HeroCta from "@/components/landing/HeroCta";
 // La landing es estática: no consulta la sesión en el servidor (ver useHaySesion).
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-frost-base text-arctic-slate flex flex-col selection:bg-glacier-blue/15 selection:text-glacier-blue relative overflow-x-hidden">
+    <div className="min-h-screen bg-fondo text-tinta flex flex-col selection:bg-acento/15 selection:text-acento relative overflow-x-hidden">
       
       {/* Luz ambiental sutil */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-b from-glacier-blue/[0.05] via-transparent to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-b from-acento/[0.05] via-transparent to-transparent blur-3xl pointer-events-none" />
 
       {/* 1. NAVBAR */}
       <LandingNavbar />
@@ -32,18 +32,18 @@ export default function HomePage() {
             
             {/* Columna Izquierda: Texto Editorial Grande (5 cols en desktop) */}
             <div className="lg:col-span-5 text-center lg:text-left space-y-5 sm:space-y-6">
-              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white border border-black/[0.06] shadow-sm text-xs font-semibold text-arctic-slate">
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-superficie border border-linea shadow-1 text-xs font-semibold text-tinta">
                 <span>✦</span>
                 <span>Tu estudio, con dirección</span>
               </div>
 
-              <h1 className="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-arctic-slate leading-[0.98]">
+              <h1 className="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-tinta leading-[0.98]">
                 Estudia <br className="hidden sm:inline lg:hidden xl:inline" />
                 con <br className="hidden xl:inline" />
                 dirección.
               </h1>
 
-              <p className="text-base sm:text-lg text-arctic-secondary leading-relaxed font-normal max-w-lg mx-auto lg:mx-0">
+              <p className="text-base sm:text-lg text-tinta-2 leading-relaxed font-normal max-w-lg mx-auto lg:mx-0">
                 studia+ organiza tus materias, te ayuda a decidir qué estudiar y recomienda cómo abordar cada tema para que puedas concentrarte en lo que realmente importa.
               </p>
 

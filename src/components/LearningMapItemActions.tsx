@@ -60,7 +60,7 @@ export default function LearningMapItemActions({
         disabled={loading}
         aria-pressed={isCompleted}
         aria-label={isCompleted ? `Desmarcar «${tema.nombre}» como completado` : `Marcar «${tema.nombre}» como completado`}
-        className="hover:text-arctic-slate transition-colors underline decoration-black/30 underline-offset-4 text-xs min-h-11 px-1 apple-tactile"
+        className="hover:text-tinta transition-colors underline decoration-black/30 underline-offset-4 text-xs min-h-11 px-1 tactil"
       >
         {loading
           ? "Actualizando..."
@@ -72,9 +72,9 @@ export default function LearningMapItemActions({
       {isActual && (
         <button
           onClick={() => setIsChatOpen(true)}
-          className="btn-apple-secondary text-xs py-2 px-3 apple-tactile inline-flex items-center gap-1.5"
+          className="btn-secundario text-xs py-2 px-3 tactil inline-flex items-center gap-1.5"
         >
-          <MessageCircle size={13} strokeWidth={2} className="text-glacier-blue" />
+          <MessageCircle size={13} strokeWidth={2} className="text-acento" />
           <span>Duda rápida</span>
         </button>
       )}

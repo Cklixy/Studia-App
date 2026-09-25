@@ -38,35 +38,35 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
   const materiaTitulo = route?.title || "Plan de Aprendizaje";
 
   return (
-    <div className="apple-card p-6 md:p-8 rounded-3xl mb-12 shadow-apple-md">
+    <div className="tarjeta p-6 md:p-8 rounded-3xl mb-12 shadow-2">
       {/* Roadmap Header */}
-      <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-8 pb-6 border-b border-black/[0.06]">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-8 pb-6 border-b border-linea">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-glacier-blue/10 text-glacier-blue text-xs font-semibold tracking-wider uppercase mb-2">
-            <span className="w-1.5 h-1.5 bg-glacier-blue rounded-full animate-pulse" />
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-acento/10 text-acento text-xs font-semibold tracking-wider uppercase mb-2">
+            <span className="w-1.5 h-1.5 bg-acento rounded-full animate-pulse" />
             <span>Ruta Curricular</span>
           </div>
-          <h3 className="apple-title-2 text-arctic-slate">
+          <h3 className="titulo-2 text-tinta">
             {materiaTitulo}
           </h3>
         </div>
 
         <div className="sm:text-right">
-          <div className="text-xs uppercase tracking-wider text-arctic-secondary font-semibold mb-1">
+          <div className="text-xs uppercase tracking-wider text-tinta-2 font-semibold mb-1">
             Progreso de Dominio
           </div>
           <div className="flex items-baseline gap-2 sm:justify-end">
-            <span className="font-mono text-2xl font-bold text-arctic-slate tabular-nums">
+            <span className="font-mono text-2xl font-bold text-tinta tabular-nums">
               {completedCount}
             </span>
-            <span className="text-arctic-secondary text-sm">/ {temas.length} temas</span>
-            <span className="text-xs font-semibold text-glacier-blue ml-1">({progressPct}%)</span>
+            <span className="text-tinta-2 text-sm">/ {temas.length} temas</span>
+            <span className="text-xs font-semibold text-acento ml-1">({progressPct}%)</span>
           </div>
         </div>
       </div>
 
       {/* Connected Milestone Timeline */}
-      <div className="relative border-l-2 border-black/[0.08] ml-3 md:ml-4 space-y-7">
+      <div className="relative border-l-2 border-linea ml-3 md:ml-4 space-y-7">
         {temas.map((tema, index) => {
           const isCompleted = tema.estado === "completado";
           const isActual = index === actualIndex;
@@ -83,30 +83,30 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
               <div 
                 className={`absolute -left-[11px] top-1 w-5 h-5 rounded-full flex items-center justify-center transition-all ${
                   isCompleted 
-                    ? "bg-glacier-blue border-2 border-glacier-blue text-white shadow-apple-sm" 
+                    ? "bg-acento border-2 border-acento text-sobre-acento shadow-1" 
                     : isActual 
-                    ? "bg-white border-2 border-glacier-blue shadow-apple-glow" 
-                    : "bg-white border-2 border-black/20"
+                    ? "bg-superficie border-2 border-acento shadow-2" 
+                    : "bg-superficie border-2 border-linea-fuerte"
                 }`}
               >
                 {isCompleted && <CheckCircle2 size={12} strokeWidth={2} />}
-                {isActual && <div className="w-2 h-2 bg-glacier-blue rounded-full animate-pulse" />}
+                {isActual && <div className="w-2 h-2 bg-acento rounded-full animate-pulse" />}
               </div>
 
               {/* Theme Content */}
-              <div className="flex flex-col lg:flex-row justify-between gap-4 items-start p-4 rounded-2xl bg-frost-base/50 border border-black/[0.06] hover:bg-white/80 hover:border-black/[0.1] hover:shadow-apple-sm transition-all">
+              <div className="flex flex-col lg:flex-row justify-between gap-4 items-start p-4 rounded-2xl bg-fondo/50 border border-linea hover:bg-superficie hover:border-linea hover:shadow-1 transition-all">
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                    <h4 className={`apple-headline ${
-                      isCompleted ? "line-through text-arctic-tertiary" : "text-arctic-slate"
+                    <h4 className={`encabezado ${
+                      isCompleted ? "line-through text-tinta-3" : "text-tinta"
                     }`}>
                       {tema.nombre}
                     </h4>
                     {tema.dificultad && (
                       <span className={`text-xs uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full ${
                         isActual 
-                          ? "bg-glacier-blue/10 text-glacier-blue border border-glacier-blue/20" 
-                          : "bg-black/[0.05] text-arctic-secondary"
+                          ? "bg-acento/10 text-acento border border-acento/20" 
+                          : "bg-hundido text-tinta-2"
                       }`}>
                         {tema.dificultad}
                       </span>
@@ -114,12 +114,12 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
                   </div>
 
                   {tema.descripcion && (
-                    <p className="apple-subhead text-xs text-arctic-secondary mb-3 leading-relaxed max-w-xl">
+                    <p className="subtitulo text-xs text-tinta-2 mb-3 leading-relaxed max-w-xl">
                       {tema.descripcion}
                     </p>
                   )}
 
-                  <div className="flex items-center gap-4 text-xs text-arctic-secondary">
+                  <div className="flex items-center gap-4 text-xs text-tinta-2">
                     <span className="flex items-center gap-1 font-medium">
                       <Clock size={12} strokeWidth={2} /> {tema.minutos_estimados || 30} min
                     </span>
@@ -136,7 +136,7 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
                   <div className="flex items-center gap-2 shrink-0 flex-wrap w-full sm:w-auto pt-2 sm:pt-0">
                     <Link 
                       href={`/sesion/iniciar/${tema.id}`}
-                      className="btn-apple-primary text-xs py-2 px-4 font-semibold apple-tactile shadow-apple-sm flex-1 sm:flex-initial text-center justify-center inline-flex items-center gap-1.5"
+                      className="btn-primario text-xs py-2 px-4 font-semibold tactil shadow-1 flex-1 sm:flex-initial text-center justify-center inline-flex items-center gap-1.5"
                     >
                       <Play size={13} strokeWidth={2} />
                       <span>Estudiar tema</span>

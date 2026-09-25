@@ -11,7 +11,7 @@ export default function HeroCta() {
     return (
       <Link
         href="/materias"
-        className="btn-apple-primary text-xs sm:text-sm py-3.5 px-8 font-semibold apple-tactile inline-flex items-center justify-center gap-2 shadow-apple-sm rounded-full"
+        className="btn-primario text-xs sm:text-sm py-3.5 px-8 font-semibold tactil inline-flex items-center justify-center gap-2 shadow-1 rounded-full"
       >
         <span>Ir a mis materias</span>
         <ArrowRight size={15} />
@@ -23,14 +23,14 @@ export default function HeroCta() {
     <>
       <Link
         href="/registro"
-        className="btn-apple-primary text-xs sm:text-sm py-3.5 px-8 font-semibold apple-tactile inline-flex items-center justify-center gap-2 shadow-apple-sm rounded-full"
+        className="btn-primario text-xs sm:text-sm py-3.5 px-8 font-semibold tactil inline-flex items-center justify-center gap-2 shadow-1 rounded-full"
       >
         <span>Empezar gratis</span>
         <ArrowRight size={15} />
       </Link>
       <a
         href="#como-funciona"
-        className="btn-apple-secondary text-xs sm:text-sm py-3.5 px-6 font-semibold apple-tactile rounded-full text-center"
+        className="btn-secundario text-xs sm:text-sm py-3.5 px-6 font-semibold tactil rounded-full text-center"
       >
         <span>Ver cómo funciona</span>
       </a>

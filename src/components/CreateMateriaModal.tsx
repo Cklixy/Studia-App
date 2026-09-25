@@ -53,20 +53,20 @@ export default function CreateMateriaModal({ isOpen, onClose }: CreateMateriaMod
       titulo="Nueva materia"
       descripcion="Organiza tus temas y parciales"
       icono={
-        <div className="w-9 h-9 rounded-xl bg-glacier-blue/10 text-glacier-blue flex items-center justify-center">
+        <div className="w-9 h-9 rounded-xl bg-acento/10 text-acento flex items-center justify-center">
           <BookOpen size={17} strokeWidth={2} />
         </div>
       }
     >
       {error && (
-        <div role="alert" className="mb-4 p-3 rounded-xl bg-cool-berry/10 border border-cool-berry/20 text-cool-berry text-sm">
+        <div role="alert" className="mb-4 p-3 rounded-xl bg-error/10 border border-error/20 text-error text-sm">
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor={`${id}-nombre`} className="block text-sm font-medium text-arctic-slate mb-1.5">
+          <label htmlFor={`${id}-nombre`} className="block text-sm font-medium text-tinta mb-1.5">
             Nombre de la materia <span aria-hidden="true">*</span>
           </label>
           <input
@@ -76,13 +76,13 @@ export default function CreateMateriaModal({ isOpen, onClose }: CreateMateriaMod
             data-autofocus
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            className="w-full rounded-xl px-4 py-2.5 bg-white border border-arctic-borde focus:border-glacier-blue focus:ring-2 focus:ring-glacier-blue/25 outline-none text-base text-arctic-slate transition-all"
+            className="w-full rounded-xl px-4 py-2.5 bg-superficie border border-linea-fuerte focus:border-acento focus:ring-2 focus:ring-acento/25 outline-none text-base text-tinta transition-all"
             placeholder="Ej. Cálculo Vectorial, Historia del Arte…"
           />
         </div>
 
         <div>
-          <label htmlFor={`${id}-fecha`} className="block text-sm font-medium text-arctic-slate mb-1.5 flex items-center gap-1.5">
+          <label htmlFor={`${id}-fecha`} className="block text-sm font-medium text-tinta mb-1.5 flex items-center gap-1.5">
             <Calendar size={14} strokeWidth={2} aria-hidden="true" />
             <span>Fecha del parcial o examen (opcional)</span>
           </label>
@@ -91,18 +91,18 @@ export default function CreateMateriaModal({ isOpen, onClose }: CreateMateriaMod
             type="date"
             value={fechaParcial}
             onChange={(e) => setFechaParcial(e.target.value)}
-            className="w-full rounded-xl px-4 py-2.5 bg-white border border-arctic-borde focus:border-glacier-blue focus:ring-2 focus:ring-glacier-blue/25 outline-none text-base text-arctic-slate transition-all [color-scheme:light]"
+            className="w-full rounded-xl px-4 py-2.5 bg-superficie border border-linea-fuerte focus:border-acento focus:ring-2 focus:ring-acento/25 outline-none text-base text-tinta transition-all [color-scheme:light]"
           />
         </div>
 
         <div className="pt-2 flex items-center justify-end gap-3">
-          <button type="button" onClick={onClose} className="btn-apple-ghost text-sm px-4 min-h-11 apple-tactile">
+          <button type="button" onClick={onClose} className="btn-fantasma text-sm px-4 min-h-11 tactil">
             Cancelar
           </button>
           <button
             type="submit"
             disabled={loading || !nombre.trim()}
-            className="btn-apple-primary text-sm min-h-11 px-5 disabled:opacity-50 apple-tactile"
+            className="btn-primario text-sm min-h-11 px-5 disabled:opacity-50 tactil"
           >
             {loading ? "Creando…" : "Crear materia"}
           </button>

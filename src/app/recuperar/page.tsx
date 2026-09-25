@@ -13,12 +13,12 @@ export default function RecuperarPage() {
     >
       <form className="flex flex-col gap-5">
         <CampoCorreo autoFocus />
-        <button formAction={solicitarRecuperacion} className="btn-action w-full mt-1 flex justify-center min-h-11">
+        <button formAction={solicitarRecuperacion} className="btn-primario w-full mt-1 flex justify-center min-h-11">
           Enviar enlace
         </button>
-        <p className="text-center text-sm text-arctic-secondary mt-2">
+        <p className="text-center text-sm text-tinta-2 mt-2">
           ¿La recordaste?{" "}
-          <Link href="/login" className="font-semibold text-glacier-blue hover:underline underline-offset-2">
+          <Link href="/login" className="font-semibold text-acento hover:underline underline-offset-2">
             Volver a iniciar sesión
           </Link>
         </p>

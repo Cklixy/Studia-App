@@ -30,11 +30,11 @@ const DURATION_PRESETS = [25, 40, 50, 60];
 
 // Icons mapping for visual identity of methods
 const getMethodIcon = (metodo: string) => {
-  if (metodo.includes("Active Recall")) return <RotateCw size={22} className="text-glacier-blue" />;
-  if (metodo.includes("Feynman")) return <Sparkles size={22} className="text-cool-iris" />;
-  if (metodo.includes("Pomodoro")) return <Clock size={22} className="text-amber-700" />;
-  if (metodo.includes("Práctica")) return <Target size={22} className="text-sky-700" />;
-  return <MoreHorizontal size={22} className="text-cool-iris" />;
+  if (metodo.includes("Active Recall")) return <RotateCw size={22} className="text-acento" />;
+  if (metodo.includes("Feynman")) return <Sparkles size={22} className="text-acento" />;
+  if (metodo.includes("Pomodoro")) return <Clock size={22} className="text-aviso" />;
+  if (metodo.includes("Práctica")) return <Target size={22} className="text-acento" />;
+  return <MoreHorizontal size={22} className="text-acento" />;
 };
 
 export default function SessionWizard({ 
@@ -179,24 +179,24 @@ export default function SessionWizard({
   };
 
   return (
-    <div className="apple-card p-6 md:p-10 max-w-2xl mx-auto shadow-apple-md">
+    <div className="tarjeta p-6 md:p-10 max-w-2xl mx-auto shadow-2">
       
       {/* Apple Setup Assistant Step Indicator */}
       <div className="mb-8">
-        <div className="flex items-center justify-between text-xs text-arctic-secondary mb-2.5">
+        <div className="flex items-center justify-between text-xs text-tinta-2 mb-2.5">
           <div className="flex items-center gap-2">
             {step > 1 && (
               <button 
                 onClick={() => setStep(s => s - 1)}
-                className="flex items-center gap-1 text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
+                className="flex items-center gap-1 text-tinta-2 hover:text-tinta transition-colors tactil"
               >
                 <ChevronLeft size={14} />
                 <span>Atrás</span>
               </button>
             )}
-            <span className="font-semibold text-arctic-tertiary">Paso {step} de 5</span>
+            <span className="font-semibold text-tinta-3">Paso {step} de 5</span>
           </div>
-          <span className="text-xs font-medium text-arctic-tertiary">Configuración de Sesión</span>
+          <span className="text-xs font-medium text-tinta-3">Configuración de Sesión</span>
         </div>
 
         <div className="flex items-center gap-1.5">
@@ -204,7 +204,7 @@ export default function SessionWizard({
             <div 
               key={i} 
               className={`h-1 flex-1 rounded-full transition-all duration-300 ${
-                step >= i ? "bg-glacier-blue" : "bg-black/[0.07]"
+                step >= i ? "bg-acento" : "bg-hundido"
               }`} 
             />
           ))}
@@ -212,7 +212,7 @@ export default function SessionWizard({
       </div>
 
       {error && (
-        <div className="border border-cool-berry/30 bg-cool-berry/10 text-cool-berry p-3 rounded-xl mb-6 text-xs font-medium">
+        <div className="border border-error/30 bg-error/10 text-error p-3 rounded-xl mb-6 text-xs font-medium">
           {error}
         </div>
       )}
@@ -221,10 +221,10 @@ export default function SessionWizard({
       {step === 1 && (
         <div className="space-y-6 duration-300">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-tinta">
               ¿En qué nivel te encuentras?
             </h2>
-            <p className="text-sm text-arctic-secondary mt-1">
+            <p className="text-sm text-tinta-2 mt-1">
               Selecciona tu ámbito actual para calibrar las recomendaciones.
             </p>
           </div>
@@ -234,10 +234,10 @@ export default function SessionWizard({
               <button 
                 key={n}
                 onClick={() => { setNivel(n); handleNext(); }}
-                className="apple-card p-5 text-left font-medium transition-all apple-tactile border border-black/[0.07] hover:border-glacier-blue/30 hover:bg-frost-base/50"
+                className="tarjeta p-5 text-left font-medium transition-all tactil border border-linea hover:border-acento/30 hover:bg-fondo/50"
               >
-                <div className="text-base font-semibold text-arctic-slate tracking-tight">{n}</div>
-                <div className="text-xs text-arctic-secondary mt-1">
+                <div className="text-base font-semibold text-tinta tracking-tight">{n}</div>
+                <div className="text-xs text-tinta-2 mt-1">
                   {n === "Colegio" ? "Secundaria / Bachillerato" : n === "Universidad" ? "Pregrado o Posgrado" : "Autodidacta o Certificación"}
                 </div>
               </button>
@@ -250,17 +250,17 @@ export default function SessionWizard({
       {step === 2 && (
         <div className="space-y-6 duration-300">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-tinta">
               ¿Qué materia vas a estudiar?
             </h2>
-            <p className="text-sm text-arctic-secondary mt-1">
+            <p className="text-sm text-tinta-2 mt-1">
               Elige una de tus materias registradas o una sugerida para tu nivel.
             </p>
           </div>
           
           {initialMaterias.length > 0 && (
             <div>
-              <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2.5">
+              <h3 className="text-xs font-semibold text-tinta-3 uppercase tracking-wider mb-2.5">
                 Tus materias registradas
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -268,9 +268,9 @@ export default function SessionWizard({
                   <button 
                     key={m.id} 
                     onClick={() => { setMateriaId(m.id); setMateriaNombre(m.nombre); handleNext(); }} 
-                    className="p-3 sm:p-3.5 rounded-xl border border-black/[0.07] bg-frost-base/60 text-left hover:border-glacier-blue/30 hover:bg-white transition-all apple-tactile"
+                    className="p-3 sm:p-3.5 rounded-xl border border-linea bg-fondo/60 text-left hover:border-acento/30 hover:bg-superficie transition-all tactil"
                   >
-                    <div className="font-semibold text-sm text-arctic-slate tracking-tight truncate">{m.nombre}</div>
+                    <div className="font-semibold text-sm text-tinta tracking-tight truncate">{m.nombre}</div>
                   </button>
                 ))}
               </div>
@@ -279,7 +279,7 @@ export default function SessionWizard({
 
           {nivel !== "Otra / Personalizada" && (
             <div>
-              <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2.5">
+              <h3 className="text-xs font-semibold text-tinta-3 uppercase tracking-wider mb-2.5">
                 Sugerencias ({nivel})
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
@@ -287,7 +287,7 @@ export default function SessionWizard({
                   <button 
                     key={m} 
                     onClick={() => { setMateriaId(""); setMateriaNombre(m); handleNext(); }} 
-                    className="p-2.5 rounded-xl border border-black/[0.05] bg-frost-base/40 text-left hover:bg-white text-xs font-medium text-arctic-secondary hover:text-arctic-slate transition-all apple-tactile truncate"
+                    className="p-2.5 rounded-xl border border-linea bg-fondo/40 text-left hover:bg-superficie text-xs font-medium text-tinta-2 hover:text-tinta transition-all tactil truncate"
                   >
                     {m}
                   </button>
@@ -296,22 +296,22 @@ export default function SessionWizard({
             </div>
           )}
 
-          <div className="pt-2 border-t border-black/[0.06]">
-            <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2">
+          <div className="pt-2 border-t border-linea">
+            <h3 className="text-xs font-semibold text-tinta-3 uppercase tracking-wider mb-2">
               Otra materia diferente
             </h3>
             <div className="flex flex-col sm:flex-row gap-2">
               <input 
                 type="text" 
                 placeholder="Nombre de la materia..." 
-                className="w-full sm:flex-1 px-4 py-2.5 rounded-xl border border-black/[0.08] bg-frost-base text-sm text-arctic-slate outline-none focus:border-glacier-blue transition-all" 
+                className="w-full sm:flex-1 px-4 py-2.5 rounded-xl border border-linea bg-fondo text-sm text-tinta outline-none focus:border-acento transition-all" 
                 value={customMateria} 
                 onChange={e => setCustomMateria(e.target.value)} 
               />
               <button 
                 onClick={() => { setMateriaId(""); setMateriaNombre(customMateria); handleNext(); }} 
                 disabled={!customMateria.trim()} 
-                className="w-full sm:w-auto btn-apple-secondary text-xs px-5 py-2.5 disabled:opacity-40 apple-tactile"
+                className="w-full sm:w-auto btn-secundario text-xs px-5 py-2.5 disabled:opacity-40 tactil"
               >
                 Continuar
               </button>
@@ -324,17 +324,17 @@ export default function SessionWizard({
       {step === 3 && (
         <div className="space-y-6 duration-300">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-tinta">
               ¿Cuál es el tema específico?
             </h2>
-            <p className="text-sm text-arctic-secondary mt-1">
+            <p className="text-sm text-tinta-2 mt-1">
               Selecciona un tema existente o escribe lo que necesitas aprender hoy.
             </p>
           </div>
           
           {temasLocales.length > 0 && (
             <div>
-              <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2.5">
+              <h3 className="text-xs font-semibold text-tinta-3 uppercase tracking-wider mb-2.5">
                 Temas en {materiaNombre}
               </h3>
               <div className="grid gap-2">
@@ -342,10 +342,10 @@ export default function SessionWizard({
                   <button 
                     key={t.id} 
                     onClick={() => { setTemaId(t.id); setTemaNombre(t.nombre); handleNext(); }} 
-                    className="p-3.5 rounded-xl border border-black/[0.07] bg-frost-base/60 text-left hover:border-glacier-blue/30 hover:bg-white transition-all flex justify-between items-center apple-tactile"
+                    className="p-3.5 rounded-xl border border-linea bg-fondo/60 text-left hover:border-acento/30 hover:bg-superficie transition-all flex justify-between items-center tactil"
                   >
-                    <span className="font-semibold text-sm text-arctic-slate">{t.nombre}</span>
-                    <span className="text-xs uppercase font-semibold text-arctic-tertiary px-2 py-0.5 rounded-full bg-black/[0.04]">
+                    <span className="font-semibold text-sm text-tinta">{t.nombre}</span>
+                    <span className="text-xs uppercase font-semibold text-tinta-3 px-2 py-0.5 rounded-full bg-hundido">
                       {t.tipo_contenido || "Tema"}
                     </span>
                   </button>
@@ -355,21 +355,21 @@ export default function SessionWizard({
           )}
 
           <div>
-            <h3 className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider mb-2">
+            <h3 className="text-xs font-semibold text-tinta-3 uppercase tracking-wider mb-2">
               Escribir un tema nuevo
             </h3>
             <div className="flex flex-col sm:flex-row gap-2">
               <input 
                 type="text" 
                 placeholder="Ej. Derivadas parciales, Segunda Guerra Mundial..." 
-                className="w-full sm:flex-1 px-4 py-2.5 rounded-xl border border-black/[0.08] bg-frost-base text-sm text-arctic-slate outline-none focus:border-glacier-blue transition-all" 
+                className="w-full sm:flex-1 px-4 py-2.5 rounded-xl border border-linea bg-fondo text-sm text-tinta outline-none focus:border-acento transition-all" 
                 value={customTema} 
                 onChange={e => setCustomTema(e.target.value)} 
               />
               <button 
                 onClick={() => { setTemaId(""); setTemaNombre(customTema); handleNext(); }} 
                 disabled={!customTema.trim()} 
-                className="w-full sm:w-auto btn-apple-secondary text-xs px-5 py-2.5 disabled:opacity-40 apple-tactile"
+                className="w-full sm:w-auto btn-secundario text-xs px-5 py-2.5 disabled:opacity-40 tactil"
               >
                 Continuar
               </button>
@@ -382,21 +382,21 @@ export default function SessionWizard({
       {step === 4 && (
         <div className="space-y-6 duration-300">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-tinta">
               ¿Cuál es tu objetivo o situación?
             </h2>
-            <p className="text-sm text-arctic-secondary mt-1">
+            <p className="text-sm text-tinta-2 mt-1">
               Esto permite recomendarte el método de estudio cognitivo más efectivo.
             </p>
           </div>
 
           {loading ? (
             <div className="flex flex-col items-center justify-center py-16 space-y-4">
-              <div className="w-9 h-9 border-2 border-black/[0.08] border-t-glacier-blue rounded-full animate-spin" />
-              <p className="text-sm font-semibold text-arctic-slate">
+              <div className="w-9 h-9 border-2 border-linea border-t-acento rounded-full animate-spin" />
+              <p className="text-sm font-semibold text-tinta">
                 Sintetizando método con IA...
               </p>
-              <p className="text-xs text-arctic-secondary">Analizando el mejor marco de trabajo</p>
+              <p className="text-xs text-tinta-2">Analizando el mejor marco de trabajo</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
@@ -404,7 +404,7 @@ export default function SessionWizard({
                 <button 
                   key={c} 
                   onClick={() => { setContexto(c); handleNext(c); }} 
-                  className="p-3.5 min-h-11 rounded-xl border border-black/[0.07] bg-frost-base/60 text-left hover:border-glacier-blue/30 hover:bg-white transition-all text-sm font-medium text-arctic-slate apple-tactile flex items-center gap-2"
+                  className="p-3.5 min-h-11 rounded-xl border border-linea bg-fondo/60 text-left hover:border-acento/30 hover:bg-superficie transition-all text-sm font-medium text-tinta tactil flex items-center gap-2"
                 >
                   {/* El emoji es decorativo: fuera del nombre accesible */}
                   <span aria-hidden="true">{c.split(" ")[0]}</span>
@@ -420,35 +420,35 @@ export default function SessionWizard({
       {step === 5 && recomendacion && (
         <div className="space-y-7 duration-400">
           <div>
-            <span className="text-xs font-semibold text-cool-iris uppercase tracking-wider">
+            <span className="text-xs font-semibold text-acento uppercase tracking-wider">
               {origenRecomendacion === "ia" ? "Sugerido por IA" : "Sugerido por reglas de estudio"}
             </span>
-            <h2 className="text-2xl font-bold tracking-tight text-arctic-slate mt-0.5">
+            <h2 className="text-2xl font-bold tracking-tight text-tinta mt-0.5">
               Tu método sugerido
             </h2>
           </div>
 
           {/* Apple Intelligence Card en Cristal Blanco */}
-          <div className="apple-card p-6 border border-cool-iris/20 bg-gradient-to-br from-white to-cool-iris/[0.03]">
+          <div className="tarjeta p-6 border border-acento/20 bg-gradient-to-br from-superficie to-acento/[0.03]">
             <div className="flex items-start gap-4">
-              <div className="p-2.5 rounded-2xl bg-cool-iris/10 text-cool-iris shrink-0 shadow-apple-sm">
+              <div className="p-2.5 rounded-2xl bg-acento/10 text-acento shrink-0 shadow-1">
                 {getMethodIcon(recomendacion.metodo)}
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-arctic-slate tracking-tight">
+                <h3 className="text-xl font-bold text-tinta tracking-tight">
                   {recomendacion.metodo}
                 </h3>
-                <p className="text-xs text-arctic-secondary mt-1 leading-relaxed">
+                <p className="text-xs text-tinta-2 mt-1 leading-relaxed">
                   {recomendacion.justificacion}
                 </p>
 
-                <div className="mt-4 pt-4 border-t border-black/[0.06] space-y-2">
-                  <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider block">
+                <div className="mt-4 pt-4 border-t border-linea space-y-2">
+                  <span className="text-xs font-semibold text-tinta-3 uppercase tracking-wider block">
                     Pasos a seguir
                   </span>
                   {recomendacion.pasos.map((p, i) => (
-                    <div key={i} className="flex items-start gap-2 text-xs text-arctic-slate">
-                      <span className="text-glacier-blue font-bold">{i + 1}.</span>
+                    <div key={i} className="flex items-start gap-2 text-xs text-tinta">
+                      <span className="text-acento font-bold">{i + 1}.</span>
                       <span>{p}</span>
                     </div>
                   ))}
@@ -458,9 +458,9 @@ export default function SessionWizard({
           </div>
 
           {/* Duration & Objective */}
-          <div className="space-y-4 p-5 rounded-2xl bg-frost-base border border-black/[0.06]">
+          <div className="space-y-4 p-5 rounded-2xl bg-fondo border border-linea">
             <div>
-              <label className="block text-xs font-semibold text-arctic-secondary mb-2">
+              <label className="block text-xs font-semibold text-tinta-2 mb-2">
                 Duración de la sesión (minutos)
               </label>
               <div className="flex items-center gap-2 mb-3">
@@ -469,10 +469,10 @@ export default function SessionWizard({
                     key={p}
                     type="button"
                     onClick={() => setDuracion(p)}
-                    className={`flex-1 py-1.5 rounded-xl text-xs font-semibold transition-all apple-tactile ${
+                    className={`flex-1 py-1.5 rounded-xl text-xs font-semibold transition-all tactil ${
                       duracion === p
-                        ? "bg-glacier-blue text-white shadow-apple-sm"
-                        : "bg-white text-arctic-secondary border border-black/[0.06] hover:bg-white/80"
+                        ? "bg-acento text-sobre-acento shadow-1"
+                        : "bg-superficie text-tinta-2 border border-linea hover:bg-superficie"
                     }`}
                   >
                     {p}m
@@ -483,12 +483,12 @@ export default function SessionWizard({
                 type="number" 
                 value={duracion} 
                 onChange={e => setDuracion(Number(e.target.value))} 
-                className="w-full px-4 py-2.5 rounded-xl border border-black/[0.08] bg-white text-sm text-arctic-slate outline-none focus:border-glacier-blue font-mono tabular-nums" 
+                className="w-full px-4 py-2.5 rounded-xl border border-linea bg-superficie text-sm text-tinta outline-none focus:border-acento font-mono tabular-nums" 
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-arctic-secondary mb-1.5">
+              <label className="block text-xs font-semibold text-tinta-2 mb-1.5">
                 Objetivo principal de la sesión (Opcional)
               </label>
               <input 
@@ -496,7 +496,7 @@ export default function SessionWizard({
                 placeholder="Ej. Resolver 5 ejercicios clave o resumir el capítulo 3" 
                 value={objetivo} 
                 onChange={e => setObjetivo(e.target.value)} 
-                className="w-full px-4 py-2.5 rounded-xl border border-black/[0.08] bg-white text-sm text-arctic-slate outline-none focus:border-glacier-blue" 
+                className="w-full px-4 py-2.5 rounded-xl border border-linea bg-superficie text-sm text-tinta outline-none focus:border-acento" 
               />
             </div>
           </div>
@@ -504,14 +504,14 @@ export default function SessionWizard({
           <div className="pt-2 flex flex-col sm:flex-row gap-3 items-center">
             <button 
               onClick={() => setStep(1)} 
-              className="btn-apple-ghost text-xs px-4 py-2.5 apple-tactile"
+              className="btn-fantasma text-xs px-4 py-2.5 tactil"
             >
               Reiniciar configuración
             </button>
             <button 
               onClick={handleStart} 
               disabled={loading} 
-              className="btn-apple-primary flex-1 w-full text-xs py-3 px-6 font-semibold apple-tactile shadow-apple-sm"
+              className="btn-primario flex-1 w-full text-xs py-3 px-6 font-semibold tactil shadow-1"
             >
               <span>{loading ? "Iniciando sesión..." : "Comenzar sesión de estudio"}</span>
               <ArrowRight size={15} strokeWidth={2} />

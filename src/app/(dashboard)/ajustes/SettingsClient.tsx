@@ -55,13 +55,13 @@ export default function SettingsClient({ email }: { email: string }) {
             tabIndex={activeTab === key ? 0 : -1}
             onClick={() => setActiveTab(key)}
             onKeyDown={(e) => alTeclear(e, i)}
-            className={`flex items-center gap-2 px-3.5 min-h-11 rounded-xl text-sm font-semibold transition-all apple-tactile whitespace-nowrap shrink-0 md:w-full ${
+            className={`flex items-center gap-2 px-3.5 min-h-11 rounded-xl text-sm font-semibold transition-all tactil whitespace-nowrap shrink-0 md:w-full ${
               activeTab === key
-                ? "bg-white text-arctic-slate shadow-apple-sm border border-black/[0.06]"
-                : "text-arctic-secondary hover:bg-black/[0.03] hover:text-arctic-slate"
+                ? "bg-superficie text-tinta shadow-1 border border-linea"
+                : "text-tinta-2 hover:bg-hundido hover:text-tinta"
             }`}
           >
-            <span className={activeTab === key ? "text-glacier-blue" : ""}>{icon}</span>
+            <span className={activeTab === key ? "text-acento" : ""}>{icon}</span>
             <span>{label}</span>
           </button>
         ))}
@@ -76,32 +76,32 @@ export default function SettingsClient({ email }: { email: string }) {
       >
         {activeTab === "perfil" && (
           <>
-            <section className="apple-card p-6 md:p-8 shadow-apple-sm">
-              <h2 className="apple-title-3 mb-4 flex items-center gap-2">
-                <User size={18} strokeWidth={2} className="text-glacier-blue" aria-hidden="true" />
+            <section className="tarjeta p-6 md:p-8 shadow-1">
+              <h2 className="titulo-3 mb-4 flex items-center gap-2">
+                <User size={18} strokeWidth={2} className="text-acento" aria-hidden="true" />
                 <span>Información personal</span>
               </h2>
-              <p className="block text-sm font-semibold text-arctic-secondary mb-1.5">Correo electrónico</p>
-              <p className="w-full bg-frost-base border border-black/[0.08] rounded-xl px-4 py-2.5 text-sm font-medium text-arctic-slate break-all">
+              <p className="block text-sm font-semibold text-tinta-2 mb-1.5">Correo electrónico</p>
+              <p className="w-full bg-fondo border border-linea rounded-xl px-4 py-2.5 text-sm font-medium text-tinta break-all">
                 {email}
               </p>
-              <p className="text-sm text-arctic-secondary mt-1.5">
+              <p className="text-sm text-tinta-2 mt-1.5">
                 Es el correo con el que inicias sesión en studia+.
               </p>
             </section>
 
-            <section className="apple-card p-6 md:p-8 shadow-apple-sm">
-              <h2 className="apple-title-3 mb-2">Sesión</h2>
-              <p className="text-sm text-arctic-secondary mb-5">Cierra la sesión en este dispositivo.</p>
+            <section className="tarjeta p-6 md:p-8 shadow-1">
+              <h2 className="titulo-3 mb-2">Sesión</h2>
+              <p className="text-sm text-tinta-2 mb-5">Cierra la sesión en este dispositivo.</p>
               <LogoutButton />
             </section>
           </>
         )}
 
         {activeTab === "notificaciones" && (
-          <section className="apple-card p-6 md:p-8 shadow-apple-sm">
-            <h2 className="apple-title-3 mb-4 flex items-center gap-2">
-              <Bell size={18} strokeWidth={2} className="text-glacier-blue" aria-hidden="true" />
+          <section className="tarjeta p-6 md:p-8 shadow-1">
+            <h2 className="titulo-3 mb-4 flex items-center gap-2">
+              <Bell size={18} strokeWidth={2} className="text-acento" aria-hidden="true" />
               <span>Notificaciones</span>
             </h2>
             <PushNotificationManager compacto />
@@ -142,36 +142,36 @@ function PrivacidadYDatos() {
 
   return (
     <>
-      <section className="apple-card p-6 md:p-8 shadow-apple-sm">
-        <h2 className="apple-title-3 mb-2 flex items-center gap-2">
-          <Download size={18} strokeWidth={2} className="text-glacier-blue" aria-hidden="true" />
+      <section className="tarjeta p-6 md:p-8 shadow-1">
+        <h2 className="titulo-3 mb-2 flex items-center gap-2">
+          <Download size={18} strokeWidth={2} className="text-acento" aria-hidden="true" />
           <span>Descargar mis datos</span>
         </h2>
-        <p className="text-sm text-arctic-secondary mb-4">
+        <p className="text-sm text-tinta-2 mb-4">
           Un archivo JSON con tus materias, temas, sesiones, notas, rutas y progreso.
         </p>
         <a
           href="/api/cuenta/exportar"
           download
-          className="btn-apple-secondary text-sm min-h-11 px-4 inline-flex items-center gap-2 apple-tactile"
+          className="btn-secundario text-sm min-h-11 px-4 inline-flex items-center gap-2 tactil"
         >
           <Download size={15} aria-hidden="true" /> Descargar (.json)
         </a>
       </section>
 
-      <section className="apple-card p-6 md:p-8 border border-red-500/20 shadow-apple-sm">
-        <h2 className="apple-title-3 text-red-700 mb-2 flex items-center gap-2">
+      <section className="tarjeta p-6 md:p-8 border border-error/20 shadow-1">
+        <h2 className="titulo-3 text-error mb-2 flex items-center gap-2">
           <Trash2 size={18} strokeWidth={2} aria-hidden="true" />
           <span>Eliminar mi cuenta</span>
         </h2>
-        <p className="text-sm text-arctic-secondary mb-4">
+        <p className="text-sm text-tinta-2 mb-4">
           Borra tu cuenta y todos tus datos de forma permanente. Te recomendamos descargarlos antes.
         </p>
         <button
           type="button"
           onClick={() => { setConfirmacion(""); setError(null); setDialogo(true); }}
           aria-haspopup="dialog"
-          className="btn-apple-destructive text-sm min-h-11 px-4 apple-tactile"
+          className="btn-peligro text-sm min-h-11 px-4 tactil"
         >
           <Trash2 size={15} aria-hidden="true" /> Eliminar mi cuenta
         </button>
@@ -185,17 +185,17 @@ function PrivacidadYDatos() {
         tono="peligro"
         anchoMaximo="sm"
         icono={
-          <div className="w-9 h-9 rounded-xl bg-red-500/10 text-red-700 flex items-center justify-center">
+          <div className="w-9 h-9 rounded-xl bg-error/10 text-error flex items-center justify-center">
             <AlertTriangle size={18} strokeWidth={2} />
           </div>
         }
       >
         <form onSubmit={eliminarCuenta} className="space-y-4">
-          <p className="text-sm text-arctic-slate">
+          <p className="text-sm text-tinta">
             Se borrarán tus materias, temas, sesiones, notas, rutas, racha y XP.
           </p>
           <div>
-            <label htmlFor={idConfirmacion} className="block text-sm font-medium text-arctic-slate mb-1.5">
+            <label htmlFor={idConfirmacion} className="block text-sm font-medium text-tinta mb-1.5">
               Escribe <strong>ELIMINAR</strong> para confirmar
             </label>
             <input
@@ -205,22 +205,22 @@ function PrivacidadYDatos() {
               onChange={(e) => setConfirmacion(e.target.value)}
               autoComplete="off"
               autoCapitalize="characters"
-              className="w-full rounded-xl px-4 py-2.5 bg-white border border-arctic-borde focus:border-red-600 focus:ring-2 focus:ring-red-500/25 outline-none text-base text-arctic-slate"
+              className="w-full rounded-xl px-4 py-2.5 bg-superficie border border-linea-fuerte focus:border-error focus:ring-2 focus:ring-error/25 outline-none text-base text-tinta"
             />
           </div>
           {error && (
-            <p role="alert" className="text-sm text-cool-berry bg-cool-berry/10 border border-cool-berry/20 rounded-xl p-3">
+            <p role="alert" className="text-sm text-error bg-error/10 border border-error/20 rounded-xl p-3">
               {error}
             </p>
           )}
           <div className="flex gap-3">
-            <button type="button" onClick={() => setDialogo(false)} className="flex-1 btn-apple-ghost text-sm min-h-11 apple-tactile">
+            <button type="button" onClick={() => setDialogo(false)} className="flex-1 btn-fantasma text-sm min-h-11 tactil">
               Cancelar
             </button>
             <button
               type="submit"
               disabled={confirmacion !== "ELIMINAR" || cargando}
-              className="flex-1 btn-apple-destructive text-sm min-h-11 disabled:opacity-50 apple-tactile"
+              className="flex-1 btn-peligro text-sm min-h-11 disabled:opacity-50 tactil"
             >
               {cargando ? "Eliminando…" : "Eliminar definitivamente"}
             </button>

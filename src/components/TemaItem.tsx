@@ -32,18 +32,18 @@ export default function TemaItem({ tema, materiaNombre }: { tema: any; materiaNo
   const isCompleted = tema.estado === 'completado';
 
   return (
-    <div className={`apple-card p-3.5 sm:p-4 flex items-center justify-between gap-3 transition-all apple-tactile ${
+    <div className={`tarjeta p-3.5 sm:p-4 flex items-center justify-between gap-3 transition-all tactil ${
       isCompleted
-        ? 'bg-glacier-blue/[0.04] border-glacier-blue/20'
-        : 'border-black/[0.06]'
+        ? 'bg-acento/[0.04] border-acento/20'
+        : 'border-linea'
     }`}>
       <div className="min-w-0 flex-1">
-        <h4 className={`apple-headline truncate ${isCompleted ? 'line-through text-arctic-secondary' : 'text-arctic-slate'}`}>
+        <h4 className={`encabezado truncate ${isCompleted ? 'line-through text-tinta-2' : 'text-tinta'}`}>
           {tema.nombre}
           {isCompleted && <span className="sr-only"> (completado)</span>}
         </h4>
         {tema.tipo_contenido && (
-          <span className="text-xs font-semibold text-arctic-secondary bg-black/[0.04] px-2 py-0.5 rounded-full mt-1 inline-block">
+          <span className="text-xs font-semibold text-tinta-2 bg-hundido px-2 py-0.5 rounded-full mt-1 inline-block">
             {tema.tipo_contenido}
           </span>
         )}
@@ -52,9 +52,9 @@ export default function TemaItem({ tema, materiaNombre }: { tema: any; materiaNo
         type="button"
         onClick={() => setChatAbierto(true)}
         aria-haspopup="dialog"
-        className="btn-apple-secondary text-xs min-h-11 px-3 apple-tactile inline-flex items-center gap-1.5 shrink-0"
+        className="btn-secundario text-xs min-h-11 px-3 tactil inline-flex items-center gap-1.5 shrink-0"
       >
-        <MessageCircle size={14} strokeWidth={2} className="text-glacier-blue" aria-hidden="true" />
+        <MessageCircle size={14} strokeWidth={2} className="text-acento" aria-hidden="true" />
         <span>Tutor<span className="sr-only"> sobre {tema.nombre}</span></span>
       </button>
       {chatAbierto && (
@@ -66,12 +66,12 @@ export default function TemaItem({ tema, materiaNombre }: { tema: any; materiaNo
         disabled={loading}
         aria-pressed={isCompleted}
         aria-label={`Marcar «${tema.nombre}» como completado`}
-        className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-black/[0.04] transition-colors disabled:opacity-50 apple-tactile shrink-0"
+        className="w-11 h-11 flex items-center justify-center rounded-full hover:bg-hundido transition-colors disabled:opacity-50 tactil shrink-0"
       >
         {isCompleted ? (
-          <CheckCircle2 size={22} strokeWidth={2} className="text-glacier-blue" aria-hidden="true" />
+          <CheckCircle2 size={22} strokeWidth={2} className="text-acento" aria-hidden="true" />
         ) : (
-          <Circle size={22} strokeWidth={2} className="text-arctic-borde hover:text-arctic-secondary" aria-hidden="true" />
+          <Circle size={22} strokeWidth={2} className="text-linea-fuerte hover:text-tinta-2" aria-hidden="true" />
         )}
       </button>
     </div>

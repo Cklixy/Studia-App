@@ -15,7 +15,7 @@ function enLinea(texto: string, clave: string): ReactNode[] {
     const t = m[0];
     const k = `${clave}-${i++}`;
     if (t.startsWith("**")) partes.push(<strong key={k}>{t.slice(2, -2)}</strong>);
-    else if (t.startsWith("`")) partes.push(<code key={k} className="px-1 py-0.5 rounded bg-black/[0.06] font-mono text-[0.92em]">{t.slice(1, -1)}</code>);
+    else if (t.startsWith("`")) partes.push(<code key={k} className="px-1 py-0.5 rounded bg-hundido font-mono text-[0.92em]">{t.slice(1, -1)}</code>);
     else partes.push(<em key={k}>{t.slice(1, -1)}</em>);
     ultimo = m.index + t.length;
   }

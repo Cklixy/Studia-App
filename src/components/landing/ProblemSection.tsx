@@ -18,7 +18,7 @@ export default function ProblemSection() {
     <section className="px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 max-w-[1440px] mx-auto text-center space-y-8 sm:space-y-10 w-full">
       {/* Título */}
       <div className="space-y-2 max-w-3xl mx-auto">
-        <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-arctic-slate leading-tight">
+        <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-tinta leading-tight">
           Tu problema no es estudiar. Es saber por dónde empezar.
         </h2>
       </div>
@@ -28,12 +28,12 @@ export default function ProblemSection() {
         {problems.map((p) => (
           <div
             key={p.title}
-            className="p-4 sm:p-6 rounded-3xl bg-white border border-black/[0.06] shadow-[0_2px_8px_rgba(0,0,0,0.02)] space-y-2"
+            className="p-4 sm:p-6 rounded-3xl bg-superficie border border-linea shadow-2 space-y-2"
           >
-            <h3 className="text-sm sm:text-base font-bold text-arctic-slate tracking-tight">
+            <h3 className="text-sm sm:text-base font-bold text-tinta tracking-tight">
               {p.title}
             </h3>
-            <p className="text-xs sm:text-[13px] text-arctic-secondary leading-relaxed">
+            <p className="text-xs sm:text-[13px] text-tinta-2 leading-relaxed">
               {p.desc}
             </p>
           </div>
@@ -42,9 +42,9 @@ export default function ProblemSection() {
 
       {/* Cierre */}
       <div className="pt-1">
-        <p className="text-sm sm:text-base font-medium text-arctic-slate">
+        <p className="text-sm sm:text-base font-medium text-tinta">
           studia+ convierte todo eso en un{" "}
-          <span className="text-glacier-blue font-semibold">
+          <span className="text-acento font-semibold">
             siguiente paso claro
           </span>
           .

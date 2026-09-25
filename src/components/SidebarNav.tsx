@@ -22,7 +22,7 @@ export default function SidebarNav() {
   return (
     <nav
       aria-label="Navegación principal"
-      className="flex items-stretch gap-0.5 sm:gap-1.5 p-1 sm:p-1.5 rounded-3xl bg-white/90 backdrop-blur-2xl border border-black/[0.08] shadow-[0_16px_40px_rgba(0,0,0,0.10),0_2px_8px_rgba(0,0,0,0.04)] max-w-[calc(100vw-1rem)] select-none"
+      className="flex items-stretch gap-0.5 sm:gap-1.5 p-1 sm:p-1.5 rounded-3xl bg-superficie backdrop-blur-2xl border border-linea shadow-2 max-w-[calc(100vw-1rem)] select-none"
     >
       {links.map(({ name, href, icon: Icon, activoEn }) => {
         const isActive = activoEn.some((ruta) => pathname.startsWith(ruta));
@@ -31,14 +31,14 @@ export default function SidebarNav() {
             key={href}
             href={href}
             aria-current={isActive ? "page" : undefined}
-            className={`group relative flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 min-h-12 min-w-[3.75rem] sm:min-w-0 px-2 sm:px-4 py-1.5 rounded-2xl font-semibold transition-colors duration-200 apple-tactile ${
-              isActive ? "text-white" : "text-arctic-secondary hover:text-arctic-slate hover:bg-black/[0.04]"
+            className={`group relative flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 min-h-12 min-w-[3.75rem] sm:min-w-0 px-2 sm:px-4 py-1.5 rounded-2xl font-semibold transition-colors duration-200 tactil ${
+              isActive ? "text-sobre-acento" : "text-tinta-2 hover:text-tinta hover:bg-hundido"
             }`}
           >
             {isActive && (
               <motion.div
                 layoutId={shouldReduceMotion ? undefined : "activeDockPill"}
-                className="absolute inset-0 rounded-2xl bg-glacier-blue shadow-apple-glow"
+                className="absolute inset-0 rounded-2xl bg-acento shadow-2"
                 transition={shouldReduceMotion ? { duration: 0 } : { type: "spring", damping: 28, stiffness: 380 }}
               />
             )}

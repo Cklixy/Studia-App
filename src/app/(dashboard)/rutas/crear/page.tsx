@@ -62,19 +62,19 @@ export default function CrearRutaIAPage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8 duration-700">
-      <div className="flex items-center gap-3 text-glacier-blue mb-1">
+      <div className="flex items-center gap-3 text-acento mb-1">
         <Sparkles size={24} aria-hidden="true" />
-        <h1 className="text-2xl sm:text-3xl font-display font-bold text-arctic-slate">Inteligencia de Ruta</h1>
+        <h1 className="text-2xl sm:text-3xl font-display font-bold text-tinta">Inteligencia de Ruta</h1>
       </div>
-      <p className="text-arctic-secondary text-sm sm:text-base">
+      <p className="text-tinta-2 text-sm sm:text-base">
         La IA organizará los temas en el orden ideal para que llegues a tu objetivo.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
         
         {/* Main Prompt */}
-        <div className="apple-card p-5 sm:p-6 relative overflow-hidden group">
-          <label htmlFor="ruta-peticion" className="block text-xs uppercase tracking-widest font-bold text-arctic-secondary mb-3 relative z-10">
+        <div className="tarjeta p-5 sm:p-6 relative overflow-hidden group">
+          <label htmlFor="ruta-peticion" className="block text-xs uppercase tracking-widest font-bold text-tinta-2 mb-3 relative z-10">
             ¿Qué necesitas aprender?
           </label>
           <textarea
@@ -84,14 +84,14 @@ export default function CrearRutaIAPage() {
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="Ej. Tengo un parcial de cálculo diferencial sobre límites el viernes..."
-            className="w-full h-28 sm:h-32 bg-transparent text-lg sm:text-xl font-medium outline-none resize-none relative z-10 text-arctic-slate placeholder:text-arctic-tertiary/60"
+            className="w-full h-28 sm:h-32 bg-transparent text-lg sm:text-xl font-medium outline-none resize-none relative z-10 text-tinta placeholder:text-tinta-3/60"
           ></textarea>
         </div>
 
         {/* Optional Context */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-          <div className="apple-card p-4 sm:p-5">
-            <label htmlFor="ruta-nivel" className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-arctic-secondary mb-2.5">
+          <div className="tarjeta p-4 sm:p-5">
+            <label htmlFor="ruta-nivel" className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-tinta-2 mb-2.5">
               <BookOpen size={14} aria-hidden="true" /> Nivel (Opcional)
             </label>
             <div className="relative">
@@ -99,7 +99,7 @@ export default function CrearRutaIAPage() {
                 id="ruta-nivel"
                 value={nivelEducativo}
                 onChange={(e) => setNivelEducativo(e.target.value)}
-                className="w-full appearance-none bg-frost-base border border-black/[0.08] rounded-xl px-4 py-2.5 text-xs sm:text-sm font-medium text-arctic-slate hover:border-black/20 focus:outline-none focus:border-glacier-blue transition-colors cursor-pointer"
+                className="w-full appearance-none bg-fondo border border-linea rounded-xl px-4 py-2.5 text-xs sm:text-sm font-medium text-tinta hover:border-linea-fuerte focus:outline-none focus:border-acento transition-colors cursor-pointer"
               >
                 <option value="">Selecciona...</option>
                 <option value="Colegio">Colegio</option>
@@ -107,14 +107,14 @@ export default function CrearRutaIAPage() {
                 <option value="Técnico / Tecnológico">Técnico / Tecnológico</option>
                 <option value="Aprendizaje Personal">Aprendizaje Personal</option>
               </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-arctic-tertiary">
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-tinta-3">
                 <ChevronDown size={16} aria-hidden="true" />
               </div>
             </div>
           </div>
 
-          <div className="apple-card p-4 sm:p-5">
-            <label htmlFor="ruta-objetivo" className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-arctic-secondary mb-2.5">
+          <div className="tarjeta p-4 sm:p-5">
+            <label htmlFor="ruta-objetivo" className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-tinta-2 mb-2.5">
               <Target size={14} aria-hidden="true" /> Objetivo (Opcional)
             </label>
             <div className="relative">
@@ -122,7 +122,7 @@ export default function CrearRutaIAPage() {
                 id="ruta-objetivo"
                 value={objetivo}
                 onChange={(e) => setObjetivo(e.target.value)}
-                className="w-full appearance-none bg-frost-base border border-black/[0.08] rounded-xl px-4 py-2.5 text-xs sm:text-sm font-medium text-arctic-slate hover:border-black/20 focus:outline-none focus:border-glacier-blue transition-colors cursor-pointer"
+                className="w-full appearance-none bg-fondo border border-linea rounded-xl px-4 py-2.5 text-xs sm:text-sm font-medium text-tinta hover:border-linea-fuerte focus:outline-none focus:border-acento transition-colors cursor-pointer"
               >
                 <option value="">Selecciona...</option>
                 <option value="Aprender desde cero">Aprender desde cero</option>
@@ -130,14 +130,14 @@ export default function CrearRutaIAPage() {
                 <option value="Repasar conceptos">Repasar conceptos</option>
                 <option value="Profundizar en el tema">Profundizar</option>
               </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-arctic-tertiary">
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-tinta-3">
                 <ChevronDown size={16} aria-hidden="true" />
               </div>
             </div>
           </div>
 
-          <div className="apple-card p-4 sm:p-5">
-            <label htmlFor="ruta-tiempo" className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-arctic-secondary mb-2.5">
+          <div className="tarjeta p-4 sm:p-5">
+            <label htmlFor="ruta-tiempo" className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-tinta-2 mb-2.5">
               <Clock size={14} aria-hidden="true" /> Tiempo (Opcional)
             </label>
             <div className="relative">
@@ -145,7 +145,7 @@ export default function CrearRutaIAPage() {
                 id="ruta-tiempo"
                 value={tiempoDiario}
                 onChange={(e) => setTiempoDiario(e.target.value)}
-                className="w-full appearance-none bg-frost-base border border-black/[0.08] rounded-xl px-4 py-2.5 text-xs sm:text-sm font-medium text-arctic-slate hover:border-black/20 focus:outline-none focus:border-glacier-blue transition-colors cursor-pointer"
+                className="w-full appearance-none bg-fondo border border-linea rounded-xl px-4 py-2.5 text-xs sm:text-sm font-medium text-tinta hover:border-linea-fuerte focus:outline-none focus:border-acento transition-colors cursor-pointer"
               >
                 <option value="">Selecciona...</option>
                 <option value="15 minutos al día">15 min/día</option>
@@ -153,7 +153,7 @@ export default function CrearRutaIAPage() {
                 <option value="1 hora al día">1 hora/día</option>
                 <option value="2+ horas al día">2+ horas/día</option>
               </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-arctic-tertiary">
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-tinta-3">
                 <ChevronDown size={16} aria-hidden="true" />
               </div>
             </div>
@@ -161,7 +161,7 @@ export default function CrearRutaIAPage() {
         </div>
 
         {error && (
-          <div role="alert" className="p-3.5 border border-red-500/20 text-red-700 bg-red-500/10 rounded-xl text-sm font-medium text-center">
+          <div role="alert" className="p-3.5 border border-error/20 text-error bg-error/10 rounded-xl text-sm font-medium text-center">
             {error}
           </div>
         )}
@@ -170,7 +170,7 @@ export default function CrearRutaIAPage() {
           <button
             type="submit"
             disabled={loading || !prompt}
-            className="w-full sm:w-auto btn-apple-primary py-3 px-7 text-xs font-semibold apple-tactile shadow-apple-sm flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full sm:w-auto btn-primario py-3 px-7 text-xs font-semibold tactil shadow-1 flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {loading ? (
               <span className="flex items-center gap-2">

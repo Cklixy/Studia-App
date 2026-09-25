@@ -25,7 +25,7 @@ export default async function NuevaContrasenaPage() {
           minLength={LONGITUD_MINIMA_CONTRASENA}
           ayuda={`Mínimo ${LONGITUD_MINIMA_CONTRASENA} caracteres.`}
         />
-        <button formAction={actualizarContrasena} className="btn-action w-full mt-1 flex justify-center min-h-11">
+        <button formAction={actualizarContrasena} className="btn-primario w-full mt-1 flex justify-center min-h-11">
           Guardar contraseña
         </button>
       </form>

@@ -115,19 +115,19 @@ export default function PushNotificationManager({ compacto = false }: { compacto
 
   if (!isSupported) {
     return compacto ? (
-      <p className="text-sm text-arctic-secondary">
+      <p className="text-sm text-tinta-2">
         Tu navegador no admite notificaciones. En iPhone, añade studia+ a la pantalla de inicio para activarlas.
       </p>
     ) : null;
   }
 
   return (
-    <div className={compacto ? "space-y-3" : "flex flex-col md:flex-row md:items-center gap-6 apple-card p-6 border-l-4 border-l-glacier-blue shadow-apple-sm"}>
+    <div className={compacto ? "space-y-3" : "flex flex-col md:flex-row md:items-center gap-6 tarjeta p-6 border-l-4 border-l-acento shadow-1"}>
       <div className="flex-1">
-        <h3 className="font-bold flex items-center gap-2 text-arctic-slate mb-1 text-base">
-          <Bell size={18} className="text-glacier-blue" aria-hidden="true" /> Recordatorio diario
+        <h3 className="font-bold flex items-center gap-2 text-tinta mb-1 text-base">
+          <Bell size={18} className="text-acento" aria-hidden="true" /> Recordatorio diario
         </h3>
-        <p className="text-sm text-arctic-secondary">
+        <p className="text-sm text-tinta-2">
           {subscription
             ? `Activado: te avisaremos a las ${HORA_RECORDATORIO} (hora de Colombia) si ese día aún no has estudiado.`
             : `Recibe un aviso a las ${HORA_RECORDATORIO} (hora de Colombia) los días que aún no hayas estudiado, para no perder tu racha.`}
@@ -135,7 +135,7 @@ export default function PushNotificationManager({ compacto = false }: { compacto
         {aviso && (
           <p
             role={aviso.tipo === "error" ? "alert" : "status"}
-            className={`text-sm mt-2 font-medium ${aviso.tipo === "error" ? "text-cool-berry" : "text-emerald-800"}`}
+            className={`text-sm mt-2 font-medium ${aviso.tipo === "error" ? "text-error" : "text-exito"}`}
           >
             {aviso.texto}
           </p>
@@ -147,7 +147,7 @@ export default function PushNotificationManager({ compacto = false }: { compacto
             type="button"
             onClick={unsubscribeFromPush}
             disabled={loading}
-            className="btn-apple-secondary text-sm min-h-11 px-4 inline-flex items-center gap-2 apple-tactile disabled:opacity-50"
+            className="btn-secundario text-sm min-h-11 px-4 inline-flex items-center gap-2 tactil disabled:opacity-50"
           >
             <BellOff size={16} aria-hidden="true" /> Desactivar recordatorio
           </button>
@@ -156,7 +156,7 @@ export default function PushNotificationManager({ compacto = false }: { compacto
             type="button"
             onClick={subscribeToPush}
             disabled={loading}
-            className="btn-apple-primary text-sm min-h-11 px-5 font-semibold inline-flex items-center gap-2 apple-tactile shadow-apple-sm disabled:opacity-50"
+            className="btn-primario text-sm min-h-11 px-5 font-semibold inline-flex items-center gap-2 tactil shadow-1 disabled:opacity-50"
           >
             <Bell size={15} aria-hidden="true" /> Activar recordatorio
           </button>

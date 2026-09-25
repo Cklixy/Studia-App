@@ -14,19 +14,19 @@ export default function LoginPage() {
         <div>
           <CampoContrasena autoComplete="current-password" />
           <div className="mt-2 text-right">
-            <Link href="/recuperar" className="text-sm font-semibold text-glacier-blue hover:underline underline-offset-2">
+            <Link href="/recuperar" className="text-sm font-semibold text-acento hover:underline underline-offset-2">
               ¿Olvidaste tu contraseña?
             </Link>
           </div>
         </div>
 
-        <button formAction={login} className="btn-action w-full mt-1 flex justify-center min-h-11">
+        <button formAction={login} className="btn-primario w-full mt-1 flex justify-center min-h-11">
           Iniciar sesión
         </button>
 
-        <p className="text-center text-sm text-arctic-secondary mt-2">
+        <p className="text-center text-sm text-tinta-2 mt-2">
           ¿Aún no tienes cuenta?{" "}
-          <Link href="/registro" className="font-semibold text-glacier-blue hover:underline underline-offset-2">
+          <Link href="/registro" className="font-semibold text-acento hover:underline underline-offset-2">
             Regístrate
           </Link>
         </p>

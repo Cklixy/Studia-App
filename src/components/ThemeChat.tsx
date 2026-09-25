@@ -140,7 +140,7 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
   return createPortal(
     <>
       {/* Fondo: en escritorio el panel ocupa solo la derecha; clic fuera = cerrar */}
-      <div className="fixed inset-0 z-[60] bg-black/25 backdrop-blur-[2px]" onClick={onClose} aria-hidden="true" />
+      <div className="fixed inset-0 z-[60] bg-velo/40" onClick={onClose} aria-hidden="true" />
 
       <div
         ref={panelRef}
@@ -148,27 +148,27 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
         aria-modal="true"
         aria-labelledby={tituloId}
         aria-describedby={avisoId}
-        className="fixed inset-y-0 right-0 z-[61] w-full max-w-md bg-white border-l border-black/[0.08] shadow-apple-lg flex flex-col duration-300 motion-reduce:animate-none"
+        className="fixed inset-y-0 right-0 z-[61] w-full max-w-md bg-superficie border-l border-linea shadow-3 flex flex-col duration-300 motion-reduce:animate-none"
         style={{ paddingTop: "env(safe-area-inset-top)", paddingBottom: "env(safe-area-inset-bottom)" }}
       >
         {/* Cabecera */}
-        <div className="p-4 border-b border-black/[0.06] flex justify-between items-center gap-3">
+        <div className="p-4 border-b border-linea flex justify-between items-center gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-xl bg-glacier-blue/10 text-glacier-blue flex items-center justify-center shrink-0" aria-hidden="true">
+            <div className="w-8 h-8 rounded-xl bg-acento/10 text-acento flex items-center justify-center shrink-0" aria-hidden="true">
               <Sparkles size={16} />
             </div>
             <div className="min-w-0">
-              <h2 id={tituloId} className="font-semibold text-sm text-arctic-slate tracking-tight">
+              <h2 id={tituloId} className="font-semibold text-sm text-tinta tracking-tight">
                 Tutor IA
               </h2>
-              <p className="text-xs text-arctic-secondary truncate">{tema.nombre}</p>
+              <p className="text-xs text-tinta-2 truncate">{tema.nombre}</p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
             aria-label="Cerrar tutor"
-            className="w-11 h-11 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile shrink-0"
+            className="w-11 h-11 rounded-full bg-hundido hover:bg-hundido flex items-center justify-center text-tinta-2 hover:text-tinta transition-colors tactil shrink-0"
           >
             <X size={16} aria-hidden="true" />
           </button>
@@ -177,12 +177,12 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
         {/* Mensajes */}
         <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3">
           {messages.length === 0 && !loading && (
-            <div className="text-center text-arctic-secondary my-auto p-6">
-              <div className="w-12 h-12 rounded-2xl bg-black/[0.03] border border-black/[0.06] flex items-center justify-center mx-auto mb-3 text-glacier-blue" aria-hidden="true">
+            <div className="text-center text-tinta-2 my-auto p-6">
+              <div className="w-12 h-12 rounded-2xl bg-hundido border border-linea flex items-center justify-center mx-auto mb-3 text-acento" aria-hidden="true">
                 <MessageCircle size={22} />
               </div>
-              <p className="text-sm font-semibold text-arctic-slate mb-1">¿Dudas sobre {tema.nombre}?</p>
-              <p className="text-xs text-arctic-secondary max-w-xs mx-auto">
+              <p className="text-sm font-semibold text-tinta mb-1">¿Dudas sobre {tema.nombre}?</p>
+              <p className="text-xs text-tinta-2 max-w-xs mx-auto">
                 Pregúntame para simplificar conceptos, pedir analogías o solicitar ejercicios resueltos paso a paso.
               </p>
             </div>
@@ -195,8 +195,8 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
                 <div
                   className={`max-w-[85%] px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap ${
                     msg.role === "user"
-                      ? "bg-glacier-blue text-white rounded-2xl rounded-br-sm shadow-apple-sm"
-                      : "bg-[#E9E9EB] text-arctic-slate rounded-2xl rounded-bl-sm"
+                      ? "bg-acento text-sobre-acento rounded-2xl rounded-br-sm shadow-1"
+                      : "bg-hundido text-tinta rounded-2xl rounded-bl-sm"
                   }`}
                 >
                   <span className="sr-only">{msg.role === "user" ? "Tú: " : "Tutor: "}</span>
@@ -208,15 +208,15 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
 
           {loading && (
             <div className="flex justify-start" role="status">
-              <div className="bg-[#E9E9EB] rounded-2xl rounded-bl-sm px-4 py-2.5 flex items-center gap-2 text-xs text-arctic-slate">
-                <Loader2 size={13} className="animate-spin text-glacier-blue" aria-hidden="true" />
+              <div className="bg-hundido rounded-2xl rounded-bl-sm px-4 py-2.5 flex items-center gap-2 text-xs text-tinta">
+                <Loader2 size={13} className="animate-spin text-acento" aria-hidden="true" />
                 <span>Generando explicación…</span>
               </div>
             </div>
           )}
 
           {error && (
-            <div role="alert" className="border border-cool-berry/30 bg-cool-berry/10 text-cool-berry rounded-xl p-3 text-xs mx-2 my-1 space-y-2">
+            <div role="alert" className="border border-error/30 bg-error/10 text-error rounded-xl p-3 text-xs mx-2 my-1 space-y-2">
               <p>{error}</p>
               <button
                 type="button"
@@ -233,8 +233,8 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
         </div>
 
         {/* Entrada */}
-        <div className="p-3.5 border-t border-black/[0.06] bg-white space-y-2">
-          <p id={avisoId} className="text-xs text-arctic-secondary text-center">
+        <div className="p-3.5 border-t border-linea bg-superficie space-y-2">
+          <p id={avisoId} className="text-xs text-tinta-2 text-center">
             La IA puede equivocarse. Verifica fórmulas y resultados antes de tu parcial.
           </p>
           <form onSubmit={handleSubmit} className="flex gap-2 items-center">
@@ -248,7 +248,7 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Pregunta lo que sea sobre este tema…"
-              className="flex-1 min-w-0 bg-frost-base border border-black/[0.12] rounded-full px-4 py-2.5 text-sm text-arctic-slate placeholder:text-arctic-secondary focus:outline-none focus:border-glacier-blue transition-all"
+              className="flex-1 min-w-0 bg-fondo border border-linea rounded-full px-4 py-2.5 text-sm text-tinta placeholder:text-tinta-2 focus:outline-none focus:border-acento transition-all"
               disabled={loading}
               autoComplete="off"
             />
@@ -256,7 +256,7 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
               type="submit"
               disabled={!input.trim() || loading}
               aria-label="Enviar pregunta"
-              className="w-11 h-11 rounded-full bg-glacier-blue text-white flex items-center justify-center disabled:opacity-40 shrink-0 apple-tactile shadow-apple-sm"
+              className="w-11 h-11 rounded-full bg-acento text-sobre-acento flex items-center justify-center disabled:opacity-40 shrink-0 tactil shadow-1"
             >
               <Send size={15} aria-hidden="true" />
             </button>

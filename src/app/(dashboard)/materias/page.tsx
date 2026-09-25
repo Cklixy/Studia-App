@@ -144,13 +144,13 @@ export default async function MateriasPage() {
       {/* Apple Large Title Header en Grafito Pizarra */}
       <header className="flex flex-col md:flex-row justify-between md:items-end gap-4 pb-1">
         <div>
-          <span className="text-xs tracking-wide font-semibold text-arctic-secondary">
+          <span className="text-xs tracking-wide font-semibold text-tinta-2">
             {capitalizarInicio(fechaHoy)}
           </span>
-          <h1 className="apple-large-title text-arctic-slate mt-1">
+          <h1 className="titulo-1 text-tinta mt-1">
             Hola, {firstName}
           </h1>
-          <p className="text-arctic-secondary text-sm mt-1">
+          <p className="text-tinta-2 text-sm mt-1">
             {rachaActual > 0
               ? `Llevas ${plural(rachaActual, "día seguido", "días seguidos")} de enfoque académico. ¡Excelente constancia!`
               : rachaAnterior > 1
@@ -162,9 +162,9 @@ export default async function MateriasPage() {
         <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
           <Link
             href="/rutas"
-            className="btn-apple-secondary text-xs font-semibold py-2 px-3.5 sm:px-4 apple-tactile inline-flex items-center gap-2 shrink-0"
+            className="btn-secundario text-xs font-semibold py-2 px-3.5 sm:px-4 tactil inline-flex items-center gap-2 shrink-0"
           >
-            <Sparkles size={14} className="text-glacier-blue" />
+            <Sparkles size={14} className="text-acento" />
             <span>Crear ruta IA</span>
           </Link>
           <CreateMateriaForm />
@@ -175,11 +175,11 @@ export default async function MateriasPage() {
       <div className="grid grid-cols-1 sm:grid-cols-[240px_1fr] lg:grid-cols-[290px_1fr] gap-4 sm:gap-5">
 
         {/* Apple Activity Gauge Card (Racha & XP) */}
-        <div className="apple-card p-6 flex flex-col items-center justify-between text-center relative overflow-hidden group">
-          <div className="w-full flex items-center justify-between text-xs text-arctic-secondary">
+        <div className="tarjeta p-6 flex flex-col items-center justify-between text-center relative overflow-hidden group">
+          <div className="w-full flex items-center justify-between text-xs text-tinta-2">
             <span className="font-medium tracking-tight">Racha de Estudio</span>
-            <span className="flex items-center gap-1 text-cool-berry font-semibold">
-              <Flame size={14} className="fill-cool-berry text-cool-berry" />
+            <span className="flex items-center gap-1 text-error font-semibold">
+              <Flame size={14} className="fill-error text-error" />
               {rachaActual}d
             </span>
           </div>
@@ -192,7 +192,7 @@ export default async function MateriasPage() {
                 cx="60"
                 cy="60"
                 r="48"
-                className="stroke-black/[0.06]"
+                className="stroke-linea"
                 strokeWidth="9"
                 fill="none"
               />
@@ -214,7 +214,7 @@ export default async function MateriasPage() {
                 cx="60"
                 cy="60"
                 r="36"
-                className="stroke-black/[0.04]"
+                className="stroke-linea"
                 strokeWidth="7"
                 fill="none"
               />
@@ -244,58 +244,58 @@ export default async function MateriasPage() {
 
             {/* Metric Center */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-3xl font-bold tracking-tight text-arctic-slate tabular-nums">
+              <span className="text-3xl font-bold tracking-tight text-tinta tabular-nums">
                 {rachaActual}
               </span>
-              <span className="text-xs uppercase font-semibold tracking-wider text-arctic-secondary">
+              <span className="text-xs uppercase font-semibold tracking-wider text-tinta-2">
                 días
               </span>
             </div>
           </div>
 
           {/* Bottom XP Chip */}
-          <div className="w-full pt-3 border-t border-black/[0.04] flex items-center justify-between text-xs">
-            <span className="text-arctic-secondary">Esta semana:</span>
-            <span className="font-semibold text-glacier-blue">+{xpEstaSemana} XP</span>
+          <div className="w-full pt-3 border-t border-linea flex items-center justify-between text-xs">
+            <span className="text-tinta-2">Esta semana:</span>
+            <span className="font-semibold text-acento">+{xpEstaSemana} XP</span>
           </div>
         </div>
 
         {/* Hero Next Move Focus Card en Vidrio Blanco */}
         {nextMove ? (
-          <div className="apple-card p-6 md:p-8 flex flex-col justify-between relative overflow-hidden group">
+          <div className="tarjeta p-6 md:p-8 flex flex-col justify-between relative overflow-hidden group">
             {/* Ambient cold light splash */}
-            <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-glacier-blue/[0.05] blur-3xl pointer-events-none" />
+            <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-acento/[0.05] blur-3xl pointer-events-none" />
 
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-glacier-blue/10 border border-glacier-blue/20 text-glacier-blue text-xs font-semibold tracking-wider uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-glacier-blue animate-pulse" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-acento/10 border border-acento/20 text-acento text-xs font-semibold tracking-wider uppercase">
+                <span className="w-1.5 h-1.5 rounded-full bg-acento animate-pulse" />
                 Siguiente Paso Recomendado
               </div>
 
               <div className="mt-4">
-                <span className="apple-caption text-arctic-secondary">
+                <span className="antetitulo text-tinta-2">
                   {nextMove.materia}
                 </span>
-                <h2 className="apple-title-2 text-arctic-slate mt-1">
+                <h2 className="titulo-2 text-tinta mt-1">
                   {nextMove.tema}
                 </h2>
-                <p className="apple-body text-arctic-secondary max-w-lg mt-2">
+                <p className="cuerpo text-tinta-2 max-w-lg mt-2">
                   Tu plan curricular indica que este es el tema prioritario para consolidar hoy.
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 mt-6 pt-4 border-t border-black/[0.04]">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 mt-6 pt-4 border-t border-linea">
               <Link
                 href={`/sesion/nueva?materia=${nextMove.materiaId}&tema=${nextMove.temaId}`}
-                className="btn-apple-primary text-xs py-2.5 px-6 font-semibold apple-tactile shadow-apple-sm text-center justify-center"
+                className="btn-primario text-xs py-2.5 px-6 font-semibold tactil shadow-1 text-center justify-center"
               >
                 <span>Comenzar sesión ahora</span>
                 <ArrowRight size={14} />
               </Link>
               <Link
                 href={`/materias/${nextMove.materiaId}`}
-                className="btn-apple-secondary text-xs py-2.5 px-4 apple-tactile text-center justify-center"
+                className="btn-secundario text-xs py-2.5 px-4 tactil text-center justify-center"
               >
                 <span>Explorar temario</span>
                 <ChevronRight size={14} />
@@ -303,14 +303,14 @@ export default async function MateriasPage() {
             </div>
           </div>
         ) : (
-          <div className="apple-card p-8 flex flex-col justify-center items-center text-center relative overflow-hidden">
-            <div className="w-12 h-12 rounded-2xl bg-black/[0.03] border border-black/[0.06] flex items-center justify-center text-arctic-secondary mb-3">
+          <div className="tarjeta p-8 flex flex-col justify-center items-center text-center relative overflow-hidden">
+            <div className="w-12 h-12 rounded-2xl bg-hundido border border-linea flex items-center justify-center text-tinta-2 mb-3">
               <BookOpen size={22} />
             </div>
-            <h2 className="text-lg font-semibold text-arctic-slate tracking-tight">
+            <h2 className="text-lg font-semibold text-tinta tracking-tight">
               {sinMaterias ? "Crea tu primera materia" : "Sin temas pendientes"}
             </h2>
-            <p className="text-sm text-arctic-secondary max-w-sm mt-1 mb-5">
+            <p className="text-sm text-tinta-2 max-w-sm mt-1 mb-5">
               {sinMaterias
                 ? "Agrega una asignatura (con la fecha de tu parcial, si ya la sabes) y después sus temas. studia+ te dirá qué estudiar primero."
                 : "Completaste los temas de tus materias. Agrega temas nuevos o crea otra materia."}
@@ -330,8 +330,8 @@ export default async function MateriasPage() {
       <section className="space-y-4">
         <div className="flex justify-between items-center px-1">
           <div>
-            <h3 className="text-lg font-bold tracking-tight text-arctic-slate">Tus Materias</h3>
-            <p className="text-xs text-arctic-secondary">Estructura tus asignaturas y monitorea el avance de cada una</p>
+            <h3 className="text-lg font-bold tracking-tight text-tinta">Tus Materias</h3>
+            <p className="text-xs text-tinta-2">Estructura tus asignaturas y monitorea el avance de cada una</p>
           </div>
         </div>
 
@@ -345,35 +345,35 @@ export default async function MateriasPage() {
               <Link
                 key={materia.id}
                 href={`/materias/${materia.id}`}
-                className="apple-card p-5 flex flex-col justify-between group apple-tactile cursor-pointer"
+                className="tarjeta p-5 flex flex-col justify-between group tactil cursor-pointer"
               >
                 <div>
                   <div className="flex justify-between items-start gap-2 mb-2">
-                    <h4 className="text-base font-semibold text-arctic-slate tracking-tight group-hover:text-glacier-blue transition-colors">
+                    <h4 className="text-base font-semibold text-tinta tracking-tight group-hover:text-acento transition-colors">
                       {materia.nombre}
                     </h4>
                     {materia.fecha_parcial && (
-                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-cool-berry bg-cool-berry/10 border border-cool-berry/20 px-2 py-0.5 rounded-full shrink-0">
+                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-error bg-error/10 border border-error/20 px-2 py-0.5 rounded-full shrink-0">
                         <Calendar size={11} />
                         <span>{new Date(materia.fecha_parcial).toLocaleDateString("es-ES", { month: "short", day: "numeric" })}</span>
                       </span>
                     )}
                   </div>
 
-                  <p className="text-xs text-arctic-secondary">
+                  <p className="text-xs text-tinta-2">
                     {completedCount} de {temas.length} temas dominados
                   </p>
                 </div>
 
                 {/* Progress bar */}
-                <div className="mt-5 pt-3 border-t border-black/[0.05]">
+                <div className="mt-5 pt-3 border-t border-linea">
                   <div className="flex justify-between items-center text-xs mb-1.5">
-                    <span className="text-arctic-secondary text-xs">Progreso</span>
-                    <span className="font-semibold text-arctic-slate tabular-nums text-xs">{progressPct}%</span>
+                    <span className="text-tinta-2 text-xs">Progreso</span>
+                    <span className="font-semibold text-tinta tabular-nums text-xs">{progressPct}%</span>
                   </div>
-                  <div className="w-full bg-black/[0.05] rounded-full h-1.5 overflow-hidden">
+                  <div className="w-full bg-hundido rounded-full h-1.5 overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-glacier-blue transition-all duration-700 ease-out"
+                      className="h-full rounded-full bg-acento transition-all duration-700 ease-out"
                       style={{ width: `${progressPct}%` }}
                     />
                   </div>

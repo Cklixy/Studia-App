@@ -149,7 +149,7 @@ export default function OnboardingTour() {
             animate="visible"
             exit="exit"
             transition={{ duration: shouldReduceMotion ? 0 : 0.22 }}
-            className="fixed inset-0 z-[9998] bg-black/40 backdrop-blur-[6px]"
+            className="fixed inset-0 z-[9998] bg-velo/50"
             onClick={() => dismiss(false)}
             aria-hidden="true"
           />
@@ -172,22 +172,22 @@ export default function OnboardingTour() {
             className="fixed inset-0 z-[9999] flex items-center justify-center px-4 pointer-events-none"
           >
             <div className="w-full max-w-md pointer-events-auto">
-              <div className="apple-card p-6 sm:p-8 shadow-[0_32px_80px_-8px_rgba(0,0,0,0.22),0_4px_16px_rgba(0,0,0,0.06)] border border-black/[0.07] relative overflow-hidden">
+              <div className="tarjeta p-6 sm:p-8 shadow-2 border border-linea relative overflow-hidden">
 
                 {/* Luces ambientales decorativas */}
                 <div
-                  className="absolute -top-20 -right-20 w-56 h-56 bg-glacier-blue/[0.07] rounded-full blur-3xl pointer-events-none"
+                  className="absolute -top-20 -right-20 w-56 h-56 bg-acento/[0.07] rounded-full blur-3xl pointer-events-none"
                   aria-hidden="true"
                 />
                 <div
-                  className="absolute -bottom-16 -left-16 w-48 h-48 bg-cool-iris/[0.05] rounded-full blur-3xl pointer-events-none"
+                  className="absolute -bottom-16 -left-16 w-48 h-48 bg-acento/[0.05] rounded-full blur-3xl pointer-events-none"
                   aria-hidden="true"
                 />
 
                 {/* Botón cerrar */}
                 <button
                   onClick={() => dismiss(false)}
-                  className="absolute top-3 right-3 w-10 h-10 rounded-full bg-black/[0.05] hover:bg-black/[0.09] flex items-center justify-center text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile z-10"
+                  className="absolute top-3 right-3 w-10 h-10 rounded-full bg-hundido hover:bg-hundido flex items-center justify-center text-tinta-2 hover:text-tinta transition-colors tactil z-10"
                   aria-label="Cerrar tutorial"
                 >
                   <X size={14} />
@@ -196,7 +196,7 @@ export default function OnboardingTour() {
                 {/* Barra de progreso (pr-12: deja sitio al botón cerrar para que no se solapen) */}
                 <div className="mb-6 relative z-10 pr-12">
                   <div
-                    className="h-1 bg-black/[0.06] rounded-full overflow-hidden"
+                    className="h-1 bg-hundido rounded-full overflow-hidden"
                     role="progressbar"
                     aria-valuenow={step + 1}
                     aria-valuemin={1}
@@ -204,7 +204,7 @@ export default function OnboardingTour() {
                     aria-label={`Progreso: paso ${step + 1} de ${STEPS.length}`}
                   >
                     <motion.div
-                      className="h-full bg-gradient-to-r from-glacier-blue to-cool-iris rounded-full"
+                      className="h-full bg-gradient-to-r from-acento to-acento rounded-full"
                       initial={{ width: "0%" }}
                       animate={{ width: `${progress}%` }}
                       transition={
@@ -213,12 +213,12 @@ export default function OnboardingTour() {
                     />
                   </div>
                   <div className="flex justify-between mt-1.5">
-                    <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider">
+                    <span className="text-xs font-semibold text-tinta-3 uppercase tracking-wider">
                       Paso {step + 1} de {STEPS.length}
                     </span>
                     <button
                       onClick={() => dismiss(false)}
-                      className="text-xs font-medium text-arctic-slate/80 hover:text-arctic-slate transition-colors min-h-6 px-2 -mr-2 inline-flex items-center"
+                      className="text-xs font-medium text-tinta/80 hover:text-tinta transition-colors min-h-6 px-2 -mr-2 inline-flex items-center"
                     >
                       Saltar tour →
                     </button>
@@ -242,26 +242,26 @@ export default function OnboardingTour() {
                   >
                     {/* Emoji principal */}
                     <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-glacier-blue/10 via-frost-base to-cool-iris/10 border border-black/[0.06] flex items-center justify-center shadow-apple-sm shrink-0">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-acento/10 via-fondo to-acento/10 border border-linea flex items-center justify-center shadow-1 shrink-0">
                         <span className="text-3xl" role="img" aria-hidden="true">
                           {current.emoji}
                         </span>
                       </div>
-                      <h2 className="text-xl font-bold text-arctic-slate tracking-tight leading-tight">
+                      <h2 className="text-xl font-bold text-tinta tracking-tight leading-tight">
                         {current.title}
                       </h2>
                     </div>
 
                     {/* Descripción */}
-                    <p className="text-sm text-arctic-tertiary leading-relaxed">
+                    <p className="text-sm text-tinta-3 leading-relaxed">
                       {current.description}
                     </p>
 
                     {/* Pista contextual */}
                     {current.hint && (
-                      <div className="flex items-start gap-2.5 bg-glacier-blue/[0.06] border border-glacier-blue/[0.18] rounded-xl px-3.5 py-3">
-                        <MapPin size={13} className="text-glacier-blue shrink-0 mt-0.5" aria-hidden="true" />
-                        <span className="text-xs font-medium text-glacier-blue leading-relaxed">
+                      <div className="flex items-start gap-2.5 bg-acento/[0.06] border border-acento/[0.18] rounded-xl px-3.5 py-3">
+                        <MapPin size={13} className="text-acento shrink-0 mt-0.5" aria-hidden="true" />
+                        <span className="text-xs font-medium text-acento leading-relaxed">
                           {current.hint}
                         </span>
                       </div>
@@ -272,7 +272,7 @@ export default function OnboardingTour() {
                       {step > 0 && (
                         <button
                           onClick={handlePrev}
-                          className="btn-apple-ghost text-xs py-2.5 px-4 apple-tactile inline-flex items-center gap-1.5 shrink-0"
+                          className="btn-fantasma text-xs py-2.5 px-4 tactil inline-flex items-center gap-1.5 shrink-0"
                           aria-label="Ir al paso anterior"
                         >
                           <ChevronLeft size={13} aria-hidden="true" />
@@ -282,7 +282,7 @@ export default function OnboardingTour() {
 
                       <button
                         onClick={handleNext}
-                        className="btn-apple-primary flex-1 text-xs py-3 px-5 font-semibold apple-tactile shadow-apple-sm inline-flex items-center justify-center gap-2"
+                        className="btn-primario flex-1 text-xs py-3 px-5 font-semibold tactil shadow-1 inline-flex items-center justify-center gap-2"
                         // El nombre accesible debe contener el texto visible (WCAG 2.5.3)
                         aria-label={isLast ? "¡Comenzar! Finalizar tutorial" : `Siguiente: paso ${step + 2} de ${STEPS.length}`}
                         // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -311,14 +311,14 @@ export default function OnboardingTour() {
                           aria-label={`Ir al paso ${i + 1}: ${s.title}`}
                           onClick={() => setStep(i)}
                           // Área táctil de 24 px (WCAG 2.5.8); el punto visible sigue siendo pequeño
-                          className="group h-6 min-w-6 flex items-center justify-center apple-tactile"
+                          className="group h-6 min-w-6 flex items-center justify-center tactil"
                         >
                           <span
                             aria-hidden="true"
                             className={`block rounded-full transition-all duration-300 ${
                               i === step
-                                ? "w-5 h-1.5 bg-glacier-blue"
-                                : "w-1.5 h-1.5 bg-black/[0.14] group-hover:bg-black/[0.24]"
+                                ? "w-5 h-1.5 bg-acento"
+                                : "w-1.5 h-1.5 bg-linea group-hover:bg-linea"
                             }`}
                           />
                         </button>

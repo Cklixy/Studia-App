@@ -42,7 +42,7 @@ export default function HistoryFilters({ materias }: { materias: MateriaItem[] }
               router.push(`/historial?${createQueryString("materia", e.target.value)}`);
             }}
             aria-label="Filtrar por materia"
-            className="w-full appearance-none bg-white/80 hover:bg-white border border-black/[0.08] hover:border-black/[0.14] rounded-xl pl-9 pr-8 py-2 text-xs font-medium text-arctic-slate shadow-[0_1px_2px_rgba(0,0,0,0.03)] focus:outline-none focus:border-glacier-blue/50 focus:ring-2 focus:ring-glacier-blue/15 transition-all cursor-pointer"
+            className="w-full appearance-none bg-superficie hover:bg-superficie border border-linea hover:border-linea rounded-xl pl-9 pr-8 py-2 text-xs font-medium text-tinta shadow-2 focus:outline-none focus:border-acento/50 focus:ring-2 focus:ring-acento/15 transition-all cursor-pointer"
           >
             <option value="">Todas las materias</option>
             {materias.map((m) => (
@@ -51,10 +51,10 @@ export default function HistoryFilters({ materias }: { materias: MateriaItem[] }
               </option>
             ))}
           </select>
-          <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-arctic-secondary">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-tinta-2">
             <Filter size={13} strokeWidth={2} />
           </div>
-          <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-arctic-secondary">
+          <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-tinta-2">
             <ChevronDown size={13} strokeWidth={2} />
           </div>
         </div>
@@ -67,16 +67,16 @@ export default function HistoryFilters({ materias }: { materias: MateriaItem[] }
               router.push(`/historial?${createQueryString("rango", e.target.value)}`);
             }}
             aria-label="Filtrar por rango temporal"
-            className="w-full appearance-none bg-white/80 hover:bg-white border border-black/[0.08] hover:border-black/[0.14] rounded-xl pl-9 pr-8 py-2 text-xs font-medium text-arctic-slate shadow-[0_1px_2px_rgba(0,0,0,0.03)] focus:outline-none focus:border-glacier-blue/50 focus:ring-2 focus:ring-glacier-blue/15 transition-all cursor-pointer"
+            className="w-full appearance-none bg-superficie hover:bg-superficie border border-linea hover:border-linea rounded-xl pl-9 pr-8 py-2 text-xs font-medium text-tinta shadow-2 focus:outline-none focus:border-acento/50 focus:ring-2 focus:ring-acento/15 transition-all cursor-pointer"
           >
             <option value="all">Todo el historial</option>
             <option value="7d">Últimos 7 días</option>
             <option value="30d">Últimos 30 días</option>
           </select>
-          <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-arctic-secondary">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-tinta-2">
             <Calendar size={13} strokeWidth={2} />
           </div>
-          <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-arctic-secondary">
+          <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-tinta-2">
             <ChevronDown size={13} strokeWidth={2} />
           </div>
         </div>
@@ -86,7 +86,7 @@ export default function HistoryFilters({ materias }: { materias: MateriaItem[] }
       {hasActiveFilters && (
         <button
           onClick={() => router.push("/historial")}
-          className="text-xs text-arctic-secondary hover:text-arctic-slate font-medium px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition-colors self-start sm:self-center inline-flex items-center gap-1.5 apple-tactile"
+          className="text-xs text-tinta-2 hover:text-tinta font-medium px-2.5 py-1.5 rounded-lg hover:bg-hundido transition-colors self-start sm:self-center inline-flex items-center gap-1.5 tactil"
         >
           <X size={12} strokeWidth={2.2} />
           <span>Limpiar filtros</span>

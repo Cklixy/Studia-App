@@ -15,9 +15,9 @@ export default function CreateMateriaForm() {
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="btn-apple-secondary text-xs font-semibold py-2 px-3.5 apple-tactile inline-flex items-center gap-1.5"
+        className="btn-secundario text-xs font-semibold py-2 px-3.5 tactil inline-flex items-center gap-1.5"
       >
-        <Plus size={14} className="text-glacier-blue" />
+        <Plus size={14} className="text-acento" />
         <span>Nueva materia</span>
       </button>
 
