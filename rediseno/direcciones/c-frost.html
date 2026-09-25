@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dirección C · Frost 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Dirección C · Frost 2.0: evolución del estilo actual (vidrio, azul Apple), sistematizada y con modo oscuro. */
+  .tema {
+    --fondo:#F4F6FB; --superficie:#FFFFFF; --vidrio:rgba(255,255,255,.72); --superficie-2:#EEF1F7; --linea:rgba(0,0,0,.07); --linea-fuerte:#8A8A8E;
+    --texto:#1D1D1F; --texto-2:#515154; --texto-3:#636366; --acento:#0066CC; --sobre-acento:#FFFFFF; --acento-suave:rgba(0,102,204,.1);
+    --exito:#1A7F37; --error:#C10A2B; --aviso:#8A5300;
+  }
+  .tema.oscuro {
+    --fondo:#0B0D12; --superficie:#161922; --vidrio:rgba(22,25,34,.72); --superficie-2:#1E2230; --linea:rgba(255,255,255,.08); --linea-fuerte:#707075;
+    --texto:#F5F5F7; --texto-2:#AEAEB2; --texto-3:#8E8E93; --acento:#4DA3FF; --sobre-acento:#0B0D12; --acento-suave:rgba(77,163,255,.14);
+    --exito:#4ADE80; --error:#FF6B81; --aviso:#FBBF24;
+  }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:Geist, -apple-system, system-ui, sans-serif; background:#C9D2E3; color:#1D1D1F; padding:32px 16px; }
+  .intro { max-width:820px; margin:0 auto 24px; }
+  .intro h1 { font-size:32px; letter-spacing:-.03em; }
+  .intro p { margin-top:6px; line-height:1.5; max-width:62ch; }
+  .telefonos { display:flex; flex-wrap:wrap; gap:32px; justify-content:center; }
+  .etiqueta { text-align:center; font-weight:600; margin-bottom:8px; }
+  .tel { width:390px; height:844px; border-radius:36px; overflow:hidden; position:relative; color:var(--texto); font-size:16px; line-height:1.45; box-shadow:0 30px 60px -20px rgba(0,0,0,.35);
+         background:radial-gradient(circle at 10% 0%, var(--acento-suave), transparent 45%), var(--fondo); }
+  .scroll { height:100%; overflow:auto; padding:20px 16px 112px; }
+  .cab { display:flex; justify-content:space-between; align-items:center; font-size:14px; color:var(--texto-2); font-weight:500; }
+  .logo { font-weight:700; font-size:19px; color:var(--texto); letter-spacing:-.02em; }
+  .logo b { color:var(--acento); }
+  h2 { font-size:34px; font-weight:700; letter-spacing:-.035em; margin:18px 0 4px; }
+  .sub { color:var(--texto-2); font-size:15px; }
+  .card { background:var(--vidrio); backdrop-filter:blur(20px); border:1px solid var(--linea); border-radius:22px; padding:18px; margin-top:14px; box-shadow:0 8px 24px -8px rgba(0,25,60,.08); }
+  .kicker { display:inline-flex; gap:6px; align-items:center; font-size:12px; font-weight:600; color:var(--acento); background:var(--acento-suave); padding:5px 10px; border-radius:999px; }
+  .card h3 { font-size:24px; font-weight:700; letter-spacing:-.02em; margin:12px 0 4px; }
+  .btn { display:flex; align-items:center; justify-content:center; gap:8px; min-height:50px; border-radius:14px; font:inherit; font-weight:600; font-size:17px; border:0; width:100%; margin-top:16px; background:var(--acento); color:var(--sobre-acento); }
+  .dos { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .dos .card { margin-top:14px; }
+  .etq { font-size:13px; color:var(--texto-2); font-weight:500; }
+  .grande { font-size:34px; font-weight:700; letter-spacing:-.03em; margin-top:4px; }
+  .grande small { font-size:15px; font-weight:500; color:var(--texto-2); margin-left:2px; }
+  .barra { height:6px; border-radius:999px; background:var(--superficie-2); margin-top:10px; overflow:hidden; }
+  .barra i { display:block; height:100%; width:43%; background:var(--acento); }
+  .fila { display:flex; justify-content:space-between; align-items:center; min-height:52px; border-top:1px solid var(--linea); font-weight:600; }
+  .fila:first-of-type { border-top:0; }
+  .fila span { color:var(--texto-2); font-weight:500; font-size:14px; }
+  .dock { position:absolute; left:14px; right:14px; bottom:18px; background:var(--vidrio); backdrop-filter:blur(24px); border:1px solid var(--linea); border-radius:26px; display:grid; grid-template-columns:repeat(5,1fr); padding:6px; box-shadow:0 12px 32px -8px rgba(0,0,0,.18); }
+  .dock a { display:flex; flex-direction:column; align-items:center; gap:2px; min-height:50px; justify-content:center; font-size:12px; font-weight:600; color:var(--texto-2); text-decoration:none; border-radius:20px; }
+  .dock a[aria-current] { background:var(--acento); color:var(--sobre-acento); }
+  svg { width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .notas { max-width:820px; margin:28px auto 0; background:#fff; border-radius:16px; padding:20px; line-height:1.55; }
+  .notas h2 { font-size:22px; margin:0 0 8px; }
+  .notas li { margin-left:18px; }
+</style>
+</head>
+<body>
+<div class="intro">
+  <h1>C · Frost 2.0</h1>
+  <p><strong>Concepto:</strong> la estética actual de studia+ (vidrio y azul Apple), por fin ordenada en un sistema y con modo oscuro.</p>
+</div>
+<div class="telefonos">
+  <template id="hoy">
+    <div class="scroll">
+      <div class="cab"><span class="logo">studia<b>+</b></span><span>Jueves, 24 sept</span></div>
+      <h2>Hola, Juan</h2>
+      <p class="sub">Tu siguiente paso está listo.</p>
+      <section class="card" aria-label="Siguiente paso">
+        <span class="kicker">● Siguiente paso</span>
+        <h3>Límites al infinito</h3>
+        <p class="sub">Cálculo I · tema 4 de 7 · 25 min</p>
+        <button class="btn">Empezar sesión</button>
+      </section>
+      <div class="dos">
+        <section class="card" aria-label="Próximo parcial"><div class="etq">Parcial de Cálculo I</div><div class="grande">6<small> días</small></div><div class="barra" role="img" aria-label="3 de 7 temas"><i></i></div></section>
+        <section class="card" aria-label="Racha"><div class="etq">Racha</div><div class="grande">3<small> días</small></div><p class="sub" style="font-size:13px;margin-top:6px">Estudia hoy para llegar a 4</p></section>
+      </div>
+      <section class="card" aria-label="Tus materias">
+        <div class="fila">Cálculo I <span>3/7 temas</span></div>
+        <div class="fila">Física mecánica <span>1/5 temas</span></div>
+      </section>
+    </div>
+    <nav class="dock" aria-label="Principal">
+      <a href="#" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Hoy</a>
+      <a href="#"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 19V5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/></svg>Materias</a>
+      <a href="#"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>Parciales</a>
+      <a href="#"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Progreso</a>
+      <a href="#"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Ajustes</a>
+    </nav>
+  </template>
+  <div><p class="etiqueta">Claro</p><div class="tel tema" data-hoy></div></div>
+  <div><p class="etiqueta">Oscuro</p><div class="tel tema oscuro" data-hoy></div></div>
+</div>
+<div class="notas">
+  <h2>Lo que define la dirección</h2>
+  <ul>
+    <li><strong>Personalidad:</strong> pulida, técnica y conocida. Se parece a una app de sistema de iOS.</li>
+    <li><strong>Paleta:</strong> la actual (#F4F6FB, #1D1D1F, azul #0066CC), con grises reordenados y un oscuro #0B0D12 con azul #4DA3FF.</li>
+    <li><strong>Tipografía:</strong> Geist sola (una familia), 400–700.</li>
+    <li><strong>Formas:</strong> vidrio con <code>backdrop-filter</code>, radios de 22 px y sombras suaves.</li>
+    <li><strong>Movimiento:</strong> resortes de <code>motion</code> como hoy.</li>
+    <li><strong>Landing:</strong> la actual, más corta, con FAQ.</li>
+    <li><strong>Riesgo:</strong> es la opción más segura, pero la menos memorable. El vidrio cuesta rendimiento en móviles modestos y ya causó el fallo U-01 (<code>fixed</code> dentro de <code>backdrop-filter</code>).</li>
+  </ul>
+</div>
+<script>
+  const t = document.getElementById("hoy");
+  document.querySelectorAll("[data-hoy]").forEach((el) => el.appendChild(t.content.cloneNode(true)));
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "A · Cuaderno (claro)": {
+    "colores": { "fondo": "#F6F3EC", "superficie": "#FFFDF8", "texto": "#1C2230", "texto2": "#4A5160", "texto3": "#636977", "acento": "#2743C4", "sobreAcento": "#FFFFFF", "resaltador": "#FFD84D", "lineaFuerte": "#8C8577", "exito": "#1F7A4D", "error": "#B3261E", "aviso": "#855400" },
+    "pares": [["texto","fondo","texto"],["texto","superficie","texto"],["texto2","superficie","texto"],["texto3","superficie","texto"],["texto3","fondo","texto"],["acento","superficie","texto"],["sobreAcento","acento","texto"],["texto","resaltador","texto"],["lineaFuerte","superficie","ui"],["exito","superficie","texto"],["error","superficie","texto"],["aviso","superficie","texto"]]
+  },
+  "A · Cuaderno (oscuro)": {
+    "colores": { "fondo": "#14161B", "superficie": "#1C1F26", "texto": "#EDE8DE", "texto2": "#BDB8AE", "texto3": "#9C978E", "acento": "#9AABFF", "sobreAcento": "#10131A", "resaltador": "#E8C547", "sobreResaltador": "#14161B", "lineaFuerte": "#6E7482", "exito": "#6FD39B", "error": "#FF8F86", "aviso": "#EDB95A" },
+    "pares": [["texto","fondo","texto"],["texto","superficie","texto"],["texto2","superficie","texto"],["texto3","superficie","texto"],["acento","superficie","texto"],["sobreAcento","acento","texto"],["sobreResaltador","resaltador","texto"],["lineaFuerte","superficie","ui"],["exito","superficie","texto"],["error","superficie","texto"],["aviso","superficie","texto"]]
+  },
+  "B · Biblioteca de noche (oscuro, principal)": {
+    "colores": { "fondo": "#0D1014", "superficie": "#161B22", "texto": "#E8EDF2", "texto2": "#A3AEBA", "texto3": "#8592A0", "acento": "#C6F16B", "sobreAcento": "#0D1014", "violeta": "#B69CFF", "lineaFuerte": "#65717F", "exito": "#6FE0A6", "error": "#FF8A8A", "aviso": "#FFC766" },
+    "pares": [["texto","fondo","texto"],["texto2","superficie","texto"],["texto3","superficie","texto"],["acento","superficie","texto"],["sobreAcento","acento","texto"],["violeta","superficie","texto"],["lineaFuerte","superficie","ui"],["exito","superficie","texto"],["error","superficie","texto"],["aviso","superficie","texto"]]
+  },
+  "B · Biblioteca de noche (claro)": {
+    "colores": { "fondo": "#F3F5F0", "superficie": "#FFFFFF", "texto": "#0D1014", "texto2": "#4B5563", "texto3": "#5F6875", "acentoTexto": "#3D5C0C", "acentoRelleno": "#C6F16B", "sobreAcento": "#0D1014", "violeta": "#6D4BD8", "lineaFuerte": "#868E96", "exito": "#1B7A4B", "error": "#B42318", "aviso": "#8A5300" },
+    "pares": [["texto","fondo","texto"],["texto2","superficie","texto"],["texto3","superficie","texto"],["acentoTexto","superficie","texto"],["sobreAcento","acentoRelleno","texto"],["violeta","superficie","texto"],["lineaFuerte","superficie","ui"],["exito","superficie","texto"],["error","superficie","texto"],["aviso","superficie","texto"]]
+  },
+  "C · Frost 2.0 (claro)": {
+    "colores": { "fondo": "#F4F6FB", "superficie": "#FFFFFF", "texto": "#1D1D1F", "texto2": "#515154", "texto3": "#636366", "acento": "#0066CC", "sobreAcento": "#FFFFFF", "lineaFuerte": "#8A8A8E", "exito": "#1A7F37", "error": "#C10A2B", "aviso": "#8A5300" },
+    "pares": [["texto","fondo","texto"],["texto2","superficie","texto"],["texto3","superficie","texto"],["texto3","fondo","texto"],["acento","superficie","texto"],["sobreAcento","acento","texto"],["lineaFuerte","superficie","ui"],["exito","superficie","texto"],["error","superficie","texto"],["aviso","superficie","texto"]]
+  },
+  "C · Frost 2.0 (oscuro)": {
+    "colores": { "fondo": "#0B0D12", "superficie": "#161922", "texto": "#F5F5F7", "texto2": "#AEAEB2", "texto3": "#8E8E93", "acento": "#4DA3FF", "sobreAcento": "#0B0D12", "lineaFuerte": "#707075", "exito": "#4ADE80", "error": "#FF6B81", "aviso": "#FBBF24" },
+    "pares": [["texto","fondo","texto"],["texto2","superficie","texto"],["texto3","superficie","texto"],["acento","superficie","texto"],["sobreAcento","acento","texto"],["lineaFuerte","superficie","ui"],["exito","superficie","texto"],["error","superficie","texto"],["aviso","superficie","texto"]]
+  }
+}

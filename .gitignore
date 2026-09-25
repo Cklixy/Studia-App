@@ -58,3 +58,8 @@ desktop.ini
 .idea/
 *.swp
 *.swo
+
+# Rediseño: capturas (pueden mostrar datos de la cuenta de prueba) e informes de Lighthouse
+rediseno/antes/
+rediseno/despues/
+rediseno/**/lighthouse/
