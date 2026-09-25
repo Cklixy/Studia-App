@@ -6,25 +6,35 @@ interface TimerDisplayProps {
   remainingSeconds: number;
   secondsElapsed: number;
   formatTime: (seconds: number) => string;
+  completada?: boolean;
 }
 
 function TimerDisplayComponent({
   remainingSeconds,
   secondsElapsed,
   formatTime,
+  completada = false,
 }: TimerDisplayProps) {
+  if (completada) {
+    return (
+      <>
+        <span className="text-4xl sm:text-5xl font-bold tracking-tighter text-arctic-slate">¡Listo!</span>
+        <span className="text-sm text-arctic-secondary mt-2 tabular-nums">Estudiaste {formatTime(secondsElapsed)}</span>
+      </>
+    );
+  }
+
   return (
     <>
       {/* role="timer": los lectores no lo anuncian cada segundo; se lee al enfocarlo */}
-      <span role="timer" aria-label={`Quedan ${formatTime(remainingSeconds)}`} className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tighter text-arctic-slate font-sans tabular-nums">
+      <span
+        role="timer"
+        aria-label={`Quedan ${formatTime(remainingSeconds)}`}
+        className="text-6xl sm:text-7xl font-bold tracking-tighter text-arctic-slate font-sans tabular-nums"
+      >
         {formatTime(remainingSeconds)}
       </span>
-      <span className="text-xs font-semibold text-arctic-secondary uppercase tracking-widest mt-1">
-        tiempo restante
-      </span>
-      <span className="text-xs text-arctic-secondary mt-2">
-        Transcurrido: {formatTime(secondsElapsed)}
-      </span>
+      <span className="text-sm text-arctic-secondary mt-2 tabular-nums">Llevas {formatTime(secondsElapsed)}</span>
     </>
   );
 }

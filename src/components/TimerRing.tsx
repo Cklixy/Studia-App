@@ -5,22 +5,24 @@ import { useEffect, useRef, memo } from "react";
 interface TimerRingProps {
   durationSeconds: number;
   isActive: boolean;
+  completada?: boolean;
   getPreciseElapsedMs: () => number;
   radius?: number;
   children?: React.ReactNode;
 }
 
 const RADIUS = 120;
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 /**
  * Componente memoizado de alto rendimiento para el anillo circular SVG.
  * Actualiza la propiedad strokeDashoffset directamente sobre el DOM utilizando
  * requestAnimationFrame, evitando re-renders del árbol de React en cada frame.
+ * Un solo azul: en pausa el arco se atenúa en lugar de cambiar de color (antes azul / ámbar / verde).
  */
 function TimerRingComponent({
   durationSeconds,
   isActive,
+  completada = false,
   getPreciseElapsedMs,
   radius = RADIUS,
   children,
@@ -58,46 +60,32 @@ function TimerRingComponent({
     };
   }, [isActive, durationSeconds, getPreciseElapsedMs, circumference]);
 
-  return (
-    <div className="relative flex items-center justify-center w-60 h-60 sm:w-72 sm:h-72 md:w-80 md:h-80 mb-6 sm:mb-8 z-10 max-w-full aspect-square">
-      <svg className="w-full h-full transform -rotate-90" viewBox="0 0 280 280" aria-hidden="true" focusable="false">
-        {/* Background Track */}
-        <circle
-          cx="140"
-          cy="140"
-          r={radius}
-          className="stroke-black/[0.05]"
-          strokeWidth="10"
-          fill="none"
-        />
+  const enPausa = !isActive && !completada;
 
-        {/* Animated Progress Arc animado a 60fps via requestAnimationFrame en el DOM */}
+  return (
+    <div className="relative flex items-center justify-center w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 mb-6 sm:mb-8 max-w-full aspect-square">
+      <svg className="w-full h-full transform -rotate-90" viewBox="0 0 280 280" aria-hidden="true" focusable="false">
+        {/* Pista */}
+        <circle cx="140" cy="140" r={radius} className="stroke-black/[0.06]" strokeWidth="12" fill="none" />
+
+        {/* Arco de progreso animado a 60 fps vía requestAnimationFrame en el DOM */}
         <circle
           ref={circleRef}
           cx="140"
           cy="140"
           r={radius}
-          stroke={isActive ? "url(#activeTimerGradient)" : "#F59E0B"}
-          strokeWidth="10"
+          stroke="#0066CC"
+          strokeWidth="12"
           strokeLinecap="round"
           fill="none"
           strokeDasharray={circumference}
           strokeDashoffset={circumference}
-          className="transition-colors duration-300"
+          style={{ opacity: enPausa ? 0.35 : 1, transition: "opacity 300ms ease" }}
         />
-
-        <defs>
-          <linearGradient id="activeTimerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#0066CC" />
-            <stop offset="100%" stopColor="#0EA5E9" />
-          </linearGradient>
-        </defs>
       </svg>
 
       {/* Centro del reloj (texto aislado de la animación de cuadro) */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center select-none">
-        {children}
-      </div>
+      <div className="absolute inset-0 flex flex-col items-center justify-center select-none">{children}</div>
     </div>
   );
 }

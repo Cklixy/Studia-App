@@ -384,3 +384,17 @@ button, a, [role="button"] {
     color: #3a3a3c !important;
   }
 }
+
+/* Modo concentración (sesión activa): sin header ni dock, solo el temporizador.
+   Lo activa ActiveSessionTimer poniendo data-enfoque en <body>. Sigue en tema claro. */
+body[data-enfoque] .ocultar-en-enfoque {
+  display: none;
+}
+body[data-enfoque] .contenido-principal {
+  padding-bottom: 2rem;
+}
+
+/* El panel de una hoja recibe foco programático al arrastrarse; no debe mostrar el anillo de foco */
+dialog [tabindex="-1"]:focus-visible {
+  box-shadow: none !important;
+}
