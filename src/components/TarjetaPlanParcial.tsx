@@ -1,9 +1,23 @@
 import Link from "next/link";
-import { CalendarClock, ArrowRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import type { PlanParcial } from "@/lib/planParcial";
+import BarraProgreso from "@/components/ui/BarraProgreso";
 
-// Tarjeta «Plan hasta el parcial»: días restantes, ritmo sugerido y siguiente tema.
-export default function TarjetaPlanParcial({ plan, mostrarMateria = true }: { plan: PlanParcial; mostrarMateria?: boolean }) {
+// Tarjeta «Plan hasta el parcial»: cuenta atrás, ritmo sugerido y avance. Es un enlace secundario:
+// la acción principal («Empezar sesión») vive en la tarjeta del siguiente paso.
+export default function TarjetaPlanParcial({
+  plan,
+  mostrarMateria = true,
+  nivel = "h3",
+  enlace = true,
+}: {
+  plan: PlanParcial;
+  mostrarMateria?: boolean;
+  nivel?: "h2" | "h3";
+  /** false cuando la pantalla ya ofrece «Estudiar» como acción principal (evita duplicarla) */
+  enlace?: boolean;
+}) {
+  const Titulo = nivel;
   const urgente = plan.diasRestantes <= 3;
   const fecha = new Date(`${plan.fechaParcial}T12:00:00Z`).toLocaleDateString("es-CO", {
     weekday: "long",
@@ -11,66 +25,51 @@ export default function TarjetaPlanParcial({ plan, mostrarMateria = true }: { pl
     month: "long",
     timeZone: "UTC",
   });
-  const avance = plan.temasTotales ? Math.round(((plan.temasTotales - plan.temasPendientes) / plan.temasTotales) * 100) : 0;
+  const hechos = plan.temasTotales - plan.temasPendientes;
+  const avance = plan.temasTotales ? Math.round((hechos / plan.temasTotales) * 100) : 0;
+  const destino = plan.siguienteTema
+    ? `/sesion/nueva?materia=${plan.materiaId}&tema=${plan.siguienteTema.id}`
+    : `/materias/${plan.materiaId}`;
 
   return (
-    <section
-      aria-label={`Plan hasta el parcial de ${plan.materiaNombre}`}
-      className={`tarjeta p-5 sm:p-6 border ${urgente ? "border-error/30" : "border-acento/20"}`}
-    >
-      <div className="flex items-start gap-3">
-        <div
-          aria-hidden="true"
-          className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${urgente ? "bg-error/10 text-error" : "bg-acento/10 text-acento"}`}
-        >
-          <CalendarClock size={20} />
+    <section aria-label={`Plan hasta el parcial de ${plan.materiaNombre}`} className="tarjeta p-4 sm:p-5">
+      <div className="flex gap-4">
+        <div className={`shrink-0 w-16 text-center border-r pr-4 ${urgente ? "border-aviso/40" : "border-linea"}`}>
+          <span className={`block font-display text-4xl leading-none ${urgente ? "text-aviso" : "text-tinta"}`}>
+            {plan.diasRestantes}
+          </span>
+          <span className="block text-xs font-semibold text-tinta-2 mt-1">
+            {plan.diasRestantes === 1 ? "día" : "días"}
+          </span>
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-semibold uppercase tracking-wide text-tinta-2">Plan hasta el parcial</p>
-          <h2 className="text-base sm:text-lg font-bold text-tinta mt-0.5">
-            {mostrarMateria ? `${plan.materiaNombre} · ` : ""}
-            <span className="font-semibold">{fecha}</span>
-          </h2>
-          <p className="text-sm text-tinta mt-1.5">{plan.mensaje}</p>
-
+          <Titulo className="encabezado">
+            {mostrarMateria ? plan.materiaNombre : "Plan hasta el parcial"}
+          </Titulo>
+          <p className="text-sm text-tinta-2 first-letter:uppercase">{fecha}</p>
           {plan.temasTotales > 0 && (
-            <div className="mt-3">
-              <div className="flex justify-between text-xs text-tinta-2 mb-1">
-                <span>
-                  {plan.temasTotales - plan.temasPendientes} de {plan.temasTotales} temas completados
-                </span>
-                <span>{avance}%</span>
-              </div>
-              <div
-                role="progressbar"
-                aria-label="Temas completados"
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={avance}
-                className="h-2 rounded-full bg-hundido overflow-hidden"
-              >
-                <div className="h-full rounded-full bg-acento" style={{ width: `${avance}%` }} />
-              </div>
+            <div className="mt-2.5 flex items-center gap-3">
+              <BarraProgreso
+                valor={avance}
+                etiqueta={`Temas listos de ${plan.materiaNombre}`}
+                textoValor={`${hechos} de ${plan.temasTotales} temas`}
+                tono="exito"
+                className="flex-1"
+              />
+              <span className="text-xs font-semibold text-tinta-2 tabular-nums">
+                {hechos}/{plan.temasTotales}
+              </span>
             </div>
           )}
-
-          <div className="mt-4 flex flex-wrap gap-2">
-            {plan.siguienteTema ? (
-              <Link
-                href={`/sesion/nueva?materia=${plan.materiaId}&tema=${plan.siguienteTema.id}`}
-                className="btn-primario text-sm min-h-11 px-4 inline-flex items-center gap-2"
-              >
-                <span>Estudiar «{plan.siguienteTema.nombre}»</span>
-                <ArrowRight size={15} aria-hidden="true" />
-              </Link>
-            ) : (
-              <Link href={`/materias/${plan.materiaId}`} className="btn-secundario text-sm min-h-11 px-4 inline-flex items-center">
-                {plan.temasTotales === 0 ? "Agregar temas" : "Ver la materia"}
-              </Link>
-            )}
-          </div>
         </div>
       </div>
+      <p className="text-sm text-tinta mt-3">{plan.mensaje}</p>
+      {enlace && (
+      <Link href={destino} className="mt-2 -mb-1 inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-acento">
+        {plan.siguienteTema ? `Estudiar «${plan.siguienteTema.nombre}»` : plan.temasTotales === 0 ? "Agregar temas" : "Ver la materia"}
+        <ChevronRight aria-hidden="true" size={16} />
+      </Link>
+      )}
     </section>
   );
 }
