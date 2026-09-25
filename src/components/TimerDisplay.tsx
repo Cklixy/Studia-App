@@ -30,7 +30,7 @@ function TimerDisplayComponent({
       <span
         role="timer"
         aria-label={`Quedan ${formatTime(remainingSeconds)}`}
-        className="text-6xl sm:text-7xl font-bold tracking-tighter text-arctic-slate font-sans tabular-nums"
+        className="text-6xl sm:text-7xl font-medium tracking-[-0.04em] leading-none text-arctic-slate font-sans tabular-nums"
       >
         {formatTime(remainingSeconds)}
       </span>

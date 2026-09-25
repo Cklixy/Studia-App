@@ -8,7 +8,7 @@ import { useSessionTimer } from "@/hooks/useSessionTimer";
 import { TimerRing } from "@/components/TimerRing";
 import { TimerDisplay } from "@/components/TimerDisplay";
 import Hoja from "@/components/ui/Hoja";
-import ReproductorMusica from "@/components/musica/ReproductorMusica";
+import SonidoEnfoque from "@/components/musica/SonidoEnfoque";
 import { emitirEstadoSesion } from "@/lib/ambientes";
 
 export default function ActiveSessionTimer({ session }: { session: any }) {
@@ -68,6 +68,10 @@ export default function ActiveSessionTimer({ session }: { session: any }) {
   const handleTogglePause = () => {
     setAnuncio(isActive ? "Sesión en pausa." : "Sesión reanudada.");
     emitirEstadoSesion(isActive ? "pausa" : "activa");
+    // Háptico corto en el mismo instante que el cambio visual (skill apple-design §13)
+    try {
+      navigator.vibrate?.(12);
+    } catch {}
     togglePause();
   };
 
@@ -115,67 +119,71 @@ export default function ActiveSessionTimer({ session }: { session: any }) {
         <h1 className="apple-title-2 text-arctic-slate break-words">{session.temas?.nombre || "Sesión general"}</h1>
       </div>
 
-      {/* Anillo animado a 60 fps con requestAnimationFrame */}
-      <TimerRing
-        durationSeconds={durationSeconds}
-        isActive={isActive}
-        completada={completada}
-        getPreciseElapsedMs={getPreciseElapsedMs}
-      >
-        <TimerDisplay
-          remainingSeconds={remainingSeconds}
-          secondsElapsed={secondsElapsed}
-          formatTime={formatTime}
+      {/* Tarjeta de enfoque: tiempo, controles de la sesión y sonido en una sola superficie
+          (skill apple-design §16: lo que suena mientras estudias vive junto al tiempo) */}
+      <section aria-label="Temporizador y sonido" className="apple-card w-full p-5 sm:p-7 flex flex-col items-center">
+        {/* Anillo animado a 60 fps con requestAnimationFrame */}
+        <TimerRing
+          durationSeconds={durationSeconds}
+          isActive={isActive}
           completada={completada}
-        />
-      </TimerRing>
+          getPreciseElapsedMs={getPreciseElapsedMs}
+        >
+          <TimerDisplay
+            remainingSeconds={remainingSeconds}
+            secondsElapsed={secondsElapsed}
+            formatTime={formatTime}
+            completada={completada}
+          />
+        </TimerRing>
 
-      {session.metodo_recomendado && (
-        <p className="inline-flex items-center gap-2 text-sm text-arctic-secondary mb-6 max-w-full">
-          <Sparkles size={14} strokeWidth={2} className="text-glacier-blue shrink-0" aria-hidden="true" />
-          <span className="truncate">
-            Método: <strong className="text-arctic-slate font-semibold">{session.metodo_recomendado}</strong>
-          </span>
-        </p>
-      )}
+        {session.metodo_recomendado && (
+          <p className="inline-flex items-center gap-2 text-sm text-arctic-secondary mb-5 max-w-full">
+            <Sparkles size={14} strokeWidth={2} className="text-glacier-blue shrink-0" aria-hidden="true" />
+            <span className="truncate">
+              Método: <strong className="text-arctic-slate font-semibold">{session.metodo_recomendado}</strong>
+            </span>
+          </p>
+        )}
 
-      {/* Sonido opcional: no toca el temporizador */}
-      <div className="mb-8">
-        <ReproductorMusica />
-      </div>
+        {/* Controles de la sesión */}
+        {completada ? (
+          <div className="flex flex-col items-center gap-3 mb-2">
+            <p className="text-sm text-arctic-slate">¡Buen trabajo! Registra cómo te fue para sumar tu XP.</p>
+            <button type="button" onClick={handleFinish} className="btn-apple-primary min-h-12 px-8 apple-tactile">
+              <CheckCircle2 size={16} strokeWidth={2} aria-hidden="true" />
+              <span>Finalizar y registrar</span>
+            </button>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-1 mb-1">
+            <button
+              type="button"
+              onClick={handleTogglePause}
+              aria-label={isActive ? "Pausar sesión" : "Reanudar sesión"}
+              className={`w-[72px] h-[72px] rounded-full flex items-center justify-center apple-tactile transition-colors ${
+                isActive
+                  ? "bg-white text-arctic-slate border border-black/[0.08] shadow-apple-md hover:bg-frost-base"
+                  : "bg-glacier-blue text-white shadow-apple-glow"
+              }`}
+            >
+              {isActive ? (
+                <Pause size={26} strokeWidth={2} fill="currentColor" aria-hidden="true" />
+              ) : (
+                <Play size={26} strokeWidth={2} fill="currentColor" className="ml-1" aria-hidden="true" />
+              )}
+            </button>
+            <button type="button" onClick={() => setConfirmarFin(true)} className="btn-apple-ghost text-sm min-h-11 apple-tactile">
+              Terminar sesión
+            </button>
+          </div>
+        )}
 
-      {/* Controles */}
-      {completada ? (
-        <div className="flex flex-col items-center gap-3">
-          <p className="text-sm text-arctic-slate">¡Buen trabajo! Registra cómo te fue para sumar tu XP.</p>
-          <button type="button" onClick={handleFinish} className="btn-apple-primary min-h-12 px-8 apple-tactile">
-            <CheckCircle2 size={16} strokeWidth={2} aria-hidden="true" />
-            <span>Finalizar y registrar</span>
-          </button>
+        {/* Sonido opcional: no toca el temporizador */}
+        <div className="w-full mt-3 pt-4 border-t border-black/[0.06]">
+          <SonidoEnfoque />
         </div>
-      ) : (
-        <div className="flex flex-col items-center gap-2">
-          <button
-            type="button"
-            onClick={handleTogglePause}
-            aria-label={isActive ? "Pausar sesión" : "Reanudar sesión"}
-            className={`w-[72px] h-[72px] rounded-full flex items-center justify-center apple-tactile transition-colors ${
-              isActive
-                ? "bg-white text-arctic-slate border border-black/[0.08] shadow-apple-md hover:bg-frost-base"
-                : "bg-glacier-blue text-white shadow-apple-glow"
-            }`}
-          >
-            {isActive ? (
-              <Pause size={26} strokeWidth={2} fill="currentColor" aria-hidden="true" />
-            ) : (
-              <Play size={26} strokeWidth={2} fill="currentColor" className="ml-1" aria-hidden="true" />
-            )}
-          </button>
-          <button type="button" onClick={() => setConfirmarFin(true)} className="btn-apple-ghost text-sm min-h-11 apple-tactile">
-            Terminar sesión
-          </button>
-        </div>
-      )}
+      </section>
 
       <Hoja
         abierto={confirmarFin}
