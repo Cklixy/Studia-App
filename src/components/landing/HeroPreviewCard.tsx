@@ -49,7 +49,7 @@ export default function HeroPreviewCard() {
                   cx="50" 
                   cy="50" 
                   r="40" 
-                  stroke="#0071E3" 
+                  stroke="#0066CC" 
                   strokeWidth="8" 
                   strokeLinecap="round" 
                   fill="none" 

@@ -2,6 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Trophy, Lock } from "lucide-react";
 import NavProgreso from "@/components/NavProgreso";
+import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
 import { rachaVigente, xpInicioNivel, XP_POR_MINUTO } from "@/lib/racha";
 
 // Lista completa de badges posibles en el juego
@@ -42,18 +43,13 @@ export default async function LogrosPage() {
   );
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 duration-500">
+    <div className="max-w-4xl mx-auto space-y-8">
       <NavProgreso activo="logros" />
-      <header className="pb-2 border-b border-black/[0.06]">
-        <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider">
-          Gamificación y Metas
-        </span>
-        <div className="mt-0.5">
-          <span className="apple-caption text-arctic-secondary">Reconocimientos</span>
-          <h1 className="apple-large-title text-arctic-slate mt-1">Mis Logros</h1>
-        </div>
-        <p className="apple-body text-xs text-arctic-secondary mt-1">Insignias desbloqueadas y metas de constancia académica.</p>
-      </header>
+      <EncabezadoPantalla
+        etiqueta="Progreso"
+        titulo="Mis logros"
+        descripcion="Insignias desbloqueadas y metas de constancia académica."
+      />
 
       {/* Nivel actual */}
       <div className="apple-card p-5 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 shadow-apple-sm text-center sm:text-left">

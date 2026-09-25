@@ -106,10 +106,10 @@ export default function RutaPreviewPage() {
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-glacier-blue/10 text-glacier-blue rounded-full text-xs font-bold uppercase tracking-widest mb-2 border border-glacier-blue/20">
           <Zap size={14} /> Ruta Generada por IA
         </div>
-        <h1 className="text-2xl sm:text-4xl md:text-5xl font-display font-bold text-arctic-slate">
+        <h1 className="apple-large-title text-arctic-slate">
           {routeData.titulo_ruta}
         </h1>
-        <p className="text-base sm:text-xl text-arctic-secondary">
+        <p className="text-sm sm:text-base text-arctic-secondary">
           Materia identificada: <span className="text-arctic-slate font-semibold">{routeData.materia}</span>
         </p>
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs sm:text-sm font-medium text-arctic-secondary pt-2">

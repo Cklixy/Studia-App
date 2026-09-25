@@ -91,7 +91,7 @@ export default function ActiveSessionTimer({ session }: { session: any }) {
           {estado === "completada" ? (
             <CheckCircle2 size={14} className="text-emerald-700" aria-hidden="true" />
           ) : (
-            <span aria-hidden="true" className={`w-2 h-2 rounded-full ${estado === "activa" ? "bg-glacier-blue motion-safe:animate-pulse" : "bg-amber-500"}`} />
+            <span aria-hidden="true" className={`w-2 h-2 rounded-full ${estado === "activa" ? "bg-glacier-blue " : "bg-amber-500"}`} />
           )}
           <span>
             {estado === "completada" ? "Sesión completada" : estado === "activa" ? "Modo concentración activo" : "Sesión en pausa"}

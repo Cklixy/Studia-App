@@ -221,7 +221,7 @@ export default function SessionWizard({
       {step === 1 && (
         <div className="space-y-6 duration-300">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
+            <h2 className="apple-large-title text-arctic-slate">
               ¿En qué nivel te encuentras?
             </h2>
             <p className="text-sm text-arctic-secondary mt-1">
@@ -250,7 +250,7 @@ export default function SessionWizard({
       {step === 2 && (
         <div className="space-y-6 duration-300">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
+            <h2 className="apple-large-title text-arctic-slate">
               ¿Qué materia vas a estudiar?
             </h2>
             <p className="text-sm text-arctic-secondary mt-1">
@@ -324,7 +324,7 @@ export default function SessionWizard({
       {step === 3 && (
         <div className="space-y-6 duration-300">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
+            <h2 className="apple-large-title text-arctic-slate">
               ¿Cuál es el tema específico?
             </h2>
             <p className="text-sm text-arctic-secondary mt-1">
@@ -382,7 +382,7 @@ export default function SessionWizard({
       {step === 4 && (
         <div className="space-y-6 duration-300">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-arctic-slate">
+            <h2 className="apple-large-title text-arctic-slate">
               ¿Cuál es tu objetivo o situación?
             </h2>
             <p className="text-sm text-arctic-secondary mt-1">
@@ -423,7 +423,7 @@ export default function SessionWizard({
             <span className="text-xs font-semibold text-cool-iris uppercase tracking-wider">
               {origenRecomendacion === "ia" ? "Sugerido por IA" : "Sugerido por reglas de estudio"}
             </span>
-            <h2 className="text-2xl font-bold tracking-tight text-arctic-slate mt-0.5">
+            <h2 className="apple-large-title text-arctic-slate mt-0.5">
               Tu método sugerido
             </h2>
           </div>

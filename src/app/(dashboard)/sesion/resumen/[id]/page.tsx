@@ -30,7 +30,7 @@ export default async function ResumenSesionPage({ params, searchParams }: { para
 
   return (
     <div className="max-w-2xl mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-8 text-center">¡Sesión Finalizada! 🎉</h1>
+      <h1 className="apple-large-title text-arctic-slate mb-8 text-center">¡Sesión finalizada!</h1>
       <SessionFeedbackForm session={session} elapsed={elapsed} pauses={pauses} />
     </div>
   );

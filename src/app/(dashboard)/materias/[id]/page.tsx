@@ -8,6 +8,8 @@ import Link from "next/link";
 import { ArrowLeft, Sparkles, Calendar } from "lucide-react";
 import { calcularPlanParcial } from "@/lib/planParcial";
 import TarjetaPlanParcial from "@/components/TarjetaPlanParcial";
+import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
+import { formatearFechaLocal } from "@/lib/texto";
 
 // Lazy loading de componentes cliente pesados (modal y panel de evaluaciones)
 const EditMateriaModal = dynamic(() => import("@/components/EditMateriaModal"), {
@@ -84,20 +86,18 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
         <span>Volver a mis materias</span>
       </Link>
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-black/[0.06]">
-        <div>
-          <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold tracking-tight text-arctic-slate">{materia.nombre}</h1>
-            <EditMateriaModal materia={materia} />
-          </div>
-          {materia.fecha_parcial && (
-            <p className="text-xs text-arctic-secondary mt-1 flex items-center gap-1.5">
-              <Calendar size={13} className="text-cool-berry" />
-              <span>Fecha del parcial: {new Date(materia.fecha_parcial).toLocaleDateString("es-ES", { day: "numeric", month: "long" })}</span>
-            </p>
-          )}
-        </div>
-      </div>
+      <EncabezadoPantalla
+        titulo={materia.nombre}
+        junto={<EditMateriaModal materia={materia} />}
+        descripcion={
+          materia.fecha_parcial && (
+            <span className="flex items-center gap-1.5">
+              <Calendar size={14} className="text-cool-berry shrink-0" aria-hidden="true" />
+              <span>Fecha del parcial: {formatearFechaLocal(materia.fecha_parcial, { day: "numeric", month: "long" })}</span>
+            </span>
+          )
+        }
+      />
 
       {(() => {
         const plan = calcularPlanParcial(materia as any);

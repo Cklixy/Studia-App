@@ -1,5 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
-import { capitalizarInicio, plural } from "@/lib/texto";
+import { capitalizarInicio, formatearFechaLocal, plural } from "@/lib/texto";
+import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
+import ListaEscalonada from "@/components/ui/ListaEscalonada";
 import { rachaVigente } from "@/lib/racha";
 import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
@@ -139,37 +141,31 @@ export default async function MateriasPage() {
   }).format(new Date());
 
   return (
-    <div className="flex flex-col gap-9 w-full duration-500">
+    <div className="flex flex-col gap-9 w-full">
 
-      {/* Apple Large Title Header en Grafito Pizarra */}
-      <header className="flex flex-col md:flex-row justify-between md:items-end gap-4 pb-1">
-        <div>
-          <span className="text-xs tracking-wide font-semibold text-arctic-secondary">
-            {capitalizarInicio(fechaHoy)}
-          </span>
-          <h1 className="apple-large-title text-arctic-slate mt-1">
-            Hola, {firstName}
-          </h1>
-          <p className="text-arctic-secondary text-sm mt-1">
-            {rachaActual > 0
-              ? `Llevas ${plural(rachaActual, "día seguido", "días seguidos")} de enfoque académico. ¡Excelente constancia!`
-              : rachaAnterior > 1
-                ? `Tu racha anterior fue de ${rachaAnterior} días. Una sesión hoy empieza una nueva.`
-                : "Comienza una sesión hoy para activar tu racha de estudio."}
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-          <Link
-            href="/rutas"
-            className="btn-apple-secondary text-xs font-semibold py-2 px-3.5 sm:px-4 apple-tactile inline-flex items-center gap-2 shrink-0"
-          >
-            <Sparkles size={14} className="text-glacier-blue" />
-            <span>Crear ruta IA</span>
-          </Link>
-          <CreateMateriaForm />
-        </div>
-      </header>
+      <EncabezadoPantalla
+        etiqueta={capitalizarInicio(fechaHoy)}
+        titulo={`Hola, ${firstName}`}
+        descripcion={
+          rachaActual > 0
+            ? `Llevas ${plural(rachaActual, "día seguido", "días seguidos")} de enfoque académico. ¡Excelente constancia!`
+            : rachaAnterior > 1
+              ? `Tu racha anterior fue de ${rachaAnterior} días. Una sesión hoy empieza una nueva.`
+              : "Comienza una sesión hoy para activar tu racha de estudio."
+        }
+        acciones={
+          <>
+            <Link
+              href="/rutas"
+              className="btn-apple-secondary text-xs font-semibold py-2 px-3.5 sm:px-4 apple-tactile inline-flex items-center gap-2 shrink-0"
+            >
+              <Sparkles size={14} className="text-glacier-blue" aria-hidden="true" />
+              <span>Crear ruta IA</span>
+            </Link>
+            <CreateMateriaForm />
+          </>
+        }
+      />
 
       {/* Top Row: Apple Activity Gauge + Hero Focus Card en Vidrio Blanco */}
       <div className="grid grid-cols-1 sm:grid-cols-[240px_1fr] lg:grid-cols-[290px_1fr] gap-4 sm:gap-5">
@@ -232,11 +228,11 @@ export default async function MateriasPage() {
               />
               <defs>
                 <linearGradient id="glacierGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#0071E3" />
+                  <stop offset="0%" stopColor="#0066CC" />
                   <stop offset="100%" stopColor="#0EA5E9" />
                 </linearGradient>
                 <linearGradient id="irisGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#6366F1" />
+                  <stop offset="0%" stopColor="#4F46E5" />
                   <stop offset="100%" stopColor="#06B6D4" />
                 </linearGradient>
               </defs>
@@ -268,7 +264,7 @@ export default async function MateriasPage() {
 
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-glacier-blue/10 border border-glacier-blue/20 text-glacier-blue text-xs font-semibold tracking-wider uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-glacier-blue animate-pulse" />
+                <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-glacier-blue" />
                 Siguiente Paso Recomendado
               </div>
 
@@ -330,12 +326,12 @@ export default async function MateriasPage() {
       <section className="space-y-4">
         <div className="flex justify-between items-center px-1">
           <div>
-            <h3 className="text-lg font-bold tracking-tight text-arctic-slate">Tus Materias</h3>
+            <h2 className="apple-title-2 text-arctic-slate">Tus materias</h2>
             <p className="text-xs text-arctic-secondary">Estructura tus asignaturas y monitorea el avance de cada una</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        <ListaEscalonada className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4" classNameElemento="grid">
           {materias?.map((materia) => {
             const temas = materia.temas || [];
             const completedCount = temas.filter((t: any) => t.estado === 'completado').length;
@@ -355,7 +351,7 @@ export default async function MateriasPage() {
                     {materia.fecha_parcial && (
                       <span className="inline-flex items-center gap-1 text-xs font-semibold text-cool-berry bg-cool-berry/10 border border-cool-berry/20 px-2 py-0.5 rounded-full shrink-0">
                         <Calendar size={11} />
-                        <span>{new Date(materia.fecha_parcial).toLocaleDateString("es-ES", { month: "short", day: "numeric" })}</span>
+                        <span>{formatearFechaLocal(materia.fecha_parcial, { month: "short", day: "numeric" })}</span>
                       </span>
                     )}
                   </div>
@@ -382,7 +378,7 @@ export default async function MateriasPage() {
             );
           })}
 
-        </div>
+        </ListaEscalonada>
       </section>
       )}
 

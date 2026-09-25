@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sparkles, ArrowRight, Clock, Target, BookOpen, ChevronDown } from "lucide-react";
+import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
 
 export default function CrearRutaIAPage() {
   const router = useRouter();
@@ -62,13 +63,11 @@ export default function CrearRutaIAPage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6 sm:space-y-8 duration-700">
-      <div className="flex items-center gap-3 text-glacier-blue mb-1">
-        <Sparkles size={24} aria-hidden="true" />
-        <h1 className="text-2xl sm:text-3xl font-display font-bold text-arctic-slate">Inteligencia de Ruta</h1>
-      </div>
-      <p className="text-arctic-secondary text-sm sm:text-base">
-        La IA organizará los temas en el orden ideal para que llegues a tu objetivo.
-      </p>
+      <EncabezadoPantalla
+        etiqueta="Plan IA"
+        titulo="Crear ruta de estudio"
+        descripcion="La IA organizará los temas en el orden ideal para que llegues a tu objetivo."
+      />
 
       <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
         

@@ -88,7 +88,7 @@ function TimerRingComponent({
 
         <defs>
           <linearGradient id="activeTimerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#0071E3" />
+            <stop offset="0%" stopColor="#0066CC" />
             <stop offset="100%" stopColor="#0EA5E9" />
           </linearGradient>
         </defs>

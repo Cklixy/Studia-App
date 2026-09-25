@@ -7,6 +7,7 @@ import { getCachedMaterias } from "@/lib/data/materias";
 import { formatHumanDuration, formatNaturalDate, formatMinutesNumber } from "@/lib/format-session";
 import { SubjectIconContainer } from "@/lib/subject-icons";
 import NavProgreso from "@/components/NavProgreso";
+import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
 
 export default async function HistorialPage({
   searchParams,
@@ -118,31 +119,23 @@ export default async function HistorialPage({
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 sm:space-y-10 duration-300">
+    <div className="max-w-5xl mx-auto space-y-8 sm:space-y-10">
       <NavProgreso activo="historial" />
-      
-      {/* 1. HEADER EDITORIAL */}
-      <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 pb-2 border-b border-black/[0.04]">
-        <div className="space-y-1">
-          <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider block">
-            Bitácora de Estudio
-          </span>
-          <h1 className="apple-large-title text-arctic-slate tracking-tight">
-            Historial de Sesiones
-          </h1>
-          <p className="apple-subhead text-xs sm:text-sm text-arctic-secondary max-w-xl">
-            Consulta los registros detallados de tu enfoque, productividad y métodos empleados.
-          </p>
-        </div>
 
-        <Link 
-          href="/sesion/nueva" 
-          className="btn-apple-primary text-xs font-semibold py-2.5 px-5 apple-tactile inline-flex items-center gap-2 self-start sm:self-auto shadow-apple-sm rounded-full"
-        >
-          <Plus size={15} strokeWidth={2.2} />
-          <span>Nueva sesión</span>
-        </Link>
-      </header>
+      <EncabezadoPantalla
+        etiqueta="Progreso"
+        titulo="Historial de sesiones"
+        descripcion="Consulta los registros detallados de tu enfoque, productividad y métodos empleados."
+        acciones={
+          <Link
+            href="/sesion/nueva"
+            className="btn-apple-primary text-xs font-semibold py-2.5 px-5 apple-tactile inline-flex items-center gap-2 shadow-apple-sm rounded-full"
+          >
+            <Plus size={15} strokeWidth={2.2} aria-hidden="true" />
+            <span>Nueva sesión</span>
+          </Link>
+        }
+      />
 
       {/* Manejo sutil de error si falla la consulta de Supabase */}
       {error && (
@@ -215,7 +208,7 @@ export default async function HistorialPage({
       {sesionesActivas && sesionesActivas.length > 0 && (
         <section aria-labelledby="active-session-title" className="space-y-3">
           <div className="flex items-center gap-2 px-1">
-            <span className="w-2 h-2 bg-glacier-blue rounded-full animate-pulse" />
+            <span aria-hidden="true" className="w-2 h-2 bg-glacier-blue rounded-full" />
             <h2 id="active-session-title" className="text-xs uppercase tracking-wider font-semibold text-glacier-blue">
               Sesión activa
             </h2>

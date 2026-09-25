@@ -46,7 +46,7 @@ const config: Config = {
         "apple-sm": "0 2px 8px rgba(0, 20, 50, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
         "apple-md": "0 8px 24px -4px rgba(0, 25, 60, 0.06), 0 2px 6px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
         "apple-lg": "0 20px 48px -12px rgba(0, 30, 80, 0.09), 0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.95)",
-        "apple-glow": "0 0 24px -2px rgba(0, 113, 227, 0.25)",
+        "apple-glow": "0 0 24px -2px rgba(0, 102, 204, 0.25)",
         "apple-glow-blue": "0 0 24px -2px rgba(14, 165, 233, 0.25)",
       },
       borderRadius: {

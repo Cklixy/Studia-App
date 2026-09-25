@@ -43,7 +43,7 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
       <div className="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-8 pb-6 border-b border-black/[0.06]">
         <div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-glacier-blue/10 text-glacier-blue text-xs font-semibold tracking-wider uppercase mb-2">
-            <span className="w-1.5 h-1.5 bg-glacier-blue rounded-full animate-pulse" />
+            <span aria-hidden="true" className="w-1.5 h-1.5 bg-glacier-blue rounded-full" />
             <span>Ruta Curricular</span>
           </div>
           <h3 className="apple-title-2 text-arctic-slate">
@@ -90,7 +90,7 @@ export default function LearningMap({ temas, route }: LearningMapProps) {
                 }`}
               >
                 {isCompleted && <CheckCircle2 size={12} strokeWidth={2} />}
-                {isActual && <div className="w-2 h-2 bg-glacier-blue rounded-full animate-pulse" />}
+                {isActual && <div aria-hidden="true" className="w-2 h-2 bg-glacier-blue rounded-full" />}
               </div>
 
               {/* Theme Content */}
