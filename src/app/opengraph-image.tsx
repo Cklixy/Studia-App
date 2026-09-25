@@ -14,7 +14,13 @@ const AZUL = "#0066CC";
 const TEXTO = "#1D1D1F";
 const SECUNDARIO = "#636366";
 
-export default function ImagenOpenGraph() {
+// Geist, la tipografía de la app (TTF: next/og no admite WOFF2). Sin ella, el titular salía sin negrita.
+// Se cargan dentro de la función: al nivel del módulo, el build las evaluaba y registraba errores.
+export default async function ImagenOpenGraph() {
+  const [geistRegular, geistBold] = await Promise.all([
+    fetch(new URL("./fuentes-og/Geist-Regular.ttf", import.meta.url)).then((r) => r.arrayBuffer()),
+    fetch(new URL("./fuentes-og/Geist-Bold.ttf", import.meta.url)).then((r) => r.arrayBuffer()),
+  ]);
   const radio = 110;
   const circunferencia = 2 * Math.PI * radio;
 
@@ -29,7 +35,7 @@ export default function ImagenOpenGraph() {
           justifyContent: "space-between",
           padding: "72px 80px",
           background: "linear-gradient(135deg, #F4F6FB 0%, #EAF1FB 100%)",
-          fontFamily: "sans-serif",
+          fontFamily: "Geist",
         }}
       >
         {/* Texto */}
@@ -126,6 +132,12 @@ export default function ImagenOpenGraph() {
         </div>
       </div>
     ),
-    size
+    {
+      ...size,
+      fonts: [
+        { name: "Geist", data: geistRegular, weight: 400, style: "normal" },
+        { name: "Geist", data: geistBold, weight: 700, style: "normal" },
+      ],
+    }
   );
 }
