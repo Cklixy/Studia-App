@@ -39,7 +39,7 @@ export default function MethodRecommendationSection() {
         
         {/* Columna Izquierda: Texto y Controles Interactivos (5 cols / ~42%) */}
         <div className="lg:col-span-5 text-left space-y-5 sm:space-y-6">
-          <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue block">
+          <span className="tracking-wide text-xs font-semibold text-glacier-blue block">
             Estrategia de estudio
           </span>
 
@@ -54,7 +54,7 @@ export default function MethodRecommendationSection() {
 
           {/* Selector de Contexto Interactivo */}
           <div className="space-y-2.5 sm:space-y-3 pt-1 sm:pt-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-arctic-tertiary block">
+            <span className="tracking-wide text-xs font-bold text-arctic-tertiary block">
               Prueba un contexto diferente:
             </span>
             <div className="flex flex-col sm:flex-row lg:flex-col gap-2 sm:gap-2.5">
@@ -109,15 +109,15 @@ export default function MethodRecommendationSection() {
             {/* Parámetros de la sesión */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
               <div className="p-3 rounded-xl bg-frost-base border border-black/[0.04]">
-                <span className="text-xs uppercase font-bold text-arctic-tertiary block">Tema</span>
+                <span className="tracking-wide text-xs font-bold text-arctic-tertiary block">Tema</span>
                 <span className="font-bold text-arctic-slate block mt-0.5">Límites 0/0</span>
               </div>
               <div className="p-3 rounded-xl bg-frost-base border border-black/[0.04]">
-                <span className="text-xs uppercase font-bold text-arctic-tertiary block">Nivel actual</span>
+                <span className="tracking-wide text-xs font-bold text-arctic-tertiary block">Nivel actual</span>
                 <span className="font-semibold text-arctic-slate block mt-0.5">Entendido parcialmente</span>
               </div>
               <div className="p-3 rounded-xl bg-frost-base border border-black/[0.04]">
-                <span className="text-xs uppercase font-bold text-arctic-tertiary block">Duración</span>
+                <span className="tracking-wide text-xs font-bold text-arctic-tertiary block">Duración</span>
                 <span className="font-mono font-bold text-glacier-blue block mt-0.5">{current.duration}</span>
               </div>
             </div>
@@ -125,8 +125,8 @@ export default function MethodRecommendationSection() {
             {/* Bloque Destacado del Método */}
             <div className="p-5 sm:p-6 rounded-2xl bg-glacier-blue/[0.035] border border-glacier-blue/20 space-y-4">
               <div className="space-y-1">
-                <span className="text-xs uppercase font-bold text-glacier-blue tracking-wider block">
-                  Estrategia Recomendada
+                <span className="tracking-wide text-xs font-bold text-glacier-blue block">
+                  Estrategia recomendada
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-arctic-slate tracking-tight">
                   {current.method}

@@ -18,8 +18,8 @@ export default function BentoFeatures() {
       
       {/* Section Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
-        <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue">
-          Capacidades Centrales
+        <span className="tracking-wide text-xs font-semibold text-glacier-blue">
+          Capacidades centrales
         </span>
         <h2 className="fluid-h2 font-bold tracking-tight text-arctic-slate">
           Diseñado para transformar el caos académico en claridad absoluta.
@@ -40,8 +40,8 @@ export default function BentoFeatures() {
             <div className="w-10 h-10 rounded-2xl bg-glacier-blue/10 text-glacier-blue flex items-center justify-center mb-4 shadow-apple-sm">
               <BrainCircuit size={20} />
             </div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-glacier-blue">
-              Inteligencia Curricular
+            <span className="tracking-wide text-xs font-semibold text-glacier-blue">
+              Inteligencia curricular
             </span>
             <h3 className="text-xl sm:text-2xl font-bold text-arctic-slate tracking-tight mt-1.5 mb-2.5">
               Generación de Rutas de Estudio con IA
@@ -77,8 +77,8 @@ export default function BentoFeatures() {
             <div className="w-10 h-10 rounded-2xl bg-polar-cyan/10 text-sky-700 flex items-center justify-center mb-4 shadow-apple-sm">
               <Clock size={20} />
             </div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-sky-700">
-              Enfoque Físico
+            <span className="tracking-wide text-xs font-semibold text-sky-700">
+              Enfoque físico
             </span>
             <h3 className="text-xl font-bold text-arctic-slate tracking-tight mt-1.5 mb-2.5">
               Sesiones de Concentración
@@ -90,7 +90,7 @@ export default function BentoFeatures() {
 
           <div className="mt-6 p-4 rounded-2xl bg-slate-100/80 border border-slate-200/60 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-apple-green animate-ping" />
+              <span className="w-2.5 h-2.5 rounded-full bg-apple-green" />
               <span className="text-xs font-bold text-arctic-slate font-mono">25:00 Focus</span>
             </div>
             <span className="text-xs font-bold text-glacier-blue">+150 XP</span>
@@ -103,8 +103,8 @@ export default function BentoFeatures() {
             <div className="w-10 h-10 rounded-2xl bg-cool-berry/10 text-cool-berry flex items-center justify-center mb-4 shadow-apple-sm">
               <Calendar size={20} />
             </div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-cool-berry">
-              Gestión de Parciales
+            <span className="tracking-wide text-xs font-semibold text-cool-berry">
+              Gestión de parciales
             </span>
             <h3 className="text-xl font-bold text-arctic-slate tracking-tight mt-1.5 mb-2.5">
               Radar de Exámenes
@@ -134,8 +134,8 @@ export default function BentoFeatures() {
             <div className="w-10 h-10 rounded-2xl bg-cool-iris/10 text-cool-iris flex items-center justify-center mb-4 shadow-apple-sm">
               <MessageSquareQuote size={20} />
             </div>
-            <span className="text-xs font-semibold uppercase tracking-wider text-cool-iris">
-              Tutor Privado Integrado
+            <span className="tracking-wide text-xs font-semibold text-cool-iris">
+              Tutor privado integrado
             </span>
             <h3 className="text-xl sm:text-2xl font-bold text-arctic-slate tracking-tight mt-1.5 mb-2.5">
               Preguntas y Consultas en Tiempo Real

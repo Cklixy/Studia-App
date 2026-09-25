@@ -7,7 +7,7 @@ export default function AiTutorSection() {
         
         {/* Columna Izquierda: Explicación (5 cols / ~42%) */}
         <div className="lg:col-span-5 text-left space-y-4 sm:space-y-5">
-          <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue block">
+          <span className="tracking-wide text-xs font-semibold text-glacier-blue block">
             Tutor académico integrado
           </span>
 
@@ -80,7 +80,7 @@ export default function AiTutorSection() {
 
                 {/* Micro-ejercicio práctico */}
                 <div className="p-3.5 rounded-xl bg-white border border-black/[0.06] space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-glacier-blue block">
+                  <span className="tracking-wide text-xs font-bold text-glacier-blue block">
                     Comprobación con un ejercicio
                   </span>
                   <p className="font-mono text-xs sm:text-sm font-bold text-arctic-slate">

@@ -24,7 +24,7 @@ export default function HeroProductMockup() {
           </div>
 
           <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-glacier-blue/10 text-glacier-blue">
-            <span className="w-1.5 h-1.5 rounded-full bg-glacier-blue animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-glacier-blue" />
             Preparada
           </span>
         </div>
@@ -57,7 +57,7 @@ export default function HeroProductMockup() {
           {/* Método Recomendado */}
           <div className="p-3.5 sm:p-4 rounded-2xl bg-glacier-blue/[0.035] border border-glacier-blue/20 space-y-1.5">
             <div className="flex items-center justify-between">
-              <span className="text-xs uppercase font-bold text-glacier-blue tracking-wider block">
+              <span className="tracking-wide text-xs font-bold text-glacier-blue block">
                 Método recomendado
               </span>
               <span className="text-xs font-mono font-bold text-glacier-blue">

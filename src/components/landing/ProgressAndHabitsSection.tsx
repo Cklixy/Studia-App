@@ -6,7 +6,7 @@ export default function ProgressAndHabitsSection() {
       
       {/* Encabezado */}
       <div className="text-center space-y-3 max-w-2xl mx-auto">
-        <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue">
+        <span className="tracking-wide text-xs font-semibold text-glacier-blue">
           Constancia y registro
         </span>
         <h2 className="fluid-h2 font-bold tracking-tight text-arctic-slate">
@@ -24,8 +24,8 @@ export default function ProgressAndHabitsSection() {
         <div className="md:col-span-7 rounded-3xl bg-white border border-black/[0.08] shadow-[0_16px_40px_-12px_rgba(0,25,60,0.06)] p-6 sm:p-8 flex flex-col justify-between space-y-6 text-left">
           
           <div className="flex items-center justify-between pb-4 border-b border-black/[0.05]">
-            <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider">
-              Ejemplo de Registro Semanal
+            <span className="tracking-wide text-xs font-semibold text-arctic-tertiary">
+              Ejemplo de registro semanal
             </span>
             <span className="text-xs font-bold text-arctic-slate bg-frost-base px-2.5 py-1 rounded-full border border-black/[0.04]">
               4 sesiones
@@ -77,10 +77,10 @@ export default function ProgressAndHabitsSection() {
         <div className="md:col-span-5 rounded-3xl bg-white border border-black/[0.08] shadow-[0_16px_40px_-12px_rgba(0,25,60,0.06)] p-6 sm:p-8 flex flex-col justify-between space-y-6 text-left">
           
           <div className="flex items-center justify-between pb-4 border-b border-black/[0.05]">
-            <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider">
-              Hábito y Constancia
+            <span className="tracking-wide text-xs font-semibold text-arctic-tertiary">
+              Hábito y constancia
             </span>
-            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-amber-500" />
           </div>
 
           <div className="space-y-3">

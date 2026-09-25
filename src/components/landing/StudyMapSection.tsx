@@ -17,7 +17,7 @@ export default function StudyMapSection() {
         
         {/* Columna Izquierda: Explicación Editorial (5 cols / ~42%) */}
         <div className="lg:col-span-5 text-left space-y-4 sm:space-y-5">
-          <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue block">
+          <span className="tracking-wide text-xs font-semibold text-glacier-blue block">
             Estructura de aprendizaje
           </span>
 
@@ -53,7 +53,7 @@ export default function StudyMapSection() {
             {/* Cabecera del Módulo */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 sm:pb-5 mb-5 sm:mb-6 border-b border-black/[0.05]">
               <div className="space-y-0.5">
-                <span className="text-xs font-bold uppercase tracking-wider text-glacier-blue">
+                <span className="tracking-wide text-xs font-bold text-glacier-blue">
                   Cálculo Diferencial
                 </span>
                 <h3 className="text-base sm:text-xl font-bold text-arctic-slate tracking-tight">
@@ -102,7 +102,7 @@ export default function StudyMapSection() {
                       {isCompleted ? (
                         <Check size={16} strokeWidth={2.5} />
                       ) : isActive ? (
-                        <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+                        <span className="w-2 h-2 rounded-full bg-white" />
                       ) : (
                         <span>0{index + 1}</span>
                       )}
@@ -122,7 +122,7 @@ export default function StudyMapSection() {
                       </div>
 
                       {isActive && (
-                        <span className="text-xs font-bold uppercase tracking-wider text-glacier-blue bg-glacier-blue/10 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shrink-0 self-start sm:self-auto">
+                        <span className="tracking-wide text-xs font-bold text-glacier-blue bg-glacier-blue/10 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full shrink-0 self-start sm:self-auto">
                           Tu sesión actual
                         </span>
                       )}

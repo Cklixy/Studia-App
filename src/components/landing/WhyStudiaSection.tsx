@@ -29,7 +29,7 @@ export default function WhyStudiaSection() {
       
       {/* Encabezado */}
       <div className="text-center space-y-3 max-w-2xl mx-auto">
-        <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue">
+        <span className="tracking-wide text-xs font-semibold text-glacier-blue">
           Beneficios concretos
         </span>
         <h2 className="fluid-h2 font-bold tracking-tight text-arctic-slate">

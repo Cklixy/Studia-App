@@ -16,7 +16,7 @@ export default function ExamsSection() {
 
         {/* Columna Izquierda: Texto (5 cols / ~42%) */}
         <div className="lg:col-span-5 text-left space-y-4 sm:space-y-5">
-          <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue block">
+          <span className="tracking-wide text-xs font-semibold text-glacier-blue block">
             Planificación estratégica
           </span>
 
@@ -73,7 +73,7 @@ export default function ExamsSection() {
 
             {/* Lista de Temas del Parcial a Escala Amplia */}
             <div className="space-y-2 sm:space-y-2.5 text-xs">
-              <span className="text-xs font-bold uppercase tracking-wider text-arctic-tertiary block mb-1.5 sm:mb-2">
+              <span className="tracking-wide text-xs font-bold text-arctic-tertiary block mb-1.5 sm:mb-2">
                 Temas del examen:
               </span>
 

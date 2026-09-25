@@ -22,7 +22,7 @@ export default function HeroPreviewCard() {
 
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/[0.03] border border-black/[0.06] text-arctic-secondary text-xs font-medium">
-              <span className="w-2 h-2 rounded-full bg-apple-green animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-apple-green" />
               Sesión activa
             </span>
           </div>
@@ -59,7 +59,7 @@ export default function HeroPreviewCard() {
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="text-2xl font-bold text-arctic-slate tabular-nums">92%</span>
-                <span className="text-xs font-semibold text-arctic-secondary uppercase">Meta</span>
+                <span className="tracking-wide text-xs font-semibold text-arctic-secondary">Meta</span>
               </div>
             </div>
 
@@ -74,13 +74,13 @@ export default function HeroPreviewCard() {
             <div className="absolute -right-10 -top-10 w-44 h-44 rounded-full bg-glacier-blue/[0.06] blur-2xl pointer-events-none" />
 
             <div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-polar-cyan/10 border border-polar-cyan/20 text-sky-700 text-xs font-semibold uppercase tracking-wider">
+              <div className="tracking-wide inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-polar-cyan/10 border border-polar-cyan/20 text-sky-700 text-xs font-semibold">
                 <Sparkles size={12} />
-                Siguiente Paso Prioritario
+                Siguiente paso prioritario
               </div>
 
               <div className="mt-3">
-                <span className="text-xs font-semibold text-arctic-secondary uppercase tracking-wider">
+                <span className="tracking-wide text-xs font-semibold text-arctic-secondary">
                   Cálculo Multivariado • Parcial en 4 días
                 </span>
                 <h3 className="text-xl sm:text-2xl font-bold text-arctic-slate tracking-tight mt-1">

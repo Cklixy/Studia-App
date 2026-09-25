@@ -11,7 +11,7 @@ export default function FocusSessionSection() {
       
       {/* Encabezado */}
       <div className="text-center space-y-2 max-w-2xl mx-auto">
-        <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue">
+        <span className="tracking-wide text-xs font-semibold text-glacier-blue">
           Modo concentración
         </span>
         <h2 className="text-2xl sm:text-4xl xl:text-5xl font-bold tracking-tight text-arctic-slate">

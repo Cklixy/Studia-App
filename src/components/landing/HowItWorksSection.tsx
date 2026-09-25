@@ -31,7 +31,7 @@ export default function HowItWorksSection() {
       desc: "studia+ analiza tu contexto y recomienda una estrategia de estudio efectiva.",
       visual: (
         <div className="p-4 rounded-2xl bg-frost-base border border-black/[0.04] space-y-2 text-left">
-          <span className="text-xs uppercase font-bold text-glacier-blue tracking-wider block">
+          <span className="tracking-wide text-xs font-bold text-glacier-blue block">
             Método recomendado
           </span>
           <div className="p-2.5 rounded-xl bg-white border border-black/[0.05] space-y-1">
@@ -73,7 +73,7 @@ export default function HowItWorksSection() {
       
       {/* Encabezado */}
       <div className="text-center space-y-2.5 max-w-3xl mx-auto">
-        <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue">
+        <span className="tracking-wide text-xs font-semibold text-glacier-blue">
           Cómo funciona
         </span>
         <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-arctic-slate">

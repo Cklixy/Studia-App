@@ -34,7 +34,7 @@ export default function ProgressSection() {
 
       {/* Encabezado */}
       <div className="text-center space-y-2 max-w-2xl mx-auto">
-        <span className="text-xs uppercase tracking-widest font-semibold text-glacier-blue">
+        <span className="tracking-wide text-xs font-semibold text-glacier-blue">
           Tu progreso también cuenta
         </span>
         <h2 className="text-2xl sm:text-4xl xl:text-5xl font-bold tracking-tight text-arctic-slate">
@@ -96,7 +96,7 @@ export default function ProgressSection() {
         {/* Historial de Sesiones a Ancho Completo (Exactamente el sistema visual de /historial) */}
         <div className="space-y-3 pt-2">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between px-1 text-xs gap-1">
-            <span className="font-bold text-arctic-slate uppercase tracking-wider">
+            <span className="tracking-wide font-bold text-arctic-slate">
               Historial de sesiones recientes
             </span>
             <span className="text-arctic-tertiary font-medium">

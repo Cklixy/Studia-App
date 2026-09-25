@@ -56,7 +56,7 @@ export default function HeroInteractiveMockup() {
         {/* Cabecera de la tarjeta */}
         <div className="flex items-center justify-between pb-4 mb-5 border-b border-black/[0.05]">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider">
+            <span className="tracking-wide text-xs font-semibold text-arctic-tertiary">
               Hoy · Siguiente sesión
             </span>
           </div>
@@ -67,7 +67,7 @@ export default function HeroInteractiveMockup() {
               : "bg-black/[0.04] text-arctic-secondary"
           }`}>
             <span className={`w-1.5 h-1.5 rounded-full ${
-              isActive ? "bg-glacier-blue animate-pulse" : "bg-arctic-tertiary"
+              isActive ? "bg-glacier-blue" : "bg-arctic-tertiary"
             }`} />
             {isActive ? "En curso" : "Lista para comenzar"}
           </span>
@@ -101,7 +101,7 @@ export default function HeroInteractiveMockup() {
           <div className={`pt-2 transition-all duration-500 ${step >= 3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>
             <div className="p-3 rounded-2xl bg-frost-base/90 border border-black/[0.04] flex items-center justify-between gap-3">
               <div className="space-y-0.5">
-                <span className="text-xs uppercase font-semibold text-arctic-tertiary tracking-wider block">
+                <span className="tracking-wide text-xs font-semibold text-arctic-tertiary block">
                   Método sugerido
                 </span>
                 <span className="text-xs font-semibold text-arctic-slate">
@@ -125,7 +125,7 @@ export default function HeroInteractiveMockup() {
               <span className="text-2xl font-bold text-arctic-slate tabular-nums tracking-tight font-mono block">
                 {formatTimer(secondsLeft)}
               </span>
-              <span className="text-xs text-arctic-tertiary uppercase tracking-wider font-semibold">
+              <span className="tracking-wide text-xs text-arctic-tertiary font-semibold">
                 Bloque de enfoque
               </span>
             </div>
