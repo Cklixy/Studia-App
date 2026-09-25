@@ -23,7 +23,7 @@ const page = await browser.newPage();
 await page.goto(base + "/login", { waitUntil: "networkidle" });
 await page.fill('input[name="email"]', env.TEST_USER_EMAIL);
 await page.fill('input[name="password"]', env.TEST_USER_PASSWORD);
-await Promise.all([page.waitForURL(/\/materias/, { timeout: 30000 }), page.click("button[formaction]")]);
+await Promise.all([page.waitForURL(/\/(hoy|materias)/, { timeout: 30000 }), page.click("button[formaction]")]);
 const api = async (metodo, ruta, datos) => {
   const r = await page.request.fetch(base + ruta, { method: metodo, data: datos, headers: { "content-type": "application/json", origin: base } });
   const j = await r.json().catch(() => ({}));

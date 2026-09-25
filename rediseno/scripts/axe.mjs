@@ -25,7 +25,7 @@ for (const [w, h, movil] of [[390, 844, true], [1440, 900, false]]) {
         await page.goto(base + "/login", { waitUntil: "networkidle" });
         await page.fill('input[name="email"]', env.TEST_USER_EMAIL);
         await page.fill('input[name="password"]', env.TEST_USER_PASSWORD);
-        await Promise.all([page.waitForURL(/\/materias/, { timeout: 30000 }), page.click('button[type="submit"], button[formaction], form button:not([type="button"])')]);
+        await Promise.all([page.waitForURL(/\/(hoy|materias)/, { timeout: 30000 }), page.click('button[type="submit"], button[formaction], form button:not([type="button"])')]);
         sesion = true;
       }
       await page.goto(base + ruta, { waitUntil: "networkidle" });

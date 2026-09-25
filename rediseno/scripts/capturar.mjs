@@ -13,7 +13,7 @@ const env = Object.fromEntries(fs.readFileSync(`${REPO}/.env.test.local`, "utf8"
 fs.mkdirSync(salida, { recursive: true });
 
 const publicas = { landing: "/", login: "/login", registro: "/registro", recuperar: "/recuperar", "404": "/ruta-que-no-existe" };
-const privadas = { hoy: "/materias", "sesion-nueva": "/sesion/nueva", parciales: "/evaluaciones", "progreso-historial": "/historial",
+const privadas = { hoy: "/hoy", materias: "/materias", "sesion-nueva": "/sesion/nueva", parciales: "/evaluaciones", "progreso-historial": "/historial",
   "progreso-logros": "/logros", "rutas-crear": "/rutas/crear", ajustes: "/ajustes" };
 const extra = JSON.parse(process.env.RUTAS_EXTRA || "{}"); // {"materia": "/materias/<id>"}
 const todas = { ...publicas, ...privadas, ...extra };
@@ -36,7 +36,7 @@ for (const vp of vpArg.split(",")) {
         await page.goto(base + "/login", { waitUntil: "networkidle" });
         await page.fill('input[name="email"]', env.TEST_USER_EMAIL);
         await page.fill('input[name="password"]', env.TEST_USER_PASSWORD);
-        await Promise.all([page.waitForURL(/\/materias/, { timeout: 30000 }), page.click("button[formaction]")]);
+        await Promise.all([page.waitForURL(/\/(hoy|materias)/, { timeout: 30000 }), page.click("button[formaction]")]);
         conSesion = true;
       }
       await page.goto(base + ruta, { waitUntil: "networkidle" });
