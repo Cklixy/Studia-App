@@ -1,6 +1,6 @@
 # Sistema de diseño — "Apple Frosted White"
 
-Estética inspirada en iOS/macOS: fondo gris azulado muy claro, tarjetas de vidrio blanco translúcido, un solo azul de acento, tipografía con tracking negativo, esquinas redondeadas generosas, sombras suaves y frías, movimiento con resortes. **Solo tema claro** (no hay modo oscuro; los tokens heredados del oscuro se eliminaron a propósito). Tranquilo, limpio, sin estridencias: es una app para concentrarse.
+Estética inspirada en iOS/macOS: fondo gris azulado muy claro, tarjetas de vidrio blanco translúcido, un solo azul de acento, tipografía con tracking negativo, esquinas redondeadas generosas, sombras suaves y frías, movimiento con resortes. **Solo tema claro, siempre** (decisión del autor: nunca modo oscuro, ni completo ni parcial, tampoco en la sesión activa; los tokens del oscuro se eliminaron a propósito). Si una guía sugiere oscurecer para enfocar, logra el efecto dentro de la paleta clara. Tranquilo, limpio, sin estridencias: es una app para concentrarse.
 
 Fuentes de verdad: `tailwind.config.ts` y `src/app/globals.css`. Si necesitas algo nuevo, añádelo ahí como token, no como valor suelto.
 
@@ -55,7 +55,8 @@ En Tailwind lo habitual es `text-xs`/`text-sm` para UI densa. **Mínimo 12 px** 
 - **Modales**: usa siempre `components/ui/Dialogo.tsx` (`<dialog>` nativo + portal, `tono="peligro"` para destructivos, `data-autofocus` en el campo principal). No crees modales propios.
 - **Navegación**: dock flotante inferior (`SidebarNav.tsx`) con 5 destinos con etiqueta visible: Inicio, Estudiar, Parciales, Progreso, Ajustes. No añadas un sexto; los destinos nuevos cuelgan de uno existente (p. ej. Logros dentro de Progreso). El `main` lleva `pb-32+` para que el dock no tape nada.
 - **Header**: vidrio `apple-glass-ultra`, sticky, 64/72 px, solo logo.
-- **Cabecera de pantalla**: caption con la fecha → `h1 apple-large-title` → frase de apoyo en `text-arctic-secondary text-sm`; acciones a la derecha en desktop.
+- **Cabecera de pantalla**: usa siempre `components/ui/EncabezadoPantalla.tsx` (`etiqueta`, `titulo`, `descripcion`, `acciones`, `junto`, `centrado`). No armes `h1` a mano ni pongas línea divisoria debajo.
+- **Fechas AAAA-MM-DD** (p. ej. `fecha_parcial`): `formatearFechaLocal()` de `lib/texto.ts`; `new Date('AAAA-MM-DD')` muestra el día anterior en Colombia.
 - **Iconos**: `lucide-react`, `strokeWidth={2}`, `aria-hidden="true"` si son decorativos. Iconos de materias en `lib/subject-icons.tsx`.
 - **Carga**: `apple-shimmer` para esqueletos; `loading.tsx` en español.
 - **Estados vacíos**: uno solo por pantalla, con texto que diga qué hacer y un botón.
@@ -64,6 +65,8 @@ En Tailwind lo habitual es `text-xs`/`text-sm` para UI densa. **Mínimo 12 px** 
 ## Movimiento
 
 - Librería: `motion` (`import { motion, useReducedMotion } from "motion/react"`), no `framer-motion`.
+- Transiciones de la casa en `lib/movimiento.ts`: `resorte` (bounce 0, 0,4 s) por defecto, `resorteHoja` solo para hojas arrastrables, `fundido` para movimiento reducido. Entradas con `components/ui/Aparecer.tsx` y listas con `components/ui/ListaEscalonada.tsx`.
+- Sin animaciones en bucle (`animate-pulse`) salvo en esqueletos de carga.
 - Resortes (`type: "spring", damping ~28, stiffness ~380`) para cambios de posición; CSS `cubic-bezier(0.16, 1, 0.3, 1)` (`--ease-apple-spring`) de 120–200 ms para hover/pulsación.
 - Siempre respeta reduced motion (`useReducedMotion()` → sin `layoutId` y `duration: 0`); el CSS global ya anula animaciones.
 - Animaciones cortas y con propósito (feedback, continuidad). Nada de rebotes largos, parallax ni animaciones en bucle salvo el shimmer.
