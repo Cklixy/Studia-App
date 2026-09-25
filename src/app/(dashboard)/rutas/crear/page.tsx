@@ -73,7 +73,7 @@ export default function CrearRutaIAPage() {
         
         {/* Main Prompt */}
         <div className="apple-card p-5 sm:p-6 relative overflow-hidden group">
-          <label htmlFor="ruta-peticion" className="block text-xs uppercase tracking-widest font-bold text-arctic-secondary mb-3 relative z-10">
+          <label htmlFor="ruta-peticion" className="tracking-wide block text-xs font-semibold text-arctic-secondary mb-3 relative z-10">
             ¿Qué necesitas aprender?
           </label>
           <textarea
@@ -90,8 +90,8 @@ export default function CrearRutaIAPage() {
         {/* Optional Context */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
           <div className="apple-card p-4 sm:p-5">
-            <label htmlFor="ruta-nivel" className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-arctic-secondary mb-2.5">
-              <BookOpen size={14} aria-hidden="true" /> Nivel (Opcional)
+            <label htmlFor="ruta-nivel" className="tracking-wide flex items-center gap-2 text-xs font-semibold text-arctic-secondary mb-2.5">
+              <BookOpen size={14} aria-hidden="true" /> Nivel (opcional)
             </label>
             <div className="relative">
               <select
@@ -113,8 +113,8 @@ export default function CrearRutaIAPage() {
           </div>
 
           <div className="apple-card p-4 sm:p-5">
-            <label htmlFor="ruta-objetivo" className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-arctic-secondary mb-2.5">
-              <Target size={14} aria-hidden="true" /> Objetivo (Opcional)
+            <label htmlFor="ruta-objetivo" className="tracking-wide flex items-center gap-2 text-xs font-semibold text-arctic-secondary mb-2.5">
+              <Target size={14} aria-hidden="true" /> Objetivo (opcional)
             </label>
             <div className="relative">
               <select
@@ -136,8 +136,8 @@ export default function CrearRutaIAPage() {
           </div>
 
           <div className="apple-card p-4 sm:p-5">
-            <label htmlFor="ruta-tiempo" className="flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-arctic-secondary mb-2.5">
-              <Clock size={14} aria-hidden="true" /> Tiempo (Opcional)
+            <label htmlFor="ruta-tiempo" className="tracking-wide flex items-center gap-2 text-xs font-semibold text-arctic-secondary mb-2.5">
+              <Clock size={14} aria-hidden="true" /> Tiempo (opcional)
             </label>
             <div className="relative">
               <select

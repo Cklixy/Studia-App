@@ -58,7 +58,7 @@ export default async function LogrosPage() {
           {racha?.nivel_actual || 1}
         </div>
         <div>
-          <p className="apple-caption text-arctic-secondary">Nivel Académico</p>
+          <p className="text-xs font-semibold tracking-wide text-arctic-secondary">Nivel académico</p>
           <p className="apple-title-2 text-arctic-slate tabular-nums mt-0.5">{racha?.xp_total || 0} XP acumulados</p>
           <p className="apple-subhead text-xs text-arctic-secondary mt-0.5">{rachaVigente(racha) === 1 ? "1 día" : `${rachaVigente(racha)} días`} de racha activa</p>
           {(() => {

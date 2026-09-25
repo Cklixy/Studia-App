@@ -26,7 +26,7 @@ export default function TarjetaPlanParcial({ plan, mostrarMateria = true }: { pl
           <CalendarClock size={20} />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-semibold uppercase tracking-wide text-arctic-secondary">Plan hasta el parcial</p>
+          <p className="tracking-wide text-xs font-semibold text-arctic-secondary">Plan hasta el parcial</p>
           <h2 className="text-base sm:text-lg font-bold text-arctic-slate mt-0.5">
             {mostrarMateria ? `${plan.materiaNombre} · ` : ""}
             <span className="font-semibold">{fecha}</span>

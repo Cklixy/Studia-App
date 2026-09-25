@@ -213,7 +213,7 @@ export default function OnboardingTour() {
                     />
                   </div>
                   <div className="flex justify-between mt-1.5">
-                    <span className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider">
+                    <span className="tracking-wide text-xs font-semibold text-arctic-tertiary">
                       Paso {step + 1} de {STEPS.length}
                     </span>
                     <button

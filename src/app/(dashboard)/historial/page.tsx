@@ -147,7 +147,7 @@ export default async function HistorialPage({
 
       {/* 2. RESUMEN DE ACTIVIDAD (Franja unificada compacta con separadores sutiles) */}
       <section aria-labelledby="activity-summary-title" className="space-y-2.5">
-        <h2 id="activity-summary-title" className="text-xs font-semibold text-arctic-tertiary uppercase tracking-wider px-1">
+        <h2 id="activity-summary-title" className="tracking-wide text-xs font-semibold text-arctic-tertiary px-1">
           Actividad
         </h2>
 
@@ -161,7 +161,7 @@ export default async function HistorialPage({
               <span className="text-2xl sm:text-3xl font-bold text-arctic-slate tabular-nums tracking-tight">
                 {formatMinutesNumber(minutosTotales)}
               </span>
-              <span className="text-xs font-semibold text-arctic-secondary uppercase">
+              <span className="tracking-wide text-xs font-semibold text-arctic-secondary">
                 min
               </span>
             </div>
@@ -209,7 +209,7 @@ export default async function HistorialPage({
         <section aria-labelledby="active-session-title" className="space-y-3">
           <div className="flex items-center gap-2 px-1">
             <span aria-hidden="true" className="w-2 h-2 bg-glacier-blue rounded-full" />
-            <h2 id="active-session-title" className="text-xs uppercase tracking-wider font-semibold text-glacier-blue">
+            <h2 id="active-session-title" className="tracking-wide text-xs font-semibold text-glacier-blue">
               Sesión activa
             </h2>
           </div>
