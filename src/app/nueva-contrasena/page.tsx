@@ -6,7 +6,7 @@ import CampoContrasena from "@/components/auth/CampoContrasena";
 import { createClient } from "@/utils/supabase/server";
 import { conMensaje, LONGITUD_MINIMA_CONTRASENA } from "@/lib/auth/mensajes";
 
-export const metadata: Metadata = { title: "Nueva contraseña · studia+", robots: { index: false } };
+export const metadata: Metadata = { title: "Nueva contraseña", robots: { index: false } };
 
 // Se llega aquí desde el enlace del correo, tras /auth/confirm (sesión temporal de recuperación)
 export default async function NuevaContrasenaPage() {

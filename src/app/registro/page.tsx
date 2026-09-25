@@ -5,7 +5,7 @@ import MarcoAuth, { CampoCorreo } from "@/components/auth/MarcoAuth";
 import CampoContrasena from "@/components/auth/CampoContrasena";
 import { LONGITUD_MINIMA_CONTRASENA } from "@/lib/auth/mensajes";
 
-export const metadata: Metadata = { title: "Crear cuenta · studia+" };
+export const metadata: Metadata = { title: "Crear cuenta gratis" };
 
 export default function RegisterPage() {
   return (

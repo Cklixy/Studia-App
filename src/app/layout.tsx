@@ -1,24 +1,29 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
-import { ES_PRODUCCION, URL_SITIO } from "@/lib/sitio";
-
-const descripcion = "Tu plataforma de estudio inteligente";
+import { DESCRIPCION_SITIO, ES_PRODUCCION, NOMBRE_SITIO, URL_SITIO } from "@/lib/sitio";
 
 export const metadata: Metadata = {
   metadataBase: new URL(URL_SITIO),
-  title: "studia+",
-  description: descripcion,
+  // Cada página pone solo su nombre («Iniciar sesión») y la plantilla añade la marca
+  title: { default: NOMBRE_SITIO, template: `%s · ${NOMBRE_SITIO}` },
+  description: DESCRIPCION_SITIO,
+  applicationName: NOMBRE_SITIO,
   manifest: "/manifest.json",
   // Los Preview de Vercel no deben indexarse
   robots: ES_PRODUCCION ? undefined : { index: false, follow: false },
   openGraph: {
     type: "website",
     locale: "es_CO",
-    siteName: "studia+",
-    title: "studia+",
-    description: descripcion,
-    images: [{ url: "/icons/icon-512x512.png", width: 512, height: 512, alt: "studia+" }],
+    siteName: NOMBRE_SITIO,
+    title: NOMBRE_SITIO,
+    description: DESCRIPCION_SITIO,
+    // La imagen (1200 × 630) sale de app/opengraph-image.tsx y app/twitter-image.tsx
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: NOMBRE_SITIO,
+    description: DESCRIPCION_SITIO,
   },
   icons: {
     icon: [

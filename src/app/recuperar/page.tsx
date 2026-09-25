@@ -3,7 +3,7 @@ import Link from "next/link";
 import { solicitarRecuperacion } from "../login/actions";
 import MarcoAuth, { CampoCorreo } from "@/components/auth/MarcoAuth";
 
-export const metadata: Metadata = { title: "Recuperar contraseña · studia+", robots: { index: false } };
+export const metadata: Metadata = { title: "Recuperar contraseña", robots: { index: false } };
 
 export default function RecuperarPage() {
   return (

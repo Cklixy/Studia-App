@@ -19,3 +19,10 @@ export const RUTAS_PRIVADAS = [
   "/auth/",
   "/nueva-contrasena",
 ];
+
+// Textos de SEO (plan de la landing, fase A). El título de la home lleva las búsquedas objetivo
+// («app de estudio», «técnicas de estudio»); ~60 caracteres y la descripción ~155, lo que Google muestra.
+export const NOMBRE_SITIO = "studia+";
+export const TITULO_HOME = "studia+ · App de estudio con plan, técnicas de estudio e IA";
+export const DESCRIPCION_SITIO =
+  "Organiza tus materias, sigue un plan hasta el parcial y estudia con técnicas como Active Recall y Pomodoro. Música para concentrarte y tutor con IA. Gratis.";

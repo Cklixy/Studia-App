@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 
-export const metadata: Metadata = { title: "Página no encontrada · studia+" };
+export const metadata: Metadata = { title: "Página no encontrada" };
 
 // Antes se mostraba el 404 por defecto de Next, en inglés y sin forma de volver.
 export default function NotFound() {

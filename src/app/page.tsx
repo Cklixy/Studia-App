@@ -11,6 +11,30 @@ import ProgressSection from "@/components/landing/ProgressSection";
 import FinalCtaSection from "@/components/landing/FinalCtaSection";
 import LandingFooter from "@/components/landing/LandingFooter";
 import HeroCta from "@/components/landing/HeroCta";
+import DatosEstructurados from "@/components/landing/DatosEstructurados";
+import type { Metadata } from "next";
+import { DESCRIPCION_SITIO, NOMBRE_SITIO, TITULO_HOME } from "@/lib/sitio";
+
+// Metadata propia de la home: título con las búsquedas objetivo y canonical.
+// openGraph/twitter de una página reemplazan (no combinan) los del layout: se repiten tipo e idioma.
+export const metadata: Metadata = {
+  title: { absolute: TITULO_HOME },
+  description: DESCRIPCION_SITIO,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "es_CO",
+    siteName: NOMBRE_SITIO,
+    url: "/",
+    title: TITULO_HOME,
+    description: DESCRIPCION_SITIO,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITULO_HOME,
+    description: DESCRIPCION_SITIO,
+  },
+};
 
 // La landing es estática: no consulta la sesión en el servidor (ver useHaySesion).
 export default function HomePage() {
@@ -19,6 +43,8 @@ export default function HomePage() {
       
       {/* Luz ambiental sutil */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-gradient-to-b from-glacier-blue/[0.05] via-transparent to-transparent blur-3xl pointer-events-none" />
+
+      <DatosEstructurados />
 
       {/* 1. NAVBAR */}
       <LandingNavbar />

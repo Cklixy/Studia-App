@@ -4,7 +4,7 @@ import { login } from "./actions";
 import MarcoAuth, { CampoCorreo } from "@/components/auth/MarcoAuth";
 import CampoContrasena from "@/components/auth/CampoContrasena";
 
-export const metadata: Metadata = { title: "Iniciar sesión · studia+" };
+export const metadata: Metadata = { title: "Iniciar sesión" };
 
 export default function LoginPage() {
   return (
