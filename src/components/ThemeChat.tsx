@@ -3,7 +3,9 @@
 import { useState, useRef, useEffect, useId, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { X, Send, Loader2, Sparkles, MessageCircle, RotateCcw } from "lucide-react";
+import { motion, useDragControls, useReducedMotion } from "motion/react";
 import TextoTutor from "./TextoTutor";
+import { fundido, resorteHoja } from "@/lib/movimiento";
 
 interface ThemeChatProps {
   tema: any;
@@ -25,6 +27,8 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
   const [montado, setMontado] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const controlesArrastre = useDragControls();
+  const reducido = useReducedMotion();
   const inputRef = useRef<HTMLInputElement>(null);
   const tituloId = useId();
   const inputId = useId();
@@ -140,19 +144,41 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
   return createPortal(
     <>
       {/* Fondo: en escritorio el panel ocupa solo la derecha; clic fuera = cerrar */}
-      <div className="fixed inset-0 z-[60] bg-black/25 backdrop-blur-[2px]" onClick={onClose} aria-hidden="true" />
+      <motion.div
+        className="fixed inset-0 z-[60] bg-black/25 backdrop-blur-[2px]"
+        onClick={onClose}
+        aria-hidden="true"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={fundido}
+      />
 
-      <div
+      {/* El panel entra desde la derecha, de donde vuelve a salir al arrastrarlo (skill apple-design §7) */}
+      <motion.div
         ref={panelRef}
+        initial={reducido ? { opacity: 0 } : { opacity: 0, x: 48 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={reducido ? fundido : resorteHoja}
+        drag={reducido ? false : "x"}
+        dragControls={controlesArrastre}
+        dragListener={false}
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={{ left: 0.05, right: 0.7 }}
+        onDragEnd={(_, info) => {
+          if (info.offset.x > 110 || info.velocity.x > 600) onClose();
+        }}
         role="dialog"
         aria-modal="true"
         aria-labelledby={tituloId}
         aria-describedby={avisoId}
-        className="fixed inset-y-0 right-0 z-[61] w-full max-w-md bg-white border-l border-black/[0.08] shadow-apple-lg flex flex-col duration-300 motion-reduce:animate-none"
+        className="fixed inset-y-0 right-0 z-[61] w-full max-w-md bg-white border-l border-black/[0.08] shadow-apple-lg flex flex-col"
         style={{ paddingTop: "env(safe-area-inset-top)", paddingBottom: "env(safe-area-inset-bottom)" }}
       >
-        {/* Cabecera */}
-        <div className="p-4 border-b border-black/[0.06] flex justify-between items-center gap-3">
+        {/* Cabecera: también sirve de asa para arrastrar el panel y cerrarlo */}
+        <div
+          className="p-4 border-b border-black/[0.06] flex justify-between items-center gap-3 touch-pan-y cursor-grab active:cursor-grabbing"
+          onPointerDown={(e) => controlesArrastre.start(e)}
+        >
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="w-8 h-8 rounded-xl bg-glacier-blue/10 text-glacier-blue flex items-center justify-center shrink-0" aria-hidden="true">
               <Sparkles size={16} />
@@ -167,6 +193,7 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
           <button
             type="button"
             onClick={onClose}
+            onPointerDown={(e) => e.stopPropagation()}
             aria-label="Cerrar tutor"
             className="w-11 h-11 rounded-full bg-black/[0.04] hover:bg-black/[0.08] flex items-center justify-center text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile shrink-0"
           >
@@ -262,7 +289,7 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
             </button>
           </form>
         </div>
-      </div>
+      </motion.div>
     </>,
     document.body
   );
