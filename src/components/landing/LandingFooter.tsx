@@ -1,54 +1,27 @@
 import Link from "next/link";
 import BrandLogo from "@/components/BrandLogo";
 
+// Pie sin enlaces falsos: antes «Privacidad» y «Términos» eran texto que parecía enlace.
 export default function LandingFooter() {
-  const currentYear = new Date().getFullYear();
-
   return (
-    <footer className="border-t border-linea bg-superficie backdrop-blur-md pt-10 pb-14 transition-colors">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 space-y-6">
-        
-        {/* Fila Principal */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-5 pb-6 border-b border-linea">
-          <div className="flex flex-col items-center md:items-start gap-1">
-            <BrandLogo />
-            <p className="text-xs text-tinta-2 text-center md:text-left">
-              Tu copiloto para estudiar con dirección.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-medium text-tinta-2">
-            <a href="#como-funciona" className="hover:text-tinta transition-colors">
-              Cómo funciona
-            </a>
-            <a href="#funciones" className="hover:text-tinta transition-colors">
-              Funciones
-            </a>
-            <a href="#ia" className="hover:text-tinta transition-colors">
-              IA
-            </a>
-            <Link href="/login" className="hover:text-tinta transition-colors">
-              Iniciar sesión
-            </Link>
-          </div>
+    <footer className="border-t border-linea">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+        <div className="max-w-xs">
+          <BrandLogo />
+          <p className="text-sm text-tinta-2 mt-1">Sabe qué estudiar hoy y llega preparado a tus parciales.</p>
         </div>
-
-        {/* Fila Inferior con Mención Discreta a Gemini y Legal */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-tinta-3 text-center sm:text-left">
-          <p>© {currentYear} studia+. Todos los derechos reservados.</p>
-          
-          <div className="flex flex-wrap items-center justify-center gap-x-2.5 sm:gap-x-3 gap-y-1">
-            <span>Privacidad</span>
-            <span>•</span>
-            <span>Términos</span>
-            <span>•</span>
-            <span className="text-tinta-2 font-medium">
-              IA integrada · Powered by Gemini
-            </span>
-          </div>
-        </div>
-
+        <nav aria-label="Pie de página">
+          <ul className="flex flex-wrap gap-x-2 gap-y-1 text-sm font-medium">
+            <li><a href="#como-funciona" className="inline-flex min-h-11 items-center px-2 text-tinta-2 hover:text-tinta">Cómo funciona</a></li>
+            <li><a href="#preguntas" className="inline-flex min-h-11 items-center px-2 text-tinta-2 hover:text-tinta">Preguntas</a></li>
+            <li><Link href="/login" className="inline-flex min-h-11 items-center px-2 text-tinta-2 hover:text-tinta">Entrar</Link></li>
+            <li><Link href="/registro" className="inline-flex min-h-11 items-center px-2 text-tinta-2 hover:text-tinta">Crear cuenta</Link></li>
+          </ul>
+        </nav>
       </div>
+      <p className="max-w-6xl mx-auto px-4 sm:px-6 pb-10 text-sm text-tinta-2">
+        studia+ usa Gemini, de Google, para el tutor y las recomendaciones. Tus datos son tuyos: puedes descargarlos o borrar tu cuenta desde Ajustes.
+      </p>
     </footer>
   );
 }

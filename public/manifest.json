@@ -1,15 +1,15 @@
 {
   "id": "/",
-  "name": "studia+ — Navegación Académica",
+  "name": "studia+",
   "short_name": "studia+",
-  "description": "Tu sistema de navegación académica impulsado por IA",
+  "description": "Sabe qué estudiar hoy y llega preparado a tus parciales.",
   "lang": "es",
   "dir": "ltr",
   "start_url": "/materias",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#F4F6FB",
-  "theme_color": "#F4F6FB",
+  "background_color": "#F6F3EC",
+  "theme_color": "#F6F3EC",
   "orientation": "portrait-primary",
   "icons": [
     {
