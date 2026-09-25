@@ -80,16 +80,16 @@ export default function Dialogo({
       onClick={(e) => {
         if (e.target === ref.current) ref.current?.close();
       }}
-      className={`p-0 m-auto bg-transparent w-[calc(100%-2rem)] ${anchoMaximo === "sm" ? "max-w-sm" : "max-w-md"} backdrop:bg-black/35 backdrop:backdrop-blur-sm motion-reduce:animate-none`}
+      className={`p-0 m-auto bg-transparent w-[calc(100%-2rem)] ${anchoMaximo === "sm" ? "max-w-sm" : "max-w-md"} backdrop:bg-velo/45 backdrop:backdrop-blur-sm motion-reduce:animate-none`}
     >
-      <div className={`bg-white rounded-2xl p-6 shadow-apple-lg border ${tono === "peligro" ? "border-red-500/20" : "border-black/[0.08]"}`}>
-        <div className="flex items-start justify-between gap-3 pb-4 mb-4 border-b border-black/[0.06]">
+      <div className={`bg-superficie rounded-2xl p-6 shadow-3 border ${tono === "peligro" ? "border-error/20" : "border-linea"}`}>
+        <div className="flex items-start justify-between gap-3 pb-4 mb-4 border-b border-linea">
           <div className="flex items-center gap-3 min-w-0">
             {icono && <div aria-hidden="true" className="shrink-0">{icono}</div>}
             <div className="min-w-0">
-              <h2 id={tituloId} className="apple-title-3 text-arctic-slate">{titulo}</h2>
+              <h2 id={tituloId} className="titulo-3 text-tinta">{titulo}</h2>
               {descripcion && (
-                <p id={descId} className="text-sm text-arctic-secondary mt-0.5">{descripcion}</p>
+                <p id={descId} className="text-sm text-tinta-2 mt-0.5">{descripcion}</p>
               )}
             </div>
           </div>
@@ -97,7 +97,7 @@ export default function Dialogo({
             type="button"
             onClick={() => ref.current?.close()}
             aria-label="Cerrar"
-            className="w-11 h-11 -mr-2 -mt-2 rounded-full flex items-center justify-center text-arctic-secondary hover:text-arctic-slate hover:bg-black/[0.05] transition-colors shrink-0"
+            className="w-11 h-11 -mr-2 -mt-2 rounded-full flex items-center justify-center text-tinta-2 hover:text-tinta hover:bg-hundido transition-colors shrink-0"
           >
             <X size={18} aria-hidden="true" />
           </button>
