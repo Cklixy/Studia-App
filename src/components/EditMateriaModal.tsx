@@ -4,7 +4,6 @@ import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Settings, Trash2, AlertTriangle } from "lucide-react";
 import Dialogo from "@/components/ui/Dialogo";
-import { avisar } from "@/lib/avisos";
 
 export default function EditMateriaModal({ materia }: { materia: any }) {
   const router = useRouter();
@@ -28,7 +27,6 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
       });
       if (!res.ok) throw new Error();
       setIsOpen(false);
-      avisar("Cambios guardados");
       router.refresh();
     } catch {
       setError("No pudimos guardar los cambios. Inténtalo de nuevo.");
@@ -43,7 +41,6 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
     try {
       const res = await fetch(`/api/materias/${materia.id}`, { method: "DELETE" });
       if (!res.ok) throw new Error();
-      avisar(`«${materia.nombre}» eliminada`);
       router.push("/materias");
       router.refresh();
     } catch {
@@ -60,7 +57,7 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
         onClick={() => setIsOpen(true)}
         aria-label={`Editar materia ${materia.nombre}`}
         aria-haspopup="dialog"
-        className="w-11 h-11 shrink-0 rounded-full border border-linea-fuerte bg-superficie hover:bg-hundido flex items-center justify-center text-tinta-2 hover:text-tinta transition-colors tactil"
+        className="w-11 h-11 rounded-full bg-hundido hover:bg-hundido flex items-center justify-center text-tinta-2 hover:text-tinta transition-colors tactil"
       >
         <Settings size={17} aria-hidden="true" />
       </button>
@@ -71,30 +68,30 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
         titulo="Editar materia"
       >
         {error && (
-          <div role="alert" className="mb-4 rounded-xl bg-error-suave p-3 text-sm font-semibold text-error">
+          <div role="alert" className="mb-4 p-3 rounded-xl bg-error/10 border border-error/20 text-error text-sm">
             {error}
           </div>
         )}
         <form onSubmit={handleUpdate} className="space-y-4">
           <div>
-            <label htmlFor={`${id}-nombre`} className="block text-sm font-semibold text-tinta mb-1.5">Nombre</label>
+            <label htmlFor={`${id}-nombre`} className="block text-sm font-medium text-tinta mb-1.5">Nombre</label>
             <input
               id={`${id}-nombre`}
               type="text"
               required
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
-              className="campo"
+              className="w-full rounded-xl px-4 py-2.5 bg-superficie border border-linea-fuerte focus:border-acento focus:ring-2 focus:ring-acento/25 outline-none text-base text-tinta transition-all"
             />
           </div>
           <div>
-            <label htmlFor={`${id}-fecha`} className="block text-sm font-semibold text-tinta mb-1.5">Fecha del parcial</label>
+            <label htmlFor={`${id}-fecha`} className="block text-sm font-medium text-tinta mb-1.5">Fecha del parcial</label>
             <input
               id={`${id}-fecha`}
               type="date"
               value={fechaParcial}
               onChange={(e) => setFechaParcial(e.target.value)}
-              className="campo"
+              className="w-full rounded-xl px-4 py-2.5 bg-superficie border border-linea-fuerte focus:border-acento focus:ring-2 focus:ring-acento/25 outline-none text-base text-tinta transition-all [color-scheme:light]"
             />
           </div>
           <div className="flex justify-between items-center gap-2 pt-3 border-t border-linea">
@@ -105,13 +102,13 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
               className="flex items-center gap-1.5 text-error hover:text-error font-semibold text-sm transition-colors disabled:opacity-50 tactil min-h-11 px-2 rounded-lg hover:bg-error/10"
             >
               <Trash2 size={15} strokeWidth={2} aria-hidden="true" />
-              <span>Eliminar materia</span>
+              <span>Eliminar</span>
             </button>
             <div className="flex gap-2">
-              <button type="button" onClick={() => setIsOpen(false)} className="btn-fantasma">
+              <button type="button" onClick={() => setIsOpen(false)} className="btn-fantasma text-sm px-3.5 min-h-11 tactil">
                 Cancelar
               </button>
-              <button type="submit" disabled={loading} className="btn-primario">
+              <button type="submit" disabled={loading} className="btn-primario text-sm min-h-11 px-5 disabled:opacity-50 tactil shadow-1">
                 {loading ? "Guardando…" : "Guardar cambios"}
               </button>
             </div>
@@ -134,12 +131,12 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
         }
       >
         {error && (
-          <div role="alert" className="mb-4 rounded-xl bg-error-suave p-3 text-sm font-semibold text-error">
+          <div role="alert" className="mb-4 p-3 rounded-xl bg-error/10 border border-error/20 text-error text-sm">
             {error}
           </div>
         )}
         {/* Las sesiones se conservan en el historial (sesiones.materia_id ON DELETE SET NULL) */}
-        <p className="mb-5 text-tinta">
+        <p className="text-sm text-tinta mb-5 bg-error/[0.04] border border-error/15 rounded-xl p-3 leading-relaxed">
           Se eliminarán <b>&ldquo;{materia.nombre}&rdquo;</b>, sus temas, su ruta y sus notas. Tus sesiones de estudio se
           conservarán en el historial.
         </p>
@@ -149,7 +146,7 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
             onClick={() => setConfirmDelete(false)}
             disabled={loading}
             data-autofocus
-            className="flex-1 btn-secundario"
+            className="flex-1 btn-fantasma text-sm min-h-11 tactil"
           >
             Cancelar
           </button>
@@ -157,7 +154,7 @@ export default function EditMateriaModal({ materia }: { materia: any }) {
             type="button"
             onClick={handleDelete}
             disabled={loading}
-            className="flex-1 btn-peligro"
+            className="flex-1 btn-peligro text-sm min-h-11 disabled:opacity-50 tactil"
           >
             {loading ? "Eliminando…" : "Sí, eliminar"}
           </button>
