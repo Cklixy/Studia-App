@@ -1,411 +1,104 @@
-import { createClient } from "@/utils/supabase/server";
-import { capitalizarInicio, plural } from "@/lib/texto";
-import { rachaVigente } from "@/lib/racha";
-import { redirect } from "next/navigation";
-import dynamic from "next/dynamic";
-import CreateMateriaForm from "@/components/CreateMateriaForm";
-import StatsPanel from "@/components/StatsPanel";
-import StudyTrailWidget from "@/components/StudyTrailWidget";
+import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { BookOpen, ChevronRight, Sparkles } from "lucide-react";
+import { createClient } from "@/utils/supabase/server";
 import { getCachedMaterias } from "@/lib/data/materias";
-import { planesProximos } from "@/lib/planParcial";
-import TarjetaPlanParcial from "@/components/TarjetaPlanParcial";
-import {
-  Flame,
-  ArrowRight,
-  Sparkles,
-  BookOpen,
-  Calendar,
-  ChevronRight,
-  CheckCircle2
-} from "lucide-react";
+import { calcularPlanParcial } from "@/lib/planParcial";
+import { plural } from "@/lib/texto";
+import CreateMateriaForm from "@/components/CreateMateriaForm";
+import EstadoVacio from "@/components/ui/EstadoVacio";
+import BarraProgreso from "@/components/ui/BarraProgreso";
 
-// Client component diferido únicamente para Web Push API
-const PushNotificationManager = dynamic(() => import("@/components/PushNotificationManager"), {
-  ssr: false,
-});
+export const metadata: Metadata = { title: "Materias · studia+" };
 
+// Materias (rediseño 4.2): lista para crear y navegar con pocos toques. Cada fila lleva a la materia,
+// donde están sus temas, su plan y la acción de estudiar. Antes, las materias vivían mezcladas con el Inicio.
 export default async function MateriasPage() {
   const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return redirect("/login");
+  const { data: { session } } = await supabase.auth.getSession();
 
-  if (!user) {
-    return redirect("/login");
-  }
+  const materias = (await getCachedMaterias(user.id, session?.access_token)) || [];
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  const firstName = user.user_metadata?.full_name?.split(" ")[0] || user.email?.split("@")[0] || "Estudiante";
-
-  const inicioSemana = new Date();
-  inicioSemana.setDate(inicioSemana.getDate() - inicioSemana.getDay());
-  inicioSemana.setHours(0, 0, 0, 0);
-
-  const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-  // Consultas en paralelo optimizadas con caché para materias
-  const [
-    materias,
-    { data: rachaData },
-    { data: sesionesSemana },
-    { data: sesionesRecientes }
-  ] = await Promise.all([
-    getCachedMaterias(user.id, session?.access_token),
-
-    supabase
-      .from("rachas")
-      .select("dias, xp_total, nivel_actual, ultima_actividad")
-      .eq("user_id", user.id)
-      .single(),
-
-    supabase
-      .from("sesiones")
-      .select("tiempo_efectivo_segundos")
-      .eq("user_id", user.id)
-      .eq("estado", "finalizada")
-      .gte("hora_finalizacion", inicioSemana.toISOString()),
-
-    supabase
-      .from("sesiones")
-      .select("tiempo_efectivo_segundos, calificacion_productividad, resultado_logro, metodo_utilizado, hora_finalizacion")
-      .eq("user_id", user.id)
-      .eq("estado", "finalizada")
-      .gte("hora_finalizacion", thirtyDaysAgo.toISOString())
-  ]);
-
-  // Solo cuenta si la última sesión fue hoy o ayer (antes se mostraba una racha ya rota)
-  const rachaActual = rachaVigente(rachaData);
-  const rachaAnterior = rachaActual === 0 ? rachaData?.dias || 0 : 0;
-  const sinMaterias = !materias || materias.length === 0;
-  const tieneActividad = (sesionesRecientes?.length || 0) > 0 || rachaActual > 0;
-  const xpTotal = rachaData?.xp_total || 0;
-  const nivelActual = rachaData?.nivel_actual || 1;
-
-  const xpEstaSemana = (sesionesSemana || []).reduce((acc, s) =>
-    acc + Math.floor((s.tiempo_efectivo_segundos || 0) / 60) * 10, 0
-  );
-
-  // Calcular métricas
-  const totalMinutos = Math.floor(
-    (sesionesRecientes || []).reduce((acc, s) => acc + (s.tiempo_efectivo_segundos || 0), 0) / 60
-  );
-  const sesionesExitosas = (sesionesRecientes || []).filter(s =>
-    s.resultado_logro === "Sí" || s.resultado_logro === "Si" || s.resultado_logro === "Parcialmente"
-  ).length;
-  const efectividad = sesionesRecientes?.length
-    ? Math.round((sesionesExitosas / sesionesRecientes.length) * 100)
-    : 0;
-
-  // Pre-sort temas for each materia
-  if (materias) {
-    materias.forEach(m => {
-      if (m.temas) {
-        m.temas.sort((a: any, b: any) => {
-          if (a.orden !== null && b.orden !== null) return a.orden - b.orden;
-          return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-        });
-      }
-    });
-  }
-
-  // Calculate Next Move (The first pending theme across all subjects)
-  let nextMove: { materia: string; materiaId: string; tema: string; temaId: string } | null = null;
-  if (materias) {
-    for (const materia of materias) {
-      const pendingTemas = materia.temas?.filter((t: any) => t.estado !== 'completado') || [];
-      if (pendingTemas.length > 0) {
-        pendingTemas.sort((a: any, b: any) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
-        nextMove = {
-          materia: materia.nombre,
-          materiaId: materia.id,
-          tema: pendingTemas[0].nombre,
-          temaId: pendingTemas[0].id
-        };
-        break;
-      }
-    }
-  }
-
-  // Today formatted in Spanish
-  const fechaHoy = new Intl.DateTimeFormat("es-ES", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-  }).format(new Date());
+  // Primero las que tienen parcial más cercano; luego el resto por nombre
+  const filas = materias
+    .map((m: any) => {
+      const temas = m.temas || [];
+      const hechos = temas.filter((t: any) => t.estado === "completado").length;
+      const plan = calcularPlanParcial(m);
+      return { m, total: temas.length, hechos, plan };
+    })
+    .sort((a, b) => (a.plan?.diasRestantes ?? 9999) - (b.plan?.diasRestantes ?? 9999) || a.m.nombre.localeCompare(b.m.nombre, "es"));
 
   return (
-    <div className="flex flex-col gap-9 w-full duration-500">
-
-      {/* Apple Large Title Header en Grafito Pizarra */}
-      <header className="flex flex-col md:flex-row justify-between md:items-end gap-4 pb-1">
+    <div className="flex flex-col gap-8">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <span className="text-xs tracking-wide font-semibold text-tinta-2">
-            {capitalizarInicio(fechaHoy)}
-          </span>
-          <h1 className="titulo-1 text-tinta mt-1">
-            Hola, {firstName}
-          </h1>
-          <p className="text-tinta-2 text-sm mt-1">
-            {rachaActual > 0
-              ? `Llevas ${plural(rachaActual, "día seguido", "días seguidos")} de enfoque académico. ¡Excelente constancia!`
-              : rachaAnterior > 1
-                ? `Tu racha anterior fue de ${rachaAnterior} días. Una sesión hoy empieza una nueva.`
-                : "Comienza una sesión hoy para activar tu racha de estudio."}
+          <h1 className="titulo-1">Materias</h1>
+          <p className="subtitulo mt-1.5">
+            {materias.length ? `${plural(materias.length, "materia", "materias")} este semestre.` : "Aquí vivirán tus asignaturas y sus temas."}
           </p>
         </div>
-
-        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-          <Link
-            href="/rutas"
-            className="btn-secundario text-xs font-semibold py-2 px-3.5 sm:px-4 tactil inline-flex items-center gap-2 shrink-0"
-          >
-            <Sparkles size={14} className="text-acento" />
-            <span>Crear ruta IA</span>
-          </Link>
-          <CreateMateriaForm />
-        </div>
-      </header>
-
-      {/* Top Row: Apple Activity Gauge + Hero Focus Card en Vidrio Blanco */}
-      <div className="grid grid-cols-1 sm:grid-cols-[240px_1fr] lg:grid-cols-[290px_1fr] gap-4 sm:gap-5">
-
-        {/* Apple Activity Gauge Card (Racha & XP) */}
-        <div className="tarjeta p-6 flex flex-col items-center justify-between text-center relative overflow-hidden group">
-          <div className="w-full flex items-center justify-between text-xs text-tinta-2">
-            <span className="font-medium tracking-tight">Racha de Estudio</span>
-            <span className="flex items-center gap-1 text-error font-semibold">
-              <Flame size={14} className="fill-error text-error" />
-              {rachaActual}d
-            </span>
-          </div>
-
-          {/* Activity Ring Dial en Tonos Fríos */}
-          <div className="relative w-36 h-36 my-4 flex items-center justify-center">
-            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
-              {/* Outer light track */}
-              <circle
-                cx="60"
-                cy="60"
-                r="48"
-                className="stroke-linea"
-                strokeWidth="9"
-                fill="none"
-              />
-              {/* Outer Activity Progress: Glacier to Polar Cyan */}
-              <circle
-                cx="60"
-                cy="60"
-                r="48"
-                stroke="url(#glacierGradient)"
-                strokeWidth="9"
-                strokeLinecap="round"
-                fill="none"
-                strokeDasharray={`${2 * Math.PI * 48}`}
-                strokeDashoffset={`${2 * Math.PI * 48 * (1 - Math.min(1, rachaActual / 7))}`}
-                className="transition-all duration-1000 ease-out"
-              />
-              {/* Inner light track for XP */}
-              <circle
-                cx="60"
-                cy="60"
-                r="36"
-                className="stroke-linea"
-                strokeWidth="7"
-                fill="none"
-              />
-              <circle
-                cx="60"
-                cy="60"
-                r="36"
-                stroke="url(#irisGradient)"
-                strokeWidth="7"
-                strokeLinecap="round"
-                fill="none"
-                strokeDasharray={`${2 * Math.PI * 36}`}
-                strokeDashoffset={`${2 * Math.PI * 36 * (1 - Math.min(1, (xpEstaSemana % 500) / 500))}`}
-                className="transition-all duration-1000 ease-out"
-              />
-              <defs>
-                <linearGradient id="glacierGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#0071E3" />
-                  <stop offset="100%" stopColor="#0EA5E9" />
-                </linearGradient>
-                <linearGradient id="irisGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#6366F1" />
-                  <stop offset="100%" stopColor="#06B6D4" />
-                </linearGradient>
-              </defs>
-            </svg>
-
-            {/* Metric Center */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-3xl font-bold tracking-tight text-tinta tabular-nums">
-                {rachaActual}
-              </span>
-              <span className="text-xs uppercase font-semibold tracking-wider text-tinta-2">
-                días
-              </span>
-            </div>
-          </div>
-
-          {/* Bottom XP Chip */}
-          <div className="w-full pt-3 border-t border-linea flex items-center justify-between text-xs">
-            <span className="text-tinta-2">Esta semana:</span>
-            <span className="font-semibold text-acento">+{xpEstaSemana} XP</span>
-          </div>
-        </div>
-
-        {/* Hero Next Move Focus Card en Vidrio Blanco */}
-        {nextMove ? (
-          <div className="tarjeta p-6 md:p-8 flex flex-col justify-between relative overflow-hidden group">
-            {/* Ambient cold light splash */}
-            <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-acento/[0.05] blur-3xl pointer-events-none" />
-
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-acento/10 border border-acento/20 text-acento text-xs font-semibold tracking-wider uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-acento animate-pulse" />
-                Siguiente Paso Recomendado
-              </div>
-
-              <div className="mt-4">
-                <span className="antetitulo text-tinta-2">
-                  {nextMove.materia}
-                </span>
-                <h2 className="titulo-2 text-tinta mt-1">
-                  {nextMove.tema}
-                </h2>
-                <p className="cuerpo text-tinta-2 max-w-lg mt-2">
-                  Tu plan curricular indica que este es el tema prioritario para consolidar hoy.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 mt-6 pt-4 border-t border-linea">
-              <Link
-                href={`/sesion/nueva?materia=${nextMove.materiaId}&tema=${nextMove.temaId}`}
-                className="btn-primario text-xs py-2.5 px-6 font-semibold tactil shadow-1 text-center justify-center"
-              >
-                <span>Comenzar sesión ahora</span>
-                <ArrowRight size={14} />
-              </Link>
-              <Link
-                href={`/materias/${nextMove.materiaId}`}
-                className="btn-secundario text-xs py-2.5 px-4 tactil text-center justify-center"
-              >
-                <span>Explorar temario</span>
-                <ChevronRight size={14} />
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <div className="tarjeta p-8 flex flex-col justify-center items-center text-center relative overflow-hidden">
-            <div className="w-12 h-12 rounded-2xl bg-hundido border border-linea flex items-center justify-center text-tinta-2 mb-3">
-              <BookOpen size={22} />
-            </div>
-            <h2 className="text-lg font-semibold text-tinta tracking-tight">
-              {sinMaterias ? "Crea tu primera materia" : "Sin temas pendientes"}
-            </h2>
-            <p className="text-sm text-tinta-2 max-w-sm mt-1 mb-5">
-              {sinMaterias
-                ? "Agrega una asignatura (con la fecha de tu parcial, si ya la sabes) y después sus temas. studia+ te dirá qué estudiar primero."
-                : "Completaste los temas de tus materias. Agrega temas nuevos o crea otra materia."}
-            </p>
-            <CreateMateriaForm />
+        {materias.length > 0 && (
+          <div className="flex flex-col-reverse gap-2 sm:flex-row">
+            <Link href="/rutas/crear" className="btn-fantasma">
+              <Sparkles aria-hidden="true" size={18} />
+              Plan con IA
+            </Link>
+            <CreateMateriaForm variante="primario" />
           </div>
         )}
-      </div>
+      </header>
 
-      {/* Plan hasta los parciales más cercanos (auditoría U-11) */}
-      {planesProximos(materias as any).slice(0, 2).map((plan) => (
-        <TarjetaPlanParcial key={plan.materiaId} plan={plan} />
-      ))}
-
-      {/* Constellation Grid: Tus Materias */}
-      {!sinMaterias && (
-      <section className="space-y-4">
-        <div className="flex justify-between items-center px-1">
-          <div>
-            <h3 className="text-lg font-bold tracking-tight text-tinta">Tus Materias</h3>
-            <p className="text-xs text-tinta-2">Estructura tus asignaturas y monitorea el avance de cada una</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-          {materias?.map((materia) => {
-            const temas = materia.temas || [];
-            const completedCount = temas.filter((t: any) => t.estado === 'completado').length;
-            const progressPct = temas.length > 0 ? Math.round((completedCount / temas.length) * 100) : 0;
-
-            return (
-              <Link
-                key={materia.id}
-                href={`/materias/${materia.id}`}
-                className="tarjeta p-5 flex flex-col justify-between group tactil cursor-pointer"
-              >
-                <div>
-                  <div className="flex justify-between items-start gap-2 mb-2">
-                    <h4 className="text-base font-semibold text-tinta tracking-tight group-hover:text-acento transition-colors">
-                      {materia.nombre}
-                    </h4>
-                    {materia.fecha_parcial && (
-                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-error bg-error/10 border border-error/20 px-2 py-0.5 rounded-full shrink-0">
-                        <Calendar size={11} />
-                        <span>{new Date(materia.fecha_parcial).toLocaleDateString("es-ES", { month: "short", day: "numeric" })}</span>
-                      </span>
-                    )}
-                  </div>
-
-                  <p className="text-xs text-tinta-2">
-                    {completedCount} de {temas.length} temas dominados
-                  </p>
-                </div>
-
-                {/* Progress bar */}
-                <div className="mt-5 pt-3 border-t border-linea">
-                  <div className="flex justify-between items-center text-xs mb-1.5">
-                    <span className="text-tinta-2 text-xs">Progreso</span>
-                    <span className="font-semibold text-tinta tabular-nums text-xs">{progressPct}%</span>
-                  </div>
-                  <div className="w-full bg-hundido rounded-full h-1.5 overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-acento transition-all duration-700 ease-out"
-                      style={{ width: `${progressPct}%` }}
-                    />
-                  </div>
-                </div>
+      {materias.length === 0 ? (
+        <EstadoVacio
+          icono={BookOpen}
+          titulo="Aún no tienes materias"
+          texto="Crea tu primera materia con la fecha de su parcial. Después agregas los temas y studia+ te dice qué estudiar cada día."
+          accion={
+            <>
+              <CreateMateriaForm variante="primario" />
+              <Link href="/rutas/crear" className="btn-fantasma">
+                <Sparkles aria-hidden="true" size={18} />
+                Que la IA arme los temas
               </Link>
-            );
-          })}
-
-        </div>
-      </section>
+            </>
+          }
+        />
+      ) : (
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {filas.map(({ m, total, hechos, plan }) => (
+            <li key={m.id}>
+              <Link href={`/materias/${m.id}`} className="tarjeta flex flex-col gap-3 p-4 sm:p-5 h-full">
+                <div className="flex items-start justify-between gap-3">
+                  <h2 className="titulo-3">{m.nombre}</h2>
+                  <ChevronRight aria-hidden="true" size={20} className="text-tinta-3 shrink-0 mt-0.5" />
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {plan ? (
+                    <span className={`chip ${plan.diasRestantes <= 3 ? "chip-aviso" : "chip-acento"}`}>
+                      {plan.diasRestantes === 0 ? "Parcial hoy" : plan.diasRestantes === 1 ? "Parcial mañana" : `Parcial en ${plan.diasRestantes} días`}
+                    </span>
+                  ) : (
+                    <span className="chip">Sin fecha de parcial</span>
+                  )}
+                  {total > 0 && hechos === total && <span className="chip chip-exito">Temas completos</span>}
+                </div>
+                {total > 0 ? (
+                  <div className="mt-auto flex items-center gap-3">
+                    <BarraProgreso valor={(hechos / total) * 100} etiqueta={`Avance de ${m.nombre}`} textoValor={`${hechos} de ${total} temas`} tono="exito" className="flex-1" />
+                    <span className="text-sm text-tinta-2 tabular-nums">{hechos}/{total} temas</span>
+                  </div>
+                ) : (
+                  <p className="mt-auto text-sm font-semibold text-acento">Agrega sus temas →</p>
+                )}
+              </Link>
+            </li>
+          ))}
+        </ul>
       )}
-
-      {tieneActividad && (
-        <>
-          {/* Gráficos de racha (Server Component puro sin cliente JS) */}
-          <StudyTrailWidget dias={rachaActual} />
-
-          {/* Stats Summary Panel */}
-          <StatsPanel
-            totalMinutos={totalMinutos}
-            efectividad={efectividad}
-            totalSesiones={sesionesRecientes?.length || 0}
-            nivelActual={nivelActual}
-            xpTotal={xpTotal}
-          />
-        </>
-      )}
-
-      {/* Push Notifications Settings */}
-      <div className="pt-2">
-        <PushNotificationManager />
-      </div>
     </div>
   );
 }

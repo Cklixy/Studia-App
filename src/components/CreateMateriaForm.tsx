@@ -8,23 +8,18 @@ const CreateMateriaModal = dynamic(() => import("./CreateMateriaModal"), {
   ssr: false,
 });
 
-export default function CreateMateriaForm() {
+// Botón «Nueva materia»: primario cuando es la acción principal de la pantalla (Materias), secundario en el resto.
+export default function CreateMateriaForm({ variante = "secundario", className = "" }: { variante?: "primario" | "secundario"; className?: string }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <button 
-        onClick={() => setIsOpen(true)}
-        className="btn-secundario text-xs font-semibold py-2 px-3.5 tactil inline-flex items-center gap-1.5"
-      >
-        <Plus size={14} className="text-acento" />
+      <button type="button" onClick={() => setIsOpen(true)} className={`${variante === "primario" ? "btn-primario" : "btn-secundario"} ${className}`}>
+        <Plus aria-hidden="true" size={18} />
         <span>Nueva materia</span>
       </button>
 
-      {isOpen && (
-        <CreateMateriaModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
-      )}
+      {isOpen && <CreateMateriaModal isOpen={isOpen} onClose={() => setIsOpen(false)} />}
     </>
   );
 }
-

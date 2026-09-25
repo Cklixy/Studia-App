@@ -4,6 +4,7 @@ import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Calendar, BookOpen } from "lucide-react";
 import Dialogo from "@/components/ui/Dialogo";
+import { avisar } from "@/lib/avisos";
 
 interface CreateMateriaModalProps {
   isOpen: boolean;
@@ -35,10 +36,14 @@ export default function CreateMateriaModal({ isOpen, onClose }: CreateMateriaMod
         throw new Error(typeof data.error === "string" ? data.error : "No pudimos crear la materia. Inténtalo de nuevo.");
       }
 
+      const creada = await res.json().catch(() => null);
       setNombre("");
       setFechaParcial("");
       onClose();
-      router.refresh();
+      avisar("Materia creada. Ahora agrega sus temas.");
+      // Siguiente paso natural: agregar los temas (sin ellos no hay plan)
+      if (creada?.id) router.push(`/materias/${creada.id}?nueva=1#temas`);
+      else router.refresh();
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -51,7 +56,7 @@ export default function CreateMateriaModal({ isOpen, onClose }: CreateMateriaMod
       abierto={isOpen}
       onCerrar={onClose}
       titulo="Nueva materia"
-      descripcion="Organiza tus temas y parciales"
+      descripcion="Con la fecha del parcial, studia+ arma tu plan día a día."
       icono={
         <div className="w-9 h-9 rounded-xl bg-acento/10 text-acento flex items-center justify-center">
           <BookOpen size={17} strokeWidth={2} />
@@ -66,8 +71,8 @@ export default function CreateMateriaModal({ isOpen, onClose }: CreateMateriaMod
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor={`${id}-nombre`} className="block text-sm font-medium text-tinta mb-1.5">
-            Nombre de la materia <span aria-hidden="true">*</span>
+          <label htmlFor={`${id}-nombre`} className="block text-sm font-semibold text-tinta mb-1.5">
+            Nombre de la materia
           </label>
           <input
             id={`${id}-nombre`}
@@ -76,33 +81,33 @@ export default function CreateMateriaModal({ isOpen, onClose }: CreateMateriaMod
             data-autofocus
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            className="w-full rounded-xl px-4 py-2.5 bg-superficie border border-linea-fuerte focus:border-acento focus:ring-2 focus:ring-acento/25 outline-none text-base text-tinta transition-all"
+            className="campo"
             placeholder="Ej. Cálculo Vectorial, Historia del Arte…"
           />
         </div>
 
         <div>
-          <label htmlFor={`${id}-fecha`} className="block text-sm font-medium text-tinta mb-1.5 flex items-center gap-1.5">
+          <label htmlFor={`${id}-fecha`} className="text-sm font-semibold text-tinta mb-1.5 flex items-center gap-1.5">
             <Calendar size={14} strokeWidth={2} aria-hidden="true" />
-            <span>Fecha del parcial o examen (opcional)</span>
+            <span>Fecha del parcial <span className="font-normal text-tinta-2">(opcional)</span></span>
           </label>
           <input
             id={`${id}-fecha`}
             type="date"
             value={fechaParcial}
             onChange={(e) => setFechaParcial(e.target.value)}
-            className="w-full rounded-xl px-4 py-2.5 bg-superficie border border-linea-fuerte focus:border-acento focus:ring-2 focus:ring-acento/25 outline-none text-base text-tinta transition-all [color-scheme:light]"
+            className="campo"
           />
         </div>
 
         <div className="pt-2 flex items-center justify-end gap-3">
-          <button type="button" onClick={onClose} className="btn-fantasma text-sm px-4 min-h-11 tactil">
+          <button type="button" onClick={onClose} className="btn-fantasma">
             Cancelar
           </button>
           <button
             type="submit"
             disabled={loading || !nombre.trim()}
-            className="btn-primario text-sm min-h-11 px-5 disabled:opacity-50 tactil"
+            className="btn-primario"
           >
             {loading ? "Creando…" : "Crear materia"}
           </button>
