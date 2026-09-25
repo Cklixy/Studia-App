@@ -78,3 +78,12 @@ Los componentes cliente llaman a estas APIs con `fetch`, muestran el error en un
 ## Variables de entorno
 
 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `GEMINI_MODEL_FALLBACK`, `CRON_SECRET`, `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `ALLOWED_PUSH_HOSTS`, `NEXT_PUBLIC_SITE_URL`. Están en `.env.local` (no versionado); nunca las imprimas ni las subas.
+
+## Landing y SEO
+
+- La home (`src/app/page.tsx`) es **estática** (○ en el build): no leas cookies ni la sesión en el servidor; los botones que dependen de la sesión usan `useHaySesion` en el cliente.
+- Estructura en `components/landing/Secciones.tsx` (8 secciones, un solo `h1` en el hero, un `h2` por sección y sus puntos como `h3`). Los mockups (`Mockups.tsx`) son HTML decorativo (`aria-hidden`), sin encabezados y renderizados en el servidor; las piezas interactivas viven en `Interactivos.tsx`.
+- Textos de SEO en `lib/sitio.ts` (`TITULO_HOME`, `DESCRIPCION_SITIO`); la home tiene su propia metadata y canonical. Las demás páginas ponen solo su nombre: la plantilla del layout añade «· studia+».
+- JSON-LD en `components/landing/DatosEstructurados.tsx`. La FAQ sale de `lib/landing.ts` y la usan la sección visible y `FAQPage`: deben decir lo mismo. No anuncies funciones ni planes que no existan (el plan Pro se añade cuando se pueda comprar).
+- Imagen para compartir: `app/opengraph-image.tsx` (runtime edge, fuentes Geist en `app/fuentes-og/`).
+- Movimiento: `data-revelar` + `Revelador` (un solo IntersectionObserver, solo transform/opacity; el hero no se anima porque es el LCP).
