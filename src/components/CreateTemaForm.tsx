@@ -47,15 +47,15 @@ export default function CreateTemaForm({ materiaId }: { materiaId: string }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="apple-card p-4 sm:p-5 mb-6 flex flex-col sm:flex-row sm:items-end gap-3 shadow-apple-sm">
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row sm:items-end gap-3">
       {error && (
-        <p role="alert" className="text-red-700 w-full text-sm font-medium border border-red-500/20 bg-red-500/10 p-2.5 rounded-xl">
+        <p role="alert" className="w-full p-3 rounded-xl bg-cool-berry/10 border border-cool-berry/20 text-cool-berry text-sm">
           {error}
         </p>
       )}
       <div className="flex-1 w-full min-w-0">
         <label htmlFor={`${id}-nombre`} className="block mb-1.5 text-sm font-medium text-arctic-slate">
-          Nombre del tema nuevo
+          Nuevo tema
         </label>
         <input
           id={`${id}-nombre`}
@@ -63,19 +63,19 @@ export default function CreateTemaForm({ materiaId }: { materiaId: string }) {
           required
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
-          className="w-full rounded-xl px-3.5 py-2 text-xs bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-arctic-slate placeholder:text-arctic-tertiary transition-all"
-          placeholder="Ej. Teorema de Stokes, Guerra Fría..."
+          className="w-full rounded-xl px-4 py-2.5 bg-white border border-arctic-borde focus:border-glacier-blue focus:ring-2 focus:ring-glacier-blue/25 outline-none text-base text-arctic-slate"
+          placeholder="Ej. Teorema de Stokes, Guerra Fría…"
         />
       </div>
       <div className="w-full sm:w-auto">
         <label htmlFor={`${id}-tipo`} className="block mb-1.5 text-sm font-medium text-arctic-slate">
-          Tipo de contenido
+          Tipo
         </label>
         <select
           id={`${id}-tipo`}
           value={tipo}
           onChange={(e) => setTipo(e.target.value)}
-          className="w-full sm:w-auto rounded-xl px-3 py-2 text-xs bg-frost-base border border-black/[0.08] focus:border-glacier-blue outline-none text-arctic-slate transition-all cursor-pointer"
+          className="w-full sm:w-auto rounded-xl px-3.5 py-2.5 bg-white border border-arctic-borde focus:border-glacier-blue focus:ring-2 focus:ring-glacier-blue/25 outline-none text-base text-arctic-slate cursor-pointer"
         >
           {tiposDisponibles.map((t) => (
             <option key={t} value={t}>{t}</option>
@@ -85,10 +85,10 @@ export default function CreateTemaForm({ materiaId }: { materiaId: string }) {
       <button
         type="submit"
         disabled={loading || !nombre.trim()}
-        className="w-full sm:w-auto btn-apple-primary text-xs py-2 px-4 h-[38px] disabled:opacity-40 apple-tactile shadow-apple-sm flex items-center justify-center gap-1.5 shrink-0"
+        className="w-full sm:w-auto btn-apple-primary text-sm min-h-11 px-4 disabled:opacity-40 apple-tactile shrink-0"
       >
         <Plus size={14} strokeWidth={2} aria-hidden="true" />
-        <span>{loading ? "..." : "Añadir Tema"}</span>
+        <span>{loading ? "Añadiendo…" : "Añadir tema"}</span>
       </button>
     </form>
   );

@@ -2,8 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 import CreateTemaForm from "@/components/CreateTemaForm";
-import TemaItem from "@/components/TemaItem";
-import LearningMap from "@/components/LearningMap";
+import FilaTema from "@/components/temas/FilaTema";
 import Link from "next/link";
 import { ArrowLeft, Sparkles, Calendar } from "lucide-react";
 import { calcularPlanParcial } from "@/lib/planParcial";
@@ -19,7 +18,7 @@ const EditMateriaModal = dynamic(() => import("@/components/EditMateriaModal"), 
 
 const EvaluacionesPanel = dynamic(() => import("@/components/EvaluacionesPanel"), {
   loading: () => (
-    <div className="h-48 rounded-2xl bg-black/[0.02] border border-black/[0.05] animate-pulse" />
+    <div className="h-48 rounded-2xl apple-shimmer" />
   ),
 });
 
@@ -75,14 +74,19 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
   );
 
   const route = (materia.study_routes as any[] || []).find((r: any) => r.estado === "ACTIVE") || null;
+  const temasRuta = route ? temas.filter((t: any) => t.route_id === route.id) : [];
+  const temasPropios = temas.filter((t: any) => !route || t.route_id !== route.id);
+  const siguienteRutaId = temasRuta.find((t: any) => t.estado !== "completado")?.id;
+  const completados = temas.filter((t: any) => t.estado === "completado").length;
+  const avance = temas.length ? Math.round((completados / temas.length) * 100) : 0;
 
   return (
-    <div className="space-y-8 duration-500">
+    <div className="space-y-8">
       <Link
         href="/materias"
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-arctic-secondary hover:text-arctic-slate transition-colors apple-tactile"
       >
-        <ArrowLeft size={14} />
+        <ArrowLeft size={14} aria-hidden="true" />
         <span>Volver a mis materias</span>
       </Link>
 
@@ -101,47 +105,87 @@ export default async function MateriaDetailPage({ params }: { params: { id: stri
 
       {(() => {
         const plan = calcularPlanParcial(materia as any);
-        return plan ? <div className="mb-8"><TarjetaPlanParcial plan={plan} mostrarMateria={false} /></div> : null;
+        return plan ? <TarjetaPlanParcial plan={plan} mostrarMateria={false} /> : null;
       })()}
 
-      {route ? (
-        // Solo los temas de la ruta: los manuales se listan aparte en «Temario libre» (antes salían duplicados)
-        <LearningMap temas={(temas || []).filter((t: any) => t.route_id === route.id)} route={route} />
-      ) : (
-        <div className="apple-card p-8 mb-8 border border-dashed border-black/[0.12] bg-white/70 text-center">
-          <div className="w-10 h-10 rounded-2xl bg-cool-iris/10 text-cool-iris flex items-center justify-center mx-auto mb-3">
-            <Sparkles size={20} />
-          </div>
-          <h2 className="text-lg font-bold text-arctic-slate mb-1">Aún no tienes una ruta de aprendizaje</h2>
-          <p className="text-xs text-arctic-secondary mb-5 max-w-sm mx-auto">
-            Organiza los temas que necesitas aprender paso a paso con la inteligencia artificial.
+      {/* Temario: la ruta IA y los temas propios con la misma fila (antes, dos listas con estilos y
+          acciones distintas: «Ruta curricular» y «Temario libre») */}
+      <section aria-labelledby="temario-titulo" className="space-y-4">
+        <div className="px-1">
+          <h2 id="temario-titulo" className="apple-title-2 text-arctic-slate">Temario</h2>
+          <p className="text-sm text-arctic-secondary mt-0.5">
+            {temas.length === 0
+              ? "Aún no hay temas en esta materia."
+              : `${completados} de ${temas.length} temas completados · ${avance}%`}
           </p>
-          <Link href="/rutas/crear" className="btn-apple-primary text-xs py-2 px-5 font-semibold apple-tactile shadow-apple-sm">
-            <span>Crear ruta con IA</span>
-          </Link>
-        </div>
-      )}
-
-      <div>
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-arctic-slate tracking-tight">Temario Libre</h2>
-        </div>
-        <CreateTemaForm materiaId={materiaId} />
-
-        <div className="mt-5 mb-12">
-          {temas?.length === 0 ? (
-            <p className="text-xs text-arctic-tertiary py-4 italic">No has agregado temas a esta materia todavía.</p>
-          ) : (
-            <div className="grid gap-2">
-              {temas?.filter(t => !t.route_id).map((tema) => (
-                <TemaItem key={tema.id} tema={tema} materiaNombre={materia.nombre} />
-              ))}
+          {temas.length > 0 && (
+            <div
+              role="progressbar"
+              aria-label="Temas completados"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={avance}
+              className="h-1.5 rounded-full bg-black/[0.06] overflow-hidden mt-2.5 max-w-md"
+            >
+              <div className="h-full rounded-full bg-glacier-blue" style={{ width: `${avance}%` }} />
             </div>
           )}
         </div>
-      </div>
 
-      <EvaluacionesPanel materiaId={materiaId} />
+        {route ? (
+          <div className="apple-card p-0 overflow-hidden">
+            <div className="px-5 pt-4 pb-3 flex items-center gap-2">
+              <Sparkles size={15} className="text-cool-iris shrink-0" aria-hidden="true" />
+              <h3 className="apple-headline text-arctic-slate truncate">{route.title || "Ruta de estudio"}</h3>
+            </div>
+            <ol className="divide-y divide-black/[0.06] border-t border-black/[0.06]">
+              {temasRuta.map((tema: any, i: number) => (
+                <FilaTema
+                  key={tema.id}
+                  tema={tema}
+                  materiaNombre={materia.nombre}
+                  numero={i + 1}
+                  siguiente={tema.id === siguienteRutaId}
+                />
+              ))}
+            </ol>
+          </div>
+        ) : (
+          <div className="apple-card p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+            <div aria-hidden="true" className="w-10 h-10 rounded-2xl bg-cool-iris/10 text-cool-iris flex items-center justify-center shrink-0">
+              <Sparkles size={20} />
+            </div>
+            <div className="flex-1">
+              <h3 className="apple-headline text-arctic-slate">Organiza el temario con IA</h3>
+              <p className="text-sm text-arctic-secondary">Crea una ruta con los temas en el orden ideal para tu objetivo.</p>
+            </div>
+            <Link href="/rutas/crear" className="btn-apple-secondary text-sm min-h-11 px-4 apple-tactile shrink-0">
+              <span>Crear ruta con IA</span>
+            </Link>
+          </div>
+        )}
+
+        <div className="apple-card p-0 overflow-hidden">
+          <div className="px-5 pt-4 pb-1">
+            <h3 className="apple-headline text-arctic-slate">{route ? "Temas propios" : "Temas"}</h3>
+          </div>
+          <div className="px-5 pb-4">
+            <CreateTemaForm materiaId={materiaId} />
+          </div>
+          {temasPropios.length > 0 && (
+            <ul className="divide-y divide-black/[0.06] border-t border-black/[0.06]">
+              {temasPropios.map((tema: any) => (
+                <FilaTema key={tema.id} tema={tema} materiaNombre={materia.nombre} />
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
+
+      <section aria-labelledby="notas-titulo" className="space-y-4">
+        <h2 id="notas-titulo" className="apple-title-2 text-arctic-slate px-1">Notas y parciales</h2>
+        <EvaluacionesPanel materiaId={materiaId} />
+      </section>
     </div>
   );
 }
