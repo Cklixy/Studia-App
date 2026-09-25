@@ -413,3 +413,12 @@ body[data-enfoque] .contenido-principal {
 dialog [tabindex="-1"]:focus-visible {
   box-shadow: none !important;
 }
+
+/* Ecualizador del reproductor: barras que suben y bajan mientras suena (movimiento reducido: quietas) */
+@keyframes ecualizador {
+  0%, 100% { transform: scaleY(0.35); }
+  50% { transform: scaleY(1); }
+}
+.ecualizador-barra {
+  animation: ecualizador 0.9s ease-in-out infinite;
+}
