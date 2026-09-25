@@ -3,17 +3,7 @@ import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 
 const SessionWizard = dynamic(() => import("@/components/SessionWizard"), {
-  loading: () => (
-    <div className="tarjeta p-8 sm:p-10 space-y-6 animate-pulse bg-superficie border border-linea shadow-1">
-      <div className="h-3 w-28 bg-hundido rounded-full" />
-      <div className="h-8 w-64 bg-hundido rounded-xl" />
-      <div className="h-3.5 w-96 max-w-full bg-hundido rounded-lg" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-        <div className="h-28 bg-hundido rounded-2xl border border-linea" />
-        <div className="h-28 bg-hundido rounded-2xl border border-linea" />
-      </div>
-    </div>
-  ),
+  loading: () => <div aria-busy="true" className="esqueleto h-64"><span className="sr-only">Cargando…</span></div>,
 });
 
 export default async function IniciarSesionDirectaPage({ params }: { params: { id: string } }) {
@@ -38,11 +28,10 @@ export default async function IniciarSesionDirectaPage({ params }: { params: { i
   }
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <SessionWizard 
-        initialMaterias={[]} 
-        initialStep={4}
-        preNivel="Universidad"
+    <div className="max-w-2xl mx-auto flex flex-col gap-2">
+      <h1 className="titulo-1">Prepara tu sesión</h1>
+      <SessionWizard
+        initialMaterias={[]}
         preMateriaId={tema.materia_id}
         preMateriaNombre={(tema.materias as any)?.nombre}
         preTemaId={tema.id}
