@@ -1,5 +1,9 @@
 import type { Config } from "tailwindcss";
 
+// Sistema de diseño «Cuaderno» (rediseno/02-sistema-de-diseno.md). Los colores son variables CSS
+// (canales RGB) definidas en globals.css para claro y oscuro: aquí solo se nombran los roles.
+const rol = (v: string) => `rgb(var(--${v}) / <alpha-value>)`;
+
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,64 +13,76 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-
-        // Apple Frosted White surfaces
-        "frost-base": "#F4F6FB",
-        "frost-surface": "rgba(255, 255, 255, 0.72)",
-        "frost-elevated": "rgba(255, 255, 255, 0.92)",
-        "frost-card": "#FFFFFF",
-        "frost-border": "rgba(0, 0, 0, 0.07)",
-        "frost-border-light": "rgba(255, 255, 255, 0.8)",
-
-        // Cool tone accents
-        "glacier-blue": "#0066CC",
-        "polar-cyan": "#0EA5E9",
-        "ice-mint": "#06B6D4",
-        "cool-iris": "#4F46E5",
-        "cool-berry": "#C10A2B",
-        "cool-amber": "#F59E0B",
-
-        // Apple Light Mode typography
-        "arctic-slate": "#1D1D1F",
-        "arctic-secondary": "#636366",
-        "arctic-tertiary": "#6E6E73",
-        // Borde de campos de formulario: 3,5:1 sobre blanco (WCAG 1.4.11)
-        "arctic-borde": "#8A8A8E",
-
-
-        // Apple HIG accents
-        "apple-blue": "#0066CC",
-        "apple-green": "#34C759",
-        "apple-orange": "#F59E0B",
-        "apple-red": "#C10A2B",
-        "apple-purple": "#AF52DE",
-        "apple-teal": "#06B6D4",
+        fondo: rol("fondo"),
+        superficie: rol("superficie"),
+        hundido: rol("hundido"),
+        linea: rol("linea"),
+        "linea-fuerte": rol("linea-fuerte"),
+        tinta: rol("tinta"),
+        "tinta-2": rol("tinta-2"),
+        "tinta-3": rol("tinta-3"),
+        acento: rol("acento"),
+        "acento-hover": rol("acento-hover"),
+        "sobre-acento": rol("sobre-acento"),
+        "acento-suave": rol("acento-suave"),
+        resaltador: rol("resaltador"),
+        "sobre-resaltador": rol("sobre-resaltador"),
+        exito: rol("exito"),
+        "exito-suave": rol("exito-suave"),
+        error: rol("error"),
+        "error-suave": rol("error-suave"),
+        aviso: rol("aviso"),
+        "aviso-suave": rol("aviso-suave"),
+        velo: rol("velo"),
       },
-      boxShadow: {
-        "apple-sm": "0 2px 8px rgba(0, 20, 50, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
-        "apple-md": "0 8px 24px -4px rgba(0, 25, 60, 0.06), 0 2px 6px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
-        "apple-lg": "0 20px 48px -12px rgba(0, 30, 80, 0.09), 0 4px 12px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.95)",
-        "apple-glow": "0 0 24px -2px rgba(0, 113, 227, 0.25)",
-        "apple-glow-blue": "0 0 24px -2px rgba(14, 165, 233, 0.25)",
+      fontFamily: {
+        sans: ["var(--fuente-texto)", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+        display: ["var(--fuente-titular)", "Georgia", "serif"],
+      },
+      // Escala tipográfica: mínimo 13 px (antes 12 px en 306 usos de text-xs)
+      fontSize: {
+        xs: ["0.8125rem", { lineHeight: "1.125rem" }],
+        sm: ["0.9375rem", { lineHeight: "1.375rem" }],
+        base: ["1rem", { lineHeight: "1.5rem" }],
+        lg: ["1.125rem", { lineHeight: "1.625rem" }],
+        xl: ["1.25rem", { lineHeight: "1.75rem" }],
+        "2xl": ["1.5rem", { lineHeight: "1.875rem" }],
+        "3xl": ["1.875rem", { lineHeight: "2.25rem" }],
+        "4xl": ["2.25rem", { lineHeight: "2.5rem" }],
+        "5xl": ["2.75rem", { lineHeight: "1.05" }],
+        "6xl": ["3.5rem", { lineHeight: "1.02" }],
+        "7xl": ["4.25rem", { lineHeight: "1" }],
       },
       borderRadius: {
+        md: "8px",
+        lg: "10px",
+        xl: "12px",
         "2xl": "16px",
-        "3xl": "22px",
-        "4xl": "28px",
+        "3xl": "20px",
+        "4xl": "24px",
+      },
+      boxShadow: {
+        1: "var(--sombra-1)",
+        2: "var(--sombra-2)",
+        3: "var(--sombra-3)",
+      },
+      transitionDuration: {
+        rapida: "120ms",
+        media: "200ms",
+        lenta: "320ms",
+      },
+      transitionTimingFunction: {
+        salida: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        entrada: "cubic-bezier(0.4, 0, 1, 1)",
       },
       letterSpacing: {
-        tightest: "-0.035em",
-        tighter: "-0.025em",
-        tight: "-0.015em",
-        normal: "0em",
+        tightest: "-0.03em",
+        tighter: "-0.02em",
+        tight: "-0.01em",
         wide: "0.02em",
         wider: "0.04em",
         widest: "0.06em",
       },
-      fontFamily: {
-        sans: ["var(--font-geist-sans)", "-apple-system", "BlinkMacSystemFont", "SF Pro Text", "Segoe UI", "sans-serif"],
-        display: ["-apple-system", "BlinkMacSystemFont", "SF Pro Display", "var(--font-geist-sans)", "sans-serif"],
-      }
     },
   },
   plugins: [],

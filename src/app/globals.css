@@ -2,134 +2,185 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==================================================================
+   Sistema de diseño «Cuaderno» — tokens (rediseno/02-sistema-de-diseno.md)
+   Colores en canales RGB para que Tailwind admita opacidad (bg-acento/10).
+   Contraste de cada par verificado en rediseno/tokens-contraste.md.
+   ================================================================== */
 :root {
-  /* Apple Frosted White & Cool Arctic Palette */
-  --background: #F4F6FB;
-  --foreground: #1D1D1F;
+  color-scheme: light;
+  --fondo: 246 243 236;          /* #F6F3EC papel */
+  --superficie: 255 253 248;     /* #FFFDF8 hoja */
+  --hundido: 239 234 224;        /* #EFEAE0 zonas hundidas, pistas de barras */
+  --linea: 228 222 210;          /* #E4DED2 separadores (decorativo) */
+  --linea-fuerte: 140 133 119;   /* #8C8577 bordes de control, 3,6:1 */
+  --tinta: 28 34 48;             /* #1C2230 texto principal */
+  --tinta-2: 74 81 96;           /* #4A5160 texto secundario */
+  --tinta-3: 99 105 119;         /* #636977 texto terciario (≥ 4,5:1 en todas las superficies) */
+  --acento: 39 67 196;           /* #2743C4 tinta azul: acción principal, enlaces, foco */
+  --acento-hover: 31 55 166;     /* #1F37A6 */
+  --sobre-acento: 255 255 255;
+  --acento-suave: 230 234 251;   /* #E6EAFB */
+  --resaltador: 255 216 77;      /* #FFD84D solo marca el foco de hoy; nunca texto */
+  --sobre-resaltador: 28 34 48;
+  --exito: 31 122 77;            /* #1F7A4D */
+  --exito-suave: 227 241 232;
+  --error: 179 38 30;            /* #B3261E */
+  --error-suave: 249 229 227;
+  --aviso: 133 84 0;             /* #855400 */
+  --aviso-suave: 251 239 213;
+  --velo: 28 34 48;              /* fondo de diálogos (con opacidad) */
 
-  --frost-base: #F4F6FB;
-  --frost-surface: rgba(255, 255, 255, 0.72);
-  --frost-elevated: rgba(255, 255, 255, 0.92);
-  --frost-border: rgba(0, 0, 0, 0.07);
-  --frost-border-light: rgba(255, 255, 255, 0.85);
+  --sombra-1: 0 1px 2px rgb(28 34 48 / 0.05);
+  --sombra-2: 0 4px 14px -4px rgb(28 34 48 / 0.10), 0 1px 2px rgb(28 34 48 / 0.04);
+  --sombra-3: 0 20px 44px -14px rgb(28 34 48 / 0.22), 0 2px 6px rgb(28 34 48 / 0.06);
 
-  --glacier-blue: #0066CC;
-  --polar-cyan: #0EA5E9;
-  --ice-mint: #06B6D4;
-  --cool-iris: #4F46E5;
-  --cool-berry: #C10A2B;
-  --cool-amber: #F59E0B;
-
-  --arctic-slate: #1D1D1F;
-  --arctic-secondary: #636366;
-  --arctic-tertiary: #6E6E73;
-
-  /* Backward-compatible CSS variables */
-
-
-  /* Apple HIG System Accents */
-  --apple-blue: #0066CC;
-  --apple-green: #34C759;
-  --apple-orange: #F59E0B;
-  --apple-red: #C10A2B;
-  --apple-purple: #AF52DE;
-
-  /* Spring cubic-bezier for CSS animations */
-  --ease-apple-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-rapida: 120ms;
+  --dur-media: 200ms;
+  --dur-lenta: 320ms;
+  --curva-salida: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Base Body: Clean, luminous alpine background with cool ambient depth */
+/* Oscuro «lámpara de escritorio»: por preferencia del sistema o elegido en Ajustes (data-tema) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    color-scheme: dark;
+    --fondo: 20 22 27;
+    --superficie: 28 31 38;
+    --hundido: 37 41 50;
+    --linea: 46 50 60;
+    --linea-fuerte: 110 116 130;
+    --tinta: 237 232 222;
+    --tinta-2: 189 184 174;
+    --tinta-3: 156 151 142;
+    --acento: 154 171 255;
+    --acento-hover: 179 192 255;
+    --sobre-acento: 16 19 26;
+    --acento-suave: 38 44 69;
+    --resaltador: 232 197 71;
+    --sobre-resaltador: 20 22 27;
+    --exito: 111 211 155;
+    --exito-suave: 28 51 40;
+    --error: 255 143 134;
+    --error-suave: 61 34 36;
+    --aviso: 237 185 90;
+    --aviso-suave: 58 47 26;
+    --velo: 0 0 0;
+    --sombra-1: 0 1px 2px rgb(0 0 0 / 0.3);
+    --sombra-2: 0 6px 16px -6px rgb(0 0 0 / 0.5);
+    --sombra-3: 0 24px 48px -12px rgb(0 0 0 / 0.6);
+  }
+}
+:root[data-tema="oscuro"] {
+  color-scheme: dark;
+  --fondo: 20 22 27;
+  --superficie: 28 31 38;
+  --hundido: 37 41 50;
+  --linea: 46 50 60;
+  --linea-fuerte: 110 116 130;
+  --tinta: 237 232 222;
+  --tinta-2: 189 184 174;
+  --tinta-3: 156 151 142;
+  --acento: 154 171 255;
+  --acento-hover: 179 192 255;
+  --sobre-acento: 16 19 26;
+  --acento-suave: 38 44 69;
+  --resaltador: 232 197 71;
+  --sobre-resaltador: 20 22 27;
+  --exito: 111 211 155;
+  --exito-suave: 28 51 40;
+  --error: 255 143 134;
+  --error-suave: 61 34 36;
+  --aviso: 237 185 90;
+  --aviso-suave: 58 47 26;
+  --velo: 0 0 0;
+  --sombra-1: 0 1px 2px rgb(0 0 0 / 0.3);
+  --sombra-2: 0 6px 16px -6px rgb(0 0 0 / 0.5);
+  --sombra-3: 0 24px 48px -12px rgb(0 0 0 / 0.6);
+}
+
 body {
-  color: var(--foreground);
-  background: 
-    radial-gradient(circle at 10% 0%, rgba(0, 113, 227, 0.04), transparent 45%),
-    radial-gradient(circle at 90% 100%, rgba(14, 165, 233, 0.03), transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.02), transparent 60%),
-    var(--frost-base);
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  color: rgb(var(--tinta));
+  background: rgb(var(--fondo));
+  font-family: var(--fuente-texto), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100dvh;
-  letter-spacing: -0.01em;
-  /* Ensure the dock never clips the home bar */
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  font-variant-numeric: tabular-nums;
 }
 
-/* Accessible Apple Keyboard Focus Ring */
+/* Foco visible en todo control (WCAG 2.4.7): anillo de acento separado del fondo */
 :focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--frost-base), 0 0 0 4px var(--glacier-blue) !important;
+  box-shadow: 0 0 0 2px rgb(var(--fondo)), 0 0 0 4px rgb(var(--acento)) !important;
 }
 
-/* Apple Semantic Typography Hierarchy */
-.apple-large-title {
-  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
-  line-height: 1.15;
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  color: var(--arctic-slate);
+::selection {
+  background: rgb(var(--resaltador) / 0.6);
+  color: rgb(var(--sobre-resaltador));
 }
 
-.apple-title-2 {
-  font-size: 1.35rem;
-  line-height: 1.25;
+/* ------------------------------------------------------------------
+   Tipografía semántica
+   ------------------------------------------------------------------ */
+.titulo-1 {
+  font-family: var(--fuente-titular), Georgia, serif;
   font-weight: 600;
+  font-size: clamp(2rem, 6vw, 2.5rem);
+  line-height: 1.1;
   letter-spacing: -0.02em;
-  color: var(--arctic-slate);
+  color: rgb(var(--tinta));
 }
-
-.apple-title-3 {
-  font-size: 1.15rem;
-  line-height: 1.3;
+.titulo-2 {
+  font-family: var(--fuente-titular), Georgia, serif;
   font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.2;
   letter-spacing: -0.015em;
-  color: var(--arctic-slate);
+  color: rgb(var(--tinta));
 }
-
-.apple-headline {
-  font-size: 0.9375rem;
+.titulo-3 {
+  font-size: 1.125rem;
   line-height: 1.35;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.01em;
-  color: var(--arctic-slate);
+  color: rgb(var(--tinta));
 }
-
-.apple-body {
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  font-weight: 400;
-  letter-spacing: normal;
-  color: var(--arctic-slate);
-}
-
-.apple-subhead {
-  font-size: 0.8125rem;
+.encabezado {
+  font-size: 1rem;
   line-height: 1.4;
-  font-weight: 400;
-  letter-spacing: -0.005em;
-  color: var(--arctic-secondary);
+  font-weight: 700;
+  color: rgb(var(--tinta));
 }
-
-.apple-caption {
-  font-size: 0.6875rem;
-  line-height: 1.3;
-  font-weight: 600;
+.cuerpo {
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgb(var(--tinta));
+}
+.subtitulo {
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: rgb(var(--tinta-2));
+}
+.antetitulo {
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--arctic-tertiary);
+  color: rgb(var(--tinta-2));
 }
 
-/* Fluid typography: large titles scale gracefully from mobile to desktop */
-.fluid-h1 { font-size: clamp(1.6rem, 4vw, 2.25rem); letter-spacing: -0.03em; }
-.fluid-h2 { font-size: clamp(1.1rem, 2.5vw, 1.5rem); letter-spacing: -0.02em; }
-
-/* Tactile touch and click response */
+/* Respuesta táctil sin retraso */
 button, a, [role="button"] {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Minimum 44×44 touch target for interactive elements */
+/* Objetivo táctil mínimo de 44×44 */
 .touch-target {
   min-height: 44px;
   min-width: 44px;
@@ -138,207 +189,243 @@ button, a, [role="button"] {
   justify-content: center;
 }
 
-.apple-tactile {
-  transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), opacity 120ms ease, box-shadow 120ms ease;
-  will-change: transform;
+.tactil {
+  transition: transform var(--dur-rapida) var(--curva-salida), background-color var(--dur-rapida) ease, border-color var(--dur-rapida) ease, color var(--dur-rapida) ease;
+}
+.tactil:active {
+  transform: scale(0.98);
 }
 
-.apple-tactile:active {
-  transform: scale(0.97);
-}
-
-/* Safe-area: floating dock must sit above the iOS home bar */
+/* El dock flotante nunca tapa la barra de inicio de iOS */
 .dock-safe {
   padding-bottom: max(1.5rem, calc(env(safe-area-inset-bottom, 0px) + 1rem));
 }
 
-/* Apple Frosted Glass Materials */
 @layer components {
-  /* Translucent Frosted Glass Sheet */
-  .apple-glass {
-    background: rgba(255, 255, 255, 0.72);
-    backdrop-filter: blur(28px) saturate(190%);
-    -webkit-backdrop-filter: blur(28px) saturate(190%);
-    border: 1px solid rgba(0, 0, 0, 0.07);
-    box-shadow: 
-      0 4px 20px -2px rgba(0, 20, 50, 0.05),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.95);
+  /* Cabecera fija: opaca (el vidrio se retiró: coste de GPU y causa de U-01) */
+  .barra-superior {
+    background: rgb(var(--fondo) / 0.94);
+    border-bottom: 1px solid rgb(var(--linea));
   }
 
-  /* Ultra-thin glass header/nav */
-  .apple-glass-ultra {
-    background: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  /* Tarjeta: hoja de papel sobre el fondo */
+  .tarjeta {
+    background: rgb(var(--superficie));
+    border: 1px solid rgb(var(--linea));
+    border-radius: 16px;
+    box-shadow: var(--sombra-1);
+    transition: border-color var(--dur-media) ease, box-shadow var(--dur-media) ease;
+  }
+  a.tarjeta:hover, button.tarjeta:hover, .tarjeta-enlace:hover {
+    border-color: rgb(var(--linea-fuerte));
+    box-shadow: var(--sombra-2);
   }
 
-  /* Frosted White Card */
-  .apple-card {
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: 
-      0 4px 18px -2px rgba(0, 25, 60, 0.04),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), border-color 200ms ease, box-shadow 200ms ease;
-  }
-
-  .apple-card:hover {
-    border-color: rgba(0, 113, 227, 0.18);
-    box-shadow: 
-      0 12px 32px -4px rgba(0, 30, 80, 0.07),
-      inset 0 1px 0 0 rgba(255, 255, 255, 1);
-  }
-
-
-  /* Apple Primary Action Button: Glacier Blue with white specular sheen */
-  .btn-action, .btn-apple-primary {
-    background-color: var(--glacier-blue);
-    color: #FFFFFF;
+  /* Botones: una sola forma (radio 12, alto mínimo 44) y cuatro intenciones */
+  .btn-primario, .btn-secundario, .btn-fantasma, .btn-peligro {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.625rem 1.25rem;
+    border-radius: 12px;
     font-weight: 600;
-    padding: 0.65rem 1.4rem;
-    border-radius: 9999px;
-    letter-spacing: -0.01em;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    box-shadow: 0 4px 14px rgba(0, 113, 227, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-    transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 120ms ease, opacity 120ms ease;
+    line-height: 1.25;
+    border: 1px solid transparent;
+    transition: transform var(--dur-rapida) var(--curva-salida), background-color var(--dur-rapida) ease, border-color var(--dur-rapida) ease, color var(--dur-rapida) ease;
   }
-
-  .btn-action:hover, .btn-apple-primary:hover {
-    box-shadow: 0 6px 20px rgba(0, 113, 227, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  .btn-primario:active, .btn-secundario:active, .btn-fantasma:active, .btn-peligro:active {
+    transform: scale(0.98);
   }
-
-  .btn-action:active, .btn-apple-primary:active {
-    transform: scale(0.96);
-    box-shadow: 0 2px 8px rgba(0, 113, 227, 0.2);
+  .btn-primario:disabled, .btn-secundario:disabled, .btn-fantasma:disabled, .btn-peligro:disabled,
+  .btn-primario[aria-disabled="true"], .btn-secundario[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
   }
-
-  .btn-apple-secondary {
-    background: rgba(0, 0, 0, 0.04);
-    color: var(--arctic-slate);
-    font-weight: 500;
-    padding: 0.65rem 1.25rem;
-    border-radius: 9999px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), background-color 120ms ease, border-color 120ms ease;
+  .btn-primario {
+    background: rgb(var(--acento));
+    color: rgb(var(--sobre-acento));
   }
-
-  .btn-apple-secondary:hover {
-    background: rgba(0, 0, 0, 0.07);
-    border-color: rgba(0, 0, 0, 0.1);
+  .btn-primario:hover:not(:disabled) {
+    background: rgb(var(--acento-hover));
   }
-
-  .btn-apple-secondary:active {
-    transform: scale(0.96);
+  .btn-secundario {
+    background: rgb(var(--superficie));
+    color: rgb(var(--tinta));
+    border-color: rgb(var(--linea-fuerte));
   }
-
-  .btn-apple-destructive {
-    background: rgba(239, 68, 68, 0.08);
-    color: #DC2626;
-    font-weight: 500;
-    padding: 0.65rem 1.25rem;
-    border-radius: 9999px;
-    border: 1px solid rgba(239, 68, 68, 0.15);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    transition: transform 120ms cubic-bezier(0.16, 1, 0.3, 1), background-color 120ms ease, border-color 120ms ease;
+  .btn-secundario:hover:not(:disabled) {
+    background: rgb(var(--hundido));
   }
-
-  .btn-apple-destructive:hover {
-    background: rgba(239, 68, 68, 0.14);
-    border-color: rgba(239, 68, 68, 0.25);
-  }
-
-  .btn-apple-destructive:active {
-    transform: scale(0.96);
-  }
-
-  .btn-apple-ghost {
+  .btn-fantasma {
     background: transparent;
-    color: var(--arctic-secondary);
-    font-weight: 500;
-    padding: 0.5rem 0.875rem;
-    border-radius: 9999px;
+    color: rgb(var(--acento));
+  }
+  .btn-fantasma:hover:not(:disabled) {
+    background: rgb(var(--acento-suave));
+  }
+  .btn-peligro {
+    background: rgb(var(--error-suave));
+    color: rgb(var(--error));
+    border-color: rgb(var(--error) / 0.35);
+  }
+  .btn-peligro:hover:not(:disabled) {
+    border-color: rgb(var(--error));
+  }
+
+  /* Campos de texto: 16 px (evita el zoom de iOS), borde 3,6:1 y error visible sin depender del color */
+  .campo {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.625rem 0.875rem;
+    border-radius: 12px;
+    background: rgb(var(--superficie));
+    color: rgb(var(--tinta));
+    border: 1px solid rgb(var(--linea-fuerte));
+    font-size: 1rem;
+    transition: border-color var(--dur-rapida) ease;
+  }
+  .campo::placeholder {
+    color: rgb(var(--tinta-3));
+  }
+  .campo:hover {
+    border-color: rgb(var(--tinta-2));
+  }
+  .campo:focus-visible, .campo:focus {
+    outline: none;
+    border-color: rgb(var(--acento));
+    box-shadow: 0 0 0 3px rgb(var(--acento) / 0.25) !important;
+  }
+  .campo[aria-invalid="true"] {
+    border-color: rgb(var(--error));
+    border-width: 2px;
+  }
+  .campo:disabled {
+    background: rgb(var(--hundido));
+    color: rgb(var(--tinta-2));
+    cursor: not-allowed;
+  }
+
+  /* Chip: etiqueta de estado, no interactiva (si lo es, lleva .touch-target) */
+  .chip {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 0.375rem;
-    transition: color 120ms ease, background-color 120ms ease, transform 120ms cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0.25rem 0.625rem;
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    background: rgb(var(--hundido));
+    color: rgb(var(--tinta-2));
+    white-space: nowrap;
+  }
+  .chip-acento { background: rgb(var(--acento-suave)); color: rgb(var(--acento)); }
+  .chip-exito { background: rgb(var(--exito-suave)); color: rgb(var(--exito)); }
+  .chip-aviso { background: rgb(var(--aviso-suave)); color: rgb(var(--aviso)); }
+  .chip-error { background: rgb(var(--error-suave)); color: rgb(var(--error)); }
+
+  /* Barra de progreso: pista hundida, relleno sólido (el valor también se dice en texto) */
+  .barra-progreso {
+    height: 8px;
+    border-radius: 999px;
+    background: rgb(var(--hundido));
+    overflow: hidden;
+  }
+  .barra-progreso > span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: rgb(var(--acento));
+    transition: width var(--dur-lenta) var(--curva-salida);
   }
 
-  .btn-apple-ghost:hover {
-    color: var(--arctic-slate);
-    background: rgba(0, 0, 0, 0.04);
+  /* Resaltador: la firma de «Cuaderno». Solo para el foco del día (una vez por pantalla) */
+  .resaltado {
+    background-image: linear-gradient(transparent 60%, rgb(var(--resaltador) / 0.9) 60%, rgb(var(--resaltador) / 0.9) 92%, transparent 92%);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    padding: 0 0.1em;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-tema="claro"]) .resaltado {
+      background-image: linear-gradient(transparent 70%, rgb(var(--resaltador) / 0.45) 70%, rgb(var(--resaltador) / 0.45) 94%, transparent 94%);
+    }
+  }
+  :root[data-tema="oscuro"] .resaltado {
+    background-image: linear-gradient(transparent 70%, rgb(var(--resaltador) / 0.45) 70%, rgb(var(--resaltador) / 0.45) 94%, transparent 94%);
+  }
+  /* Al completar algo, el resaltador se «pinta» de izquierda a derecha */
+  .resaltado-animado {
+    animation: pintar-resaltado var(--dur-lenta) var(--curva-salida) both;
+  }
+  @keyframes pintar-resaltado {
+    from { background-size: 0% 100%; }
+    to { background-size: 100% 100%; }
   }
 
-  .btn-apple-ghost:active {
-    transform: scale(0.96);
+  /* Esqueleto de carga */
+  @keyframes esqueleto-brillo {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
   }
-
-  /* Skeleton Shimmer */
-  @keyframes apple-shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-  }
-
-  .apple-shimmer {
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0.04) 25%, rgba(0, 0, 0, 0.08) 50%, rgba(0, 0, 0, 0.04) 75%);
+  .esqueleto {
+    background: linear-gradient(90deg, rgb(var(--hundido)) 25%, rgb(var(--linea)) 50%, rgb(var(--hundido)) 75%);
     background-size: 200% 100%;
-    animation: apple-shimmer 2.2s infinite ease-in-out;
+    animation: esqueleto-brillo 1.6s ease-in-out infinite;
+    border-radius: 8px;
   }
 
-  /* Segmented Controls in Light Mode */
-  .apple-segmented {
-    background: rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(0, 0, 0, 0.04);
+  /* Control segmentado */
+  .segmentado {
+    background: rgb(var(--hundido));
+    border: 1px solid rgb(var(--linea));
     border-radius: 12px;
     padding: 3px;
     display: inline-flex;
     gap: 2px;
   }
+
+  /* Aparición suave de contenido */
+  .aparecer {
+    animation: aparecer var(--dur-media) var(--curva-salida) both;
+  }
+  @keyframes aparecer {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: none; }
+  }
 }
 
-/* Apple Smooth Scrollbar */
+/* Barra de desplazamiento discreta */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.14);
+  background: rgb(var(--linea-fuerte) / 0.45);
   border-radius: 9999px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.24);
+  background: rgb(var(--linea-fuerte) / 0.7);
 }
-
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
-
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-/* Reduced Motion */
+/* ------------------------------------------------------------------
+   Preferencias del sistema
+   ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
@@ -348,39 +435,21 @@ button, a, [role="button"] {
   }
 }
 
-/* ------------------------------------------------------------------
-   Preferencias de accesibilidad del sistema (auditoría A-15)
-   ------------------------------------------------------------------ */
-
-/* Menos transparencia: superficies opacas y sin desenfoque, para que el texto
-   no pierda contraste sobre lo que hay detrás. */
 @media (prefers-reduced-transparency: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
   }
-  .apple-glass,
-  .apple-glass-ultra,
-  .apple-card {
-    background: #ffffff !important;
+  .barra-superior {
+    background: rgb(var(--fondo));
   }
 }
 
-/* Más contraste: bordes definidos y texto secundario más oscuro. */
+/* Más contraste: texto secundario igual al principal y separadores con borde de control */
 @media (prefers-contrast: more) {
   :root {
-    --arctic-secondary: #3a3a3c;
-    --arctic-tertiary: #48484a;
-  }
-  .apple-card,
-  .apple-glass,
-  .apple-glass-ultra {
-    border: 1px solid #6e6e73 !important;
-  }
-  .text-arctic-secondary,
-  .text-arctic-tertiary {
-    color: #3a3a3c !important;
+    --tinta-2: var(--tinta) !important;
+    --tinta-3: var(--tinta) !important;
+    --linea: var(--linea-fuerte) !important;
   }
 }

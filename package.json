@@ -12,7 +12,6 @@
     "@google/generative-ai": "^0.24.1",
     "@supabase/ssr": "^0.5.1",
     "@supabase/supabase-js": "^2.45.4",
-    "geist": "^1.7.2",
     "lru-cache": "^11.5.2",
     "lucide-react": "^1.40.0",
     "motion": "^13.4.0",
