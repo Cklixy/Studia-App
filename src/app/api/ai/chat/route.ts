@@ -3,6 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { conReintentoGemini, esErrorIaSaturada, RESPUESTA_IA_SATURADA } from "@/lib/ai/gemini";
 import { createClient } from "@/utils/supabase/server";
 import { LRUCache } from "lru-cache";
+import { consumirUsoIa, cuerpoLimite, devolverUsoIa } from "@/lib/plan";
 
 // A4: Rate limiter — máximo 10 mensajes por minuto por usuario
 const rateLimitCache = new LRUCache<string, number[]>({
@@ -57,7 +58,15 @@ export async function POST(request: NextRequest) {
       - Hablar siempre en español
       - Si te preguntan algo no académico, redirigir amablemente al tema`;
 
-    const response = await conReintentoGemini(async (modelo) => {
+    // Límite mensual del plan (20 en Free, 100 en Pro): se cuenta antes de llamar a la IA
+    const consumo = await consumirUsoIa(supabase, "mensaje");
+    if (!consumo.permitido) {
+      return NextResponse.json(cuerpoLimite(consumo, "mensaje"), { status: 402 });
+    }
+
+    let response: string;
+    try {
+      response = await conReintentoGemini(async (modelo) => {
       const model = genAI.getGenerativeModel({ model: modelo, systemInstruction });
       const chat = model.startChat({
         history: (history || []).map((msg: any) => ({
@@ -67,9 +76,17 @@ export async function POST(request: NextRequest) {
       });
       const result = await chat.sendMessage(message);
       return result.response.text();
-    });
+      });
+    } catch (error) {
+      // Si la IA falló, el mensaje no cuenta para el límite del mes
+      await devolverUsoIa(supabase, "mensaje", consumo);
+      throw error;
+    }
 
-    return NextResponse.json({ response });
+    return NextResponse.json({
+      response,
+      uso: { usados: consumo.usados, limite: consumo.limite, plan: consumo.plan, reinicia_el: consumo.reinicia_el },
+    });
   } catch (error: any) {
     console.error("Error in AI Chat:", error);
     if (esErrorIaSaturada(error)) return NextResponse.json(RESPUESTA_IA_SATURADA, { status: 503 });

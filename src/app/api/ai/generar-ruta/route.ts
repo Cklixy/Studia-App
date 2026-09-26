@@ -7,6 +7,7 @@ export const maxDuration = 60;
 import { createClient } from "@/utils/supabase/server";
 import { LRUCache } from "lru-cache";
 import xss from "xss";
+import { consumirUsoIa, cuerpoLimite, devolverUsoIa } from "@/lib/plan";
 
 // Rate limiter: máximo 3 rutas por usuario por hora
 const rateLimitCache = new LRUCache<string, number[]>({
@@ -54,6 +55,12 @@ export async function POST(request: Request) {
     const apiKey = process.env.GEMINI_API_KEY || "";
     if (!apiKey) {
       return NextResponse.json({ error: "La API Key de Gemini no está configurada" }, { status: 500 });
+    }
+
+    // Límite mensual del plan (5 en Free, 50 en Pro): se cuenta antes de llamar a la IA
+    const consumo = await consumirUsoIa(supabase, "ruta");
+    if (!consumo.permitido) {
+      return NextResponse.json(cuerpoLimite(consumo, "ruta"), { status: 402 });
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
@@ -114,7 +121,10 @@ Reglas de generación:
 5. Todo debe estar en español.
     `;
 
-    const textResponse = await conReintentoGemini(async (modelo) => {
+    let textResponse: string;
+    let routeData: any;
+    try {
+      textResponse = await conReintentoGemini(async (modelo) => {
       const model = genAI.getGenerativeModel({
         model: modelo,
         generationConfig: {
@@ -124,10 +134,18 @@ Reglas de generación:
       });
       const result = await model.generateContent(systemInstruction);
       return result.response.text();
-    });
-    const routeData = JSON.parse(textResponse);
+      });
+      routeData = JSON.parse(textResponse);
+    } catch (error) {
+      // Si la IA falló, la ruta no cuenta para el límite del mes
+      await devolverUsoIa(supabase, "ruta", consumo);
+      throw error;
+    }
 
-    return NextResponse.json(routeData);
+    return NextResponse.json({
+      ...routeData,
+      uso: { usados: consumo.usados, limite: consumo.limite, plan: consumo.plan, reinicia_el: consumo.reinicia_el },
+    });
   } catch (error: any) {
     console.error("Error al generar ruta con IA:", error);
     if (esErrorIaSaturada(error)) return NextResponse.json(RESPUESTA_IA_SATURADA, { status: 503 });
