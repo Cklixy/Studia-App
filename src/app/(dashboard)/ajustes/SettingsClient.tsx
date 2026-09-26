@@ -1,29 +1,44 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { User, Bell, Shield, Download, Trash2, AlertTriangle } from "lucide-react";
+import { User, Bell, Shield, Download, Trash2, AlertTriangle, Sparkles } from "lucide-react";
 import LogoutButton from "./LogoutButton";
 import PushNotificationManager from "@/components/PushNotificationManager";
 import Dialogo from "@/components/ui/Dialogo";
+import SeccionPlan from "@/components/plan/SeccionPlan";
+import type { EstadoPlan } from "@/lib/plan";
 
-type Pestana = "perfil" | "notificaciones" | "privacidad";
+type Pestana = "perfil" | "plan" | "notificaciones" | "privacidad";
 
 // Solo ajustes que funcionan de verdad. Antes había interruptores sin efecto, una pestaña de
 // facturación ficticia y un botón de descarga sin acción (auditoría U-07).
 const PESTANAS: { key: Pestana; label: string; icon: React.ReactNode }[] = [
   { key: "perfil", label: "Mi perfil", icon: <User size={16} aria-hidden="true" /> },
+  { key: "plan", label: "Plan y suscripción", icon: <Sparkles size={16} aria-hidden="true" /> },
   { key: "notificaciones", label: "Notificaciones", icon: <Bell size={16} aria-hidden="true" /> },
   { key: "privacidad", label: "Privacidad y datos", icon: <Shield size={16} aria-hidden="true" /> },
 ];
 
-export default function SettingsClient({ email }: { email: string }) {
-  const [activeTab, setActiveTab] = useState<Pestana>("perfil");
+export default function SettingsClient({
+  email,
+  estadoPlan,
+  pestanaInicial = "perfil",
+}: {
+  email: string;
+  estadoPlan: EstadoPlan | null;
+  pestanaInicial?: Pestana;
+}) {
+  // Sin la migración de planes no hay nada que mostrar: la pestaña se oculta
+  const pestanas = estadoPlan ? PESTANAS : PESTANAS.filter((p) => p.key !== "plan");
+  const [activeTab, setActiveTab] = useState<Pestana>(
+    pestanas.some((p) => p.key === pestanaInicial) ? pestanaInicial : "perfil"
+  );
   const base = useId();
-  const refs = useRef<Record<Pestana, HTMLButtonElement | null>>({ perfil: null, notificaciones: null, privacidad: null });
+  const refs = useRef<Record<Pestana, HTMLButtonElement | null>>({ perfil: null, plan: null, notificaciones: null, privacidad: null });
 
   // Navegación de pestañas con flechas, Inicio y Fin (patrón ARIA de tabs)
   const alTeclear = (e: React.KeyboardEvent, indice: number) => {
-    const total = PESTANAS.length;
+    const total = pestanas.length;
     let siguiente: number | null = null;
     if (e.key === "ArrowRight" || e.key === "ArrowDown") siguiente = (indice + 1) % total;
     if (e.key === "ArrowLeft" || e.key === "ArrowUp") siguiente = (indice - 1 + total) % total;
@@ -31,7 +46,7 @@ export default function SettingsClient({ email }: { email: string }) {
     if (e.key === "End") siguiente = total - 1;
     if (siguiente === null) return;
     e.preventDefault();
-    const clave = PESTANAS[siguiente].key;
+    const clave = pestanas[siguiente].key;
     setActiveTab(clave);
     refs.current[clave]?.focus();
   };
@@ -44,7 +59,7 @@ export default function SettingsClient({ email }: { email: string }) {
         aria-orientation="horizontal"
         className="flex md:flex-col gap-1.5 overflow-x-auto no-scrollbar pb-1 md:pb-0 shrink-0"
       >
-        {PESTANAS.map(({ key, label, icon }, i) => (
+        {pestanas.map(({ key, label, icon }, i) => (
           <button
             key={key}
             ref={(el) => { refs.current[key] = el; }}
@@ -97,6 +112,8 @@ export default function SettingsClient({ email }: { email: string }) {
             </section>
           </>
         )}
+
+        {activeTab === "plan" && <SeccionPlan estado={estadoPlan} />}
 
         {activeTab === "notificaciones" && (
           <section className="apple-card p-6 md:p-8 shadow-apple-sm">

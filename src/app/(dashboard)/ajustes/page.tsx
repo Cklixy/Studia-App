@@ -1,11 +1,10 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
-import SeccionPlan from "@/components/plan/SeccionPlan";
 import { obtenerEstadoPlan } from "@/lib/plan";
 import SettingsClient from "./SettingsClient";
 
-export default async function AjustesPage() {
+export default async function AjustesPage({ searchParams }: { searchParams: { pestana?: string } }) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -17,12 +16,14 @@ export default async function AjustesPage() {
     <div className="max-w-4xl mx-auto space-y-8">
       <EncabezadoPantalla
         titulo="Ajustes"
-        descripcion="Administra tu perfil, tus recordatorios y tus datos."
+        descripcion="Administra tu perfil, tu plan, tus recordatorios y tus datos."
       />
 
-      <SeccionPlan estado={await obtenerEstadoPlan(supabase)} />
-
-      <SettingsClient email={user.email || ""} />
+      <SettingsClient
+        email={user.email || ""}
+        estadoPlan={await obtenerEstadoPlan(supabase)}
+        pestanaInicial={searchParams.pestana === "plan" ? "plan" : "perfil"}
+      />
     </div>
   );
 }

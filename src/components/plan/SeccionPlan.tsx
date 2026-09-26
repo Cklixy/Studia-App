@@ -3,12 +3,12 @@ import { Sparkles } from "lucide-react";
 import BarraUso from "./BarraUso";
 import { fechaReinicio, fechaVencimiento, type EstadoPlan } from "@/lib/plan";
 
-/** Ajustes → «Plan y uso»: plan actual, consumo del mes y acceso a los planes. */
+/** Ajustes → pestaña «Plan y suscripción»: plan actual, consumo del mes y acceso a los planes. */
 export default function SeccionPlan({ estado }: { estado: EstadoPlan | null }) {
   if (!estado) return null;
   const esPro = estado.plan === "pro";
   return (
-    <section aria-labelledby="plan-titulo" className="apple-card p-5 sm:p-6 space-y-5">
+    <section aria-labelledby="plan-titulo" className="apple-card p-6 md:p-8 shadow-apple-sm space-y-5">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h2 id="plan-titulo" className="apple-title-3 text-arctic-slate flex items-center gap-2">
@@ -30,6 +30,9 @@ export default function SeccionPlan({ estado }: { estado: EstadoPlan | null }) {
         {!esPro && <Sparkles size={15} aria-hidden="true" />}
         <span>{esPro ? "Ver mi plan" : "Ver el plan Pro"}</span>
       </Link>
+      <p className="text-xs text-arctic-secondary">
+        El pago en línea llegará pronto. Mientras tanto, el equipo de studia+ activa y renueva el Pro.
+      </p>
     </section>
   );
 }
