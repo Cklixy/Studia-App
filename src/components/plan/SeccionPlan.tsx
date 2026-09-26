@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import BarraUso from "./BarraUso";
-import { fechaReinicio, fechaVencimiento, type EstadoPlan } from "@/lib/plan";
+import { fechaReinicio, textoVigenciaPro, type EstadoPlan } from "@/lib/plan";
 
 /** Ajustes → pestaña «Plan y suscripción»: plan actual, consumo del mes y acceso a los planes. */
 export default function SeccionPlan({ estado }: { estado: EstadoPlan | null }) {
@@ -16,7 +16,7 @@ export default function SeccionPlan({ estado }: { estado: EstadoPlan | null }) {
           </h2>
           <p className="text-sm text-arctic-secondary mt-1">
             {esPro && estado.pro_hasta
-              ? `Tu Pro está activo hasta el ${fechaVencimiento(estado.pro_hasta)}.`
+              ? textoVigenciaPro(estado.pro_hasta)
               : "Estás en el plan gratuito."}{" "}
             El uso se reinicia el {fechaReinicio(estado.reinicia_el)}.
           </p>

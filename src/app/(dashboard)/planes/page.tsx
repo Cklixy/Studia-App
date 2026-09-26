@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
 import BarraUso from "@/components/plan/BarraUso";
 import { EtiquetaPlan } from "@/components/plan/SeccionPlan";
-import { fechaReinicio, fechaVencimiento, LIMITES, obtenerEstadoPlan, PRECIO_PRO_COP } from "@/lib/plan";
+import { fechaReinicio, LIMITES, textoVigenciaPro, obtenerEstadoPlan, PRECIO_PRO_COP } from "@/lib/plan";
 
 export const metadata = { title: "Planes" };
 
@@ -74,7 +74,7 @@ export default async function PlanesPage() {
           <div className="mt-6">
             {esPro ? (
               <p className="text-sm font-medium text-arctic-slate">
-                Tu Pro está activo hasta el {fechaVencimiento(estado?.pro_hasta ?? null)}.
+                {textoVigenciaPro(estado?.pro_hasta ?? null)}
               </p>
             ) : (
               <>

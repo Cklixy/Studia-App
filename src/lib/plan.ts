@@ -92,6 +92,16 @@ export function fechaReinicio(fecha: string): string {
   return new Date(`${fecha}T12:00:00Z`).toLocaleDateString("es-CO", { day: "numeric", month: "long", timeZone: "America/Bogota" });
 }
 
+/** Pro sin vencimiento: se otorga con una fecha muy lejana (año 2090 o después). */
+export function esProPermanente(iso: string | null): boolean {
+  return !!iso && new Date(iso).getUTCFullYear() >= 2090;
+}
+
+/** «Tu Pro está activo hasta el 28 de octubre.» o «Tu Pro no vence.» */
+export function textoVigenciaPro(iso: string | null): string {
+  return esProPermanente(iso) ? "Tu Pro no vence." : `Tu Pro está activo hasta el ${fechaVencimiento(iso)}.`;
+}
+
 /** «28 de octubre» a partir de un timestamp (pro_hasta), en hora de Colombia. */
 export function fechaVencimiento(iso: string | null): string {
   if (!iso) return "";
