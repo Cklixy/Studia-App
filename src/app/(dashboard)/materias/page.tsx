@@ -13,6 +13,8 @@ import { calcularSiguientePaso } from "@/lib/siguientePaso";
 import TarjetaHoy from "@/components/inicio/TarjetaHoy";
 import TarjetaSemana from "@/components/inicio/TarjetaSemana";
 import { Sparkles, Calendar, ChevronRight } from "lucide-react";
+import { EtiquetaPlan } from "@/components/plan/SeccionPlan";
+import { fechaVencimiento, obtenerEstadoPlan } from "@/lib/plan";
 
 // Client component diferido únicamente para Web Push API
 const PushNotificationManager = dynamic(() => import("@/components/PushNotificationManager"), {
@@ -47,7 +49,7 @@ export default async function MateriasPage() {
   const firstName = user.user_metadata?.full_name?.split(" ")[0] || user.email?.split("@")[0] || "Estudiante";
   const metaSemanal = Number(user.user_metadata?.meta_semanal_minutos) || null;
 
-  const [materias, { data: rachaData }, { data: sesionesSemana }] = await Promise.all([
+  const [materias, { data: rachaData }, { data: sesionesSemana }, estadoPlan] = await Promise.all([
     getCachedMaterias(user.id, session?.access_token),
     supabase.from("rachas").select("dias, xp_total, nivel_actual, ultima_actividad").eq("user_id", user.id).single(),
     supabase
@@ -56,7 +58,14 @@ export default async function MateriasPage() {
       .eq("user_id", user.id)
       .eq("estado", "finalizada")
       .gte("hora_finalizacion", inicioSemanaLocal()),
+    obtenerEstadoPlan(supabase),
   ]);
+
+  // Pro que vence en 3 días o menos: aviso para renovar
+  const diasProRestantes =
+    estadoPlan?.plan === "pro" && estadoPlan.pro_hasta
+      ? Math.ceil((Date.parse(estadoPlan.pro_hasta) - Date.now()) / 86_400_000)
+      : null;
 
   // Solo cuenta si la última sesión fue hoy o ayer (antes se mostraba una racha ya rota)
   const rachaActual = rachaVigente(rachaData);
@@ -84,6 +93,7 @@ export default async function MateriasPage() {
       <EncabezadoPantalla
         etiqueta={capitalizarInicio(fechaHoy)}
         titulo={`Hola, ${firstName}`}
+        junto={estadoPlan?.plan === "pro" ? <EtiquetaPlan plan="pro" /> : undefined}
         descripcion={
           rachaActual > 0
             ? `Llevas ${plural(rachaActual, "día seguido", "días seguidos")} de enfoque académico. ¡Excelente constancia!`
@@ -104,6 +114,18 @@ export default async function MateriasPage() {
           </>
         }
       />
+
+      {diasProRestantes !== null && diasProRestantes <= 3 && (
+        <div role="status" className="apple-card p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3">
+          <p className="text-sm text-arctic-slate flex-1">
+            Tu Pro vence el <strong>{fechaVencimiento(estadoPlan!.pro_hasta)}</strong>. Después vuelves a los límites del plan
+            gratuito.
+          </p>
+          <Link href="/planes" className="btn-apple-secondary text-sm min-h-11 px-4 apple-tactile shrink-0">
+            Ver mi plan
+          </Link>
+        </div>
+      )}
 
       {/* Hoy + Tu semana */}
       <ListaEscalonada className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-4 sm:gap-5" classNameElemento="grid">

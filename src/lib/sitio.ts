@@ -15,6 +15,7 @@ export const RUTAS_PRIVADAS = [
   "/logros",
   "/ajustes",
   "/rutas",
+  "/planes",
   "/api/",
   "/auth/",
   "/nueva-contrasena",

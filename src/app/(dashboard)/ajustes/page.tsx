@@ -1,6 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
+import SeccionPlan from "@/components/plan/SeccionPlan";
+import { obtenerEstadoPlan } from "@/lib/plan";
 import SettingsClient from "./SettingsClient";
 
 export default async function AjustesPage() {
@@ -17,6 +19,8 @@ export default async function AjustesPage() {
         titulo="Ajustes"
         descripcion="Administra tu perfil, tus recordatorios y tus datos."
       />
+
+      <SeccionPlan estado={await obtenerEstadoPlan(supabase)} />
 
       <SettingsClient email={user.email || ""} />
     </div>

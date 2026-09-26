@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sparkles, ArrowRight, Clock, Target, BookOpen, ChevronDown } from "lucide-react";
 import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
+import { useEstadoPlan } from "@/hooks/useEstadoPlan";
+import { AvisoLimite, ContadorUso } from "@/components/plan/AvisoUso";
+import { CODIGO_LIMITE, type Plan } from "@/lib/plan";
 
 export default function CrearRutaIAPage() {
   const router = useRouter();
@@ -13,6 +16,10 @@ export default function CrearRutaIAPage() {
   const [tiempoDiario, setTiempoDiario] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Límite mensual de rutas con IA (plan Free/Pro)
+  const { estado, actualizarUso } = useEstadoPlan();
+  const [tope, setTope] = useState<{ plan: Plan; reinicia_el: string } | null>(null);
+  const agotado = !!tope || (!!estado && estado.rutas.usados >= estado.rutas.limite);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +42,13 @@ export default function CrearRutaIAPage() {
 
       if (!res.ok) {
         const d = await res.json().catch(() => ({}));
+        // Tope del mes: no es un error, se muestra el aviso y se conserva lo escrito
+        if (res.status === 402 && d.codigo === CODIGO_LIMITE) {
+          actualizarUso("ruta", d);
+          setTope({ plan: d.plan, reinicia_el: d.reinicia_el });
+          setLoading(false);
+          return;
+        }
         // El fallo casi nunca es culpa de la petición: no pedir "ser más específico"
         throw new Error(
           d.codigo === "IA_SATURADA"
@@ -165,10 +179,13 @@ export default function CrearRutaIAPage() {
           </div>
         )}
 
-        <div className="flex justify-end pt-2">
+        {agotado && (tope || estado) && <AvisoLimite estado={(tope ?? estado)!} tipo="ruta" />}
+
+        <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-3 pt-2">
+          {!agotado && <ContadorUso estado={estado} tipo="ruta" className="sm:mr-auto text-center sm:text-left" />}
           <button
             type="submit"
-            disabled={loading || !prompt}
+            disabled={loading || !prompt || agotado}
             className="w-full sm:w-auto btn-apple-primary py-3 px-7 text-xs font-semibold apple-tactile shadow-apple-sm flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {loading ? (

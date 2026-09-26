@@ -5,6 +5,9 @@ import { createPortal } from "react-dom";
 import { X, Send, Loader2, Sparkles, MessageCircle, RotateCcw } from "lucide-react";
 import { motion, useDragControls, useReducedMotion } from "motion/react";
 import TextoTutor from "./TextoTutor";
+import { useEstadoPlan } from "@/hooks/useEstadoPlan";
+import { AvisoLimite, ContadorUso } from "@/components/plan/AvisoUso";
+import { CODIGO_LIMITE, type Plan } from "@/lib/plan";
 import { fundido, resorteHoja } from "@/lib/movimiento";
 
 interface ThemeChatProps {
@@ -25,6 +28,10 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [montado, setMontado] = useState(false);
+  // Límite mensual de mensajes al tutor (plan Free/Pro)
+  const { estado, actualizarUso } = useEstadoPlan();
+  const [tope, setTope] = useState<{ plan: Plan; reinicia_el: string } | null>(null);
+  const agotado = !!tope || (!!estado && estado.mensajes.usados >= estado.mensajes.limite);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const controlesArrastre = useDragControls();
@@ -109,6 +116,14 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
       });
 
       const data = await res.json().catch(() => ({}));
+      // Tope del mes: se quita la pregunta del historial, vuelve al campo y se muestra el aviso
+      if (res.status === 402 && data.codigo === CODIGO_LIMITE) {
+        setMessages(messages);
+        setInput(userMessage);
+        actualizarUso("mensaje", data);
+        setTope({ plan: data.plan, reinicia_el: data.reinicia_el });
+        return;
+      }
       if (!res.ok) {
         const err = new Error(data.error || "Error al enviar mensaje") as Error & { codigo?: string };
         err.codigo = data.codigo;
@@ -116,6 +131,7 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
       }
 
       setMessages([...newMessages, { id: (Date.now() + 1).toString(), role: "model", text: data.response }]);
+      if (data.uso) actualizarUso("mensaje", data.uso);
     } catch (err: any) {
       // Se quita la pregunta del historial y se devuelve al campo para poder reintentar sin reescribirla
       setMessages(messages);
@@ -130,7 +146,7 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
     } finally {
       setLoading(false);
     }
-  }, [loading, messages, tema.nombre, materiaNombre]);
+  }, [loading, messages, tema.nombre, materiaNombre, actualizarUso]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -264,6 +280,11 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
           <p id={avisoId} className="text-xs text-arctic-secondary text-center">
             La IA puede equivocarse. Verifica fórmulas y resultados antes de tu parcial.
           </p>
+          {agotado && (tope || estado) ? (
+            <AvisoLimite estado={(tope ?? estado)!} tipo="mensaje" />
+          ) : (
+          <>
+          <ContadorUso estado={estado} tipo="mensaje" className="text-center" />
           <form onSubmit={handleSubmit} className="flex gap-2 items-center">
             <label htmlFor={inputId} className="sr-only">
               Tu pregunta sobre {tema.nombre}
@@ -288,6 +309,8 @@ export default function ThemeChat({ tema, materiaNombre, onClose }: ThemeChatPro
               <Send size={15} aria-hidden="true" />
             </button>
           </form>
+          </>
+          )}
         </div>
       </motion.div>
     </>,
