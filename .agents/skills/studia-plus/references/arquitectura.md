@@ -87,3 +87,11 @@ Los componentes cliente llaman a estas APIs con `fetch`, muestran el error en un
 - JSON-LD en `components/landing/DatosEstructurados.tsx`. La FAQ sale de `lib/landing.ts` y la usan la sección visible y `FAQPage`: deben decir lo mismo. No anuncies funciones ni planes que no existan (el plan Pro se añade cuando se pueda comprar).
 - Imagen para compartir: `app/opengraph-image.tsx` (runtime edge, fuentes Geist en `app/fuentes-og/`).
 - Movimiento: `data-revelar` + `Revelador` (un solo IntersectionObserver, solo transform/opacity; el hero no se anima porque es el LCP).
+
+## Planes y límites de IA (Free / Pro)
+
+- Migración `00014_suscripciones.sql`: `suscripciones` (`pro_hasta`), `uso_ia` (por mes calendario en Colombia) y `cambios_plan` (auditoría). El usuario solo lee lo suyo; nunca escribe.
+- Free: 5 rutas con IA y 20 mensajes al tutor al mes; Pro: 50 y 100. Solo cuentan `/api/ai/generar-ruta` y `/api/ai/chat` (la recomendación de método no cuenta).
+- En la API: `consumirUsoIa()` de `lib/plan.ts` **antes** de llamar a Gemini (402 `LIMITE_ALCANZADO` si no hay cupo) y `devolverUsoIa()` si Gemini falla. Si la migración no está aplicada, deja pasar y lo registra.
+- Interfaz: `useEstadoPlan` + `ContadorUso`/`AvisoLimite` (Crear ruta y tutor), `SeccionPlan` en Ajustes, `/planes` y la etiqueta Pro en Inicio.
+- Sin pasarela todavía. El Pro se da a mano en el editor SQL de Supabase: `select private.admin_dar_pro('correo', 30, 'nota');` (también `admin_quitar_pro` y `admin_estado_usuario`). El esquema `private` no lo expone la API.
