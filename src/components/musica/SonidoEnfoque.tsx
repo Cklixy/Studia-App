@@ -262,7 +262,7 @@ export default function SonidoEnfoque() {
                     <p id={`${ids}-playlist-ayuda`} className="text-xs text-arctic-secondary">
                       {playlist !== "" && !playlistValida
                         ? "Pega un enlace https de Spotify, YouTube, Apple Music, Deezer o SoundCloud."
-                        : "Spotify suena aquí mismo en un reproductor compacto: canciones completas si tienes sesión de Premium en este navegador; si no, avances de 30 s. Otros servicios se abren en su app y el temporizador sigue corriendo."}
+                        : "Spotify suena aquí mismo en un reproductor compacto. Para oír canciones completas necesitas Spotify Premium con la sesión iniciada en open.spotify.com en este mismo navegador (y sin bloquear las cookies de terceros); si no, solo suenan avances de 30 s y aparece «Conseguir Spotify». Otros servicios se abren en su app y el temporizador sigue corriendo."}
                     </p>
                   </div>
                 )}
