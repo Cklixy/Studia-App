@@ -3,6 +3,7 @@ import { Check, Sparkles } from "lucide-react";
 import { createClient } from "@/utils/supabase/server";
 import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
 import BarraUso from "@/components/plan/BarraUso";
+import BotonPagarPro from "@/components/plan/BotonPagarPro";
 import { EtiquetaPlan } from "@/components/plan/SeccionPlan";
 import { fechaReinicio, LIMITES, textoVigenciaPro, obtenerEstadoPlan, PRECIO_PRO_COP } from "@/lib/plan";
 
@@ -10,9 +11,9 @@ export const metadata = { title: "Planes" };
 
 const INCLUIDO = ["Materias, temas y sesiones sin límite", "Racha, meta semanal e historial", "Notas, parciales y simulador", "Música para concentrarte"];
 
-// Planes Free y Pro. Sin pasarela todavía: el pago se muestra como «próximamente» y el Pro se
-// activa a mano desde la base de datos (private.admin_dar_pro).
-export default async function PlanesPage() {
+// Planes Free y Pro. El pago es único (30 días) con Wompi; el webhook (api/pagos/webhook) activa el Pro.
+// También se puede dar a mano desde la base de datos (private.admin_dar_pro).
+export default async function PlanesPage({ searchParams }: { searchParams: { pago?: string } }) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
@@ -28,6 +29,14 @@ export default async function PlanesPage() {
         titulo="Planes"
         descripcion="Lo esencial de studia+ es gratis. Pro amplía cuántas rutas con IA y mensajes al tutor puedes usar cada mes."
       />
+
+      {searchParams.pago && (
+        <p role="status" className="apple-card p-4 text-sm text-arctic-slate">
+          {esPro
+            ? "¡Pago recibido! Tu plan Pro ya está activo."
+            : "Estamos confirmando tu pago. Puede tardar un minuto: recarga esta página para ver tu plan."}
+        </p>
+      )}
 
       {estado && (
         <section aria-labelledby="uso-titulo" className="apple-card p-5 sm:p-6 space-y-4">
@@ -77,12 +86,7 @@ export default async function PlanesPage() {
                 {textoVigenciaPro(estado?.pro_hasta ?? null)}
               </p>
             ) : (
-              <>
-                <button type="button" disabled className="btn-apple-primary w-full min-h-12 text-sm opacity-50 cursor-not-allowed">
-                  Pago en línea próximamente
-                </button>
-                <p className="text-xs text-arctic-secondary mt-2 text-center">Estamos preparando el pago con Nequi, PSE y tarjeta.</p>
-              </>
+              <BotonPagarPro />
             )}
           </div>
         </section>

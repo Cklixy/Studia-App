@@ -11,7 +11,7 @@ Next.js 14.2 (App Router, React 18, TypeScript) · Supabase (Postgres + Auth, `@
 - `src/middleware.ts` → `updateSession` refresca la sesión en cada petición.
 - `(dashboard)/layout.tsx` hace `getUser()` y redirige a `/login` si no hay usuario. Cada página y cada route handler vuelve a comprobarlo.
 - Usa `getUser()` (valida el JWT) para autorizar; `getSession()` solo para obtener el access token (p. ej. para la caché).
-- Service role solo en el cron (`api/cron/reminders`, protegido con `CRON_SECRET`).
+- Service role solo en el cron (`api/cron/reminders`, protegido con `CRON_SECRET`), en eliminar cuenta y en los pagos Wompi (`api/pagos/*`, `lib/wompi.ts`; el webhook se autentica con la firma del evento).
 
 ## Modelo de datos (Postgres, RLS en todas las tablas)
 
@@ -77,7 +77,7 @@ Los componentes cliente llaman a estas APIs con `fetch`, muestran el error en un
 
 ## Variables de entorno
 
-`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `GEMINI_MODEL_FALLBACK`, `CRON_SECRET`, `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `ALLOWED_PUSH_HOSTS`, `NEXT_PUBLIC_SITE_URL`. Están en `.env.local` (no versionado); nunca las imprimas ni las subas.
+`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `GEMINI_MODEL_FALLBACK`, `CRON_SECRET`, `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `ALLOWED_PUSH_HOSTS`, `NEXT_PUBLIC_SITE_URL`, `WOMPI_PUBLIC_KEY`, `WOMPI_INTEGRITY_SECRET`, `WOMPI_EVENTS_SECRET`. Están en `.env.local` (no versionado); nunca las imprimas ni las subas.
 
 ## Landing y SEO
 
