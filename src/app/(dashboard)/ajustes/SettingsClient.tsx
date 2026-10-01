@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useRef, useState } from "react";
-import { User, Bell, Shield, Download, Trash2, AlertTriangle, Sparkles } from "lucide-react";
+import { User, Bell, Shield, Trash2, AlertTriangle, Sparkles } from "lucide-react";
 import LogoutButton from "./LogoutButton";
 import PushNotificationManager from "@/components/PushNotificationManager";
 import Dialogo from "@/components/ui/Dialogo";
@@ -159,30 +159,13 @@ function PrivacidadYDatos() {
 
   return (
     <>
-      <section className="apple-card p-6 md:p-8 shadow-apple-sm">
-        <h2 className="apple-title-3 mb-2 flex items-center gap-2">
-          <Download size={18} strokeWidth={2} className="text-glacier-blue" aria-hidden="true" />
-          <span>Descargar mis datos</span>
-        </h2>
-        <p className="text-sm text-arctic-secondary mb-4">
-          Un archivo JSON con tus materias, temas, sesiones, notas, rutas y progreso.
-        </p>
-        <a
-          href="/api/cuenta/exportar"
-          download
-          className="btn-apple-secondary text-sm min-h-11 px-4 inline-flex items-center gap-2 apple-tactile"
-        >
-          <Download size={15} aria-hidden="true" /> Descargar (.json)
-        </a>
-      </section>
-
       <section className="apple-card p-6 md:p-8 border border-red-500/20 shadow-apple-sm">
         <h2 className="apple-title-3 text-red-700 mb-2 flex items-center gap-2">
           <Trash2 size={18} strokeWidth={2} aria-hidden="true" />
           <span>Eliminar mi cuenta</span>
         </h2>
         <p className="text-sm text-arctic-secondary mb-4">
-          Borra tu cuenta y todos tus datos de forma permanente. Te recomendamos descargarlos antes.
+          Borra tu cuenta y todos tus datos de forma permanente.
         </p>
         <button
           type="button"

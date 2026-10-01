@@ -41,6 +41,6 @@ export const PREGUNTAS_FRECUENTES: PreguntaFrecuente[] = [
   {
     pregunta: "¿Qué hace la IA con mis datos?",
     respuesta:
-      "Para recomendarte un método, crear rutas de estudio y responder al tutor, studia+ envía a la IA el nombre de la materia, el tema y tu pregunta. Las conversaciones con el tutor no se guardan en tu cuenta, y desde Ajustes puedes exportar o eliminar todos tus datos.",
+      "Para recomendarte un método, crear rutas de estudio y responder al tutor, studia+ envía a la IA el nombre de la materia, el tema y tu pregunta. Las conversaciones con el tutor no se guardan en tu cuenta, y desde Ajustes puedes eliminar todos tus datos.",
   },
 ];

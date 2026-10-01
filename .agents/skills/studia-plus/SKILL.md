@@ -34,7 +34,7 @@ src/app/
     evaluaciones/          "Parciales"
     historial/, logros/    "Progreso"
     rutas/ (crear, preview) rutas de estudio generadas con IA
-    ajustes/               notificaciones, exportar datos, eliminar cuenta, cerrar sesión
+    ajustes/               notificaciones, eliminar cuenta, cerrar sesión
   api/                     route handlers REST (materias, temas, sesiones, evaluaciones, rutas, ai/*, cron, cuenta)
 src/components/            componentes (ui/Dialogo.tsx = modal base)
 src/lib/                   dominio: racha.ts, planParcial.ts, recommendationEngine.ts, texto.ts, ai/gemini.ts, validations/*
