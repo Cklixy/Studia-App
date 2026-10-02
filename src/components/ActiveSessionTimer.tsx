@@ -1,9 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Play, Pause, Sparkles, CheckCircle2, ChevronLeft } from "lucide-react";
+import { Play, Pause, Sparkles, CheckCircle2, ChevronLeft, MessageCircle } from "lucide-react";
 import { useSessionTimer } from "@/hooks/useSessionTimer";
 import { TimerRing } from "@/components/TimerRing";
 import { TimerDisplay } from "@/components/TimerDisplay";
@@ -11,11 +12,15 @@ import Hoja from "@/components/ui/Hoja";
 import SonidoEnfoque from "@/components/musica/SonidoEnfoque";
 import { emitirEstadoSesion } from "@/lib/ambientes";
 
+// El tutor se carga solo cuando se abre (igual que en la lista de temas)
+const ThemeChat = dynamic(() => import("@/components/ThemeChat"), { ssr: false });
+
 export default function ActiveSessionTimer({ session }: { session: any }) {
   const router = useRouter();
   // Anuncio para lectores de pantalla: solo cambios de estado, nunca cada segundo
   const [anuncio, setAnuncio] = useState("");
   const [confirmarFin, setConfirmarFin] = useState(false);
+  const [tutorAbierto, setTutorAbierto] = useState(false);
 
   const alCompletar = useCallback(() => {
     setAnuncio("Sesión completada. Pulsa Finalizar para registrar tu progreso.");
@@ -179,11 +184,30 @@ export default function ActiveSessionTimer({ session }: { session: any }) {
           </div>
         )}
 
+        {/* Tutor: una duda en el momento, sin salir de la sesión. El temporizador sigue corriendo. */}
+        <button
+          type="button"
+          onClick={() => setTutorAbierto(true)}
+          aria-haspopup="dialog"
+          className="btn-apple-ghost text-sm min-h-11 px-4 apple-tactile mt-1"
+        >
+          <MessageCircle size={16} className="text-glacier-blue" aria-hidden="true" />
+          <span>Preguntar al tutor</span>
+        </button>
+
         {/* Sonido opcional: no toca el temporizador */}
         <div className="w-full mt-3 pt-4 border-t border-black/[0.06]">
           <SonidoEnfoque />
         </div>
       </section>
+
+      {tutorAbierto && (
+        <ThemeChat
+          tema={{ nombre: session.temas?.nombre || session.materias?.nombre || "esta sesión" }}
+          materiaNombre={session.materias?.nombre || "Estudio general"}
+          onClose={() => setTutorAbierto(false)}
+        />
+      )}
 
       <Hoja
         abierto={confirmarFin}
