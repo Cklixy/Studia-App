@@ -1,7 +1,8 @@
-import { Flame } from "lucide-react";
-import { xpInicioNivel } from "@/lib/racha";
+import { Check, Flame } from "lucide-react";
+import { xpInicioNivel, type DiaSemana } from "@/lib/racha";
 import { plural } from "@/lib/texto";
 import MetaSemanal from "./MetaSemanal";
+import TiraSemana from "./TiraSemana";
 
 interface TarjetaSemanaProps {
   racha: number;
@@ -9,6 +10,9 @@ interface TarjetaSemanaProps {
   metaMinutos: number | null;
   nivel: number;
   xpTotal: number;
+  estudioHoy: boolean;
+  minutosRestantes: number;
+  dias: DiaSemana[];
 }
 
 function formatoHoras(min: number) {
@@ -22,7 +26,7 @@ function formatoHoras(min: number) {
  * Tu semana: racha, avance hacia la meta semanal y nivel. El anillo mide la meta (antes medía
  * «XP de la semana % 500», que no correspondía a nada que el usuario pudiera entender).
  */
-export default function TarjetaSemana({ racha, minutosSemana, metaMinutos, nivel, xpTotal }: TarjetaSemanaProps) {
+export default function TarjetaSemana({ racha, minutosSemana, metaMinutos, nivel, xpTotal, estudioHoy, minutosRestantes, dias }: TarjetaSemanaProps) {
   const R = 44;
   const C = 2 * Math.PI * R;
   const ratio = metaMinutos ? Math.min(1, minutosSemana / metaMinutos) : 0;
@@ -38,6 +42,11 @@ export default function TarjetaSemana({ racha, minutosSemana, metaMinutos, nivel
           <Flame size={15} className={racha > 0 ? "text-cool-berry fill-cool-berry" : "text-arctic-tertiary"} aria-hidden="true" />
           <span>{racha > 0 ? plural(racha, "día de racha", "días de racha") : "Sin racha"}</span>
         </span>
+      </div>
+
+      <div className="space-y-3">
+        <TiraSemana dias={dias} />
+        <MensajeRacha racha={racha} estudioHoy={estudioHoy} minutosRestantes={minutosRestantes} />
       </div>
 
       <div className="flex items-center gap-5">
@@ -103,5 +112,26 @@ export default function TarjetaSemana({ racha, minutosSemana, metaMinutos, nivel
         </div>
       </div>
     </section>
+  );
+}
+
+/** Qué hacer hoy con la racha: asegurada, en riesgo (con el tiempo que queda) o por empezar. */
+function MensajeRacha({ racha, estudioHoy, minutosRestantes }: { racha: number; estudioHoy: boolean; minutosRestantes: number }) {
+  if (estudioHoy) {
+    return (
+      <p role="status" className="flex items-center justify-center gap-1.5 text-sm font-medium text-emerald-700">
+        <Check size={15} aria-hidden="true" /> ¡Racha asegurada por hoy!
+      </p>
+    );
+  }
+  if (racha === 0) {
+    return <p className="text-sm text-center text-arctic-secondary">Una sesión hoy empieza tu racha.</p>;
+  }
+  const horas = Math.max(1, Math.ceil(minutosRestantes / 60));
+  const urgente = minutosRestantes <= 6 * 60;
+  return (
+    <p className={`text-sm text-center ${urgente ? "text-amber-700 font-medium" : "text-arctic-secondary"}`}>
+      Estudia hoy para mantener tus {plural(racha, "día", "días")}. Te quedan {plural(horas, "hora", "horas")}.
+    </p>
   );
 }

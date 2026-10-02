@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 import BrandLogo from "@/components/BrandLogo";
 import SidebarNav from "@/components/SidebarNav";
+import IndicadorRacha from "@/components/inicio/IndicadorRacha";
+import { estudioHoy, rachaVigente } from "@/lib/racha";
 import ReproductorProvider from "@/components/musica/ReproductorProvider";
 import type { Metadata } from "next";
 
@@ -30,6 +32,8 @@ export default async function DashboardLayout({
     return redirect("/login");
   }
 
+  const { data: racha } = await supabase.from("rachas").select("dias, ultima_actividad").eq("user_id", user.id).maybeSingle();
+
   return (
     <ReproductorProvider>
     <div className="min-h-dvh text-arctic-slate flex flex-col bg-frost-base relative">
@@ -40,6 +44,7 @@ export default async function DashboardLayout({
           <div className="flex items-center gap-3">
             <BrandLogo />
           </div>
+          <IndicadorRacha racha={rachaVigente(racha)} estudioHoy={estudioHoy(racha)} />
         </div>
       </header>
 

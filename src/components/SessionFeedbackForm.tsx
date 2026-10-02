@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Star } from "lucide-react";
+import CelebracionRacha, { type DatosCelebracion } from "@/components/CelebracionRacha";
 
 // Grupo de opciones con radios nativos: el lector anuncia pregunta, opción y estado
 // (antes eran botones sin estado y las estrellas se llamaban todas "★").
@@ -48,6 +49,7 @@ export default function SessionFeedbackForm({ session, elapsed, pauses }: { sess
   const id = useId();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [celebracion, setCelebracion] = useState<DatosCelebracion | null>(null);
 
   const [utilidad, setUtilidad] = useState<string>("");
   const [productividad, setProductividad] = useState<number>(0);
@@ -81,6 +83,12 @@ export default function SessionFeedbackForm({ session, elapsed, pauses }: { sess
         throw new Error(typeof d.error === "string" ? d.error : "No pudimos guardar la sesión. Inténtalo de nuevo.");
       }
 
+      // Primera sesión del día: se celebra la racha antes de volver al inicio
+      const d = await res.json().catch(() => ({}));
+      if (d.celebracion) {
+        setCelebracion(d.celebracion);
+        return;
+      }
       router.push("/materias");
     } catch (err: any) {
       setError(err.message);
@@ -88,6 +96,10 @@ export default function SessionFeedbackForm({ session, elapsed, pauses }: { sess
     }
   };
 
+
+  if (celebracion) {
+    return <CelebracionRacha datos={celebracion} onContinuar={() => router.push("/materias")} />;
+  }
 
   return (
     <form onSubmit={handleSubmit} className="apple-card p-4 sm:p-8 space-y-7 sm:space-y-8">

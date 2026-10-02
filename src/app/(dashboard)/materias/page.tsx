@@ -2,7 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { capitalizarInicio, formatearFechaLocal, plural } from "@/lib/texto";
 import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
 import ListaEscalonada from "@/components/ui/ListaEscalonada";
-import { fechaLocal, inicioSemanaLocal, nivelDesdeXp, rachaVigente, ZONA_HORARIA } from "@/lib/racha";
+import { diasDeLaSemana, estudioHoy, fechaLocal, fechasDeActividad, inicioSemanaLocal, minutosRestantesHoy, nivelDesdeXp, rachaVigente, ZONA_HORARIA } from "@/lib/racha";
 import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 import CreateMateriaForm from "@/components/CreateMateriaForm";
@@ -54,7 +54,7 @@ export default async function MateriasPage() {
     supabase.from("rachas").select("dias, xp_total, nivel_actual, ultima_actividad").eq("user_id", user.id).single(),
     supabase
       .from("sesiones")
-      .select("tiempo_efectivo_segundos")
+      .select("tiempo_efectivo_segundos, hora_finalizacion")
       .eq("user_id", user.id)
       .eq("estado", "finalizada")
       .gte("hora_finalizacion", inicioSemanaLocal()),
@@ -136,6 +136,9 @@ export default async function MateriasPage() {
           metaMinutos={metaSemanal}
           nivel={nivelDesdeXp(xpTotal)}
           xpTotal={xpTotal}
+          estudioHoy={estudioHoy(rachaData)}
+          minutosRestantes={minutosRestantesHoy()}
+          dias={diasDeLaSemana(fechasDeActividad((sesionesSemana || []).map((s) => s.hora_finalizacion)))}
         />
       </ListaEscalonada>
 

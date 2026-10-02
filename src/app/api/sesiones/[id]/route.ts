@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { updateSessionSchema } from "@/lib/validations/sesiones";
 import { z } from "zod";
-import { calcularNuevaRacha, fechaLocal, nivelDesdeXp, XP_POR_MINUTO } from "@/lib/racha";
+import { calcularNuevaRacha, diasDeLaSemana, fechaLocal, fechasDeActividad, inicioSemanaLocal, nivelDesdeXp, soloFecha, XP_POR_MINUTO } from "@/lib/racha";
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
   try {
@@ -88,8 +88,10 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 
     // --- RECOMPENSAS / INSIGNIAS ---
     // Si la racha ha aumentado, verificar si alcanzó un hito
+    const rachaAumento = soloFecha(racha?.ultima_actividad) !== fechaLocal(); // primera sesión del día
+    const milestones = [3, 7, 14, 30, 50, 100];
+    const hito = rachaAumento && milestones.includes(newDias) ? newDias : null;
     if (newDias > (racha?.dias || 0)) {
-        const milestones = [3, 7, 14, 30, 50, 100];
         if (milestones.includes(newDias)) {
             // Guardar recompensa en la DB
             await supabase.from("recompensas").insert({
@@ -100,7 +102,23 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
         }
     }
 
-    return NextResponse.json(data);
+    // Datos para la pantalla de celebración (solo si hoy es el primer día que suma a la racha)
+    let celebracion = null;
+    if (rachaAumento) {
+      const { data: semana } = await supabase
+        .from("sesiones")
+        .select("hora_finalizacion")
+        .eq("user_id", user.id)
+        .eq("estado", "finalizada")
+        .gte("hora_finalizacion", inicioSemanaLocal());
+      celebracion = {
+        dias: newDias,
+        hito,
+        semana: diasDeLaSemana(fechasDeActividad((semana || []).map((s) => s.hora_finalizacion))),
+      };
+    }
+
+    return NextResponse.json({ ...data, celebracion });
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: error.issues }, { status: 400 });

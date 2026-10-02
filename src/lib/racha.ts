@@ -78,3 +78,49 @@ export function inicioSemanaLocal(fecha: Date = new Date()): string {
   const lunes = restarDias(hoy, (diaSemana + 6) % 7);
   return `${lunes}T05:00:00.000Z`; // Colombia es UTC−5 todo el año
 }
+
+// --- Semana y tiempo restante (pantalla de racha) ---
+
+export type EstadoDia = "hecho" | "hoy" | "perdido" | "futuro";
+export interface DiaSemana {
+  fecha: string;
+  letra: string;
+  nombre: string;
+  estado: EstadoDia;
+}
+
+const DIAS_SEMANA: [string, string][] = [
+  ["L", "lunes"],
+  ["M", "martes"],
+  ["M", "miércoles"],
+  ["J", "jueves"],
+  ["V", "viernes"],
+  ["S", "sábado"],
+  ["D", "domingo"],
+];
+
+/** Fechas locales (AAAA-MM-DD) en que hubo actividad, a partir de timestamps ISO. */
+export function fechasDeActividad(timestamps: (string | null | undefined)[]): Set<string> {
+  const fechas = new Set<string>();
+  for (const t of timestamps) if (t) fechas.add(fechaLocal(new Date(t)));
+  return fechas;
+}
+
+/** Los siete días de la semana actual (lunes a domingo, hora de Colombia) con su estado. */
+export function diasDeLaSemana(estudiados: Set<string>, hoy: string = fechaLocal()): DiaSemana[] {
+  const diaSemana = new Date(`${hoy}T12:00:00Z`).getUTCDay(); // 0 = domingo
+  const lunes = restarDias(hoy, (diaSemana + 6) % 7);
+  return DIAS_SEMANA.map(([letra, nombre], i) => {
+    const fecha = restarDias(lunes, -i);
+    const estado: EstadoDia = estudiados.has(fecha) ? "hecho" : fecha === hoy ? "hoy" : fecha < hoy ? "perdido" : "futuro";
+    return { fecha, letra, nombre, estado };
+  });
+}
+
+/** Minutos que faltan para que termine el día en Colombia (la racha se decide a medianoche). */
+export function minutosRestantesHoy(ahora: Date = new Date()): number {
+  const partes = new Intl.DateTimeFormat("en-GB", { timeZone: ZONA_HORARIA, hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(ahora);
+  const hora = Number(partes.find((p) => p.type === "hour")?.value);
+  const minuto = Number(partes.find((p) => p.type === "minute")?.value);
+  return 24 * 60 - (hora * 60 + minuto);
+}
