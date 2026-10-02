@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "crypto";
 import webpush from "web-push";
 import { createClient } from "@supabase/supabase-js";
+import { rachaVigente } from "@/lib/racha";
 
 export const dynamic = "force-dynamic";
 
@@ -102,14 +103,34 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ message: "No valid subscriptions to notify." });
     }
 
-    // 3. Enviar notificaciones Push solo a endpoints validados
-    const notificationPayload = JSON.stringify({
-      title: "🔥 ¡No pierdas tu racha!",
-      body: "Aún no has estudiado hoy. Entra a studia+ y completa al menos una sesión de 10 minutos para mantener tu racha.",
-      url: "/materias"
-    });
+    // 3. Enviar notificaciones Push solo a endpoints validados.
+    // Quien tiene racha de 2 días o más recibe el aviso con su número; el resto, el aviso general.
+    const { data: rachas } = await supabase
+      .from("rachas")
+      .select("user_id, dias, ultima_actividad")
+      .in("user_id", Array.from(new Set(validSubs.map((sub: any) => sub.user_id))));
+    const rachaPorUsuario = new Map<string, number>(
+      (rachas || []).map((r: any) => [r.user_id, rachaVigente(r)])
+    );
+
+    const mensajeDe = (userId: string) => {
+      const dias = rachaPorUsuario.get(userId) ?? 0;
+      if (dias >= 2) {
+        return {
+          title: `🔥 Tu racha de ${dias} días se acaba hoy`,
+          body: "Completa una sesión de 10 minutos en studia+ para mantenerla.",
+          url: "/materias",
+        };
+      }
+      return {
+        title: "🔥 ¡No pierdas tu racha!",
+        body: "Aún no has estudiado hoy. Entra a studia+ y completa al menos una sesión de 10 minutos para mantener tu racha.",
+        url: "/materias",
+      };
+    };
 
     const sendPromises = validSubs.map((sub: any) => {
+      const notificationPayload = JSON.stringify(mensajeDe(sub.user_id));
       const pushSubscription = {
         endpoint: sub.endpoint,
         keys: {

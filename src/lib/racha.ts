@@ -124,3 +124,54 @@ export function minutosRestantesHoy(ahora: Date = new Date()): number {
   const minuto = Number(partes.find((p) => p.type === "minute")?.value);
   return 24 * 60 - (hora * 60 + minuto);
 }
+
+// --- Calendario mensual y mejor racha ---
+
+/** Racha más larga que aparece en un conjunto de fechas AAAA-MM-DD (días consecutivos). */
+export function mejorRacha(estudiados: Set<string>): number {
+  const fechas = Array.from(estudiados).sort();
+  let mejor = 0;
+  let actual = 0;
+  let previa: string | null = null;
+  for (const f of fechas) {
+    actual = previa && restarDias(f, 1) === previa ? actual + 1 : 1;
+    mejor = Math.max(mejor, actual);
+    previa = f;
+  }
+  return mejor;
+}
+
+export interface CeldaMes {
+  fecha: string;
+  dia: number;
+  estado: EstadoDia;
+}
+
+/** Mes AAAA-MM válido (si no, el actual). */
+export function mesValido(mes: string | undefined, hoy: string = fechaLocal()): string {
+  return mes && /^\d{4}-(0[1-9]|1[0-2])$/.test(mes) && mes <= hoy.slice(0, 7) ? mes : hoy.slice(0, 7);
+}
+
+/** Mes anterior o siguiente de un AAAA-MM. */
+export function moverMes(mes: string, delta: number): string {
+  const [a, m] = mes.split("-").map(Number);
+  const d = new Date(Date.UTC(a, m - 1 + delta, 1));
+  return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
+}
+
+/** Semanas (lunes a domingo) del mes; las celdas fuera del mes son null. */
+export function semanasDelMes(mes: string, estudiados: Set<string>, hoy: string = fechaLocal()): (CeldaMes | null)[][] {
+  const [a, m] = mes.split("-").map(Number);
+  const diasMes = new Date(Date.UTC(a, m, 0)).getUTCDate();
+  const primero = new Date(Date.UTC(a, m - 1, 1)).getUTCDay(); // 0 = domingo
+  const celdas: (CeldaMes | null)[] = Array((primero + 6) % 7).fill(null);
+  for (let dia = 1; dia <= diasMes; dia++) {
+    const fecha = `${mes}-${String(dia).padStart(2, "0")}`;
+    const estado: EstadoDia = estudiados.has(fecha) ? "hecho" : fecha === hoy ? "hoy" : fecha < hoy ? "perdido" : "futuro";
+    celdas.push({ fecha, dia, estado });
+  }
+  while (celdas.length % 7 !== 0) celdas.push(null);
+  const semanas: (CeldaMes | null)[][] = [];
+  for (let i = 0; i < celdas.length; i += 7) semanas.push(celdas.slice(i, i + 7));
+  return semanas;
+}

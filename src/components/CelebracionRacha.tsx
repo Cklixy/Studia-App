@@ -7,6 +7,7 @@ import TiraSemana from "@/components/inicio/TiraSemana";
 import { resorte, fundido } from "@/lib/movimiento";
 import type { DiaSemana } from "@/lib/racha";
 import { plural } from "@/lib/texto";
+import { insigniaDeHito } from "@/lib/insignias";
 
 export interface DatosCelebracion {
   dias: number;
@@ -20,6 +21,7 @@ export interface DatosCelebracion {
  */
 export default function CelebracionRacha({ datos, onContinuar }: { datos: DatosCelebracion; onContinuar: () => void }) {
   const reducido = useReducedMotion();
+  const insignia = datos.hito ? insigniaDeHito(datos.hito) : null;
   const inicio = Math.max(0, datos.dias - 1);
   const [mostrado, setMostrado] = useState(reducido ? datos.dias : inicio);
 
@@ -63,13 +65,30 @@ export default function CelebracionRacha({ datos, onContinuar }: { datos: DatosC
           {datos.dias === 1 ? "¡Empezaste tu racha!" : `${plural(datos.dias, "día", "días")} de racha`}
         </h2>
         <p className="text-sm text-arctic-secondary mt-1">
-          {datos.hito
-            ? `¡Nueva insignia: ${plural(datos.hito, "día", "días")} seguidos!`
-            : datos.dias === 1
+          {datos.dias === 1
               ? "Vuelve mañana para seguir sumando."
               : "Vuelve mañana para mantenerla."}
         </p>
       </div>
+
+      {insignia && (
+        <motion.div
+          role="status"
+          initial={{ opacity: 0, scale: reducido ? 1 : 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={reducido ? fundido : { ...resorte, delay: 0.9 }}
+          className="w-full max-w-sm rounded-2xl border border-glacier-blue/30 bg-glacier-blue/[0.06] p-4 flex items-center gap-3 text-left"
+        >
+          <span aria-hidden="true" className="w-12 h-12 rounded-2xl bg-glacier-blue text-white shadow-apple-glow flex items-center justify-center shrink-0">
+            <insignia.icono size={24} strokeWidth={2} />
+          </span>
+          <span>
+            <span className="block text-xs font-semibold text-glacier-blue">¡Insignia desbloqueada!</span>
+            <span className="block text-sm font-semibold text-arctic-slate">{insignia.nombre}</span>
+            <span className="block text-xs text-arctic-secondary">{insignia.descripcion}</span>
+          </span>
+        </motion.div>
+      )}
 
       <div className="w-full max-w-sm">
         <TiraSemana dias={datos.semana} />

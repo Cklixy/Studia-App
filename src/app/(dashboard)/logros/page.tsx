@@ -1,22 +1,13 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import { Trophy, Lock, Flame, Zap, Star, Gem, Crown, CheckCircle2 } from "lucide-react";
+import { Lock, Flame, Trophy, CheckCircle2 } from "lucide-react";
 import NavProgreso from "@/components/NavProgreso";
 import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
-import { rachaVigente, xpInicioNivel, XP_POR_MINUTO } from "@/lib/racha";
+import CalendarioRacha from "@/components/CalendarioRacha";
+import { INSIGNIAS } from "@/lib/insignias";
+import { fechasDeActividad, mejorRacha, mesValido, rachaVigente, xpInicioNivel, XP_POR_MINUTO } from "@/lib/racha";
 
-// Lista completa de insignias. Íconos en lugar de emojis: se ven igual en todos los dispositivos
-// y siguen el color del sistema (azul si está desbloqueada, gris si no).
-const ALL_BADGES = [
-  { id: "racha_3", nombre: "Primer Ritmo", descripcion: "3 días de racha consecutivos", icono: Flame, milestone: 3 },
-  { id: "racha_7", nombre: "Una Semana Exacta", descripcion: "7 días de racha consecutivos", icono: Zap, milestone: 7 },
-  { id: "racha_14", nombre: "Dos Semanas", descripcion: "14 días de racha consecutivos", icono: Star, milestone: 14 },
-  { id: "racha_30", nombre: "El Mensual", descripcion: "30 días de racha consecutivos", icono: Trophy, milestone: 30 },
-  { id: "racha_50", nombre: "Imparable", descripcion: "50 días de racha consecutivos", icono: Gem, milestone: 50 },
-  { id: "racha_100", nombre: "Leyenda", descripcion: "100 días de racha consecutivos", icono: Crown, milestone: 100 },
-];
-
-export default async function LogrosPage() {
+export default async function LogrosPage({ searchParams }: { searchParams: { mes?: string } }) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return redirect("/login");
@@ -24,7 +15,8 @@ export default async function LogrosPage() {
   // Leer recompensas desbloqueadas y datos de racha en paralelo
   const [
     { data: recompensas },
-    { data: racha }
+    { data: racha },
+    { data: sesionesFinalizadas }
   ] = await Promise.all([
     supabase
       .from("recompensas")
@@ -35,8 +27,21 @@ export default async function LogrosPage() {
       .from("rachas")
       .select("dias, xp_total, nivel_actual, ultima_actividad")
       .eq("user_id", user.id)
-      .single()
+      .single(),
+    supabase
+      .from("sesiones")
+      .select("hora_finalizacion")
+      .eq("user_id", user.id)
+      .eq("estado", "finalizada")
+      .not("hora_finalizacion", "is", null)
+      .order("hora_finalizacion", { ascending: false })
+      .limit(5000)
   ]);
+
+  const estudiados = fechasDeActividad((sesionesFinalizadas || []).map((s) => s.hora_finalizacion));
+  const mes = mesValido(searchParams.mes);
+  const rachaActual = rachaVigente(racha);
+  const mejor = Math.max(mejorRacha(estudiados), racha?.dias || 0);
 
   // Mapear qué badges están desbloqueados basándose en la descripción guardada
   const badgesDesbloqueados = new Set(
@@ -51,6 +56,27 @@ export default async function LogrosPage() {
         titulo="Mis logros"
         descripcion="Insignias desbloqueadas y metas de constancia académica."
       />
+
+      {/* Racha: actual, mejor y calendario del mes */}
+      <section aria-label="Tu racha" className="space-y-4">
+        <div className="grid grid-cols-2 gap-3">
+          <div className="apple-card p-4 sm:p-5 flex items-center gap-3">
+            <Flame size={28} className={rachaActual > 0 ? "text-cool-berry fill-cool-berry" : "text-arctic-tertiary"} aria-hidden="true" />
+            <div>
+              <p className="text-2xl font-bold tracking-tight text-arctic-slate tabular-nums">{rachaActual}</p>
+              <p className="text-xs text-arctic-secondary">{rachaActual === 1 ? "día de racha" : "días de racha"}</p>
+            </div>
+          </div>
+          <div className="apple-card p-4 sm:p-5 flex items-center gap-3">
+            <Trophy size={28} className="text-amber-600" aria-hidden="true" />
+            <div>
+              <p className="text-2xl font-bold tracking-tight text-arctic-slate tabular-nums">{mejor}</p>
+              <p className="text-xs text-arctic-secondary">{mejor === 1 ? "día, tu mejor racha" : "días, tu mejor racha"}</p>
+            </div>
+          </div>
+        </div>
+        <CalendarioRacha mes={mes} estudiados={estudiados} />
+      </section>
 
       {/* Nivel actual */}
       <div className="apple-card p-5 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 shadow-apple-sm text-center sm:text-left">
@@ -104,7 +130,7 @@ export default async function LogrosPage() {
       <section className="space-y-4">
         <h2 className="apple-title-3">Insignias de racha</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-          {ALL_BADGES.map(badge => {
+          {INSIGNIAS.map(badge => {
             const isUnlocked = badgesDesbloqueados.has(`¡Racha de ${badge.milestone} días lograda!`);
             return (
               <div
