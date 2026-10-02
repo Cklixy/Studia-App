@@ -29,25 +29,35 @@ export function soloFecha(valor: string | null | undefined): string | null {
 }
 
 /** Días de racha tras registrar una sesión hoy. */
-export function calcularNuevaRacha(ultimaActividad: string | null | undefined, diasPrevios: number): number {
+export function calcularNuevaRacha(ultimaActividad: string | null | undefined, diasPrevios: number, protegido = false): number {
   const hoy = fechaLocal();
   const ultima = soloFecha(ultimaActividad);
   if (!ultima) return 1;
   if (ultima === hoy) return Math.max(diasPrevios, 1); // ya había estudiado hoy
   if (ultima === restarDias(hoy, 1)) return diasPrevios + 1; // mantuvo la racha
-  return 1; // la racha se había roto
+  return protegido ? diasPrevios + 1 : 1; // con protectores se salvó; si no, la racha se había roto
+}
+
+/** Días completos sin estudiar entre la última actividad y hoy (0 si fue hoy o ayer). */
+export function diasPerdidos(ultimaActividad: string | null | undefined): number {
+  const ultima = soloFecha(ultimaActividad);
+  if (!ultima) return 0;
+  const hoy = fechaLocal();
+  return Math.max(0, Math.round((Date.parse(`${hoy}T00:00:00Z`) - Date.parse(`${ultima}T00:00:00Z`)) / 86_400_000) - 1);
 }
 
 /**
  * Racha que se debe mostrar: la guardada solo sigue vigente si la última actividad fue hoy o ayer.
  * Antes se mostraba rachas.dias tal cual, aunque la racha llevara días rota.
  */
-export function rachaVigente(racha: { dias?: number | null; ultima_actividad?: string | null } | null | undefined): number {
+export function rachaVigente(
+  racha: { dias?: number | null; ultima_actividad?: string | null } | null | undefined,
+  protectoresDisponibles = 0
+): number {
   if (!racha?.dias) return 0;
-  const ultima = soloFecha(racha.ultima_actividad);
-  if (!ultima) return 0;
-  const hoy = fechaLocal();
-  return ultima === hoy || ultima === restarDias(hoy, 1) ? racha.dias : 0;
+  if (!soloFecha(racha.ultima_actividad)) return 0;
+  // Sigue viva si no se perdió ningún día o si los protectores del mes alcanzan para cubrirlos
+  return diasPerdidos(racha.ultima_actividad) <= protectoresDisponibles ? racha.dias : 0;
 }
 
 /** true si hoy ya hubo sesión (la racha está asegurada por hoy). */
@@ -81,7 +91,7 @@ export function inicioSemanaLocal(fecha: Date = new Date()): string {
 
 // --- Semana y tiempo restante (pantalla de racha) ---
 
-export type EstadoDia = "hecho" | "hoy" | "perdido" | "futuro";
+export type EstadoDia = "hecho" | "protegido" | "hoy" | "perdido" | "futuro";
 export interface DiaSemana {
   fecha: string;
   letra: string;
@@ -107,12 +117,20 @@ export function fechasDeActividad(timestamps: (string | null | undefined)[]): Se
 }
 
 /** Los siete días de la semana actual (lunes a domingo, hora de Colombia) con su estado. */
-export function diasDeLaSemana(estudiados: Set<string>, hoy: string = fechaLocal()): DiaSemana[] {
+export function diasDeLaSemana(estudiados: Set<string>, hoy: string = fechaLocal(), protegidos: Set<string> = new Set()): DiaSemana[] {
   const diaSemana = new Date(`${hoy}T12:00:00Z`).getUTCDay(); // 0 = domingo
   const lunes = restarDias(hoy, (diaSemana + 6) % 7);
   return DIAS_SEMANA.map(([letra, nombre], i) => {
     const fecha = restarDias(lunes, -i);
-    const estado: EstadoDia = estudiados.has(fecha) ? "hecho" : fecha === hoy ? "hoy" : fecha < hoy ? "perdido" : "futuro";
+    const estado: EstadoDia = estudiados.has(fecha)
+      ? "hecho"
+      : protegidos.has(fecha)
+        ? "protegido"
+        : fecha === hoy
+          ? "hoy"
+          : fecha < hoy
+            ? "perdido"
+            : "futuro";
     return { fecha, letra, nombre, estado };
   });
 }
@@ -160,14 +178,14 @@ export function moverMes(mes: string, delta: number): string {
 }
 
 /** Semanas (lunes a domingo) del mes; las celdas fuera del mes son null. */
-export function semanasDelMes(mes: string, estudiados: Set<string>, hoy: string = fechaLocal()): (CeldaMes | null)[][] {
+export function semanasDelMes(mes: string, estudiados: Set<string>, hoy: string = fechaLocal(), protegidos: Set<string> = new Set()): (CeldaMes | null)[][] {
   const [a, m] = mes.split("-").map(Number);
   const diasMes = new Date(Date.UTC(a, m, 0)).getUTCDate();
   const primero = new Date(Date.UTC(a, m - 1, 1)).getUTCDay(); // 0 = domingo
   const celdas: (CeldaMes | null)[] = Array((primero + 6) % 7).fill(null);
   for (let dia = 1; dia <= diasMes; dia++) {
     const fecha = `${mes}-${String(dia).padStart(2, "0")}`;
-    const estado: EstadoDia = estudiados.has(fecha) ? "hecho" : fecha === hoy ? "hoy" : fecha < hoy ? "perdido" : "futuro";
+    const estado: EstadoDia = estudiados.has(fecha) ? "hecho" : protegidos.has(fecha) ? "protegido" : fecha === hoy ? "hoy" : fecha < hoy ? "perdido" : "futuro";
     celdas.push({ fecha, dia, estado });
   }
   while (celdas.length % 7 !== 0) celdas.push(null);

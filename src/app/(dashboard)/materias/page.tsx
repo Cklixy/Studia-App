@@ -15,6 +15,7 @@ import TarjetaSemana from "@/components/inicio/TarjetaSemana";
 import { Sparkles, Calendar, ChevronRight } from "lucide-react";
 import { EtiquetaPlan } from "@/components/plan/SeccionPlan";
 import { fechaVencimiento, obtenerEstadoPlan } from "@/lib/plan";
+import { obtenerDiasProtegidos, obtenerEstadoProtectores } from "@/lib/protectores";
 
 // Client component diferido únicamente para Web Push API
 const PushNotificationManager = dynamic(() => import("@/components/PushNotificationManager"), {
@@ -49,7 +50,7 @@ export default async function MateriasPage() {
   const firstName = user.user_metadata?.full_name?.split(" ")[0] || user.email?.split("@")[0] || "Estudiante";
   const metaSemanal = Number(user.user_metadata?.meta_semanal_minutos) || null;
 
-  const [materias, { data: rachaData }, { data: sesionesSemana }, estadoPlan] = await Promise.all([
+  const [materias, { data: rachaData }, { data: sesionesSemana }, estadoPlan, protectores, diasProtegidos] = await Promise.all([
     getCachedMaterias(user.id, session?.access_token),
     supabase.from("rachas").select("dias, xp_total, nivel_actual, ultima_actividad").eq("user_id", user.id).single(),
     supabase
@@ -59,6 +60,8 @@ export default async function MateriasPage() {
       .eq("estado", "finalizada")
       .gte("hora_finalizacion", inicioSemanaLocal()),
     obtenerEstadoPlan(supabase),
+    obtenerEstadoProtectores(supabase),
+    obtenerDiasProtegidos(supabase, user.id, inicioSemanaLocal().slice(0, 10)),
   ]);
 
   // Pro que vence en 3 días o menos: aviso para renovar
@@ -68,7 +71,7 @@ export default async function MateriasPage() {
       : null;
 
   // Solo cuenta si la última sesión fue hoy o ayer (antes se mostraba una racha ya rota)
-  const rachaActual = rachaVigente(rachaData);
+  const rachaActual = rachaVigente(rachaData, protectores?.disponibles ?? 0);
   const rachaAnterior = rachaActual === 0 ? rachaData?.dias || 0 : 0;
   const sinMaterias = !materias || materias.length === 0;
   const xpTotal = rachaData?.xp_total || 0;
@@ -138,7 +141,8 @@ export default async function MateriasPage() {
           xpTotal={xpTotal}
           estudioHoy={estudioHoy(rachaData)}
           minutosRestantes={minutosRestantesHoy()}
-          dias={diasDeLaSemana(fechasDeActividad((sesionesSemana || []).map((s) => s.hora_finalizacion)))}
+          dias={diasDeLaSemana(fechasDeActividad((sesionesSemana || []).map((s) => s.hora_finalizacion)), hoy, diasProtegidos)}
+          protectores={protectores}
         />
       </ListaEscalonada>
 

@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { updateSessionSchema } from "@/lib/validations/sesiones";
 import { z } from "zod";
-import { calcularNuevaRacha, diasDeLaSemana, fechaLocal, fechasDeActividad, inicioSemanaLocal, nivelDesdeXp, soloFecha, XP_POR_MINUTO } from "@/lib/racha";
+import { consumirProtectores, obtenerDiasProtegidos } from "@/lib/protectores";
+import { calcularNuevaRacha, diasDeLaSemana, diasPerdidos, fechaLocal, fechasDeActividad, inicioSemanaLocal, nivelDesdeXp, soloFecha, XP_POR_MINUTO } from "@/lib/racha";
 
 export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
   try {
@@ -71,7 +72,13 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       .single();
 
     // Día en hora de Colombia (antes: hora del servidor, UTC → el día cambiaba a las 19:00)
-    const newDias = calcularNuevaRacha(racha?.ultima_actividad, racha?.dias || 0);
+    // Si pasaron días sin estudiar, un protector del mes puede salvar la racha (se gasta solo)
+    let protegidos = 0;
+    if (racha?.dias && diasPerdidos(racha.ultima_actividad) > 0) {
+      const r = await consumirProtectores(supabase, soloFecha(racha.ultima_actividad));
+      if (r.ok) protegidos = r.protegidos;
+    }
+    const newDias = calcularNuevaRacha(racha?.ultima_actividad, racha?.dias || 0, protegidos > 0);
     const newXp = (racha?.xp_total || 0) + gainedXp;
     // Nivel = ⌊√(XP/100)⌋ + 1 → nivel 2 = 100 XP, nivel 3 = 400 XP, nivel 4 = 900 XP…
     const newLevel = nivelDesdeXp(newXp);
@@ -114,7 +121,12 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       celebracion = {
         dias: newDias,
         hito,
-        semana: diasDeLaSemana(fechasDeActividad((semana || []).map((s) => s.hora_finalizacion))),
+        protegidos,
+        semana: diasDeLaSemana(
+          fechasDeActividad((semana || []).map((s) => s.hora_finalizacion)),
+          fechaLocal(),
+          await obtenerDiasProtegidos(supabase, user.id, inicioSemanaLocal().slice(0, 10))
+        ),
       };
     }
 

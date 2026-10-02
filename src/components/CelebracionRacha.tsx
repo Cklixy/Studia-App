@@ -12,6 +12,8 @@ import { insigniaDeHito } from "@/lib/insignias";
 export interface DatosCelebracion {
   dias: number;
   hito: number | null;
+  /** Días que un protector salvó al volver a estudiar (0 si la racha no estaba en riesgo) */
+  protegidos?: number;
   semana: DiaSemana[];
 }
 
@@ -62,7 +64,9 @@ export default function CelebracionRacha({ datos, onContinuar }: { datos: DatosC
           {mostrado}
         </p>
         <h2 id="celebracion-titulo" className="apple-title-2 text-arctic-slate mt-1">
-          {datos.dias === 1 ? "¡Empezaste tu racha!" : `${plural(datos.dias, "día", "días")} de racha`}
+          {datos.protegidos
+            ? `Un protector salvó tu racha${datos.protegidos > 1 ? ` (${plural(datos.protegidos, "día", "días")})` : ""}. Vuelve mañana para mantenerla.`
+            : datos.dias === 1 ? "¡Empezaste tu racha!" : `${plural(datos.dias, "día", "días")} de racha`}
         </h2>
         <p className="text-sm text-arctic-secondary mt-1">
           {datos.dias === 1

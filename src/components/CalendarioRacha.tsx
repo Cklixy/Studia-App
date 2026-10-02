@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Flame } from "lucide-react";
+import { ChevronLeft, ChevronRight, Flame, Snowflake } from "lucide-react";
 import { fechaLocal, moverMes, semanasDelMes } from "@/lib/racha";
 import { capitalizarInicio } from "@/lib/texto";
 
 const LETRAS = ["L", "M", "M", "J", "V", "S", "D"];
 
 /** Calendario del mes con una llama en cada día estudiado; se navega por mes con ?mes=AAAA-MM. */
-export default function CalendarioRacha({ mes, estudiados }: { mes: string; estudiados: Set<string> }) {
+export default function CalendarioRacha({ mes, estudiados, protegidos }: { mes: string; estudiados: Set<string>; protegidos: Set<string> }) {
   const hoy = fechaLocal();
-  const semanas = semanasDelMes(mes, estudiados, hoy);
+  const semanas = semanasDelMes(mes, estudiados, hoy, protegidos);
   const esMesActual = mes === hoy.slice(0, 7);
   const nombreMes = capitalizarInicio(
     new Intl.DateTimeFormat("es-CO", { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${mes}-01T12:00:00Z`))
@@ -64,14 +64,21 @@ export default function CalendarioRacha({ mes, estudiados }: { mes: string; estu
                       className={`mx-auto w-9 h-9 rounded-full flex items-center justify-center text-sm tabular-nums ${
                         c.estado === "hecho"
                           ? "bg-cool-berry/10 border border-cool-berry/25"
-                          : c.estado === "hoy"
+                          : c.estado === "protegido"
+                            ? "bg-polar-cyan/10 border border-polar-cyan/30"
+                            : c.estado === "hoy"
                             ? "border-2 border-glacier-blue text-glacier-blue font-semibold"
                             : c.estado === "futuro"
                               ? "text-arctic-tertiary"
                               : "text-arctic-secondary"
                       }`}
                     >
-                      {c.estado === "hecho" ? (
+                      {c.estado === "protegido" ? (
+                        <>
+                          <Snowflake size={18} className="text-polar-cyan" aria-hidden="true" />
+                          <span className="sr-only">{c.dia}: salvado por un protector</span>
+                        </>
+                      ) : c.estado === "hecho" ? (
                         <>
                           <Flame size={18} className="text-cool-berry fill-cool-berry" aria-hidden="true" />
                           <span className="sr-only">{c.dia}: estudiaste</span>

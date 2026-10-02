@@ -5,6 +5,7 @@ import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
 import BarraUso from "@/components/plan/BarraUso";
 import BotonPagarPro from "@/components/plan/BotonPagarPro";
 import { EtiquetaPlan } from "@/components/plan/SeccionPlan";
+import { PROTECTORES } from "@/lib/protectores";
 import { fechaReinicio, LIMITES, textoVigenciaPro, obtenerEstadoPlan, PRECIO_PRO_COP } from "@/lib/plan";
 
 export const metadata = { title: "Planes" };
@@ -59,6 +60,7 @@ export default async function PlanesPage({ searchParams }: { searchParams: { pag
           <ul className="mt-5 space-y-2.5 text-sm text-arctic-slate flex-1">
             <li className="flex gap-2"><Check size={17} className="text-glacier-blue shrink-0" aria-hidden="true" />{LIMITES.free.ruta} rutas con IA al mes</li>
             <li className="flex gap-2"><Check size={17} className="text-glacier-blue shrink-0" aria-hidden="true" />{LIMITES.free.mensaje} mensajes al tutor al mes</li>
+            <li className="flex gap-2"><Check size={17} className="text-glacier-blue shrink-0" aria-hidden="true" />{PROTECTORES.free} protector de racha al mes</li>
             {INCLUIDO.map((x) => (
               <li key={x} className="flex gap-2"><Check size={17} className="text-glacier-blue shrink-0" aria-hidden="true" />{x}</li>
             ))}
@@ -78,6 +80,7 @@ export default async function PlanesPage({ searchParams }: { searchParams: { pag
           <ul className="mt-5 space-y-2.5 text-sm text-arctic-slate flex-1">
             <li className="flex gap-2"><Check size={17} className="text-glacier-blue shrink-0" aria-hidden="true" /><span><strong>{LIMITES.pro.ruta} rutas con IA</strong> al mes</span></li>
             <li className="flex gap-2"><Check size={17} className="text-glacier-blue shrink-0" aria-hidden="true" /><span><strong>{LIMITES.pro.mensaje} mensajes al tutor</strong> al mes</span></li>
+            <li className="flex gap-2"><Check size={17} className="text-glacier-blue shrink-0" aria-hidden="true" /><span><strong>{PROTECTORES.pro} protectores de racha</strong> al mes</span></li>
             <li className="flex gap-2"><Check size={17} className="text-glacier-blue shrink-0" aria-hidden="true" />Todo lo del plan Free</li>
           </ul>
           <div className="mt-6">

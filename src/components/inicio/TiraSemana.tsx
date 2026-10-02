@@ -1,8 +1,9 @@
-import { Flame } from "lucide-react";
+import { Flame, Snowflake } from "lucide-react";
 import type { DiaSemana, EstadoDia } from "@/lib/racha";
 
 const ESTILO: Record<EstadoDia, string> = {
   hecho: "bg-cool-berry/10 border border-cool-berry/25",
+  protegido: "bg-polar-cyan/10 border border-polar-cyan/30",
   hoy: "bg-white border-2 border-glacier-blue",
   perdido: "bg-black/[0.04] border border-black/[0.06]",
   futuro: "border border-dashed border-black/[0.14]",
@@ -10,6 +11,7 @@ const ESTILO: Record<EstadoDia, string> = {
 
 const TEXTO: Record<EstadoDia, string> = {
   hecho: "estudiaste",
+  protegido: "salvado por un protector",
   hoy: "hoy, aún sin estudiar",
   perdido: "sin estudiar",
   futuro: "por venir",
@@ -26,6 +28,7 @@ export default function TiraSemana({ dias }: { dias: DiaSemana[] }) {
           </span>
           <span aria-hidden="true" className={`w-9 h-9 rounded-full flex items-center justify-center ${ESTILO[d.estado]}`}>
             {d.estado === "hecho" && <Flame size={18} className="text-cool-berry fill-cool-berry" />}
+            {d.estado === "protegido" && <Snowflake size={18} className="text-polar-cyan" />}
           </span>
           <span className="sr-only">
             {d.nombre}: {TEXTO[d.estado]}

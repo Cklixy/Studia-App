@@ -4,6 +4,7 @@ import { Lock, Flame, Trophy, CheckCircle2 } from "lucide-react";
 import NavProgreso from "@/components/NavProgreso";
 import EncabezadoPantalla from "@/components/ui/EncabezadoPantalla";
 import CalendarioRacha from "@/components/CalendarioRacha";
+import { obtenerDiasProtegidos, obtenerEstadoProtectores } from "@/lib/protectores";
 import { INSIGNIAS } from "@/lib/insignias";
 import { fechasDeActividad, mejorRacha, mesValido, rachaVigente, xpInicioNivel, XP_POR_MINUTO } from "@/lib/racha";
 
@@ -16,7 +17,9 @@ export default async function LogrosPage({ searchParams }: { searchParams: { mes
   const [
     { data: recompensas },
     { data: racha },
-    { data: sesionesFinalizadas }
+    { data: sesionesFinalizadas },
+    protectores,
+    diasProtegidos
   ] = await Promise.all([
     supabase
       .from("recompensas")
@@ -35,12 +38,14 @@ export default async function LogrosPage({ searchParams }: { searchParams: { mes
       .eq("estado", "finalizada")
       .not("hora_finalizacion", "is", null)
       .order("hora_finalizacion", { ascending: false })
-      .limit(5000)
+      .limit(5000),
+    obtenerEstadoProtectores(supabase),
+    obtenerDiasProtegidos(supabase, user.id, "2000-01-01")
   ]);
 
   const estudiados = fechasDeActividad((sesionesFinalizadas || []).map((s) => s.hora_finalizacion));
   const mes = mesValido(searchParams.mes);
-  const rachaActual = rachaVigente(racha);
+  const rachaActual = rachaVigente(racha, protectores?.disponibles ?? 0);
   const mejor = Math.max(mejorRacha(estudiados), racha?.dias || 0);
 
   // Mapear qué badges están desbloqueados basándose en la descripción guardada
@@ -75,7 +80,7 @@ export default async function LogrosPage({ searchParams }: { searchParams: { mes
             </div>
           </div>
         </div>
-        <CalendarioRacha mes={mes} estudiados={estudiados} />
+        <CalendarioRacha mes={mes} estudiados={estudiados} protegidos={diasProtegidos} />
       </section>
 
       {/* Nivel actual */}
@@ -86,7 +91,7 @@ export default async function LogrosPage({ searchParams }: { searchParams: { mes
         <div>
           <p className="text-xs font-semibold tracking-wide text-arctic-secondary">Nivel académico</p>
           <p className="apple-title-2 text-arctic-slate tabular-nums mt-0.5">{racha?.xp_total || 0} XP acumulados</p>
-          <p className="apple-subhead text-xs text-arctic-secondary mt-0.5">{rachaVigente(racha) === 1 ? "1 día" : `${rachaVigente(racha)} días`} de racha activa</p>
+          <p className="apple-subhead text-xs text-arctic-secondary mt-0.5">{rachaActual === 1 ? "1 día" : `${rachaActual} días`} de racha activa</p>
           {(() => {
             const nivel = racha?.nivel_actual || 1;
             const xp = racha?.xp_total || 0;
@@ -121,7 +126,7 @@ export default async function LogrosPage({ searchParams }: { searchParams: { mes
         <ul className="space-y-2 text-sm text-arctic-slate list-disc pl-5">
           <li><strong>XP:</strong> ganas {XP_POR_MINUTO} XP por cada minuto de estudio efectivo (sin contar pausas) al finalizar una sesión.</li>
           <li><strong>Nivel:</strong> subes de nivel al acumular XP (nivel 2 con 100 XP, nivel 3 con 400 XP, nivel 4 con 900 XP…).</li>
-          <li><strong>Racha:</strong> suma un día cada día (hora de Colombia) en que termines al menos una sesión. Si un día no estudias, vuelve a empezar; tu XP y tus insignias no se pierden.</li>
+          <li><strong>Racha:</strong> suma un día cada día (hora de Colombia) en que termines al menos una sesión. Si un día no estudias, un protector (1 al mes en Free, 3 en Pro) la salva solo; si no te quedan, vuelve a empezar. Tu XP y tus insignias no se pierden.</li>
           <li><strong>Insignias:</strong> se desbloquean al llegar a 3, 7, 14, 30, 50 y 100 días de racha.</li>
         </ul>
       </section>

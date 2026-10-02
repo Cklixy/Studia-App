@@ -5,6 +5,7 @@ import BrandLogo from "@/components/BrandLogo";
 import SidebarNav from "@/components/SidebarNav";
 import IndicadorRacha from "@/components/inicio/IndicadorRacha";
 import { estudioHoy, rachaVigente } from "@/lib/racha";
+import { obtenerEstadoProtectores } from "@/lib/protectores";
 import ReproductorProvider from "@/components/musica/ReproductorProvider";
 import type { Metadata } from "next";
 
@@ -32,7 +33,10 @@ export default async function DashboardLayout({
     return redirect("/login");
   }
 
-  const { data: racha } = await supabase.from("rachas").select("dias, ultima_actividad").eq("user_id", user.id).maybeSingle();
+  const [{ data: racha }, protectores] = await Promise.all([
+    supabase.from("rachas").select("dias, ultima_actividad").eq("user_id", user.id).maybeSingle(),
+    obtenerEstadoProtectores(supabase),
+  ]);
 
   return (
     <ReproductorProvider>
@@ -44,7 +48,7 @@ export default async function DashboardLayout({
           <div className="flex items-center gap-3">
             <BrandLogo />
           </div>
-          <IndicadorRacha racha={rachaVigente(racha)} estudioHoy={estudioHoy(racha)} />
+          <IndicadorRacha racha={rachaVigente(racha, protectores?.disponibles ?? 0)} estudioHoy={estudioHoy(racha)} />
         </div>
       </header>
 

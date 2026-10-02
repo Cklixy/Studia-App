@@ -1,4 +1,6 @@
-import { Check, Flame } from "lucide-react";
+import Link from "next/link";
+import { Check, Flame, Snowflake } from "lucide-react";
+import type { EstadoProtectores } from "@/lib/protectores";
 import { xpInicioNivel, type DiaSemana } from "@/lib/racha";
 import { plural } from "@/lib/texto";
 import MetaSemanal from "./MetaSemanal";
@@ -13,6 +15,7 @@ interface TarjetaSemanaProps {
   estudioHoy: boolean;
   minutosRestantes: number;
   dias: DiaSemana[];
+  protectores: EstadoProtectores | null;
 }
 
 function formatoHoras(min: number) {
@@ -26,7 +29,7 @@ function formatoHoras(min: number) {
  * Tu semana: racha, avance hacia la meta semanal y nivel. El anillo mide la meta (antes medía
  * «XP de la semana % 500», que no correspondía a nada que el usuario pudiera entender).
  */
-export default function TarjetaSemana({ racha, minutosSemana, metaMinutos, nivel, xpTotal, estudioHoy, minutosRestantes, dias }: TarjetaSemanaProps) {
+export default function TarjetaSemana({ racha, minutosSemana, metaMinutos, nivel, xpTotal, estudioHoy, minutosRestantes, dias, protectores }: TarjetaSemanaProps) {
   const R = 44;
   const C = 2 * Math.PI * R;
   const ratio = metaMinutos ? Math.min(1, minutosSemana / metaMinutos) : 0;
@@ -47,6 +50,25 @@ export default function TarjetaSemana({ racha, minutosSemana, metaMinutos, nivel
       <div className="space-y-3">
         <TiraSemana dias={dias} />
         <MensajeRacha racha={racha} estudioHoy={estudioHoy} minutosRestantes={minutosRestantes} />
+        {protectores && (
+          <p className="flex items-center justify-center gap-1.5 text-xs text-arctic-secondary">
+            <Snowflake size={14} className="text-polar-cyan shrink-0" aria-hidden="true" />
+            <span>
+              {protectores.disponibles === 0
+                ? "Sin protectores este mes."
+                : `${plural(protectores.disponibles, "protector disponible", "protectores disponibles")} este mes.`}
+              {protectores.plan === "free" && (
+                <>
+                  {" "}
+                  <Link href="/planes" className="font-medium text-glacier-blue underline-offset-2 hover:underline">
+                    Pro tiene 3
+                  </Link>
+                  .
+                </>
+              )}
+            </span>
+          </p>
+        )}
       </div>
 
       <div className="flex items-center gap-5">
