@@ -134,6 +134,8 @@ export default function SessionWizard({
   const [recomendacion, setRecomendacion] = useState<Recommendation | null>(null);
   const [origenRecomendacion, setOrigenRecomendacion] = useState<"ia" | "reglas">("reglas");
   const [pidiendo, setPidiendo] = useState(false);
+  // Métodos que la persona calificó con «No»: no se le recomiendan (también en el respaldo por reglas)
+  const [descartados, setDescartados] = useState<string[]>([]);
   // 25 min por defecto: el bloque Pomodoro que promete la landing
   const [duracion, setDuracion] = useState(25);
   const [objetivo, setObjetivo] = useState("");
@@ -147,6 +149,13 @@ export default function SessionWizard({
   useEffect(() => {
     const n = leer(CLAVE_NIVEL);
     if (n && (NIVELES as readonly string[]).includes(n)) setNivel(n as Nivel);
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/sesiones/metodos-descartados")
+      .then((r) => (r.ok ? r.json() : { descartados: [] }))
+      .then((d) => setDescartados(Array.isArray(d.descartados) ? d.descartados : []))
+      .catch(() => {});
   }, []);
 
   // Temas de una materia que no vinieron con la lista inicial
@@ -191,7 +200,7 @@ export default function SessionWizard({
       setOrigenRecomendacion("ia");
     } catch (err) {
       console.warn("AI Recommendation failed, falling back to local engine:", err);
-      setRecomendacion(getRecommendation(nivel, materiaNombre, ctx));
+      setRecomendacion(getRecommendation(nivel, materiaNombre, ctx, descartados));
       setOrigenRecomendacion("reglas");
     } finally {
       setPidiendo(false);
@@ -489,6 +498,12 @@ export default function SessionWizard({
                       </ol>
                     </div>
                   </div>
+                  {descartados.length > 0 && (
+                    <p className="mt-4 text-xs text-arctic-secondary">
+                      No te recomendamos {descartados.length === 1 ? "este método" : "estos métodos"} porque marcaste que no te funcionó:{" "}
+                      {descartados.join(", ")}.
+                    </p>
+                  )}
                 </div>
               ) : (
                 <p className="text-sm text-arctic-secondary">Elige tu situación para ver el método recomendado.</p>

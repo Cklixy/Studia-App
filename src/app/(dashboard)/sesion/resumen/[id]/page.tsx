@@ -16,6 +16,7 @@ export default async function ResumenSesionPage({ params, searchParams }: { para
     .select(`
       id,
       duracion_planificada_minutos,
+      metodo_utilizado,
       materias ( nombre ),
       temas ( nombre )
     `)

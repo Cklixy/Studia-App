@@ -45,6 +45,7 @@ function GrupoOpciones({
 }
 
 export default function SessionFeedbackForm({ session, elapsed, pauses }: { session: any; elapsed: number; pauses: number }) {
+  const metodo: string = session.metodo_utilizado || "";
   const router = useRouter();
   const id = useId();
   const [loading, setLoading] = useState(false);
@@ -104,13 +105,20 @@ export default function SessionFeedbackForm({ session, elapsed, pauses }: { sess
   return (
     <form onSubmit={handleSubmit} className="apple-card p-4 sm:p-8 space-y-7 sm:space-y-8">
 
-      <GrupoOpciones
-        pregunta="¿Te sirvió esta sesión?"
-        nombre={`${id}-utilidad`}
-        opciones={["Sí mucho", "Sí", "Más o menos", "No"]}
-        valor={utilidad}
-        onChange={setUtilidad}
-      />
+      <div className="space-y-2">
+        <GrupoOpciones
+          pregunta={metodo ? `¿Te funcionó el método «${metodo}»?` : "¿Te sirvió esta sesión?"}
+          nombre={`${id}-utilidad`}
+          opciones={["Sí mucho", "Sí", "Más o menos", "No"]}
+          valor={utilidad}
+          onChange={setUtilidad}
+        />
+        {metodo && utilidad === "No" && (
+          <p role="status" className="text-sm text-arctic-secondary">
+            Entendido: no volveremos a recomendarte este método.
+          </p>
+        )}
+      </div>
 
       <fieldset className="space-y-3">
         <legend className="text-lg sm:text-xl font-bold text-arctic-slate mb-3">¿Qué tan productiva fue tu sesión?</legend>
