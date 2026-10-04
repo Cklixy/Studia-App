@@ -75,7 +75,7 @@ export default async function PlanesPage({ searchParams }: { searchParams: { pag
           </h2>
           <p className="mt-2">
             <span className="text-3xl font-bold tracking-tight text-arctic-slate">{precio} COP</span>
-            <span className="text-sm text-arctic-secondary"> / mes</span>
+            <span className="text-sm text-arctic-secondary"> por 30 días</span>
           </p>
           <ul className="mt-5 space-y-2.5 text-sm text-arctic-slate flex-1">
             <li className="flex gap-2"><Check size={17} className="text-glacier-blue shrink-0" aria-hidden="true" /><span><strong>{LIMITES.pro.ruta} rutas con IA</strong> al mes</span></li>
