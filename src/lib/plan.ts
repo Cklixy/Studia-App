@@ -7,7 +7,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 export type TipoUso = "ruta" | "mensaje";
 export type Plan = "free" | "pro";
 
-export const PRECIO_PRO_COP = 19999;
+export const PRECIO_PRO_COP = 49999;
 export const LIMITES: Record<Plan, Record<TipoUso, number>> = {
   free: { ruta: 5, mensaje: 20 },
   pro: { ruta: 50, mensaje: 100 },
