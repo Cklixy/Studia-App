@@ -3,6 +3,7 @@ import Link from "next/link";
 import { signup } from "../login/actions";
 import MarcoAuth, { CampoCorreo } from "@/components/auth/MarcoAuth";
 import CampoContrasena from "@/components/auth/CampoContrasena";
+import BotonGoogle, { SeparadorO } from "@/components/auth/BotonGoogle";
 import { LONGITUD_MINIMA_CONTRASENA } from "@/lib/auth/mensajes";
 
 export const metadata: Metadata = { title: "Crear cuenta gratis" };
@@ -10,6 +11,9 @@ export const metadata: Metadata = { title: "Crear cuenta gratis" };
 export default function RegisterPage() {
   return (
     <MarcoAuth titulo="Crear cuenta" subtitulo="Regístrate gratis en studia+ para organizar tu estudio">
+      <BotonGoogle texto="Registrarme con Google" />
+      <SeparadorO />
+
       <form className="flex flex-col gap-5">
         <CampoCorreo autoFocus />
         <CampoContrasena

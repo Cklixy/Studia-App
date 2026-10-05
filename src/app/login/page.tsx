@@ -3,12 +3,16 @@ import Link from "next/link";
 import { login } from "./actions";
 import MarcoAuth, { CampoCorreo } from "@/components/auth/MarcoAuth";
 import CampoContrasena from "@/components/auth/CampoContrasena";
+import BotonGoogle, { SeparadorO } from "@/components/auth/BotonGoogle";
 
 export const metadata: Metadata = { title: "Iniciar sesión" };
 
 export default function LoginPage() {
   return (
     <MarcoAuth titulo="Iniciar sesión" subtitulo="Ingresa a tu cuenta de studia+">
+      <BotonGoogle texto="Continuar con Google" />
+      <SeparadorO />
+
       <form className="flex flex-col gap-5">
         <CampoCorreo autoFocus />
         <div>
