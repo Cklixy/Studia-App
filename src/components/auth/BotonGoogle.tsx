@@ -5,7 +5,16 @@ import { createClient } from "@/utils/supabase/client";
 
 // Inicio de sesión y registro con Google (OAuth de Supabase, flujo PKCE). Si la cuenta no existe se
 // crea sola. Vuelve a /auth/confirm, que ya intercambia el ?code= por la sesión y entra a la app.
-export default function BotonGoogle({ texto = "Continuar con Google" }: { texto?: string }) {
+export default function BotonGoogle({
+  texto = "Continuar con Google",
+  deshabilitado = false,
+  aceptoTerminos = false,
+}: {
+  texto?: string;
+  deshabilitado?: boolean;
+  /** true cuando la persona marcó la casilla de privacidad y términos: queda registrado al entrar */
+  aceptoTerminos?: boolean;
+}) {
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,7 +23,7 @@ export default function BotonGoogle({ texto = "Continuar con Google" }: { texto?
     setError(null);
     const { error } = await createClient().auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/auth/confirm?next=/materias` },
+      options: { redirectTo: `${window.location.origin}/auth/confirm?next=/materias${aceptoTerminos ? "&acepto=1" : ""}` },
     });
     // Si todo sale bien el navegador ya está yendo a Google; aquí solo se llega si falló
     if (error) {
@@ -28,8 +37,8 @@ export default function BotonGoogle({ texto = "Continuar con Google" }: { texto?
       <button
         type="button"
         onClick={entrar}
-        disabled={cargando}
-        className="w-full min-h-11 px-4 inline-flex items-center justify-center gap-3 rounded-full bg-white border border-arctic-borde text-sm font-semibold text-arctic-slate hover:bg-frost-base transition-colors apple-tactile disabled:opacity-60"
+        disabled={cargando || deshabilitado}
+        className="w-full min-h-11 px-4 inline-flex items-center justify-center gap-3 rounded-full bg-white border border-arctic-borde text-sm font-semibold text-arctic-slate hover:bg-frost-base transition-colors apple-tactile disabled:opacity-50"
       >
         <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
           <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />

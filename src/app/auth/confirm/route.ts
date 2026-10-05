@@ -31,5 +31,13 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL(conMensaje(destino, "error", "El enlace caducó o ya se usó. Pide uno nuevo."), origin));
   }
 
+  // Entró con Google tras marcar la casilla de privacidad y términos en /registro: se deja constancia
+  if (searchParams.get("acepto") === "1") {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user && !user.user_metadata?.acepto_terminos_en) {
+      await supabase.auth.updateUser({ data: { acepto_terminos_en: new Date().toISOString() } });
+    }
+  }
+
   return NextResponse.redirect(new URL(next, origin));
 }

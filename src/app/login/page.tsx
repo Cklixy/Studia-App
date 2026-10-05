@@ -11,6 +11,17 @@ export default function LoginPage() {
   return (
     <MarcoAuth titulo="Iniciar sesión" subtitulo="Ingresa a tu cuenta de studia+">
       <BotonGoogle texto="Continuar con Google" />
+      <p className="mt-2 text-xs text-arctic-secondary text-center">
+        Si todavía no tienes cuenta, al continuar con Google aceptas la{" "}
+        <Link href="/privacidad" className="font-semibold text-glacier-blue underline underline-offset-2">
+          Política de privacidad
+        </Link>{" "}
+        y los{" "}
+        <Link href="/terminos" className="font-semibold text-glacier-blue underline underline-offset-2">
+          Términos
+        </Link>
+        .
+      </p>
       <SeparadorO />
 
       <form className="flex flex-col gap-5">

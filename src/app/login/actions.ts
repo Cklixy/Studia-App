@@ -36,13 +36,22 @@ export async function signup(formData: FormData) {
     password: String(formData.get("password") || ""),
   };
 
+  // Aceptación expresa de la política de privacidad y los términos (también se exige en el navegador)
+  if (formData.get("acepta") !== "on") {
+    redirect(conMensaje("/registro", "error", "Debes aceptar la política de privacidad y los términos para crear tu cuenta."));
+  }
+
   if (data.password.length < LONGITUD_MINIMA_CONTRASENA) {
     redirect(conMensaje("/registro", "error", `La contraseña debe tener al menos ${LONGITUD_MINIMA_CONTRASENA} caracteres.`));
   }
 
   const { data: signupData, error } = await supabase.auth.signUp({
     ...data,
-    options: { emailRedirectTo: `${origenActual()}/auth/confirm?next=/materias` },
+    options: {
+      emailRedirectTo: `${origenActual()}/auth/confirm?next=/materias`,
+      // Constancia de cuándo aceptó (queda en el perfil de la cuenta)
+      data: { acepto_terminos_en: new Date().toISOString() },
+    },
   });
 
   if (error) {
