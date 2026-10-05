@@ -27,3 +27,7 @@ export const NOMBRE_SITIO = "studia+";
 export const TITULO_HOME = "studia+ · App de estudio con plan, técnicas de estudio e IA";
 export const DESCRIPCION_SITIO =
   "Organiza tus materias, sigue un plan hasta el parcial y estudia con técnicas como Active Recall y Pomodoro. Música para concentrarte y tutor con IA. Gratis.";
+
+// Correo de contacto para privacidad y derechos de los titulares (Ley 1581 de 2012). Se define en
+// Vercel con NEXT_PUBLIC_CONTACT_EMAIL; si falta, la política de privacidad no muestra ninguno.
+export const CORREO_CONTACTO = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "";

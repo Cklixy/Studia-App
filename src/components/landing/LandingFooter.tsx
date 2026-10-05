@@ -38,7 +38,9 @@ export default function LandingFooter() {
           <p>© {currentYear} studia+. Todos los derechos reservados.</p>
           
           <div className="flex flex-wrap items-center justify-center gap-x-2.5 sm:gap-x-3 gap-y-1">
-            <span>Privacidad</span>
+            <Link href="/privacidad" className="hover:text-arctic-slate transition-colors">
+              Privacidad
+            </Link>
             <span>•</span>
             <span>Términos</span>
             <span>•</span>
