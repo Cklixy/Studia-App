@@ -42,7 +42,9 @@ export default function LandingFooter() {
               Privacidad
             </Link>
             <span>•</span>
-            <span>Términos</span>
+            <Link href="/terminos" className="hover:text-arctic-slate transition-colors">
+              Términos
+            </Link>
             <span>•</span>
             <span className="text-arctic-secondary font-medium">
               IA integrada · Powered by Gemini
