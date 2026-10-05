@@ -31,3 +31,7 @@ export const DESCRIPCION_SITIO =
 // Correo de contacto para privacidad y derechos de los titulares (Ley 1581 de 2012). Se define en
 // Vercel con NEXT_PUBLIC_CONTACT_EMAIL; si falta, la política de privacidad no muestra ninguno.
 export const CORREO_CONTACTO = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "";
+
+// Nombre de quien responde por la app (persona o empresa). Se define en Vercel con
+// NEXT_PUBLIC_LEGAL_NAME; si falta, las páginas legales usan solo el nombre de la app.
+export const RESPONSABLE_LEGAL = process.env.NEXT_PUBLIC_LEGAL_NAME || "";
