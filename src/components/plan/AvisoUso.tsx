@@ -7,11 +7,14 @@ import { fechaReinicio, type EstadoPlan, type TipoUso } from "@/lib/plan";
 const NOMBRES: Record<TipoUso, { plural: string; singular: string }> = {
   ruta: { plural: "rutas con IA", singular: "ruta con IA" },
   mensaje: { plural: "mensajes al tutor", singular: "mensaje al tutor" },
+  metodo: { plural: "recomendaciones de método", singular: "recomendación de método" },
 };
 
 /** Cuánto queda del mes, en una línea discreta. Al 80 % o más, el texto lo destaca. */
 export function ContadorUso({ estado, tipo, className = "" }: { estado: EstadoPlan | null; tipo: TipoUso; className?: string }) {
   if (!estado) return null;
+  // El contador solo se muestra para rutas y mensajes: el método no tiene barra de uso en pantalla
+  if (tipo === "metodo") return null;
   const { usados, limite } = tipo === "ruta" ? estado.rutas : estado.mensajes;
   const quedan = Math.max(0, limite - usados);
   const nombre = quedan === 1 ? NOMBRES[tipo].singular : NOMBRES[tipo].plural;

@@ -4,6 +4,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { conReintentoGemini, esErrorIaSaturada, RESPUESTA_IA_SATURADA } from "@/lib/ai/gemini";
 import { LRUCache } from "lru-cache";
 import xss from "xss";
+import { consumirUsoIa, cuerpoLimite, devolverUsoIa } from "@/lib/plan";
 import { estaDescartado, obtenerMetodosDescartados } from "@/lib/metodos";
 import { getRecommendation, type StudyContext } from "@/lib/recommendationEngine";
 
@@ -65,6 +66,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
+    // Tope mensual de recomendaciones con IA (100): al llegar, el cliente usa el motor de reglas sin IA
+    const consumo = await consumirUsoIa(supabase, "metodo");
+    if (!consumo.permitido) {
+      return NextResponse.json(cuerpoLimite(consumo, "metodo"), { status: 402 });
+    }
+
     // Métodos que a esta persona no le funcionaron (se leen del servidor, no se confía en el cliente)
     const descartados = await obtenerMetodosDescartados(supabase, user.id);
     const reglasSinDescartados = () => getRecommendation(nivel, materia, contexto as StudyContext, descartados);
@@ -111,31 +118,37 @@ El JSON debe tener exactamente esta estructura:
 }
 `;
 
-    // 4. Call Gemini API
-    const responseText = await conReintentoGemini(async (modelo) => {
-      const model = genAI.getGenerativeModel({
-        model: modelo,
-        generationConfig: {
-          responseMimeType: "application/json",
-          temperature: 0.2, // Low temperature for consistent formatting
-        }
-      });
-      const result = await model.generateContent(prompt);
-      return result.response.text();
-    });
-    
-    // Parse the JSON. We instructed it to return JSON, but it's safe to parse in a try-catch
+    // 4. Call Gemini API. Si la IA falla, el intento no cuenta para el tope del mes.
     let recommendation;
     try {
-      recommendation = JSON.parse(responseText);
-    } catch (parseError) {
-      console.error("Failed to parse Gemini response as JSON:", responseText);
-      throw new Error("Invalid response format from AI");
-    }
+      const responseText = await conReintentoGemini(async (modelo) => {
+        const model = genAI.getGenerativeModel({
+          model: modelo,
+          generationConfig: {
+            responseMimeType: "application/json",
+            temperature: 0.2, // Low temperature for consistent formatting
+          }
+        });
+        const result = await model.generateContent(prompt);
+        return result.response.text();
+      });
+    
+      // Parse the JSON. We instructed it to return JSON, but it's safe to parse in a try-catch
+      try {
+        recommendation = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error("Failed to parse Gemini response as JSON:", responseText);
+        throw new Error("Invalid response format from AI");
+      }
 
-    // Validate the shape briefly
-    if (!recommendation.metodo || !recommendation.justificacion || !Array.isArray(recommendation.pasos)) {
-      throw new Error("Malformed response from AI");
+      // Validate the shape briefly
+      if (!recommendation.metodo || !recommendation.justificacion || !Array.isArray(recommendation.pasos)) {
+        throw new Error("Malformed response from AI");
+      }
+
+    } catch (error) {
+      await devolverUsoIa(supabase, "metodo", consumo);
+      throw error;
     }
 
     // Si el modelo insistió en un método descartado, se usa la recomendación por reglas que sí lo respeta

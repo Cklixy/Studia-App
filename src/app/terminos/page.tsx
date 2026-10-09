@@ -109,6 +109,10 @@ export default function TerminosPage() {
           <li>Lo que no uses en el mes no se acumula para el siguiente.</li>
           <li>Si la IA falla y no te responde, ese intento no se descuenta.</li>
           <li>
+            Las recomendaciones de método con IA tienen un tope de {LIMITES.free.metodo} al mes en ambos planes. Al llegar al tope, la app
+            sigue recomendándote un método, pero sin IA.
+          </li>
+          <li>
             Los límites cambian según tu plan en ese momento: si tu Pro vence a mitad de mes, desde ese momento aplican los límites
             del plan Free.
           </li>

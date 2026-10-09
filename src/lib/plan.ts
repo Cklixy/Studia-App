@@ -4,13 +4,13 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 // La fuente de verdad son las funciones SQL de la migración 00014 (consumir_uso_ia, estado_plan);
 // aquí solo se llaman y se tipan. Free: 5 rutas y 20 mensajes; Pro: 50 rutas y 100 mensajes.
 
-export type TipoUso = "ruta" | "mensaje";
+export type TipoUso = "ruta" | "mensaje" | "metodo";
 export type Plan = "free" | "pro";
 
 export const PRECIO_PRO_COP = 49999;
 export const LIMITES: Record<Plan, Record<TipoUso, number>> = {
-  free: { ruta: 5, mensaje: 20 },
-  pro: { ruta: 50, mensaje: 100 },
+  free: { ruta: 5, mensaje: 20, metodo: 100 },
+  pro: { ruta: 50, mensaje: 100, metodo: 100 },
 };
 
 export interface ResultadoConsumo {
@@ -74,7 +74,7 @@ export async function obtenerEstadoPlan(supabase: SupabaseClient): Promise<Estad
 
 /** Respuesta HTTP 402 estándar al llegar al tope. */
 export function cuerpoLimite(consumo: ResultadoConsumo, tipo: TipoUso) {
-  const que = tipo === "ruta" ? "rutas con IA" : "mensajes al tutor";
+  const que = tipo === "ruta" ? "rutas con IA" : tipo === "mensaje" ? "mensajes al tutor" : "recomendaciones de método con IA";
   return {
     codigo: CODIGO_LIMITE,
     tipo,
