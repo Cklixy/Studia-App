@@ -45,11 +45,10 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F4F6F
 .ntx b { display: block; font-size: 36px; font-weight: 650; line-height: 1.15; color: #14213D; }
 .ntx i { display: block; font-style: normal; font-size: 30px; color: #5B6678; margin-top: 6px; }
 .cnt { position: absolute; left: 114px; top: 1200px; width: 440px; height: 96px; border-radius: 48px; background: #C10A2B; color: #FFFFFF; font-size: 42px; font-weight: 700; text-align: center; line-height: 96px; opacity: 0; box-shadow: 0 16px 40px rgba(193,10,43,0.35); }
-#bubble { left: 230px; top: 570px; width: 620px; height: 620px; border-radius: 50%; background: radial-gradient(circle at 32% 26%, #FF8A9B 0%, #E0314F 34%, #A8082A 100%); box-shadow: 0 50px 140px rgba(168,8,42,0.40); opacity: 0; }
-#bubble .bt { position: absolute; left: 70px; top: 200px; width: 480px; text-align: center; color: #FFFFFF; font-size: 56px; font-weight: 700; line-height: 1.1; letter-spacing: -1px; }
-#bubble .bs { position: absolute; left: 70px; top: 372px; width: 480px; text-align: center; color: #FFFFFF; font-size: 46px; font-weight: 600; }
-#bubble .shine { position: absolute; left: 110px; top: 70px; width: 180px; height: 90px; border-radius: 50%; background: rgba(255,255,255,0.32); }
-#ring { left: 230px; top: 570px; width: 620px; height: 620px; border-radius: 50%; border: 16px solid rgba(255,255,255,0.95); opacity: 0; }
+#bubble { left: 110px; top: 520px; width: 860px; height: 860px; border-radius: 50%; background: radial-gradient(circle at 50% 50%, rgba(255,220,228,0.10) 0%, rgba(255,170,188,0.20) 56%, rgba(232,70,98,0.52) 80%, rgba(193,10,43,0.86) 100%); border: 4px solid rgba(193,10,43,0.55); box-shadow: inset 0 0 90px rgba(255,255,255,0.42), 0 40px 120px rgba(168,8,42,0.22); opacity: 0; }
+#bubble .shine { position: absolute; left: 140px; top: 96px; width: 230px; height: 110px; border-radius: 50%; background: rgba(255,255,255,0.55); transform: rotate(-28deg); }
+#bubble .shine2 { position: absolute; left: 560px; top: 640px; width: 120px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.35); transform: rotate(-28deg); }
+#ring { left: 110px; top: 520px; width: 860px; height: 860px; border-radius: 50%; border: 16px solid rgba(255,235,239,0.95); opacity: 0; }
 .dr { position: absolute; border-radius: 50%; opacity: 0; }
 #flash { left: 0; top: 0; width: 1080px; height: 1920px; background: #FFFFFF; opacity: 0; }
 
@@ -98,12 +97,17 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F4F6F
 <!-- 1. EL AGOBIO: scroll, tareas y burbuja -->
 <section id="agobio" class="clip" data-start="0" data-duration="11.7" data-track-index="0">
   <div id="tag" class="a"><span>Parcial en 5 días</span></div>
-  <div id="cam" class="a">
-    <div id="phone" class="a">
-      <div id="screen">
-        <div id="notch"></div>
-        <div id="hora">23:41</div>
-        <div id="feed">
+  <div id="back" class="a" style="left:0;top:0;width:1080px;height:1920px">
+    <svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<ellipse cx="540" cy="2040" rx="800" ry="380" fill="#8E9BB8"/>
+<ellipse cx="540" cy="1990" rx="340" ry="330" fill="#7C89A8"/>
+</svg>
+    <div id="cam" class="a">
+      <div id="phone" class="a">
+        <div id="screen">
+          <div id="notch"></div>
+          <div id="hora">23:41</div>
+          <div id="feed">
 <div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#CFE3FF,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
 <div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#FFD9DF,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
 <div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#D9F2E6,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
@@ -114,43 +118,97 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F4F6F
 <div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#E0E7D0,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
 <div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#CFE3FF,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
 <div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#FFD9DF,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
-        </div>
-        <div id="bar"></div>
-        <div id="dim"></div>
-        <div id="notifs">
+          </div>
+          <div id="bar"></div>
+          <div id="dim"></div>
+          <div id="notifs">
 <div class="notif" id="n0" style="top:150px"><span class="nic" style="background:#0066CC">C</span><span class="ntx"><b>Taller de cálculo</b><i>Entrega hoy · 11:59 p. m.</i></span></div>
 <div class="notif" id="n1" style="top:310px"><span class="nic" style="background:#4F46E5">H</span><span class="ntx"><b>Ensayo de historia</b><i>Entrega mañana</i></span></div>
 <div class="notif" id="n2" style="top:470px"><span class="nic" style="background:#0B7FB5">F</span><span class="ntx"><b>Quiz de física</b><i>En 2 días</i></span></div>
 <div class="notif" id="n3" style="top:630px"><span class="nic" style="background:#C10A2B">E</span><span class="ntx"><b>Parcial de estadística</b><i>En 5 días</i></span></div>
 <div class="notif" id="n4" style="top:790px"><span class="nic" style="background:#B45309">Q</span><span class="ntx"><b>Informe de química</b><i>Pendiente</i></span></div>
-        </div>
+          </div>
 <div class="cnt" id="k0">1 pendiente</div>
 <div class="cnt" id="k1">2 pendientes</div>
 <div class="cnt" id="k2">3 pendientes</div>
 <div class="cnt" id="k3">4 pendientes</div>
 <div class="cnt" id="k4">5 pendientes</div>
-        <div id="touch"></div>
+        </div>
       </div>
+      <svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<g id="handL"><path d="M10,1930 L90,1660 C95,1630 270,1640 275,1680 L260,1930Z" fill="#7C89A8"/>
+<line x1="184" y1="1690" x2="198" y2="1400" stroke="#F1CDB5" stroke-width="108" stroke-linecap="round"/>
+<line x1="160" y1="1660" x2="170" y2="1470" stroke="#E2B79C" stroke-width="22" stroke-linecap="round" opacity="0.7"/><line x1="228" y1="1430" x2="310" y2="1300" stroke="#F1CDB5" stroke-width="62" stroke-linecap="round"/>
+<circle cx="310" cy="1300" r="22" fill="#F8DECB"/></g>
+<g id="handR"><path d="M1070,1930 L990,1660 C985,1630 810,1640 805,1680 L820,1930Z" fill="#7C89A8"/>
+<line x1="896" y1="1690" x2="882" y2="1400" stroke="#F1CDB5" stroke-width="108" stroke-linecap="round"/>
+<line x1="920" y1="1660" x2="910" y2="1470" stroke="#E2B79C" stroke-width="22" stroke-linecap="round" opacity="0.7"/></g>
+<g id="thumbR"><line x1="852" y1="1430" x2="770" y2="1300" stroke="#F1CDB5" stroke-width="62" stroke-linecap="round"/>
+<circle cx="770" cy="1300" r="22" fill="#F8DECB"/></g>
+</svg>
     </div>
+    <svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<ellipse cx="294" cy="1850" rx="36" ry="56" fill="#E2B79C"/>
+<ellipse cx="786" cy="1850" rx="36" ry="56" fill="#E2B79C"/>
+<ellipse cx="540" cy="1940" rx="256" ry="300" fill="#4A3A2E"/>
+<ellipse cx="540" cy="1780" rx="150" ry="70" fill="#6A5442" opacity="0.55"/>
+</svg>
   </div>
-  <div id="bubble" class="a"><div class="shine"></div><div class="bt">Parcial de estadística</div><div class="bs">en 5 días</div></div>
+  <div id="front" class="a" style="left:0;top:0;width:1080px;height:1920px;opacity:0">
+    <svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<path d="M90,1930 C90,1240 330,1030 540,1030 C750,1030 990,1240 990,1930Z" fill="#8E9BB8"/>
+<path d="M430,1040 C470,1130 610,1130 650,1040 L650,980 L430,980Z" fill="#7C89A8"/>
+<rect x="478" y="880" width="124" height="170" rx="40" fill="#E2B79C"/>
+<g id="fhead">
+<ellipse cx="386" cy="745" rx="24" ry="40" fill="#E2B79C"/>
+<ellipse cx="694" cy="745" rx="24" ry="40" fill="#E2B79C"/>
+<ellipse cx="540" cy="730" rx="152" ry="178" fill="#F1CDB5"/>
+<path d="M388,700 C376,520 480,466 560,466 C690,466 708,560 692,700 C676,632 640,592 540,586 C440,592 406,632 388,700Z" fill="#4A3A2E"/>
+<circle cx="490" cy="748" r="25" fill="#FFFFFF"/><circle cx="590" cy="748" r="25" fill="#FFFFFF"/>
+<circle id="pl" cx="494" cy="752" r="10" fill="#22222B"/><circle id="pr" cx="586" cy="752" r="10" fill="#22222B"/>
+<path d="M446,704 L522,676" stroke="#4A3A2E" stroke-width="12" stroke-linecap="round"/>
+<path d="M634,704 L558,676" stroke="#4A3A2E" stroke-width="12" stroke-linecap="round"/>
+<path d="M492,842 q16,-18 32,0 t32,0 t32,0" fill="none" stroke="#9B5B52" stroke-width="9" stroke-linecap="round"/>
+<g id="sw1" opacity="0"><g transform="translate(708,660)"><path d="M0,-30 C20,0 22,18 0,24 C-22,18 -20,0 0,-30Z" fill="#7FC8F0"/></g></g>
+<g id="sw2" opacity="0"><g transform="translate(372,700)"><path d="M0,-30 C20,0 22,18 0,24 C-22,18 -20,0 0,-30Z" fill="#7FC8F0"/></g></g>
+</g>
+<g id="sl" opacity="0" stroke="#C10A2B" stroke-width="9" stroke-linecap="round">
+<line x1="744" y1="560" x2="786" y2="528"/><line x1="762" y1="616" x2="814" y2="606"/><line x1="750" y1="672" x2="800" y2="690"/>
+<line x1="336" y1="560" x2="294" y2="528"/><line x1="318" y1="616" x2="266" y2="606"/><line x1="330" y1="672" x2="280" y2="690"/>
+</g>
+<g id="fphone">
+<line x1="330" y1="1560" x2="236" y2="1800" stroke="#7C89A8" stroke-width="130" stroke-linecap="round"/>
+<line x1="750" y1="1560" x2="844" y2="1800" stroke="#7C89A8" stroke-width="130" stroke-linecap="round"/>
+<rect x="410" y="1100" width="260" height="520" rx="52" fill="#2B3250"/>
+<rect x="432" y="1122" width="100" height="100" rx="30" fill="#1B2030"/>
+<circle cx="466" cy="1156" r="15" fill="#4A5270"/><circle cx="504" cy="1156" r="15" fill="#4A5270"/><circle cx="485" cy="1192" r="15" fill="#4A5270"/>
+<line x1="372" y1="1480" x2="352" y2="1600" stroke="#F1CDB5" stroke-width="96" stroke-linecap="round"/>
+<line x1="708" y1="1480" x2="728" y2="1600" stroke="#F1CDB5" stroke-width="96" stroke-linecap="round"/>
+<g stroke="#F1CDB5" stroke-width="44" stroke-linecap="round">
+<line x1="398" y1="1240" x2="470" y2="1240"/><line x1="398" y1="1300" x2="472" y2="1300"/><line x1="398" y1="1360" x2="470" y2="1360"/><line x1="402" y1="1420" x2="462" y2="1420"/>
+<line x1="682" y1="1240" x2="610" y2="1240"/><line x1="682" y1="1300" x2="608" y2="1300"/><line x1="682" y1="1360" x2="610" y2="1360"/><line x1="678" y1="1420" x2="618" y2="1420"/>
+</g>
+</g>
+</svg>
+    <div id="bubble" class="a"><div class="shine"></div><div class="shine2"></div></div>
+  </div>
   <div id="ring" class="a"></div>
-<div class="dr" id="d0" style="left:517px;top:857px;width:46px;height:46px;background:#E0314F" data-ang="0.1396" data-r="520"></div>
-<div class="dr" id="d1" style="left:505px;top:845px;width:70px;height:70px;background:#FF8A9B" data-ang="0.5323" data-r="720"></div>
-<div class="dr" id="d2" style="left:513px;top:853px;width:54px;height:54px;background:#C10A2B" data-ang="0.9250" data-r="580"></div>
-<div class="dr" id="d3" style="left:498px;top:838px;width:84px;height:84px;background:#FFB3BF" data-ang="1.3177" data-r="650"></div>
-<div class="dr" id="d4" style="left:517px;top:857px;width:46px;height:46px;background:#E0314F" data-ang="1.7104" data-r="520"></div>
-<div class="dr" id="d5" style="left:505px;top:845px;width:70px;height:70px;background:#FF8A9B" data-ang="2.1031" data-r="720"></div>
-<div class="dr" id="d6" style="left:513px;top:853px;width:54px;height:54px;background:#C10A2B" data-ang="2.4958" data-r="580"></div>
-<div class="dr" id="d7" style="left:498px;top:838px;width:84px;height:84px;background:#FFB3BF" data-ang="2.8885" data-r="650"></div>
-<div class="dr" id="d8" style="left:517px;top:857px;width:46px;height:46px;background:#E0314F" data-ang="3.2812" data-r="520"></div>
-<div class="dr" id="d9" style="left:505px;top:845px;width:70px;height:70px;background:#FF8A9B" data-ang="3.6739" data-r="720"></div>
-<div class="dr" id="d10" style="left:513px;top:853px;width:54px;height:54px;background:#C10A2B" data-ang="4.0666" data-r="580"></div>
-<div class="dr" id="d11" style="left:498px;top:838px;width:84px;height:84px;background:#FFB3BF" data-ang="4.4593" data-r="650"></div>
-<div class="dr" id="d12" style="left:517px;top:857px;width:46px;height:46px;background:#E0314F" data-ang="4.8520" data-r="520"></div>
-<div class="dr" id="d13" style="left:505px;top:845px;width:70px;height:70px;background:#FF8A9B" data-ang="5.2447" data-r="720"></div>
-<div class="dr" id="d14" style="left:513px;top:853px;width:54px;height:54px;background:#C10A2B" data-ang="5.6374" data-r="580"></div>
-<div class="dr" id="d15" style="left:498px;top:838px;width:84px;height:84px;background:#FFB3BF" data-ang="6.0301" data-r="650"></div>
+<div class="dr" id="d0" style="left:517px;top:927px;width:46px;height:46px;background:#E0314F" data-ang="0.1396" data-r="520"></div>
+<div class="dr" id="d1" style="left:505px;top:915px;width:70px;height:70px;background:#FF8A9B" data-ang="0.5323" data-r="720"></div>
+<div class="dr" id="d2" style="left:513px;top:923px;width:54px;height:54px;background:#C10A2B" data-ang="0.9250" data-r="580"></div>
+<div class="dr" id="d3" style="left:498px;top:908px;width:84px;height:84px;background:#FFC4CD" data-ang="1.3177" data-r="650"></div>
+<div class="dr" id="d4" style="left:517px;top:927px;width:46px;height:46px;background:#E0314F" data-ang="1.7104" data-r="520"></div>
+<div class="dr" id="d5" style="left:505px;top:915px;width:70px;height:70px;background:#FF8A9B" data-ang="2.1031" data-r="720"></div>
+<div class="dr" id="d6" style="left:513px;top:923px;width:54px;height:54px;background:#C10A2B" data-ang="2.4958" data-r="580"></div>
+<div class="dr" id="d7" style="left:498px;top:908px;width:84px;height:84px;background:#FFC4CD" data-ang="2.8885" data-r="650"></div>
+<div class="dr" id="d8" style="left:517px;top:927px;width:46px;height:46px;background:#E0314F" data-ang="3.2812" data-r="520"></div>
+<div class="dr" id="d9" style="left:505px;top:915px;width:70px;height:70px;background:#FF8A9B" data-ang="3.6739" data-r="720"></div>
+<div class="dr" id="d10" style="left:513px;top:923px;width:54px;height:54px;background:#C10A2B" data-ang="4.0666" data-r="580"></div>
+<div class="dr" id="d11" style="left:498px;top:908px;width:84px;height:84px;background:#FFC4CD" data-ang="4.4593" data-r="650"></div>
+<div class="dr" id="d12" style="left:517px;top:927px;width:46px;height:46px;background:#E0314F" data-ang="4.8520" data-r="520"></div>
+<div class="dr" id="d13" style="left:505px;top:915px;width:70px;height:70px;background:#FF8A9B" data-ang="5.2447" data-r="720"></div>
+<div class="dr" id="d14" style="left:513px;top:923px;width:54px;height:54px;background:#C10A2B" data-ang="5.6374" data-r="580"></div>
+<div class="dr" id="d15" style="left:498px;top:908px;width:84px;height:84px;background:#FFC4CD" data-ang="6.0301" data-r="650"></div>
   <div id="flash" class="a"></div>
 </section>
 
@@ -253,8 +311,8 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F4F6F
 
 <!-- SUBTÍTULOS (voz en off) -->
 <section id="subs" class="clip" data-start="0" data-duration="38.5" data-track-index="9" style="pointer-events:none">
-  <p id="c1" class="sub">¿Otra vez scrolleando mientras se acerca el parcial?</p>
-  <p id="c2" class="sub">Talleres, entregas, parciales… todo a la vez.</p>
+  <p id="c1" class="sub" style="background:rgba(244,246,251,0.9);border-radius:44px;padding:20px 0">¿Otra vez scrolleando mientras se acerca el parcial?</p>
+  <p id="c2" class="sub" style="background:rgba(244,246,251,0.9);border-radius:44px;padding:20px 0">Talleres, entregas, parciales… todo a la vez.</p>
   <p id="c4" class="sub">Esto es studia+.</p>
   <p id="c5" class="sub">Te dice qué estudiar hoy y cuánto te falta para tu parcial.</p>
   <p id="c6" class="sub">Elige el método que más te funciona y estudia con tu música.</p>
@@ -277,16 +335,17 @@ const SUB = (sel, a, b) => {
 
 /* ---- 1. AGOBIO (0 – 11.7) ---- */
 IN("#tag", 0.1, 0.5, 20);
-// tres deslizamientos del feed
+// tres deslizamientos del pulgar
 E("#feed", { y: 0 }, { y: -560, duration: 0.9, ease: "power2.out" }, 0.3);
 E("#feed", { y: -560 }, { y: -1120, duration: 0.9, ease: "power2.out" }, 1.6);
 E("#feed", { y: -1120 }, { y: -1820, duration: 1.0, ease: "power2.out" }, 2.9);
 [0.3, 1.6, 2.9].forEach((t) => {
-  E("#touch", { opacity: 0.95, y: 0 }, { opacity: 0.95, y: -300, duration: 0.8, ease: "power2.out", immediateRender: false }, t);
-  tl.to("#touch", { opacity: 0, duration: 0.15 }, t + 0.85);
+  tl.fromTo("#thumbR", { y: 0 }, { y: -320, duration: 0.8, ease: "power2.out", immediateRender: false }, t);
+  tl.to("#thumbR", { y: 0, duration: 0.22, ease: "power2.inOut" }, t + 0.85);
 });
 SUB("#c1", 0.3, 4.1);
 // llegan las tareas
+tl.to("#cam", { scale: 1.06, duration: 4.8, ease: "none" }, 4.2);
 E("#dim", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power1.out" }, 4.2);
 for (let i = 0; i < 5; i++) {
   const t = 4.6 + i * 0.55;
@@ -296,24 +355,33 @@ for (let i = 0; i < 5; i++) {
   tl.fromTo("#k" + i, { scale: 1.18 }, { scale: 1, duration: 0.3, ease: "power2.out", immediateRender: false }, t);
 }
 SUB("#c2", 4.7, 8.9);
-// la burbuja se infla
-tl.to("#notifs", { opacity: 0, duration: 0.45 }, 9.0);
-tl.to(".cnt", { opacity: 0, duration: 0.3 }, 9.0);
-tl.to("#dim", { opacity: 1, duration: 0.01 }, 9.0);
-E("#bubble", { opacity: 0, scale: 0.25 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.4)" }, 9.0);
-tl.to("#cam", { scale: 1.3, duration: 1.9, ease: "power2.inOut" }, 9.0);
-[9.8, 10.2, 10.6].forEach((t, i) => {
-  tl.to("#bubble", { scale: 1.08 + i * 0.03, duration: 0.18, ease: "sine.inOut" }, t);
-  tl.to("#bubble", { scale: 1, duration: 0.18, ease: "sine.inOut" }, t + 0.18);
+// cambio de plano: de frente, la persona se estresa
+tl.to("#tag", { opacity: 0, duration: 0.25 }, 8.85);
+tl.to("#back", { opacity: 0, scale: 1.12, duration: 0.3, ease: "power2.in" }, 8.9);
+E("#front", { opacity: 0, scale: 1.1 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power2.out" }, 9.05);
+// la burbuja se infla desde el celular
+E("#bubble", { opacity: 0, scale: 0.15, y: 420 }, { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: "power2.out" }, 9.45);
+E("#sw1", { opacity: 0, y: -14 }, { opacity: 1, y: 36, duration: 0.7, ease: "power1.in" }, 9.7);
+E("#sw2", { opacity: 0, y: -14 }, { opacity: 1, y: 36, duration: 0.7, ease: "power1.in" }, 10.1);
+tl.set("#sl", { opacity: 1 }, 10.2);
+tl.set("#sl", { opacity: 0 }, 10.4);
+tl.set("#sl", { opacity: 1 }, 10.5);
+tl.set("#sl", { opacity: 0 }, 10.7);
+tl.set("#sl", { opacity: 1 }, 10.8);
+for (let i = 0; i < 9; i++) {
+  tl.to("#fhead", { rotation: i % 2 === 0 ? 3.2 : -3.2, svgOrigin: "540 1000", duration: 0.12, ease: "sine.inOut" }, 9.7 + i * 0.14);
+  tl.to("#fphone", { x: i % 2 === 0 ? 5 : -5, duration: 0.07 }, 9.9 + i * 0.12);
+}
+[10.5, 10.75].forEach((t, i) => {
+  tl.to("#bubble", { scale: 1.05 + i * 0.03, duration: 0.14, ease: "sine.inOut" }, t);
+  tl.to("#bubble", { scale: 1, duration: 0.14, ease: "sine.inOut" }, t + 0.14);
 });
-[10.2, 10.35, 10.5, 10.65, 10.8].forEach((t, i) => {
-  tl.to("#phone", { x: i % 2 === 0 ? 6 : -6, duration: 0.07 }, t);
-});
-tl.to("#phone", { x: 0, duration: 0.05 }, 10.95);
+tl.to("#fhead", { rotation: 0, svgOrigin: "540 1000", duration: 0.05 }, 10.9);
+tl.to("#fphone", { x: 0, duration: 0.05 }, 10.95);
 // explota
-tl.to("#bubble", { scale: 1.32, duration: 0.1, ease: "power2.out" }, 11.0);
+tl.to("#bubble", { scale: 1.1, duration: 0.1, ease: "power2.out" }, 11.0);
 tl.set("#bubble", { opacity: 0 }, 11.1);
-E("#ring", { opacity: 1, scale: 0.9 }, { opacity: 0, scale: 2.6, duration: 0.65, ease: "power3.out", immediateRender: false }, 11.0);
+E("#ring", { opacity: 1, scale: 0.95 }, { opacity: 0, scale: 2.2, duration: 0.65, ease: "power3.out", immediateRender: false }, 11.0);
 for (let i = 0; i < 16; i++) {
   const el = document.getElementById("d" + i);
   const a = parseFloat(el.dataset.ang), r = parseFloat(el.dataset.r);
