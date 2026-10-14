@@ -52,3 +52,16 @@ Dimensiones y aspecto del teléfono · textura = aspecto de pantalla y UV 0..1 �
 - La mano es **procedural estilizada** (cápsulas, tipo arcilla): la anatomía y el contacto son correctos, pero no es un modelo escaneado ni tiene piel realista. Para primeros planos de calidad cinematográfica haría falta un modelo riggeado (Blender/glTF).
 - Los dedos del agarre están **estáticos** (solo se anima el pulgar y la muñeca/flotación).
 - El render con SwiftShader es lento (varios minutos).
+
+## Evaluación del render real (MP4 1080×1920, 24 fps, 18 s)
+Inspección visual de 14 fotogramas del MP4 (t = 0,8 · 2,0 · 3,3 · 4,8 · 6,5 · 8,5 · 10,0 · 12,0 · 12,5 · 13,2 · 14,7 · 15,8 · 16,8 · 17,8 s) más las comprobaciones de `tests/check.mjs` (0 críticos, 0 avisos). **No se revisó fotograma a fotograma ni a velocidad real**; los saltos entre fotogramas no se pueden descartar con solo estas muestras.
+
+| Toma | Originalidad | Composición | Geometría | Contacto | Materiales | Legibilidad | Observaciones |
+|---|---|---|---|---|---|---|---|
+| A | Alta (lápiz de primer plano, rasante) | Buena; arranque con mucho vacío | Correcta | — | Metal/cristal bien distinguidos | La UI es legible solo al final | El primer segundo es poco informativo |
+| B | Media (contrapicado suave) | Teléfono completo, mano a escala | Correcta | Dedos en el borde izquierdo, pulgar flotando a propósito | Piel tipo arcilla | Buena | El pulgar tapa parte de la UI |
+| C | Alta (órbita con cambio de altura) | Bien | Correcta; dorso con módulo de cámara | Palma y dedos coherentes | Cristal trasero mate | Buena | La palma parece "manopla" desde atrás |
+| D | Alta (macro por el lado opuesto al pulgar) | Recorte intencionado | Correcta | **Yema sobre el botón a 0,01 cm** | Uña ya no es calcomanía | Se lee el botón | UI reacciona en el momento del toque |
+| E | Media-alta (retirada con espacio negativo) | Asimétrica, buen contexto | Correcta | — | Manga, planta y mesa legibles | Teléfono pequeño al final | La planta solo asoma en el borde |
+
+Defectos pendientes: sin profundidad de campo; dedos del agarre estáticos; piel y pelo no realistas; escena de bajo contraste (paleta pastel).
