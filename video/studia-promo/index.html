@@ -1,55 +1,403 @@
 <!doctype html>
-<html lang="en" data-resolution="landscape">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
-    <script src="vendor/gsap.min.js"></script>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        margin: 0;
-        width: 1920px;
-        height: 1080px;
-        overflow: hidden;
-        background: #0a0a0a;
-      }
-      #root {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-      }
-      #title {
-        color: #f4f4f5;
-        font-size: 72px;
-        font-weight: 600;
-        letter-spacing: -0.03em;
-      }
-    </style>
-  </head>
-  <body>
-    <div
-      id="root"
-      data-composition-id="main"
-      data-start="0"
-      data-duration="10"
-      data-width="1920"
-      data-height="1080"
-    >
-      <h1 id="title" class="clip" data-start="0" data-duration="10" data-track-index="0">Title</h1>
+<html lang="es" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<script src="vendor/gsap.min.js"></script>
+<style>
+@font-face { font-family: "Geist"; src: url("assets/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F4F6FB; font-family: "Geist", ui-sans-serif, system-ui, sans-serif; color: #14213D; }
+.clip { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+.a { position: absolute; }
+.sc { background: #F4F6FB; }
+.glow { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; background: radial-gradient(circle at 50% 30%, rgba(0,102,204,0.13) 0%, rgba(0,102,204,0) 62%); }
+.eyebrow { position: absolute; left: 90px; width: 900px; text-align: center; font-size: 34px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #0066CC; }
+.h2 { position: absolute; left: 90px; width: 900px; text-align: center; font-size: 88px; font-weight: 700; line-height: 1.04; letter-spacing: -2.5px; color: #14213D; }
+.card { position: absolute; background: rgba(255,255,255,0.88); border: 2px solid rgba(20,33,61,0.07); border-radius: 56px; box-shadow: 0 30px 90px rgba(20,33,61,0.10); }
+.sub { position: absolute; left: 90px; width: 900px; top: 1640px; text-align: center; font-size: 50px; font-weight: 600; line-height: 1.2; letter-spacing: -0.5px; color: #14213D; opacity: 0; }
+
+/* escena agobio */
+#agobio { background: linear-gradient(180deg, #E6EAF2 0%, #D3D9E5 100%); }
+#tag { left: 90px; top: 92px; width: 900px; text-align: center; }
+#tag span { display: inline-block; font-size: 46px; font-weight: 650; color: #A3091F; background: rgba(193,10,43,0.12); padding: 16px 40px; border-radius: 60px; }
+#cam { left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 880px; }
+#phone { left: 190px; top: 190px; width: 700px; height: 1380px; background: #1B2030; border-radius: 112px; box-shadow: 0 50px 120px rgba(27,32,48,0.35); }
+#screen { position: absolute; left: 16px; top: 16px; width: 668px; height: 1348px; border-radius: 98px; background: #F1F3F8; overflow: hidden; }
+#notch { position: absolute; left: 239px; top: 20px; width: 190px; height: 52px; border-radius: 30px; background: #1B2030; z-index: 5; }
+#hora { position: absolute; left: 58px; top: 30px; font-size: 32px; font-weight: 650; color: #14213D; z-index: 5; }
+#feed { position: absolute; left: 32px; top: 110px; width: 604px; }
+.fcard { width: 604px; height: 420px; background: #FFFFFF; border-radius: 40px; margin-bottom: 26px; position: relative; }
+.fhead { position: absolute; left: 28px; top: 24px; width: 548px; height: 64px; }
+.fav { position: absolute; left: 0; top: 0; width: 64px; height: 64px; border-radius: 50%; background: #D3D9E5; }
+.fb1 { position: absolute; left: 84px; top: 8px; width: 220px; height: 18px; border-radius: 9px; background: #D3D9E5; }
+.fb2 { position: absolute; left: 84px; top: 38px; width: 140px; height: 14px; border-radius: 7px; background: #E4E8F0; }
+.fimg { position: absolute; left: 28px; top: 108px; width: 548px; height: 220px; border-radius: 28px; }
+.fl1 { position: absolute; left: 28px; top: 352px; width: 440px; height: 18px; border-radius: 9px; background: #D3D9E5; }
+.fl2 { position: absolute; left: 28px; top: 384px; width: 300px; height: 14px; border-radius: 7px; background: #E4E8F0; }
+#bar { position: absolute; left: 0; top: 0; width: 668px; height: 104px; background: #F1F3F8; }
+#dim { position: absolute; left: 0; top: 0; width: 668px; height: 1348px; background: rgba(30,38,56,0.38); opacity: 0; }
+#touch { position: absolute; left: 480px; top: 1020px; width: 104px; height: 104px; border-radius: 50%; background: rgba(110,122,146,0.42); border: 4px solid rgba(255,255,255,0.9); opacity: 0; }
+#notifs { position: absolute; left: 0; top: 0; width: 668px; height: 1348px; }
+.notif { position: absolute; left: 32px; width: 604px; height: 140px; border-radius: 44px; background: rgba(255,255,255,0.97); box-shadow: 0 18px 50px rgba(20,33,61,0.18); opacity: 0; }
+.nic { position: absolute; left: 24px; top: 28px; width: 84px; height: 84px; border-radius: 24px; color: #FFFFFF; font-size: 44px; font-weight: 700; text-align: center; line-height: 84px; }
+.ntx { position: absolute; left: 130px; top: 26px; width: 450px; }
+.ntx b { display: block; font-size: 36px; font-weight: 650; line-height: 1.15; color: #14213D; }
+.ntx i { display: block; font-style: normal; font-size: 30px; color: #5B6678; margin-top: 6px; }
+.cnt { position: absolute; left: 114px; top: 1200px; width: 440px; height: 96px; border-radius: 48px; background: #C10A2B; color: #FFFFFF; font-size: 42px; font-weight: 700; text-align: center; line-height: 96px; opacity: 0; box-shadow: 0 16px 40px rgba(193,10,43,0.35); }
+#bubble { left: 230px; top: 570px; width: 620px; height: 620px; border-radius: 50%; background: radial-gradient(circle at 32% 26%, #FF8A9B 0%, #E0314F 34%, #A8082A 100%); box-shadow: 0 50px 140px rgba(168,8,42,0.40); opacity: 0; }
+#bubble .bt { position: absolute; left: 70px; top: 200px; width: 480px; text-align: center; color: #FFFFFF; font-size: 56px; font-weight: 700; line-height: 1.1; letter-spacing: -1px; }
+#bubble .bs { position: absolute; left: 70px; top: 372px; width: 480px; text-align: center; color: #FFFFFF; font-size: 46px; font-weight: 600; }
+#bubble .shine { position: absolute; left: 110px; top: 70px; width: 180px; height: 90px; border-radius: 50%; background: rgba(255,255,255,0.32); }
+#ring { left: 230px; top: 570px; width: 620px; height: 620px; border-radius: 50%; border: 16px solid rgba(255,255,255,0.95); opacity: 0; }
+.dr { position: absolute; border-radius: 50%; opacity: 0; }
+#flash { left: 0; top: 0; width: 1080px; height: 1920px; background: #FFFFFF; opacity: 0; }
+
+/* logo */
+#icono { left: 390px; top: 600px; width: 300px; height: 300px; border-radius: 70px; box-shadow: 0 30px 80px rgba(20,33,61,0.16); border: 2px solid rgba(20,33,61,0.08); opacity: 0; }
+.word { position: absolute; left: 90px; width: 900px; text-align: center; font-size: 168px; font-weight: 700; letter-spacing: -6px; color: #14213D; opacity: 0; }
+.word span { color: #0066CC; font-weight: 800; }
+#tagline { left: 140px; top: 1220px; width: 800px; text-align: center; font-size: 56px; font-weight: 500; line-height: 1.2; color: #4A5568; opacity: 0; }
+
+/* hoy */
+.lab { position: absolute; font-size: 34px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #0066CC; }
+.tema { position: absolute; font-size: 76px; font-weight: 700; line-height: 1.08; letter-spacing: -1.5px; color: #14213D; }
+.mat { position: absolute; font-size: 44px; color: #636366; }
+.mot { position: absolute; font-size: 46px; font-weight: 500; color: #14213D; }
+.trk { position: absolute; height: 16px; border-radius: 8px; background: rgba(20,33,61,0.08); }
+.fill { position: absolute; height: 16px; border-radius: 8px; background: #0066CC; }
+.btn { position: absolute; border-radius: 70px; background: #0066CC; color: #FFFFFF; font-size: 50px; font-weight: 600; text-align: center; box-shadow: 0 20px 50px rgba(0,102,204,0.35); }
+
+/* sesion */
+#ring2 { left: 280px; top: 400px; width: 520px; height: 520px; opacity: 0; }
+#tiempo { left: 280px; top: 590px; width: 520px; text-align: center; font-size: 124px; font-weight: 700; letter-spacing: -4px; font-variant-numeric: tabular-nums; color: #14213D; opacity: 0; }
+#enfo { left: 280px; top: 740px; width: 520px; text-align: center; font-size: 36px; font-weight: 600; color: #636366; opacity: 0; }
+.step { position: absolute; left: 56px; font-size: 44px; color: #14213D; opacity: 0; }
+.pill { position: absolute; top: 478px; height: 90px; border-radius: 45px; font-size: 38px; font-weight: 600; text-align: center; line-height: 90px; }
+.pill.n { background: rgba(20,33,61,0.06); color: #4A5568; }
+.pill.s { background: #0066CC; color: #FFFFFF; opacity: 0; }
+
+/* tutor */
+.bub { position: absolute; font-size: 44px; line-height: 1.3; padding: 30px 36px; opacity: 0; }
+.bu { background: #0066CC; color: #FFFFFF; border-radius: 44px 44px 12px 44px; }
+.bm { background: #E9E9EB; color: #14213D; border-radius: 44px 44px 44px 12px; }
+.dot { position: absolute; top: 40px; width: 22px; height: 22px; border-radius: 50%; background: #8A8A8E; }
+
+/* racha */
+.wcol { position: absolute; top: 1010px; width: 110px; height: 190px; opacity: 0; }
+.wl { position: absolute; left: 0; top: 0; width: 110px; text-align: center; font-size: 32px; font-weight: 600; color: #5B6678; }
+.wd { position: absolute; left: 0; top: 64px; width: 110px; height: 110px; border-radius: 50%; }
+.wd.done { background: rgba(193,10,43,0.10); border: 2px solid rgba(193,10,43,0.28); }
+.wd.hoy { background: #FFFFFF; border: 5px solid #0066CC; }
+.fl { position: absolute; left: 25px; top: 25px; width: 60px; height: 60px; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="38.5" data-width="1080" data-height="1920">
+
+<!-- 1. EL AGOBIO: scroll, tareas y burbuja -->
+<section id="agobio" class="clip" data-start="0" data-duration="11.7" data-track-index="0">
+  <div id="tag" class="a"><span>Parcial en 5 días</span></div>
+  <div id="cam" class="a">
+    <div id="phone" class="a">
+      <div id="screen">
+        <div id="notch"></div>
+        <div id="hora">23:41</div>
+        <div id="feed">
+<div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#CFE3FF,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
+<div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#FFD9DF,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
+<div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#D9F2E6,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
+<div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#FFE9C7,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
+<div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#E3DCFF,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
+<div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#D2EEF7,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
+<div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#F7D9F0,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
+<div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#E0E7D0,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
+<div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#CFE3FF,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
+<div class="fcard"><div class="fhead"><span class="fav"></span><span class="fb1"></span><span class="fb2"></span></div><div class="fimg" style="background:linear-gradient(135deg,#FFD9DF,#FFFFFF)"></div><div class="fl1"></div><div class="fl2"></div></div>
+        </div>
+        <div id="bar"></div>
+        <div id="dim"></div>
+        <div id="notifs">
+<div class="notif" id="n0" style="top:150px"><span class="nic" style="background:#0066CC">C</span><span class="ntx"><b>Taller de cálculo</b><i>Entrega hoy · 11:59 p. m.</i></span></div>
+<div class="notif" id="n1" style="top:310px"><span class="nic" style="background:#4F46E5">H</span><span class="ntx"><b>Ensayo de historia</b><i>Entrega mañana</i></span></div>
+<div class="notif" id="n2" style="top:470px"><span class="nic" style="background:#0B7FB5">F</span><span class="ntx"><b>Quiz de física</b><i>En 2 días</i></span></div>
+<div class="notif" id="n3" style="top:630px"><span class="nic" style="background:#C10A2B">E</span><span class="ntx"><b>Parcial de estadística</b><i>En 5 días</i></span></div>
+<div class="notif" id="n4" style="top:790px"><span class="nic" style="background:#B45309">Q</span><span class="ntx"><b>Informe de química</b><i>Pendiente</i></span></div>
+        </div>
+<div class="cnt" id="k0">1 pendiente</div>
+<div class="cnt" id="k1">2 pendientes</div>
+<div class="cnt" id="k2">3 pendientes</div>
+<div class="cnt" id="k3">4 pendientes</div>
+<div class="cnt" id="k4">5 pendientes</div>
+        <div id="touch"></div>
+      </div>
     </div>
-    <script>
-      const tl = gsap.timeline({ paused: true });
-      // Example: tl.fromTo("#title", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6 }, 0);
-      window.__timelines["main"] = tl;
-      tl.seek(0);
-    </script>
-  </body>
+  </div>
+  <div id="bubble" class="a"><div class="shine"></div><div class="bt">Parcial de estadística</div><div class="bs">en 5 días</div></div>
+  <div id="ring" class="a"></div>
+<div class="dr" id="d0" style="left:517px;top:857px;width:46px;height:46px;background:#E0314F" data-ang="0.1396" data-r="520"></div>
+<div class="dr" id="d1" style="left:505px;top:845px;width:70px;height:70px;background:#FF8A9B" data-ang="0.5323" data-r="720"></div>
+<div class="dr" id="d2" style="left:513px;top:853px;width:54px;height:54px;background:#C10A2B" data-ang="0.9250" data-r="580"></div>
+<div class="dr" id="d3" style="left:498px;top:838px;width:84px;height:84px;background:#FFB3BF" data-ang="1.3177" data-r="650"></div>
+<div class="dr" id="d4" style="left:517px;top:857px;width:46px;height:46px;background:#E0314F" data-ang="1.7104" data-r="520"></div>
+<div class="dr" id="d5" style="left:505px;top:845px;width:70px;height:70px;background:#FF8A9B" data-ang="2.1031" data-r="720"></div>
+<div class="dr" id="d6" style="left:513px;top:853px;width:54px;height:54px;background:#C10A2B" data-ang="2.4958" data-r="580"></div>
+<div class="dr" id="d7" style="left:498px;top:838px;width:84px;height:84px;background:#FFB3BF" data-ang="2.8885" data-r="650"></div>
+<div class="dr" id="d8" style="left:517px;top:857px;width:46px;height:46px;background:#E0314F" data-ang="3.2812" data-r="520"></div>
+<div class="dr" id="d9" style="left:505px;top:845px;width:70px;height:70px;background:#FF8A9B" data-ang="3.6739" data-r="720"></div>
+<div class="dr" id="d10" style="left:513px;top:853px;width:54px;height:54px;background:#C10A2B" data-ang="4.0666" data-r="580"></div>
+<div class="dr" id="d11" style="left:498px;top:838px;width:84px;height:84px;background:#FFB3BF" data-ang="4.4593" data-r="650"></div>
+<div class="dr" id="d12" style="left:517px;top:857px;width:46px;height:46px;background:#E0314F" data-ang="4.8520" data-r="520"></div>
+<div class="dr" id="d13" style="left:505px;top:845px;width:70px;height:70px;background:#FF8A9B" data-ang="5.2447" data-r="720"></div>
+<div class="dr" id="d14" style="left:513px;top:853px;width:54px;height:54px;background:#C10A2B" data-ang="5.6374" data-r="580"></div>
+<div class="dr" id="d15" style="left:498px;top:838px;width:84px;height:84px;background:#FFB3BF" data-ang="6.0301" data-r="650"></div>
+  <div id="flash" class="a"></div>
+</section>
+
+<!-- 2. REVELACIÓN: studia+ -->
+<section id="logo" class="clip sc" data-start="11.4" data-duration="5.4" data-track-index="1">
+  <div id="glow1" class="glow" style="opacity:0"></div>
+  <img id="icono" class="a" src="assets/icono.svg" alt="Icono de studia+" />
+  <div id="word1" class="word" style="top:960px">studia<span>+</span></div>
+  <div id="tagline" class="a">Tu copiloto para estudiar con dirección.</div>
+</section>
+
+<!-- 3. QUÉ ESTUDIAR HOY -->
+<section id="hoy" class="clip sc" data-start="16.5" data-duration="5.5" data-track-index="2">
+  <div class="glow" style="opacity:0.8"></div>
+  <p id="hoy-eb" class="eyebrow" style="top:150px;opacity:0">Hoy</p>
+  <h2 id="hoy-h" class="h2" style="top:208px;opacity:0">Te dice qué estudiar hoy</h2>
+  <div id="hoy-card" class="card" style="left:80px;top:520px;width:920px;height:1010px;opacity:0">
+    <p id="hoy-lab" class="lab" style="left:56px;top:56px;opacity:0">Para hoy</p>
+    <p id="hoy-tema" class="tema" style="left:56px;top:118px;width:808px;opacity:0">Derivadas e interpretación geométrica</p>
+    <p id="hoy-mat" class="mat" style="left:56px;top:392px;opacity:0">Cálculo diferencial</p>
+    <p id="hoy-mot" class="mot" style="left:56px;top:476px;width:808px;opacity:0">Faltan 5 días para tu parcial</p>
+    <p id="hoy-pl" style="position:absolute;left:56px;top:580px;font-size:36px;color:#636366;opacity:0">4 de 12 temas para el parcial</p>
+    <p id="hoy-pp" style="position:absolute;left:664px;top:580px;width:200px;text-align:right;font-size:36px;font-weight:600;color:#14213D;opacity:0">33 %</p>
+    <div id="hoy-trk" class="trk" style="left:56px;top:650px;width:808px;opacity:0"></div>
+    <div id="hoy-fill" class="fill" style="left:56px;top:650px;width:2px"></div>
+    <div id="hoy-btn" class="btn" style="left:56px;top:770px;width:808px;height:150px;line-height:150px;opacity:0">Estudiar ahora</div>
+  </div>
+</section>
+
+<!-- 4. SESIÓN Y MÉTODO -->
+<section id="sesion" class="clip sc" data-start="21.7" data-duration="5.3" data-track-index="3">
+  <div class="glow" style="opacity:0.8"></div>
+  <p id="ses-eb" class="eyebrow" style="top:150px;opacity:0">Método</p>
+  <h2 id="ses-h" class="h2" style="top:208px;opacity:0">Un método para cada situación</h2>
+  <svg id="ring2" class="a" viewBox="0 0 520 520" width="520" height="520" aria-label="Temporizador de la sesión">
+    <circle cx="260" cy="260" r="220" fill="none" stroke="rgba(20,33,61,0.08)" stroke-width="28"/>
+    <circle cx="260" cy="260" r="220" fill="none" stroke="#0066CC" stroke-width="28" stroke-linecap="round" stroke-dasharray="1382" stroke-dashoffset="520" transform="rotate(-90 260 260)"/>
+  </svg>
+  <p id="tiempo" class="a">18:42</p>
+  <p id="enfo" class="a">Enfocado</p>
+  <div id="ses-card" class="card" style="left:80px;top:980px;width:920px;height:620px;opacity:0">
+    <p class="lab" style="left:56px;top:44px;color:#4F46E5;font-size:32px">Método sugerido por IA</p>
+    <p style="position:absolute;left:56px;top:92px;width:808px;font-size:54px;font-weight:700;line-height:1.1;letter-spacing:-1px">Active Recall + Práctica Espaciada</p>
+    <p id="st1" class="step" style="top:236px">1. Examen de prueba sin apuntes</p>
+    <p id="st2" class="step" style="top:300px">2. Detecta tus lagunas</p>
+    <p id="st3" class="step" style="top:364px">3. Repasa y vuelve a evaluarte</p>
+    <div class="pill n" style="left:56px;width:190px">Lluvia</div>
+    <div class="pill n" id="pill-n2" style="left:266px;width:190px">Lo-fi</div>
+    <div class="pill s" id="pill-s" style="left:266px;width:190px">Lo-fi</div>
+    <div class="pill n" style="left:476px;width:210px">Spotify</div>
+  </div>
+</section>
+
+<!-- 5. TUTOR IA -->
+<section id="tutor" class="clip sc" data-start="26.7" data-duration="5.3" data-track-index="4">
+  <div class="glow" style="opacity:0.8"></div>
+  <p id="tut-eb" class="eyebrow" style="top:150px;opacity:0">Tutor con IA</p>
+  <h2 id="tut-h" class="h2" style="top:208px;opacity:0">¿Dudas? Pregúntale al tutor</h2>
+  <div id="tut-card" class="card" style="left:80px;top:520px;width:920px;height:1010px;opacity:0">
+    <div style="position:absolute;left:44px;top:40px;width:72px;height:72px;border-radius:22px;background:rgba(0,102,204,0.10)"></div>
+    <p style="position:absolute;left:140px;top:40px;font-size:40px;font-weight:700">Tutor IA</p>
+    <p style="position:absolute;left:140px;top:88px;font-size:30px;color:#636366">Derivadas</p>
+    <div id="bu1" class="bub bu" style="right:44px;top:190px;width:700px">¿Por qué la derivada es la pendiente de la tangente?</div>
+    <div id="typing" class="bub bm" style="left:44px;top:520px;width:170px;height:96px;padding:0">
+      <span id="dt1" class="dot" style="left:42px"></span><span id="dt2" class="dot" style="left:74px"></span><span id="dt3" class="dot" style="left:106px"></span>
+    </div>
+    <div id="bm1" class="bub bm" style="left:44px;top:500px;width:780px">La derivada mide cuánto cambia f cuando x cambia un poco. Eso es justo la inclinación de la recta tangente.</div>
+    <div style="position:absolute;left:44px;top:880px;width:832px;height:96px;border-radius:48px;background:rgba(20,33,61,0.06);font-size:34px;color:#6E6E73;line-height:96px;padding-left:36px">Pregunta lo que sea sobre este tema…</div>
+  </div>
+</section>
+
+<!-- 6. RACHA -->
+<section id="racha" class="clip sc" data-start="31.7" data-duration="4.3" data-track-index="5">
+  <div class="glow" style="opacity:0.8"></div>
+  <p id="rac-eb" class="eyebrow" style="top:150px;opacity:0">Racha</p>
+  <h2 id="rac-h" class="h2" style="top:208px;opacity:0">Constancia que se ve</h2>
+  <div id="bigflame" class="a" style="left:410px;top:420px;width:260px;height:260px;opacity:0"><svg viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="260" height="260"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
+  <p id="num6" style="position:absolute;left:340px;top:690px;width:400px;text-align:center;font-size:200px;font-weight:700;line-height:1;letter-spacing:-6px;color:#C10A2B;opacity:0">6</p>
+  <p id="num7" style="position:absolute;left:340px;top:690px;width:400px;text-align:center;font-size:200px;font-weight:700;line-height:1;letter-spacing:-6px;color:#C10A2B;opacity:0">7</p>
+  <p id="diasr" style="position:absolute;left:240px;top:910px;width:600px;text-align:center;font-size:44px;color:#4A5568;opacity:0">días de racha</p>
+<div class="wcol" id="wc0" style="left:80px"><span class="wl">L</span><span class="wd done" id="wd0"><svg class="fl" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
+<div class="wcol" id="wc1" style="left:214px"><span class="wl">M</span><span class="wd done" id="wd1"><svg class="fl" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
+<div class="wcol" id="wc2" style="left:348px"><span class="wl">M</span><span class="wd done" id="wd2"><svg class="fl" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
+<div class="wcol" id="wc3" style="left:482px"><span class="wl">J</span><span class="wd done" id="wd3"><svg class="fl" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
+<div class="wcol" id="wc4" style="left:616px"><span class="wl">V</span><span class="wd done" id="wd4"><svg class="fl" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
+<div class="wcol" id="wc5" style="left:750px"><span class="wl">S</span><span class="wd done" id="wd5"><svg class="fl" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
+<div class="wcol" id="wc6" style="left:884px"><span class="wl">D</span><span class="wd hoy" id="wd6"></span></div>
+  <div id="flhoy" class="a" style="left:909px;top:1099px;width:60px;height:60px;opacity:0"><svg style="width:60px;height:60px" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
+  <p id="asegura" style="position:absolute;left:90px;top:1290px;width:900px;text-align:center;font-size:48px;font-weight:600;color:#047857;opacity:0">¡Racha asegurada por hoy!</p>
+</section>
+
+<!-- 7. CIERRE -->
+<section id="cierre" class="clip sc" data-start="35.7" data-duration="2.8" data-track-index="6">
+  <div class="glow" style="opacity:0.9"></div>
+  <div id="icono2" class="a" role="img" aria-label="Icono de studia+" style="background:url(assets/icono.svg) center/cover;left:440px;top:520px;width:200px;height:200px;border-radius:46px;box-shadow:0 24px 60px rgba(20,33,61,0.16);border:2px solid rgba(20,33,61,0.08);opacity:0"></div>
+  <div id="word2" class="word" style="top:760px;font-size:132px">studia<span>+</span></div>
+  <div id="btn2" class="btn" style="left:250px;top:1010px;width:580px;height:120px;line-height:120px;opacity:0">Empieza gratis</div>
+  <p id="url" style="position:absolute;left:90px;top:1190px;width:900px;text-align:center;font-size:46px;font-weight:600;color:#0066CC;opacity:0">studia-app-one.vercel.app</p>
+</section>
+
+<!-- SUBTÍTULOS (voz en off) -->
+<section id="subs" class="clip" data-start="0" data-duration="38.5" data-track-index="9" style="pointer-events:none">
+  <p id="c1" class="sub">¿Otra vez scrolleando mientras se acerca el parcial?</p>
+  <p id="c2" class="sub">Talleres, entregas, parciales… todo a la vez.</p>
+  <p id="c4" class="sub">Esto es studia+.</p>
+  <p id="c5" class="sub">Te dice qué estudiar hoy y cuánto te falta para tu parcial.</p>
+  <p id="c6" class="sub">Elige el método que más te funciona y estudia con tu música.</p>
+  <p id="c7" class="sub">¿Una duda en pleno estudio? Tu tutor con IA responde al momento.</p>
+  <p id="c8" class="sub">Y tu racha te mantiene constante.</p>
+  <p id="c9" class="sub">Empieza gratis hoy.</p>
+</section>
+
+</div>
+
+<script>
+window.__timelines = window.__timelines || {};
+const tl = gsap.timeline({ paused: true });
+const E = (sel, from, to, t) => tl.fromTo(sel, from, to, t);
+const IN = (sel, t, d = 0.6, y = 40) => tl.fromTo(sel, { opacity: 0, y: y }, { opacity: 1, y: 0, duration: d, ease: "power3.out" }, t);
+const SUB = (sel, a, b) => {
+  tl.fromTo(sel, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, a);
+  tl.to(sel, { opacity: 0, duration: 0.3, ease: "power1.in" }, b);
+};
+
+/* ---- 1. AGOBIO (0 – 11.7) ---- */
+IN("#tag", 0.1, 0.5, 20);
+// tres deslizamientos del feed
+E("#feed", { y: 0 }, { y: -560, duration: 0.9, ease: "power2.out" }, 0.3);
+E("#feed", { y: -560 }, { y: -1120, duration: 0.9, ease: "power2.out" }, 1.6);
+E("#feed", { y: -1120 }, { y: -1820, duration: 1.0, ease: "power2.out" }, 2.9);
+[0.3, 1.6, 2.9].forEach((t) => {
+  E("#touch", { opacity: 0.95, y: 0 }, { opacity: 0.95, y: -300, duration: 0.8, ease: "power2.out", immediateRender: false }, t);
+  tl.to("#touch", { opacity: 0, duration: 0.15 }, t + 0.85);
+});
+SUB("#c1", 0.3, 4.1);
+// llegan las tareas
+E("#dim", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power1.out" }, 4.2);
+for (let i = 0; i < 5; i++) {
+  const t = 4.6 + i * 0.55;
+  E("#n" + i, { opacity: 0, y: -260 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, t);
+  tl.set("#k" + i, { opacity: 1 }, t);
+  if (i > 0) tl.set("#k" + (i - 1), { opacity: 0 }, t);
+  tl.fromTo("#k" + i, { scale: 1.18 }, { scale: 1, duration: 0.3, ease: "power2.out", immediateRender: false }, t);
+}
+SUB("#c2", 4.7, 8.9);
+// la burbuja se infla
+tl.to("#notifs", { opacity: 0, duration: 0.45 }, 9.0);
+tl.to(".cnt", { opacity: 0, duration: 0.3 }, 9.0);
+tl.to("#dim", { opacity: 1, duration: 0.01 }, 9.0);
+E("#bubble", { opacity: 0, scale: 0.25 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.4)" }, 9.0);
+tl.to("#cam", { scale: 1.3, duration: 1.9, ease: "power2.inOut" }, 9.0);
+[9.8, 10.2, 10.6].forEach((t, i) => {
+  tl.to("#bubble", { scale: 1.08 + i * 0.03, duration: 0.18, ease: "sine.inOut" }, t);
+  tl.to("#bubble", { scale: 1, duration: 0.18, ease: "sine.inOut" }, t + 0.18);
+});
+[10.2, 10.35, 10.5, 10.65, 10.8].forEach((t, i) => {
+  tl.to("#phone", { x: i % 2 === 0 ? 6 : -6, duration: 0.07 }, t);
+});
+tl.to("#phone", { x: 0, duration: 0.05 }, 10.95);
+// explota
+tl.to("#bubble", { scale: 1.32, duration: 0.1, ease: "power2.out" }, 11.0);
+tl.set("#bubble", { opacity: 0 }, 11.1);
+E("#ring", { opacity: 1, scale: 0.9 }, { opacity: 0, scale: 2.6, duration: 0.65, ease: "power3.out", immediateRender: false }, 11.0);
+for (let i = 0; i < 16; i++) {
+  const el = document.getElementById("d" + i);
+  const a = parseFloat(el.dataset.ang), r = parseFloat(el.dataset.r);
+  E("#d" + i, { opacity: 1, x: 0, y: 0, scale: 1 }, { opacity: 0, x: Math.cos(a) * r, y: Math.sin(a) * r, scale: 0.25, duration: 0.75, ease: "power3.out", immediateRender: false }, 11.0);
+}
+E("#flash", { opacity: 0 }, { opacity: 1, duration: 0.28, ease: "power1.in" }, 11.05);
+
+/* ---- 2. REVELACIÓN (11.4 – 16.8) ---- */
+E("#glow1", { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power1.out" }, 11.6);
+E("#icono", { opacity: 0, y: 50, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power3.out" }, 11.9);
+IN("#word1", 12.25, 0.7, 40);
+IN("#tagline", 12.75, 0.7, 30);
+SUB("#c4", 12.3, 15.6);
+
+/* ---- 3. HOY (16.5 – 22.0) ---- */
+IN("#hoy-eb", 16.75, 0.5, 20);
+IN("#hoy-h", 16.85, 0.7, 30);
+IN("#hoy-card", 17.3, 0.7, 60);
+IN("#hoy-lab", 17.6, 0.5, 20);
+IN("#hoy-tema", 17.7, 0.6, 24);
+IN("#hoy-mat", 17.9, 0.5, 20);
+IN("#hoy-mot", 18.1, 0.5, 20);
+IN("#hoy-pl", 18.4, 0.5, 16);
+IN("#hoy-pp", 18.4, 0.5, 16);
+IN("#hoy-trk", 18.4, 0.4, 0);
+E("#hoy-fill", { width: 2 }, { width: 267, duration: 1.1, ease: "power2.out" }, 18.7);
+E("#hoy-btn", { opacity: 0, scale: 0.92, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.3)" }, 19.3);
+SUB("#c5", 16.8, 21.0);
+
+/* ---- 4. SESIÓN (21.7 – 27.0) ---- */
+IN("#ses-eb", 21.95, 0.5, 20);
+IN("#ses-h", 22.05, 0.7, 30);
+E("#ring2", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }, 22.4);
+IN("#tiempo", 22.6, 0.6, 20);
+IN("#enfo", 22.8, 0.6, 16);
+IN("#ses-card", 23.2, 0.7, 60);
+IN("#st1", 23.7, 0.5, 16);
+IN("#st2", 24.1, 0.5, 16);
+IN("#st3", 24.5, 0.5, 16);
+E("#pill-s", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 25.3);
+tl.to("#pill-n2", { opacity: 0, duration: 0.4 }, 25.3);
+SUB("#c6", 21.9, 26.4);
+
+/* ---- 5. TUTOR (26.7 – 32.0) ---- */
+IN("#tut-eb", 26.95, 0.5, 20);
+IN("#tut-h", 27.05, 0.7, 30);
+IN("#tut-card", 27.35, 0.7, 60);
+IN("#bu1", 28.0, 0.6, 30);
+E("#typing", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 28.9);
+["#dt1", "#dt2", "#dt3"].forEach((s, i) => {
+  for (let k = 0; k < 2; k++) {
+    const t = 29.1 + i * 0.12 + k * 0.5;
+    tl.to(s, { y: -10, duration: 0.18, ease: "sine.out" }, t);
+    tl.to(s, { y: 0, duration: 0.18, ease: "sine.in" }, t + 0.18);
+  }
+});
+tl.set("#typing", { opacity: 0 }, 30.15);
+IN("#bm1", 30.2, 0.6, 24);
+SUB("#c7", 27.1, 31.3);
+
+/* ---- 6. RACHA (31.7 – 36.0) ---- */
+IN("#rac-eb", 31.95, 0.5, 20);
+IN("#rac-h", 32.05, 0.7, 30);
+E("#bigflame", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.4)" }, 32.3);
+tl.set("#num6", { opacity: 1 }, 32.5);
+IN("#diasr", 32.6, 0.5, 16);
+for (let i = 0; i < 7; i++) IN("#wc" + i, 32.7 + i * 0.08, 0.4, 20);
+// llega el día 7
+tl.set("#num6", { opacity: 0 }, 33.7);
+E("#num7", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, 33.7);
+tl.fromTo("#bigflame", { scale: 1.14 }, { scale: 1, duration: 0.5, ease: "power2.out", immediateRender: false }, 33.7);
+E("#flhoy", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, 33.8);
+IN("#asegura", 34.2, 0.5, 16);
+SUB("#c8", 32.0, 35.3);
+
+/* ---- 7. CIERRE (35.7 – 38.5) ---- */
+E("#icono2", { opacity: 0, y: 30, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power3.out" }, 35.95);
+IN("#word2", 36.15, 0.6, 30);
+E("#btn2", { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, 36.55);
+IN("#url", 36.9, 0.5, 14);
+SUB("#c9", 35.85, 38.4);
+
+window.__timelines["main"] = tl;
+tl.seek(0);
+</script>
+</body>
 </html>
