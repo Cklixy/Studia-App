@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es" data-resolution="portrait"><head><meta charset="UTF-8"/><meta name="viewport" content="width=1080, height=1920"/>
+<script src="vendor/gsap.min.js"></script><script src="vendor/three.min.js"></script>
+<style>
+@font-face { font-family: "Geist"; src: url("assets/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; }
+* { margin: 0; padding: 0; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #111; }
+canvas#gl { position: absolute; left: 0; top: 0; }
+.clip { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+.fontwarm { position: absolute; left: -9999px; top: 0; font-family: Geist; }
+</style></head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="18" data-width="1080" data-height="1920">
+  <p class="fontwarm"><span style="font-weight:500">a</span><span style="font-weight:600">a</span><span style="font-weight:650">a</span><span style="font-weight:700">a</span></p>
+  <section id="s" class="clip" data-start="0" data-duration="18" data-track-index="0"><canvas id="gl" width="1080" height="1920"></canvas></section>
+</div>
+<script src="lib/units.js"></script><script src="lib/phone.js"></script><script src="lib/hand.js"></script>
+<script src="lib/grips.js"></script><script src="lib/grips.data.js"></script><script src="lib/screen.js"></script><script src="lib/cameras.js"></script><script src="lib/scene.js"></script>
+<script>
+window.__timelines = window.__timelines || {};
+if (THREE.ColorManagement) THREE.ColorManagement.legacyMode = false;
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("gl"), antialias: true, preserveDrawingBuffer: true });
+renderer.setSize(1080, 1920, false); renderer.setPixelRatio(1); renderer.outputEncoding = THREE.sRGBEncoding; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.85;
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+const c2d = document.createElement("canvas"); c2d.width = Cine.SCREEN_PX.w; c2d.height = Cine.SCREEN_PX.h;
+const W = Cine.createScene(THREE, renderer, c2d);
+window.__cine = W;
+window.__shoot = (t, o) => { W.setState(t); if (o) { W.cam.position.set(...o.pos); W.cam.up.set(0,1,0); W.cam.lookAt(...o.tgt); W.cam.fov = Cine.focalToFov(o.f || 50); W.cam.updateProjectionMatrix(); } renderer.render(W.scene, W.cam); };
+const S = { _t: 0 };
+Object.defineProperty(S, "t", { get() { return this._t; }, set(v) { this._t = v; W.setState(v); renderer.render(W.scene, W.cam); } });
+const tl = gsap.timeline({ paused: true });
+tl.fromTo(S, { t: 0 }, { t: 18, duration: 18, ease: "none" }, 0);
+window.__timelines["main"] = tl; tl.seek(0);
+</script></body></html>

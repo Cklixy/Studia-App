@@ -1,0 +1,13 @@
+{
+  "name": "cine-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.8.157 preview",
+    "check": "npx --yes hyperframes@0.8.157 check",
+    "test": "node tests/check.mjs",
+    "solve": "node tests/solve_grips.mjs",
+    "render": "npx --yes hyperframes@0.8.157 render"
+  },
+  "devDependencies": { "three": "0.149.0" }
+}
