@@ -6,6 +6,11 @@
     "dev": "npx --yes hyperframes@0.8.157 preview",
     "check": "npx --yes hyperframes@0.8.157 check",
     "render": "npx --yes hyperframes@0.8.157 render",
-    "publish": "npx --yes hyperframes@0.8.157 publish"
+    "publish": "npx --yes hyperframes@0.8.157 publish",
+    "test": "node tests/check.mjs",
+    "solve:sheet": "node tests/solve_sheet.mjs"
+  },
+  "devDependencies": {
+    "three": "0.149.0"
   }
 }
