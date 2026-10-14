@@ -1,0 +1,12 @@
+<!doctype html><html><head><meta charset="utf-8"><script src="vendor/three.min.js"></script><style>html,body{margin:0;background:#000}@font-face{font-family:Geist;src:url(assets/fonts/Geist-Variable.woff2) format("woff2");font-weight:100 900}.fw{position:absolute;left:-999px;font-family:Geist}</style></head><body>
+<p class="fw"><b>a</b><i>a</i></p>
+<img id="ui-habitos" src="assets/ui/habitos.png" style="display:none"><img id="ui-parahoy" src="assets/ui/parahoy.png" style="display:none"><img id="ui-ruta" src="assets/ui/ruta.png" style="display:none"><img id="ui-metodo" src="assets/ui/metodo.png" style="display:none"><img id="ui-tutor" src="assets/ui/tutor.png" style="display:none"><img id="ui-enfoque" src="assets/ui/enfoque.png" style="display:none"><img id="ui-notas" src="assets/ui/notas.png" style="display:none">
+<img id="ui-logo" src="assets/icono.svg" style="display:none">
+<canvas id="gl" width="1080" height="1920"></canvas>
+<script src="lib/units.js"></script><script src="lib/phone.js"></script><script src="lib/hand.js"></script><script src="lib/grips.js"></script><script src="lib/grips.data.js"></script><script src="lib/grips.sheet.js"></script><script src="lib/grips.pencil.js"></script><script src="lib/screen.js"></script><script src="lib/cameras.js"></script><script src="lib/post.js"></script><script src="lib/actor.js"></script><script src="lib/world.js"></script><script src="lib/screens.js"></script><script src="lib/holo.js"></script><script src="lib/story.js"></script><script src="lib/acts.js"></script><script src="lib/acts2.js"></script>
+<script>
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("gl"), antialias: false, preserveDrawingBuffer: true });
+renderer.setSize(1080, 1920, false); renderer.setPixelRatio(1); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; if (THREE.ColorManagement) THREE.ColorManagement.legacyMode = false;
+const S = Cine.buildStory(THREE, renderer);
+window.__t = (o) => { const t = o.t; const act = Cine.actAt(t); Cine.ACT_FN[act.id](S, t); if (o.shot) Object.assign(S.shot, o.shot); S.render(t); };
+</script></body></html>

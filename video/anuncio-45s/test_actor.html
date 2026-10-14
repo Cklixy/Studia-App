@@ -1,0 +1,15 @@
+<!doctype html><html><head><meta charset="utf-8"><script src="vendor/three.min.js"></script><style>html,body{margin:0;background:#000}</style></head><body>
+<canvas id="gl" width="1080" height="1920"></canvas>
+<script src="lib/units.js"></script><script src="lib/phone.js"></script><script src="lib/hand.js"></script><script src="lib/grips.js"></script><script src="lib/grips.data.js"></script><script src="lib/grips.sheet.js"></script><script src="lib/cameras.js"></script><script src="lib/post.js"></script><script src="lib/actor.js"></script><script src="lib/world.js"></script>
+<script>
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("gl"), antialias: false, preserveDrawingBuffer: true });
+renderer.setSize(1080, 1920, false); renderer.setPixelRatio(1); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; if (THREE.ColorManagement) THREE.ColorManagement.legacyMode = false;
+const Wd = Cine.buildWorld(THREE, renderer); const post = Cine.createPost(THREE, renderer, 1080, 1920);
+const st = Cine.buildActor(THREE, { cloth: 0x4f46e5, clothDark: 0x3f39b8, hoodie: true, hair: 0x4a3426, hairBack: true, pants: 0x2a3042 }); Wd.home.add(st.root);
+const cam = new THREE.PerspectiveCamera(40, 1080 / 1920, 0.5, 900);
+const FACES = { neutral: {}, joy: { smile: 1, open: 0.6, browLift: 0.5, eyeOpen: 1 }, frustrated: { smile: -0.6, frown: 1, angry: 0.5, browAngle: 0.0, eyeOpen: 0.75, wave: 0 }, worried: { smile: -0.3, browAngle: 0.35, browLift: 0.3, wave: 1 } };
+window.__t = (o) => { Wd.setMood({ hemi: 0.5, key: 1.5, fill: 0.5, rim: 0.8, lamp: 0.0 });
+  st.setPose(Object.assign({ pos: [0, -28, 58], yaw: Math.PI, t: 1.0, lean: -0.05, expr: FACES[o.face || "neutral"], lookAt: [0, 20, -60],
+    wristR: { pos: [-18, 2, 30], fingers: [0, 0, -1], palm: [0, 1, 0], pose: Cine.HAND_POSES.relaxed }, wristL: { pos: [18, 2, 30], fingers: [0, 0, -1], palm: [0, 1, 0], pose: Cine.HAND_POSES.relaxed } }, o.pose || {}));
+  cam.position.set(...o.cam); cam.lookAt(...o.tgt); cam.fov = Cine.focalToFov(o.f || 50); cam.updateProjectionMatrix(); post.render(Wd.scene, cam, { focus: o.focus || 100, fstop: o.fstop || 4, focal: o.f || 50, dofScale: o.dof == null ? 0.35 : o.dof }); };
+</script></body></html>

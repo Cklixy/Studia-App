@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es" data-resolution="portrait">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=1080, height=1920" />
+<script src="vendor/gsap.min.js"></script><script src="vendor/three.min.js"></script>
+<style>
+@font-face { font-family: "Geist"; src: url("assets/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0d1220; font-family: "Geist", ui-sans-serif, system-ui, sans-serif; }
+.clip { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: hidden; }
+canvas#gl { position: absolute; left: 0; top: 0; }
+.fontwarm { position: absolute; left: -9999px; font-family: Geist; }
+/* zona segura: texto entre y=1090 y y=1400 y con 90 px de margen lateral (derecha 150 px) */
+.cap { position: absolute; left: 90px; width: 840px; top: 1130px; text-align: center; opacity: 0; }
+.cap span { display: inline-block; font-size: 66px; font-weight: 700; line-height: 1.12; letter-spacing: -1px; color: #FFFFFF; background: rgba(13,18,32,0.78); padding: 22px 40px; border-radius: 44px; }
+.cap span b { color: #7FD0FF; font-weight: 800; }
+.cap.big span { font-size: 96px; padding: 28px 54px; border-radius: 56px; }
+.cap.small span { font-size: 54px; font-weight: 600; }
+.cap.cta span { background: #0066CC; font-size: 78px; padding: 30px 70px; box-shadow: 0 24px 60px rgba(0,102,204,0.45); }
+.disc { position: absolute; left: 90px; width: 840px; top: 1470px; text-align: center; font-size: 30px; font-weight: 500; color: rgba(20,33,61,0.7); opacity: 0; }
+</style></head>
+<body>
+<div id="root" data-composition-id="actD" data-start="0" data-duration="9" data-width="1080" data-height="1920" data-fps="30">
+  <p class="fontwarm"><span style="font-weight:500">a</span><span style="font-weight:600">a</span><span style="font-weight:700">a</span><span style="font-weight:800">a</span></p>
+  <img id="ui-habitos" src="assets/ui/habitos.png" style="display:none"><img id="ui-parahoy" src="assets/ui/parahoy.png" style="display:none"><img id="ui-ruta" src="assets/ui/ruta.png" style="display:none"><img id="ui-metodo" src="assets/ui/metodo.png" style="display:none"><img id="ui-tutor" src="assets/ui/tutor.png" style="display:none"><img id="ui-enfoque" src="assets/ui/enfoque.png" style="display:none"><img id="ui-notas" src="assets/ui/notas.png" style="display:none"><img id="ui-logo" src="assets/icono.svg" style="display:none">
+  <section id="gl3d" class="clip" data-start="0" data-duration="9" data-track-index="0"><canvas id="gl" width="1080" height="1920"></canvas></section>
+  <section id="caps" class="clip" data-start="0" data-duration="9" data-track-index="5" style="pointer-events:none">
+    <div id="cap0" class="cap big"><span>Entenderlo.</span></div>
+    <div id="cap1" class="cap big"><span>Practicarlo.</span></div>
+    <div id="cap2" class="cap big"><span>Recordarlo.</span></div>
+    
+  </section>
+</div>
+<script src="lib/units.js"></script><script src="lib/phone.js"></script><script src="lib/hand.js"></script><script src="lib/grips.js"></script><script src="lib/grips.data.js"></script><script src="lib/grips.sheet.js"></script><script src="lib/grips.pencil.js"></script><script src="lib/screen.js"></script><script src="lib/cameras.js"></script><script src="lib/post.js"></script><script src="lib/actor.js"></script><script src="lib/world.js"></script><script src="lib/screens.js"></script><script src="lib/holo.js"></script><script src="lib/story.js"></script><script src="lib/acts.js"></script><script src="lib/acts2.js"></script>
+<script>
+window.__timelines = window.__timelines || {};
+if (THREE.ColorManagement) THREE.ColorManagement.legacyMode = false;
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("gl"), antialias: false, preserveDrawingBuffer: true });
+renderer.setSize(1080, 1920, false); renderer.setPixelRatio(1); renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+const Story = Cine.buildStory(THREE, renderer); window.__story = Story;
+const T0 = 14.0000, DUR = 9;
+const S = { _t: 0 };
+Object.defineProperty(S, "t", { get() { return this._t; }, set(v) { this._t = v; const tg = T0 + Math.min(v, DUR - 1e-4); Cine.ACT_FN["D"](Story, tg); Story.render(tg); } });
+const tl = gsap.timeline({ paused: true });
+tl.fromTo(S, { t: 0 }, { t: DUR, duration: DUR, ease: "none" }, 0);
+const cap = (sel, a, b) => { tl.fromTo(sel, { opacity: 0, y: 26, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.32, ease: "power3.out" }, a); tl.to(sel, { opacity: 0, y: -10, duration: 0.26, ease: "power1.in" }, b - 0.26); };
+cap("#cap0", 0.350, 3.100);
+cap("#cap1", 3.750, 6.400);
+cap("#cap2", 6.950, 9.000);
+
+window.__timelines["actD"] = tl; tl.seek(0);
+</script>
+</body></html>

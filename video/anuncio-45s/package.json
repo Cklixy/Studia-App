@@ -1,0 +1,12 @@
+{
+  "name": "anuncio-60s",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.8.157 preview",
+    "test": "node tests/check.mjs",
+    "render:scene": "node tools/render-scenes.mjs",
+    "assemble": "node tools/assemble.mjs"
+  },
+  "devDependencies": { "three": "0.149.0" }
+}
