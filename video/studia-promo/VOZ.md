@@ -1,4 +1,4 @@
-# Voz en off · studia+ (video vertical, 38,5 s)
+# Voz en off · studia+ (video vertical, 43 s)
 
 ## Cómo debe sonar
 - Voz de **mujer**, en español neutro, estilo Apple: íntima, cálida, **muy cerca del micrófono** (se escucha el aire y la respiración suave, sin gritar).
@@ -17,21 +17,22 @@
 | 21,9 | 26,4 | Elige el método que más te funciona y estudia con tu música. |
 | 27,1 | 31,3 | ¿Una duda en pleno estudio? Tu tutor con IA responde al momento. |
 | 32,0 | 35,3 | Y tu racha te mantiene constante. |
-| 35,85 | 38,4 | Empieza gratis hoy. |
+| 36,4 | 39,6 | Y el resultado se nota. |
+| 40,7 | 42,9 | Empieza gratis hoy. |
 
 Los subtítulos del video ya coinciden con estos tiempos. Si tu voz dura más o menos, ajusta los tiempos en `index.html` (clip `subs`).
 
 ## Cómo conseguir la voz
 1. **Generarla con IA** (ElevenLabs, etc.): elige una voz femenina en español, estabilidad media-alta, y pega cada línea por separado para controlar las pausas.
 2. **Grabarla tú o una amiga**: celular a unos 10 cm de la boca, cuarto con ropa o cobijas (sin eco), una toma por línea.
-3. Exporta una sola pista `voz.mp3` de 38,5 s con las líneas en los tiempos de la tabla (silencio entre ellas).
+3. Exporta una sola pista `voz.mp3` de 43 s con las líneas en los tiempos de la tabla (silencio entre ellas).
 
 ## Cómo ponerla en el video
 1. Guarda el archivo como `assets/voz.mp3`.
 2. En `index.html`, dentro del contenedor raíz, agrega:
 
 ```html
-<audio id="voz" src="assets/voz.mp3" data-start="0" data-duration="38.5" data-track-index="1" data-volume="1"></audio>
+<audio id="voz" src="assets/voz.mp3" data-start="0" data-duration="43" data-track-index="1" data-volume="1"></audio>
 ```
 
 3. `npm run check` y luego `npm run render`.

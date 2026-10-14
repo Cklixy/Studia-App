@@ -17,6 +17,16 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F4F6F
 .card { position: absolute; background: rgba(255,255,255,0.88); border: 2px solid rgba(20,33,61,0.07); border-radius: 56px; box-shadow: 0 30px 90px rgba(20,33,61,0.10); }
 .sub { position: absolute; left: 90px; width: 900px; top: 1640px; text-align: center; font-size: 50px; font-weight: 600; line-height: 1.2; letter-spacing: -0.5px; color: #14213D; opacity: 0; }
 
+
+.ph { left: 190px; top: 190px; width: 700px; height: 1380px; background: #1B2030; border-radius: 112px; box-shadow: 0 50px 120px rgba(27,32,48,0.35); }
+.scr { position: absolute; left: 16px; top: 16px; width: 668px; height: 1348px; border-radius: 98px; background: #F1F3F8; overflow: hidden; }
+.nch { position: absolute; left: 239px; top: 20px; width: 190px; height: 52px; border-radius: 30px; background: #1B2030; z-index: 5; }
+.hrs { position: absolute; left: 58px; top: 30px; font-size: 32px; font-weight: 650; color: #14213D; z-index: 5; }
+.ph2 { left: 330px; top: 920px; width: 420px; height: 640px; background: #1B2030; border-radius: 56px; box-shadow: 0 30px 70px rgba(27,32,48,0.35); }
+.scr2 { position: absolute; left: 14px; top: 14px; width: 392px; height: 612px; border-radius: 44px; background: #F1F3F8; overflow: hidden; }
+.sc2 { background: linear-gradient(180deg, #E6EAF2 0%, #D3D9E5 100%); }
+.sub { background: rgba(244,246,251,0.92); border-radius: 44px; padding: 20px 0; }
+
 /* escena agobio */
 #agobio { background: linear-gradient(180deg, #E6EAF2 0%, #D3D9E5 100%); }
 #tag { left: 90px; top: 92px; width: 900px; text-align: center; }
@@ -92,7 +102,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F4F6F
 </style>
 </head>
 <body>
-<div id="root" data-composition-id="main" data-start="0" data-duration="38.5" data-width="1080" data-height="1920">
+<div id="root" data-composition-id="main" data-start="0" data-duration="43.0" data-width="1080" data-height="1920">
 
 <!-- 1. EL AGOBIO: scroll, tareas y burbuja -->
 <section id="agobio" class="clip" data-start="0" data-duration="11.7" data-track-index="0">
@@ -220,88 +230,197 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F4F6F
   <div id="tagline" class="a">Tu copiloto para estudiar con dirección.</div>
 </section>
 
-<!-- 3. QUÉ ESTUDIAR HOY -->
-<section id="hoy" class="clip sc" data-start="16.5" data-duration="5.5" data-track-index="2">
-  <div class="glow" style="opacity:0.8"></div>
-  <p id="hoy-eb" class="eyebrow" style="top:150px;opacity:0">Hoy</p>
-  <h2 id="hoy-h" class="h2" style="top:208px;opacity:0">Te dice qué estudiar hoy</h2>
-  <div id="hoy-card" class="card" style="left:80px;top:520px;width:920px;height:1010px;opacity:0">
-    <p id="hoy-lab" class="lab" style="left:56px;top:56px;opacity:0">Para hoy</p>
-    <p id="hoy-tema" class="tema" style="left:56px;top:118px;width:808px;opacity:0">Derivadas e interpretación geométrica</p>
-    <p id="hoy-mat" class="mat" style="left:56px;top:392px;opacity:0">Cálculo diferencial</p>
-    <p id="hoy-mot" class="mot" style="left:56px;top:476px;width:808px;opacity:0">Faltan 5 días para tu parcial</p>
-    <p id="hoy-pl" style="position:absolute;left:56px;top:580px;font-size:36px;color:#636366;opacity:0">4 de 12 temas para el parcial</p>
-    <p id="hoy-pp" style="position:absolute;left:664px;top:580px;width:200px;text-align:right;font-size:36px;font-weight:600;color:#14213D;opacity:0">33 %</p>
-    <div id="hoy-trk" class="trk" style="left:56px;top:650px;width:808px;opacity:0"></div>
-    <div id="hoy-fill" class="fill" style="left:56px;top:650px;width:2px"></div>
-    <div id="hoy-btn" class="btn" style="left:56px;top:770px;width:808px;height:150px;line-height:150px;opacity:0">Estudiar ahora</div>
-  </div>
+<section id="hoy" class="clip sc2" data-start="16.5" data-duration="5.5" data-track-index="2">
+<div id="oh" class="a" style="left:0;top:0;width:1080px;height:1920px">
+<svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<ellipse cx="540" cy="2040" rx="800" ry="380" fill="#8E9BB8"/>
+<ellipse cx="540" cy="1990" rx="340" ry="330" fill="#7C89A8"/>
+</svg>
+<div id="ohc" class="a" style="left:0;top:0;width:1080px;height:1920px;transform-origin:540px 900px">
+<div class="a ph"><div class="scr"><div class="nch"></div><div class="hrs">7:30</div>
+
+<div id="hy-card" class="a" style="left:28px;top:170px;width:612px;height:740px;background:#fff;border-radius:44px;box-shadow:0 20px 60px rgba(20,33,61,0.10);opacity:0">
+<p id="hy-lab" class="a" style="left:40px;top:38px;font-size:28px;font-weight:700;letter-spacing:3px;color:#0066CC;opacity:0">PARA HOY</p>
+<p id="hy-tema" class="a" style="left:40px;top:86px;width:532px;font-size:54px;font-weight:700;line-height:1.08;letter-spacing:-1px;color:#14213D;opacity:0">Derivadas e interpretación geométrica</p>
+<p id="hy-mat" class="a" style="left:40px;top:300px;font-size:34px;color:#636366;opacity:0">Cálculo diferencial</p>
+<p id="hy-mot" class="a" style="left:40px;top:356px;width:532px;font-size:38px;font-weight:500;color:#14213D;opacity:0">Faltan 5 días para tu parcial</p>
+<p id="hy-pl" class="a" style="left:40px;top:450px;font-size:28px;color:#636366;opacity:0">4 de 12 temas</p>
+<p id="hy-pp" class="a" style="left:372px;top:450px;width:200px;text-align:right;font-size:28px;font-weight:600;color:#14213D;opacity:0">33 %</p>
+<div class="trk" style="left:40px;top:500px;width:532px"></div><div id="hy-fill" class="fill" style="left:40px;top:500px;width:2px"></div>
+<div id="hy-btn" class="btn" style="left:40px;top:590px;width:532px;height:110px;line-height:110px;font-size:40px;opacity:0">Estudiar ahora</div>
+<div id="hy-rip" class="a" style="left:266px;top:600px;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,0.55);opacity:0"></div>
+</div>
+<div class="a" style="left:28px;top:960px;width:612px;height:200px;background:#fff;border-radius:44px;opacity:0.7"><div class="fb1" style="left:36px;top:40px"></div><div class="fb2" style="left:36px;top:76px"></div><div class="fl1" style="left:36px;top:120px;width:360px"></div></div>
+
+</div></div>
+<svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<g id="handLoh"><path d="M10,1930 L90,1660 C95,1630 270,1640 275,1680 L260,1930Z" fill="#7C89A8"/>
+<line x1="184" y1="1690" x2="198" y2="1400" stroke="#F1CDB5" stroke-width="108" stroke-linecap="round"/>
+<line x1="160" y1="1660" x2="170" y2="1470" stroke="#E2B79C" stroke-width="22" stroke-linecap="round" opacity="0.7"/><line x1="228" y1="1430" x2="310" y2="1300" stroke="#F1CDB5" stroke-width="62" stroke-linecap="round"/>
+<circle cx="310" cy="1300" r="22" fill="#F8DECB"/></g>
+<g id="handRoh"><path d="M1070,1930 L990,1660 C985,1630 810,1640 805,1680 L820,1930Z" fill="#7C89A8"/>
+<line x1="896" y1="1690" x2="882" y2="1400" stroke="#F1CDB5" stroke-width="108" stroke-linecap="round"/>
+<line x1="920" y1="1660" x2="910" y2="1470" stroke="#E2B79C" stroke-width="22" stroke-linecap="round" opacity="0.7"/></g>
+<g id="thumboh"><line x1="852" y1="1430" x2="770" y2="1300" stroke="#F1CDB5" stroke-width="62" stroke-linecap="round"/>
+<circle cx="770" cy="1300" r="22" fill="#F8DECB"/></g>
+</svg>
+</div>
+<svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<ellipse cx="294" cy="1850" rx="36" ry="56" fill="#E2B79C"/>
+<ellipse cx="786" cy="1850" rx="36" ry="56" fill="#E2B79C"/>
+<ellipse cx="540" cy="1940" rx="256" ry="300" fill="#4A3A2E"/>
+<ellipse cx="540" cy="1780" rx="150" ry="70" fill="#6A5442" opacity="0.55"/>
+</svg>
+</div>
 </section>
 
-<!-- 4. SESIÓN Y MÉTODO -->
-<section id="sesion" class="clip sc" data-start="21.7" data-duration="5.3" data-track-index="3">
-  <div class="glow" style="opacity:0.8"></div>
-  <p id="ses-eb" class="eyebrow" style="top:150px;opacity:0">Método</p>
-  <h2 id="ses-h" class="h2" style="top:208px;opacity:0">Un método para cada situación</h2>
-  <svg id="ring2" class="a" viewBox="0 0 520 520" width="520" height="520" aria-label="Temporizador de la sesión">
-    <circle cx="260" cy="260" r="220" fill="none" stroke="rgba(20,33,61,0.08)" stroke-width="28"/>
-    <circle cx="260" cy="260" r="220" fill="none" stroke="#0066CC" stroke-width="28" stroke-linecap="round" stroke-dasharray="1382" stroke-dashoffset="520" transform="rotate(-90 260 260)"/>
-  </svg>
-  <p id="tiempo" class="a">18:42</p>
-  <p id="enfo" class="a">Enfocado</p>
-  <div id="ses-card" class="card" style="left:80px;top:980px;width:920px;height:620px;opacity:0">
-    <p class="lab" style="left:56px;top:44px;color:#4F46E5;font-size:32px">Método sugerido por IA</p>
-    <p style="position:absolute;left:56px;top:92px;width:808px;font-size:54px;font-weight:700;line-height:1.1;letter-spacing:-1px">Active Recall + Práctica Espaciada</p>
-    <p id="st1" class="step" style="top:236px">1. Examen de prueba sin apuntes</p>
-    <p id="st2" class="step" style="top:300px">2. Detecta tus lagunas</p>
-    <p id="st3" class="step" style="top:364px">3. Repasa y vuelve a evaluarte</p>
-    <div class="pill n" style="left:56px;width:190px">Lluvia</div>
-    <div class="pill n" id="pill-n2" style="left:266px;width:190px">Lo-fi</div>
-    <div class="pill s" id="pill-s" style="left:266px;width:190px">Lo-fi</div>
-    <div class="pill n" style="left:476px;width:210px">Spotify</div>
-  </div>
+<section id="sesion" class="clip sc2" data-start="21.7" data-duration="5.3" data-track-index="3">
+<div id="ds" class="a" style="left:0;top:0;width:1080px;height:1920px">
+<svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920"><ellipse cx="170" cy="1010" rx="150" ry="150" fill="#FFE6A8" opacity="0.30"/><path d="M90,1930 C90,1240 330,1040 540,1040 C750,1040 990,1240 990,1930Z" fill="#8E9BB8"/>
+<path d="M430,1040 C470,1130 610,1130 650,1040 L650,980 L430,980Z" fill="#7C89A8"/>
+<rect x="478" y="880" width="124" height="170" rx="40" fill="#E2B79C"/>
+<g id="hdds"><ellipse cx="386" cy="745" rx="24" ry="40" fill="#E2B79C"/><ellipse cx="694" cy="745" rx="24" ry="40" fill="#E2B79C"/>
+<ellipse cx="540" cy="730" rx="152" ry="178" fill="#F1CDB5"/>
+<path d="M388,700 C376,520 480,466 560,466 C690,466 708,560 692,700 C676,632 640,592 540,586 C440,592 406,632 388,700Z" fill="#4A3A2E"/>
+<g id="fads"><circle cx="490" cy="750" r="23" fill="#fff"/><circle cx="590" cy="750" r="23" fill="#fff"/>
+<circle cx="492" cy="756" r="9" fill="#22222B"/><circle cx="588" cy="756" r="9" fill="#22222B"/>
+<path d="M448,700 L522,692" stroke="#4A3A2E" stroke-width="11" stroke-linecap="round"/><path d="M632,700 L558,692" stroke="#4A3A2E" stroke-width="11" stroke-linecap="round"/>
+<path d="M506,834 Q540,856 574,834" fill="none" stroke="#9B5B52" stroke-width="9" stroke-linecap="round"/></g><path d="M392,700 C392,500 688,500 688,700" fill="none" stroke="#1B2030" stroke-width="16" stroke-linecap="round"/>
+<rect x="360" y="704" width="44" height="96" rx="20" fill="#1B2030"/><rect x="676" y="704" width="44" height="96" rx="20" fill="#1B2030"/></g>
+<rect x="0" y="1260" width="1080" height="660" fill="#D7BF9F"/><rect x="0" y="1260" width="1080" height="22" fill="#C2A582"/>
+</svg>
+<svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<rect x="96" y="1180" width="150" height="26" rx="13" fill="#4A5568"/><rect x="164" y="980" width="14" height="210" fill="#4A5568"/><path d="M110,1000 L240,1000 L290,1060 L80,1060Z" fill="#F2B63C" transform="translate(0,-20)"/>
+<rect x="60" y="1400" width="230" height="170" rx="14" fill="#fff" stroke="#C9D1E0" stroke-width="4"/><line x1="90" y1="1440" x2="260" y2="1440" stroke="#D3D9E5" stroke-width="6"/><line x1="90" y1="1474" x2="230" y2="1474" stroke="#D3D9E5" stroke-width="6"/><line x1="90" y1="1508" x2="250" y2="1508" stroke="#D3D9E5" stroke-width="6"/>
+<rect x="800" y="1400" width="86" height="100" rx="14" fill="#E8EEF9" stroke="#C9D1E0" stroke-width="4"/>
+<g id="nts" transform="translate(386,700)"><g id="nt1" opacity="0"><g transform="translate(0,0)"><ellipse cx="0" cy="0" rx="17" ry="12" transform="rotate(-20)" fill="#4F46E5"/><rect x="11" y="-50" width="6" height="50" fill="#4F46E5"/></g></g><g id="nt2" opacity="0"><g transform="translate(0,0)"><ellipse cx="0" cy="0" rx="17" ry="12" transform="rotate(-20)" fill="#4F46E5"/><rect x="11" y="-50" width="6" height="50" fill="#4F46E5"/></g></g></g><g id="nts2" transform="translate(694,700)"><g id="nt3" opacity="0"><g transform="translate(0,0)"><ellipse cx="0" cy="0" rx="17" ry="12" transform="rotate(-20)" fill="#4F46E5"/><rect x="11" y="-50" width="6" height="50" fill="#4F46E5"/></g></g><g id="nt4" opacity="0"><g transform="translate(0,0)"><ellipse cx="0" cy="0" rx="17" ry="12" transform="rotate(-20)" fill="#4F46E5"/><rect x="11" y="-50" width="6" height="50" fill="#4F46E5"/></g></g></g>
+</svg><div class="a" style="left:300px;top:1540px;width:480px;height:40px;border-radius:50%;background:rgba(20,33,61,0.16);filter:blur(10px)"></div>
+<div class="a ph2"><div class="scr2">
+<p class="a" style="left:0;top:26px;width:392px;text-align:center;font-size:24px;font-weight:700;color:#636366">Sesión de enfoque</p>
+<svg class="a" style="left:86px;top:62px" width="220" height="220" viewBox="0 0 220 220"><circle cx="110" cy="110" r="88" fill="none" stroke="rgba(20,33,61,0.08)" stroke-width="20"/><circle id="ses-arc" cx="110" cy="110" r="88" fill="none" stroke="#0066CC" stroke-width="20" stroke-linecap="round" stroke-dasharray="553" stroke-dashoffset="500" transform="rotate(-90 110 110)"/></svg>
+<p id="ses-t1" class="a" style="left:0;top:132px;width:392px;text-align:center;font-size:54px;font-weight:700;letter-spacing:-2px;font-variant-numeric:tabular-nums">18:42</p>
+<p id="ses-t2" class="a" style="left:0;top:132px;width:392px;text-align:center;font-size:54px;font-weight:700;letter-spacing:-2px;font-variant-numeric:tabular-nums;opacity:0">18:38</p>
+<p class="a" style="left:0;top:196px;width:392px;text-align:center;font-size:22px;font-weight:600;color:#636366">Enfocado</p>
+<div id="ses-card" class="a" style="left:16px;top:304px;width:360px;height:292px;background:#fff;border-radius:30px;box-shadow:0 14px 40px rgba(20,33,61,0.10);opacity:0">
+<p class="a" style="left:22px;top:18px;font-size:20px;font-weight:700;color:#4F46E5">MÉTODO SUGERIDO POR IA</p>
+<p class="a" style="left:22px;top:50px;width:316px;font-size:30px;font-weight:700;line-height:1.1;letter-spacing:-0.5px">Active Recall + Práctica Espaciada</p>
+<div class="a" style="left:22px;top:196px;width:100px;height:54px;border-radius:27px;background:rgba(20,33,61,0.06);font-size:22px;font-weight:600;text-align:center;line-height:54px;color:#4A5568">Lluvia</div>
+<div id="ses-pn" class="a" style="left:132px;top:196px;width:100px;height:54px;border-radius:27px;background:rgba(20,33,61,0.06);font-size:22px;font-weight:600;text-align:center;line-height:54px;color:#4A5568">Lo-fi</div>
+<div id="ses-ps" class="a" style="left:132px;top:196px;width:100px;height:54px;border-radius:27px;background:#0066CC;font-size:22px;font-weight:600;text-align:center;line-height:54px;color:#fff;opacity:0">Lo-fi</div>
+<div class="a" style="left:242px;top:196px;width:100px;height:54px;border-radius:27px;background:rgba(20,33,61,0.06);font-size:22px;font-weight:600;text-align:center;line-height:54px;color:#4A5568">Spotify</div>
+</div>
+</div></div>
+</div>
 </section>
 
-<!-- 5. TUTOR IA -->
-<section id="tutor" class="clip sc" data-start="26.7" data-duration="5.3" data-track-index="4">
-  <div class="glow" style="opacity:0.8"></div>
-  <p id="tut-eb" class="eyebrow" style="top:150px;opacity:0">Tutor con IA</p>
-  <h2 id="tut-h" class="h2" style="top:208px;opacity:0">¿Dudas? Pregúntale al tutor</h2>
-  <div id="tut-card" class="card" style="left:80px;top:520px;width:920px;height:1010px;opacity:0">
-    <div style="position:absolute;left:44px;top:40px;width:72px;height:72px;border-radius:22px;background:rgba(0,102,204,0.10)"></div>
-    <p style="position:absolute;left:140px;top:40px;font-size:40px;font-weight:700">Tutor IA</p>
-    <p style="position:absolute;left:140px;top:88px;font-size:30px;color:#636366">Derivadas</p>
-    <div id="bu1" class="bub bu" style="right:44px;top:190px;width:700px">¿Por qué la derivada es la pendiente de la tangente?</div>
-    <div id="typing" class="bub bm" style="left:44px;top:520px;width:170px;height:96px;padding:0">
-      <span id="dt1" class="dot" style="left:42px"></span><span id="dt2" class="dot" style="left:74px"></span><span id="dt3" class="dot" style="left:106px"></span>
-    </div>
-    <div id="bm1" class="bub bm" style="left:44px;top:500px;width:780px">La derivada mide cuánto cambia f cuando x cambia un poco. Eso es justo la inclinación de la recta tangente.</div>
-    <div style="position:absolute;left:44px;top:880px;width:832px;height:96px;border-radius:48px;background:rgba(20,33,61,0.06);font-size:34px;color:#6E6E73;line-height:96px;padding-left:36px">Pregunta lo que sea sobre este tema…</div>
-  </div>
+<section id="tutor" class="clip sc2" data-start="26.7" data-duration="5.3" data-track-index="4">
+<div id="ot" class="a" style="left:0;top:0;width:1080px;height:1920px">
+<svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<ellipse cx="540" cy="2040" rx="800" ry="380" fill="#8E9BB8"/>
+<ellipse cx="540" cy="1990" rx="340" ry="330" fill="#7C89A8"/>
+</svg>
+<div id="otc" class="a" style="left:0;top:0;width:1080px;height:1920px;transform-origin:540px 900px">
+<div class="a ph"><div class="scr"><div class="nch"></div><div class="hrs">7:30</div>
+
+<div class="a" style="left:0;top:96px;width:668px;height:120px;border-bottom:2px solid rgba(20,33,61,0.07)"><div class="a" style="left:32px;top:24px;width:64px;height:64px;border-radius:20px;background:rgba(0,102,204,0.12)"></div><p class="a" style="left:116px;top:20px;font-size:38px;font-weight:700">Tutor IA</p><p class="a" style="left:116px;top:66px;font-size:26px;color:#636366">Derivadas</p></div>
+<div id="tt-bu" class="a" style="left:150px;top:250px;width:486px;background:#0066CC;color:#fff;border-radius:40px 40px 10px 40px;font-size:36px;line-height:1.28;padding:26px 30px;opacity:0">¿Por qué la derivada es la pendiente de la tangente?</div>
+<div id="tt-ty" class="a" style="left:32px;top:560px;width:160px;height:84px;background:#E9E9EB;border-radius:40px 40px 40px 10px;opacity:0"><span id="tt-d1" class="dot" style="left:38px;top:31px;width:20px;height:20px"></span><span id="tt-d2" class="dot" style="left:70px;top:31px;width:20px;height:20px"></span><span id="tt-d3" class="dot" style="left:102px;top:31px;width:20px;height:20px"></span></div>
+<div id="tt-bm" class="a" style="left:32px;top:540px;width:540px;background:#E9E9EB;color:#14213D;border-radius:40px 40px 40px 10px;font-size:34px;line-height:1.3;padding:26px 30px;opacity:0">La derivada mide cuánto cambia f cuando x cambia un poco. Eso es justo la inclinación de la recta tangente.</div>
+<div class="a" style="left:28px;top:1210px;width:612px;height:92px;border-radius:46px;background:rgba(20,33,61,0.06);font-size:30px;color:#6E6E73;line-height:92px;padding-left:32px">Pregunta lo que sea…</div>
+<div id="tt-send" class="a" style="left:560px;top:1218px;width:76px;height:76px;border-radius:50%;background:#0066CC"></div>
+
+</div></div>
+<svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<g id="handLot"><path d="M10,1930 L90,1660 C95,1630 270,1640 275,1680 L260,1930Z" fill="#7C89A8"/>
+<line x1="184" y1="1690" x2="198" y2="1400" stroke="#F1CDB5" stroke-width="108" stroke-linecap="round"/>
+<line x1="160" y1="1660" x2="170" y2="1470" stroke="#E2B79C" stroke-width="22" stroke-linecap="round" opacity="0.7"/><line x1="228" y1="1430" x2="310" y2="1300" stroke="#F1CDB5" stroke-width="62" stroke-linecap="round"/>
+<circle cx="310" cy="1300" r="22" fill="#F8DECB"/></g>
+<g id="handRot"><path d="M1070,1930 L990,1660 C985,1630 810,1640 805,1680 L820,1930Z" fill="#7C89A8"/>
+<line x1="896" y1="1690" x2="882" y2="1400" stroke="#F1CDB5" stroke-width="108" stroke-linecap="round"/>
+<line x1="920" y1="1660" x2="910" y2="1470" stroke="#E2B79C" stroke-width="22" stroke-linecap="round" opacity="0.7"/></g>
+<g id="thumbot"><line x1="852" y1="1430" x2="770" y2="1300" stroke="#F1CDB5" stroke-width="62" stroke-linecap="round"/>
+<circle cx="770" cy="1300" r="22" fill="#F8DECB"/></g>
+</svg>
+</div>
+<svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<ellipse cx="294" cy="1850" rx="36" ry="56" fill="#E2B79C"/>
+<ellipse cx="786" cy="1850" rx="36" ry="56" fill="#E2B79C"/>
+<ellipse cx="540" cy="1940" rx="256" ry="300" fill="#4A3A2E"/>
+<ellipse cx="540" cy="1780" rx="150" ry="70" fill="#6A5442" opacity="0.55"/>
+</svg>
+</div><div id="bulb" class="a" style="left:780px;top:40px;width:200px;height:200px;opacity:0"><svg viewBox="0 0 200 200" width="200" height="200"><g stroke="#FFB020" stroke-width="9" stroke-linecap="round"><line x1="100" y1="10" x2="100" y2="34"/><line x1="30" y1="40" x2="48" y2="58"/><line x1="170" y1="40" x2="152" y2="58"/><line x1="12" y1="104" x2="38" y2="104"/><line x1="188" y1="104" x2="162" y2="104"/></g><path d="M100,50 C64,50 52,90 72,116 C80,128 82,134 82,144 L118,144 C118,134 120,128 128,116 C148,90 136,50 100,50Z" fill="#FFC93C"/><rect x="82" y="150" width="36" height="14" rx="7" fill="#8A8A94"/><rect x="88" y="168" width="24" height="12" rx="6" fill="#8A8A94"/></svg></div>
 </section>
 
-<!-- 6. RACHA -->
-<section id="racha" class="clip sc" data-start="31.7" data-duration="4.3" data-track-index="5">
-  <div class="glow" style="opacity:0.8"></div>
-  <p id="rac-eb" class="eyebrow" style="top:150px;opacity:0">Racha</p>
-  <h2 id="rac-h" class="h2" style="top:208px;opacity:0">Constancia que se ve</h2>
-  <div id="bigflame" class="a" style="left:410px;top:420px;width:260px;height:260px;opacity:0"><svg viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" width="260" height="260"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
-  <p id="num6" style="position:absolute;left:340px;top:690px;width:400px;text-align:center;font-size:200px;font-weight:700;line-height:1;letter-spacing:-6px;color:#C10A2B;opacity:0">6</p>
-  <p id="num7" style="position:absolute;left:340px;top:690px;width:400px;text-align:center;font-size:200px;font-weight:700;line-height:1;letter-spacing:-6px;color:#C10A2B;opacity:0">7</p>
-  <p id="diasr" style="position:absolute;left:240px;top:910px;width:600px;text-align:center;font-size:44px;color:#4A5568;opacity:0">días de racha</p>
-<div class="wcol" id="wc0" style="left:80px"><span class="wl">L</span><span class="wd done" id="wd0"><svg class="fl" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
-<div class="wcol" id="wc1" style="left:214px"><span class="wl">M</span><span class="wd done" id="wd1"><svg class="fl" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
-<div class="wcol" id="wc2" style="left:348px"><span class="wl">M</span><span class="wd done" id="wd2"><svg class="fl" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
-<div class="wcol" id="wc3" style="left:482px"><span class="wl">J</span><span class="wd done" id="wd3"><svg class="fl" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
-<div class="wcol" id="wc4" style="left:616px"><span class="wl">V</span><span class="wd done" id="wd4"><svg class="fl" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
-<div class="wcol" id="wc5" style="left:750px"><span class="wl">S</span><span class="wd done" id="wd5"><svg class="fl" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span></div>
-<div class="wcol" id="wc6" style="left:884px"><span class="wl">D</span><span class="wd hoy" id="wd6"></span></div>
-  <div id="flhoy" class="a" style="left:909px;top:1099px;width:60px;height:60px;opacity:0"><svg style="width:60px;height:60px" viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
-  <p id="asegura" style="position:absolute;left:90px;top:1290px;width:900px;text-align:center;font-size:48px;font-weight:600;color:#047857;opacity:0">¡Racha asegurada por hoy!</p>
+<section id="racha" class="clip sc2" data-start="31.7" data-duration="4.5" data-track-index="5">
+<div id="dr" class="a" style="left:0;top:0;width:1080px;height:1920px">
+<svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920"><rect width="1080" height="1260" fill="none"/><rect x="730" y="290" width="270" height="200" rx="18" fill="#FFFFFF" stroke="#C9D1E0" stroke-width="4"/><rect x="730" y="290" width="270" height="54" rx="18" fill="#C10A2B"/><rect x="730" y="320" width="270" height="24" fill="#C10A2B"/><rect x="730" y="290" width="270" height="0" fill="none"/><rect x="748" y="372" width="30" height="46" rx="6" fill="#F4F6FB"/><path id="ck00" d="M755,396 l6,7 l11,-15" fill="none" stroke="#C10A2B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/><rect x="784" y="372" width="30" height="46" rx="6" fill="#F4F6FB"/><path id="ck01" d="M791,396 l6,7 l11,-15" fill="none" stroke="#C10A2B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/><rect x="820" y="372" width="30" height="46" rx="6" fill="#F4F6FB"/><path id="ck02" d="M827,396 l6,7 l11,-15" fill="none" stroke="#C10A2B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/><rect x="856" y="372" width="30" height="46" rx="6" fill="#F4F6FB"/><path id="ck03" d="M863,396 l6,7 l11,-15" fill="none" stroke="#C10A2B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/><rect x="892" y="372" width="30" height="46" rx="6" fill="#F4F6FB"/><path id="ck04" d="M899,396 l6,7 l11,-15" fill="none" stroke="#C10A2B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/><rect x="928" y="372" width="30" height="46" rx="6" fill="#F4F6FB"/><path id="ck05" d="M935,396 l6,7 l11,-15" fill="none" stroke="#C10A2B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/><rect x="964" y="372" width="30" height="46" rx="6" fill="#F4F6FB"/><path id="ck06" d="M971,396 l6,7 l11,-15" fill="none" stroke="#C10A2B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/><rect x="748" y="428" width="30" height="46" rx="6" fill="#F4F6FB"/><path id="ck10" d="M755,452 l6,7 l11,-15" fill="none" stroke="#C10A2B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/><rect x="784" y="428" width="30" height="46" rx="6" fill="#F4F6FB"/><path id="ck11" d="M791,452 l6,7 l11,-15" fill="none" stroke="#C10A2B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/><rect x="820" y="428" width="30" height="46" rx="6" fill="#F4F6FB"/><path id="ck12" d="M827,452 l6,7 l11,-15" fill="none" stroke="#C10A2B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/><rect x="856" y="428" width="30" height="46" rx="6" fill="#F4F6FB"/><path id="ck13" d="M863,452 l6,7 l11,-15" fill="none" stroke="#C10A2B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/><rect x="892" y="428" width="30" height="46" rx="6" fill="#F4F6FB"/><path id="ck14" d="M899,452 l6,7 l11,-15" fill="none" stroke="#C10A2B" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/><rect x="928" y="428" width="30" height="46" rx="6" fill="#F4F6FB"/><rect x="964" y="428" width="30" height="46" rx="6" fill="#F4F6FB"/><path d="M90,1930 C90,1240 330,1040 540,1040 C750,1040 990,1240 990,1930Z" fill="#8E9BB8"/>
+<path d="M430,1040 C470,1130 610,1130 650,1040 L650,980 L430,980Z" fill="#7C89A8"/>
+<rect x="478" y="880" width="124" height="170" rx="40" fill="#E2B79C"/>
+<g id="hddr"><ellipse cx="386" cy="745" rx="24" ry="40" fill="#E2B79C"/><ellipse cx="694" cy="745" rx="24" ry="40" fill="#E2B79C"/>
+<ellipse cx="540" cy="730" rx="152" ry="178" fill="#F1CDB5"/>
+<path d="M388,700 C376,520 480,466 560,466 C690,466 708,560 692,700 C676,632 640,592 540,586 C440,592 406,632 388,700Z" fill="#4A3A2E"/>
+<g id="fadr"><circle cx="490" cy="748" r="24" fill="#fff"/><circle cx="590" cy="748" r="24" fill="#fff"/>
+<circle cx="490" cy="750" r="10" fill="#22222B"/><circle cx="590" cy="750" r="10" fill="#22222B"/>
+<path d="M448,694 Q486,668 522,684" fill="none" stroke="#4A3A2E" stroke-width="11" stroke-linecap="round"/><path d="M632,694 Q594,668 558,684" fill="none" stroke="#4A3A2E" stroke-width="11" stroke-linecap="round"/>
+<circle cx="458" cy="808" r="20" fill="#F4A6A0" opacity="0.55"/><circle cx="622" cy="808" r="20" fill="#F4A6A0" opacity="0.55"/>
+<path d="M488,822 Q540,890 592,822 Z" fill="#8C3B45"/><path d="M500,824 Q540,838 580,824 L578,832 Q540,846 502,832Z" fill="#fff"/></g></g>
+<rect x="0" y="1260" width="1080" height="660" fill="#D7BF9F"/><rect x="0" y="1260" width="1080" height="22" fill="#C2A582"/>
+</svg>
+<svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<rect x="60" y="1400" width="230" height="170" rx="14" fill="#fff" stroke="#C9D1E0" stroke-width="4"/><line x1="90" y1="1440" x2="260" y2="1440" stroke="#D3D9E5" stroke-width="6"/><line x1="90" y1="1474" x2="230" y2="1474" stroke="#D3D9E5" stroke-width="6"/>
+<g id="spk" opacity="0" stroke="#FFB020" stroke-width="9" stroke-linecap="round"><line x1="300" y1="560" x2="270" y2="530"/><line x1="320" y1="620" x2="276" y2="620"/><line x1="780" y1="560" x2="810" y2="530"/><line x1="800" y1="640" x2="846" y2="640"/></g>
+</svg><div class="a" style="left:300px;top:1540px;width:480px;height:40px;border-radius:50%;background:rgba(20,33,61,0.16);filter:blur(10px)"></div>
+<div class="a ph2"><div class="scr2">
+<p class="a" style="left:0;top:26px;width:392px;text-align:center;font-size:24px;font-weight:700;color:#636366">Tu racha</p>
+<div id="rc-fl" class="a" style="left:136px;top:60px;width:120px;height:120px"><svg viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="120" height="120"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div>
+<p id="rc-6" class="a" style="left:0;top:172px;width:392px;text-align:center;font-size:112px;font-weight:700;line-height:1;letter-spacing:-4px;color:#C10A2B">6</p>
+<p id="rc-7" class="a" style="left:0;top:172px;width:392px;text-align:center;font-size:112px;font-weight:700;line-height:1;letter-spacing:-4px;color:#C10A2B;opacity:0">7</p>
+<p class="a" style="left:0;top:300px;width:392px;text-align:center;font-size:28px;color:#4A5568">días de racha</p>
+<span class="a" style="left:14px;top:356px;width:50px;text-align:center;font-size:20px;font-weight:600;color:#5B6678">L</span><span class="a" style="left:14px;top:386px;width:46px;height:46px;border-radius:50%;background:rgba(193,10,43,0.10);border:2px solid rgba(193,10,43,0.28)"></span><span class="a" style="left:24px;top:396px"><svg viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span><span class="a" style="left:68px;top:356px;width:50px;text-align:center;font-size:20px;font-weight:600;color:#5B6678">M</span><span class="a" style="left:68px;top:386px;width:46px;height:46px;border-radius:50%;background:rgba(193,10,43,0.10);border:2px solid rgba(193,10,43,0.28)"></span><span class="a" style="left:78px;top:396px"><svg viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span><span class="a" style="left:122px;top:356px;width:50px;text-align:center;font-size:20px;font-weight:600;color:#5B6678">M</span><span class="a" style="left:122px;top:386px;width:46px;height:46px;border-radius:50%;background:rgba(193,10,43,0.10);border:2px solid rgba(193,10,43,0.28)"></span><span class="a" style="left:132px;top:396px"><svg viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span><span class="a" style="left:176px;top:356px;width:50px;text-align:center;font-size:20px;font-weight:600;color:#5B6678">J</span><span class="a" style="left:176px;top:386px;width:46px;height:46px;border-radius:50%;background:rgba(193,10,43,0.10);border:2px solid rgba(193,10,43,0.28)"></span><span class="a" style="left:186px;top:396px"><svg viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span><span class="a" style="left:230px;top:356px;width:50px;text-align:center;font-size:20px;font-weight:600;color:#5B6678">V</span><span class="a" style="left:230px;top:386px;width:46px;height:46px;border-radius:50%;background:rgba(193,10,43,0.10);border:2px solid rgba(193,10,43,0.28)"></span><span class="a" style="left:240px;top:396px"><svg viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span><span class="a" style="left:284px;top:356px;width:50px;text-align:center;font-size:20px;font-weight:600;color:#5B6678">S</span><span class="a" style="left:284px;top:386px;width:46px;height:46px;border-radius:50%;background:rgba(193,10,43,0.10);border:2px solid rgba(193,10,43,0.28)"></span><span class="a" style="left:294px;top:396px"><svg viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span><span class="a" style="left:338px;top:356px;width:50px;text-align:center;font-size:20px;font-weight:600;color:#5B6678">D</span><span class="a" style="left:338px;top:386px;width:46px;height:46px;border-radius:50%;background:#fff;border:4px solid #0066CC"></span><span id="rc-hf" class="a" style="left:348px;top:396px;opacity:0"><svg viewBox="0 0 24 24" fill="#C10A2B" stroke="#C10A2B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span>
+<p id="rc-as" class="a" style="left:20px;top:470px;width:352px;text-align:center;font-size:28px;font-weight:600;line-height:1.15;color:#047857;opacity:0">¡Racha asegurada por hoy!</p>
+</div></div>
+</div>
 </section>
 
-<!-- 7. CIERRE -->
-<section id="cierre" class="clip sc" data-start="35.7" data-duration="2.8" data-track-index="6">
+<section id="examen" class="clip sc2" data-start="35.9" data-duration="4.7" data-track-index="6">
+<div id="ex" class="a" style="left:0;top:0;width:1080px;height:1920px">
+<svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920"><rect x="60" y="250" width="560" height="320" rx="14" fill="#FFFFFF" stroke="#C9D1E0" stroke-width="6"/>
+<text x="100" y="360" font-family="Geist" font-size="64" font-weight="600" fill="#9AA6C0">f(x) = x²</text><text x="100" y="450" font-family="Geist" font-size="64" font-weight="600" fill="#9AA6C0">f′(x) = 2x</text>
+<rect x="690" y="250" width="300" height="360" rx="14" fill="#CFE3FF" stroke="#C9D1E0" stroke-width="6"/><line x1="840" y1="250" x2="840" y2="610" stroke="#C9D1E0" stroke-width="6"/><line x1="690" y1="430" x2="990" y2="430" stroke="#C9D1E0" stroke-width="6"/><path d="M90,1930 C90,1240 330,1040 540,1040 C750,1040 990,1240 990,1930Z" fill="#8E9BB8"/>
+<path d="M430,1040 C470,1130 610,1130 650,1040 L650,980 L430,980Z" fill="#7C89A8"/>
+<rect x="478" y="880" width="124" height="170" rx="40" fill="#E2B79C"/>
+<g id="hdex"><ellipse cx="386" cy="745" rx="24" ry="40" fill="#E2B79C"/><ellipse cx="694" cy="745" rx="24" ry="40" fill="#E2B79C"/>
+<ellipse cx="540" cy="730" rx="152" ry="178" fill="#F1CDB5"/>
+<path d="M388,700 C376,520 480,466 560,466 C690,466 708,560 692,700 C676,632 640,592 540,586 C440,592 406,632 388,700Z" fill="#4A3A2E"/>
+<g id="faex"><circle cx="490" cy="750" r="23" fill="#fff"/><circle cx="590" cy="750" r="23" fill="#fff"/>
+<circle cx="492" cy="756" r="9" fill="#22222B"/><circle cx="588" cy="756" r="9" fill="#22222B"/>
+<path d="M448,700 L522,692" stroke="#4A3A2E" stroke-width="11" stroke-linecap="round"/><path d="M632,700 L558,692" stroke="#4A3A2E" stroke-width="11" stroke-linecap="round"/>
+<path d="M506,834 Q540,856 574,834" fill="none" stroke="#9B5B52" stroke-width="9" stroke-linecap="round"/></g><g id="fbex" opacity="0"><circle cx="490" cy="748" r="24" fill="#fff"/><circle cx="590" cy="748" r="24" fill="#fff"/>
+<circle cx="490" cy="750" r="10" fill="#22222B"/><circle cx="590" cy="750" r="10" fill="#22222B"/>
+<path d="M448,694 Q486,668 522,684" fill="none" stroke="#4A3A2E" stroke-width="11" stroke-linecap="round"/><path d="M632,694 Q594,668 558,684" fill="none" stroke="#4A3A2E" stroke-width="11" stroke-linecap="round"/>
+<circle cx="458" cy="808" r="20" fill="#F4A6A0" opacity="0.55"/><circle cx="622" cy="808" r="20" fill="#F4A6A0" opacity="0.55"/>
+<path d="M488,822 Q540,890 592,822 Z" fill="#8C3B45"/><path d="M500,824 Q540,838 580,824 L578,832 Q540,846 502,832Z" fill="#fff"/></g></g>
+<rect x="0" y="1260" width="1080" height="660" fill="#D7BF9F"/><rect x="0" y="1260" width="1080" height="22" fill="#C2A582"/>
+</svg>
+
+<svg class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<path d="M740,1930 C740,1100 820,940 960,940 C1100,940 1180,1100 1180,1930Z" fill="#3B4A6B"/>
+<ellipse cx="940" cy="780" rx="112" ry="140" fill="#8A8A94"/><ellipse cx="846" cy="790" rx="18" ry="30" fill="#E2B79C"/>
+</svg>
+<div id="ex-paper" class="a" style="left:340px;top:900px;width:400px;height:620px;background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(20,33,61,0.22);">
+<p class="a" style="left:30px;top:26px;font-size:28px;font-weight:700;color:#4A5568">Parcial · Cálculo</p>
+<div class="fl1" style="left:30px;top:80px;width:240px"></div><div class="fl2" style="left:30px;top:112px;width:170px"></div>
+<div class="fl1" style="left:30px;top:170px;width:330px"></div><div class="fl2" style="left:30px;top:202px;width:260px"></div>
+<div class="fl1" style="left:30px;top:260px;width:300px"></div><div class="fl2" style="left:30px;top:292px;width:200px"></div>
+<div id="ex-gr" class="a" style="left:96px;top:340px;width:208px;height:208px;border-radius:50%;border:10px solid #C10A2B;text-align:center;line-height:188px;font-size:104px;font-weight:700;letter-spacing:-3px;color:#C10A2B;opacity:0">5.0</div>
+<p id="ex-ex" class="a" style="left:0;top:560px;width:400px;text-align:center;font-size:40px;font-weight:700;color:#C10A2B;opacity:0">¡Excelente!</p>
+</div><svg id="ex-hands" class="a" style="left:0;top:0" width="1080" height="1920" viewBox="0 0 1080 1920"><line x1="336" y1="1200" x2="340" y2="1290" stroke="#F1CDB5" stroke-width="82" stroke-linecap="round"/><line x1="744" y1="1200" x2="740" y2="1290" stroke="#F1CDB5" stroke-width="82" stroke-linecap="round"/></svg><svg id="ex-arm" class="a" style="left:0;top:0;opacity:0" width="1080" height="1920" viewBox="0 0 1080 1920">
+<line x1="900" y1="1090" x2="790" y2="1250" stroke="#3B4A6B" stroke-width="104" stroke-linecap="round"/>
+<circle cx="742" cy="1262" r="46" fill="#F1CDB5"/>
+</svg></div>
+</section>
+
+<section id="cierre" class="clip sc" data-start="40.3" data-duration="2.7" data-track-index="7">
   <div class="glow" style="opacity:0.9"></div>
   <div id="icono2" class="a" role="img" aria-label="Icono de studia+" style="background:url(assets/icono.svg) center/cover;left:440px;top:520px;width:200px;height:200px;border-radius:46px;box-shadow:0 24px 60px rgba(20,33,61,0.16);border:2px solid rgba(20,33,61,0.08);opacity:0"></div>
   <div id="word2" class="word" style="top:760px;font-size:132px">studia<span>+</span></div>
@@ -310,7 +429,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F4F6F
 </section>
 
 <!-- SUBTÍTULOS (voz en off) -->
-<section id="subs" class="clip" data-start="0" data-duration="38.5" data-track-index="9" style="pointer-events:none">
+<section id="subs" class="clip" data-start="0" data-duration="43.0" data-track-index="9" style="pointer-events:none">
   <p id="c1" class="sub" style="background:rgba(244,246,251,0.9);border-radius:44px;padding:20px 0">¿Otra vez scrolleando mientras se acerca el parcial?</p>
   <p id="c2" class="sub" style="background:rgba(244,246,251,0.9);border-radius:44px;padding:20px 0">Talleres, entregas, parciales… todo a la vez.</p>
   <p id="c4" class="sub">Esto es studia+.</p>
@@ -318,6 +437,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #F4F6F
   <p id="c6" class="sub">Elige el método que más te funciona y estudia con tu música.</p>
   <p id="c7" class="sub">¿Una duda en pleno estudio? Tu tutor con IA responde al momento.</p>
   <p id="c8" class="sub">Y tu racha te mantiene constante.</p>
+  <p id="c8b" class="sub">Y el resultado se nota.</p>
   <p id="c9" class="sub">Empieza gratis hoy.</p>
 </section>
 
@@ -396,73 +516,92 @@ IN("#word1", 12.25, 0.7, 40);
 IN("#tagline", 12.75, 0.7, 30);
 SUB("#c4", 12.3, 15.6);
 
-/* ---- 3. HOY (16.5 – 22.0) ---- */
-IN("#hoy-eb", 16.75, 0.5, 20);
-IN("#hoy-h", 16.85, 0.7, 30);
-IN("#hoy-card", 17.3, 0.7, 60);
-IN("#hoy-lab", 17.6, 0.5, 20);
-IN("#hoy-tema", 17.7, 0.6, 24);
-IN("#hoy-mat", 17.9, 0.5, 20);
-IN("#hoy-mot", 18.1, 0.5, 20);
-IN("#hoy-pl", 18.4, 0.5, 16);
-IN("#hoy-pp", 18.4, 0.5, 16);
-IN("#hoy-trk", 18.4, 0.4, 0);
-E("#hoy-fill", { width: 2 }, { width: 267, duration: 1.1, ease: "power2.out" }, 18.7);
-E("#hoy-btn", { opacity: 0, scale: 0.92, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.3)" }, 19.3);
+
+/* ---- 3. HOY (16.5 – 22.0): por encima del hombro ---- */
+E("#oh", { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, 16.6);
+E("#hy-card", { opacity: 0, y: 70 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 17.2);
+IN("#hy-lab", 17.6, 0.4, 14); IN("#hy-tema", 17.7, 0.5, 18); IN("#hy-mat", 18.0, 0.4, 14); IN("#hy-mot", 18.2, 0.4, 14);
+IN("#hy-pl", 18.5, 0.4, 10); IN("#hy-pp", 18.5, 0.4, 10);
+E("#hy-fill", { width: 2 }, { width: 175, duration: 1.0, ease: "power2.out" }, 18.7);
+E("#hy-btn", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, 19.2);
+tl.fromTo("#thumboh", { x: 0, y: 0 }, { x: -60, y: -262, duration: 0.7, ease: "power2.inOut", immediateRender: false }, 19.6);
+tl.to("#hy-btn", { scale: 0.95, duration: 0.12 }, 20.35);
+E("#hy-rip", { opacity: 0.9, scale: 0.4 }, { opacity: 0, scale: 3, duration: 0.5, ease: "power2.out", immediateRender: false }, 20.35);
+tl.to("#hy-btn", { scale: 1, duration: 0.2 }, 20.5);
+tl.to("#ohc", { scale: 1.05, duration: 1.4, ease: "power1.inOut" }, 20.5);
 SUB("#c5", 16.8, 21.0);
 
-/* ---- 4. SESIÓN (21.7 – 27.0) ---- */
-IN("#ses-eb", 21.95, 0.5, 20);
-IN("#ses-h", 22.05, 0.7, 30);
-E("#ring2", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }, 22.4);
-IN("#tiempo", 22.6, 0.6, 20);
-IN("#enfo", 22.8, 0.6, 16);
-IN("#ses-card", 23.2, 0.7, 60);
-IN("#st1", 23.7, 0.5, 16);
-IN("#st2", 24.1, 0.5, 16);
-IN("#st3", 24.5, 0.5, 16);
-E("#pill-s", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 25.3);
-tl.to("#pill-n2", { opacity: 0, duration: 0.4 }, 25.3);
+/* ---- 4. SESIÓN (21.7 – 27.0): en el escritorio ---- */
+E("#ds", { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, 21.8);
+IN("#ses-card", 22.6, 0.6, 30);
+tl.to("#ses-arc", { attr: { "stroke-dashoffset": 330 }, duration: 3.6, ease: "none" }, 22.4);
+tl.set("#ses-t1", { opacity: 0 }, 24.6); tl.set("#ses-t2", { opacity: 1 }, 24.6);
+tl.set("#ses-ps", { opacity: 1 }, 25.2);
+tl.set("#ses-pn", { opacity: 0 }, 25.2);
+[0, 1, 2, 3].forEach((i) => {
+  const t = 22.9 + i * 0.7;
+  E("#nt" + (i + 1), { opacity: 0, x: 0, y: 0 }, { opacity: 0.9, x: i % 2 ? 40 : -40, y: -120, duration: 0.8, ease: "power1.out", immediateRender: false }, t);
+  tl.to("#nt" + (i + 1), { opacity: 0, duration: 0.4 }, t + 0.8);
+});
+tl.to("#hdds", { rotation: 1.6, svgOrigin: "540 1000", duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 3 }, 22.4);
 SUB("#c6", 21.9, 26.4);
 
-/* ---- 5. TUTOR (26.7 – 32.0) ---- */
-IN("#tut-eb", 26.95, 0.5, 20);
-IN("#tut-h", 27.05, 0.7, 30);
-IN("#tut-card", 27.35, 0.7, 60);
-IN("#bu1", 28.0, 0.6, 30);
-E("#typing", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 28.9);
-["#dt1", "#dt2", "#dt3"].forEach((s, i) => {
+/* ---- 5. TUTOR (26.7 – 32.0): por encima del hombro ---- */
+E("#ot", { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, 26.8);
+tl.fromTo("#thumbot", { y: 0 }, { y: 60, x: -30, duration: 0.5, ease: "power2.inOut", immediateRender: false }, 27.2);
+tl.to("#thumbot", { y: 0, x: 0, duration: 0.3 }, 27.9);
+IN("#tt-bu", 27.9, 0.5, 24);
+E("#tt-ty", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4 }, 28.7);
+["#tt-d1", "#tt-d2", "#tt-d3"].forEach((s, i) => {
   for (let k = 0; k < 2; k++) {
-    const t = 29.1 + i * 0.12 + k * 0.5;
-    tl.to(s, { y: -10, duration: 0.18, ease: "sine.out" }, t);
+    const t = 28.9 + i * 0.12 + k * 0.5;
+    tl.to(s, { y: -9, duration: 0.18, ease: "sine.out" }, t);
     tl.to(s, { y: 0, duration: 0.18, ease: "sine.in" }, t + 0.18);
   }
 });
-tl.set("#typing", { opacity: 0 }, 30.15);
-IN("#bm1", 30.2, 0.6, 24);
+tl.set("#tt-ty", { opacity: 0 }, 29.95);
+IN("#tt-bm", 30.0, 0.6, 20);
+E("#bulb", { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2)" }, 30.9);
+tl.to("#bulb", { opacity: 0, duration: 0.3 }, 31.6);
+tl.to("#otc", { scale: 1.05, duration: 4, ease: "none" }, 27.0);
 SUB("#c7", 27.1, 31.3);
 
-/* ---- 6. RACHA (31.7 – 36.0) ---- */
-IN("#rac-eb", 31.95, 0.5, 20);
-IN("#rac-h", 32.05, 0.7, 30);
-E("#bigflame", { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.4)" }, 32.3);
-tl.set("#num6", { opacity: 1 }, 32.5);
-IN("#diasr", 32.6, 0.5, 16);
-for (let i = 0; i < 7; i++) IN("#wc" + i, 32.7 + i * 0.08, 0.4, 20);
-// llega el día 7
-tl.set("#num6", { opacity: 0 }, 33.7);
-E("#num7", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, 33.7);
-tl.fromTo("#bigflame", { scale: 1.14 }, { scale: 1, duration: 0.5, ease: "power2.out", immediateRender: false }, 33.7);
-E("#flhoy", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, 33.8);
-IN("#asegura", 34.2, 0.5, 16);
+/* ---- 6. RACHA (31.7 – 36.2): en el escritorio, feliz ---- */
+E("#dr", { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, 31.8);
+E("#rc-fl", { scale: 0.7 }, { scale: 1, duration: 0.5, ease: "back.out(1.6)", immediateRender: false }, 32.3);
+for (let r = 0; r < 2; r++) for (let c = 0; c < 7; c++) {
+  const el = document.getElementById("ck" + r + c);
+  if (el) tl.fromTo("#ck" + r + c, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 32.2 + (r * 7 + c) * 0.1);
+}
+tl.set("#rc-6", { opacity: 0 }, 33.8);
+E("#rc-7", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, 33.8);
+tl.fromTo("#rc-fl", { scale: 1.18 }, { scale: 1, duration: 0.5, ease: "power2.out", immediateRender: false }, 33.8);
+E("#rc-hf", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 33.9);
+IN("#rc-as", 34.3, 0.5, 14);
+tl.to("#spk", { opacity: 1, duration: 0.3 }, 34.3);
+tl.to("#spk", { opacity: 0, duration: 0.4 }, 35.1);
 SUB("#c8", 32.0, 35.3);
 
-/* ---- 7. CIERRE (35.7 – 38.5) ---- */
-E("#icono2", { opacity: 0, y: 30, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power3.out" }, 35.95);
-IN("#word2", 36.15, 0.6, 30);
-E("#btn2", { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, 36.55);
-IN("#url", 36.9, 0.5, 14);
-SUB("#c9", 35.85, 38.4);
+/* ---- 7. EXAMEN (35.9 – 40.6): 5.0 y se lo entrega al profesor ---- */
+E("#ex", { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power2.out" }, 36.0);
+E("#ex-paper", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 36.2);
+E("#ex-hands", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 36.3);
+E("#ex-gr", { opacity: 0, scale: 2 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.6)" }, 36.9);
+IN("#ex-ex", 37.4, 0.4, 14);
+tl.set("#fbex", { opacity: 1 }, 37.0); tl.set("#faex", { opacity: 0 }, 37.0);
+E("#ex-arm", { opacity: 0, x: 280 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 38.3);
+tl.to("#ex-paper", { x: 330, y: 20, scale: 0.8, duration: 0.7, ease: "power2.inOut" }, 39.1);
+tl.to("#ex-hands", { opacity: 0, duration: 0.2 }, 39.1);
+tl.to("#ex-arm", { x: 330, y: 20, duration: 0.7, ease: "power2.inOut" }, 39.1);
+tl.to("#hdex", { rotation: -2, svgOrigin: "540 1000", duration: 0.3 }, 39.2);
+SUB("#c8b", 36.4, 39.6);
+
+/* ---- 8. CIERRE (40.3 – 43.0) ---- */
+E("#icono2", { opacity: 0, y: 30, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power3.out" }, 40.55);
+IN("#word2", 40.75, 0.6, 30);
+E("#btn2", { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, 41.15);
+IN("#url", 41.5, 0.5, 14);
+SUB("#c9", 40.7, 42.9);
 
 window.__timelines["main"] = tl;
 tl.seek(0);
