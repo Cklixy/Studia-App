@@ -96,6 +96,7 @@
       prof.setPose({ pos: [-28, 16, 2], yaw: Math.PI * 0.82, sit: false, t, lookAt: [0, 52, 62], expr: FR({ smile: 0.15 + 0.1 * give, browLift: 0.15 }), wristR: Object.assign(prW, { pose: { f: C.GRIP_SHEET.fingers, t: C.GRIP_SHEET.thumb.hold }, hint: [-0.5, -1, 0.3] }), wristL: Object.assign(plW, { pose: { f: C.GRIP_SHEET.fingers, t: C.GRIP_SHEET.thumb.hold }, hint: [0.5, -1, 0.3] }) });
       const reach = seg(t, 35.4, 36.6);
       student.setPose(c.seated({ t, lean: -0.02 + 0.08 * reach, lookAt: sP, expr: FR({ smile: 0.0, browLift: 0.7 * seg(t, 34.6, 35.6), eyeOpen: 1, open: 0.12 * Math.sin(t * 2.2) ** 2 }), wristR: { pos: lerpArr([17, 3, 33], [9, 34, 30], E.inOutCubic(reach)), fingers: [-0.2, 0.3, -1], palm: [-1, 0, 0.2], pose: C.HAND_POSES.flat, hint: [0.6, -1, 0.2] }, wristL: { pos: lerpArr([-17, 3, 33], [-9, 34, 30], E.inOutCubic(reach)), fingers: [0.2, 0.3, -1], palm: [1, 0, 0.2], pose: C.HAND_POSES.flat, hint: [-0.6, -1, 0.2] } }));
+      if (t < 36.2) { const kk = E.inOutSine(seg(t, 34.5, 36.2)); const P = lerpArr([118, 72, -118], [100, 66, -96], kk), T = [-12, 52, 14]; c.shot = { pos: P, tgt: T, f: 32, focus: dist(P, [-12, 52, 14]), fstop: 5.6, dof: 0.22, roll: 1 - 2 * kk, mood: "class", vig: 0.34, exposure: 0.98 }; return; }
       const hp = c.headPos(); const k = E.inOutSine(seg(t, 34.5, 37)); const P = lerpArr([8, hp.y + 1, -26], [3, hp.y, -12], k); c.shot = { pos: P, tgt: [0, hp.y - 2, hp.z], f: 60, focus: dist(P, [hp.x, hp.y, hp.z]) - 2, fstop: 2.4, dof: 0.45, roll: 0, mood: "class", vig: 0.4, exposure: 0.94 };
     }
   };
