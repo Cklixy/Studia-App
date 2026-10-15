@@ -2,6 +2,7 @@
   const C = (g.Cine = g.Cine || {}), A = C.ACT_FN;
   const FR = (o) => Object.assign({ smile: 0, open: 0, browLift: 0, browAngle: 0, angry: 0, frown: 0, eyeOpen: 1 }, o);
   const lerpArr = (a, b, u) => a.map((x, i) => x + (b[i] - x) * u);
+  C.GRIP.thumb.rest = { cmc: [90, -40, -97], mcp: 75, ip: 70 };
   const thumbKeyed = (keys, t, grip) => { grip = grip || C.GRIP.thumb; let i = 0; while (i < keys.length - 2 && t >= keys[i + 1][0]) i++; const [ta, na] = keys[i], [tb, nb] = keys[i + 1], u = C.ease.inOutSine(C.clamp((t - ta) / Math.max(tb - ta, 1e-6), 0, 1)), a = grip[na], b = grip[nb], L = C.lerp; return { cmc: a.cmc.map((x, k) => L(x, b.cmc[k], u)), mcp: L(a.mcp, b.mcp, u), ip: L(a.ip, b.ip, u) }; };
   const orbit = (cn, r, az, el) => { const a = C.deg(az), e = C.deg(el); return [cn[0] + r * Math.sin(a) * Math.cos(e), cn[1] + r * Math.sin(e), cn[2] + r * Math.cos(a) * Math.cos(e)]; };
   const dist = (p, q) => Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]);
@@ -13,7 +14,7 @@
   A.C = function (c, t) {
     const { Wd, student, phone, seg, E } = c; Wd.setPlace("home"); c.hideAll();
     const lift = E.inOutCubic(seg(t, 8.0, 8.55)); const pos = lerpArr([6, 12, 34], [1, 21, 25], lift);
-    const TK = [[8, "hover"], [9.9, "hover"], [10.2, "hoverBtn"], [10.5, "tapBtn"], [10.75, "tapBtn"], [11.1, "hover"], [12.2, "hoverBtn"], [12.7, "tapBtn"], [12.95, "tapBtn"], [13.3, "hover"], [14.1, "hover"]];
+    const TK = [[8, "rest"], [9.5, "rest"], [10.2, "hoverBtn"], [10.5, "tapBtn"], [10.75, "tapBtn"], [11.1, "rest"], [12.2, "hoverBtn"], [12.7, "tapBtn"], [12.95, "tapBtn"], [13.3, "rest"], [14.1, "rest"]];
     const w = heldPhone(c, pos, [-0.34, -0.08, 0], thumbKeyed(TK, t));
     const tapC = (tt) => ({ press: t >= tt - 0.05 && t < tt + 0.3 ? 1 : 0, ripple: t >= tt ? (t - tt) / 0.7 : -1 }); const px = C.screenCmToPx(C.GRIP.contact.tapBtn[0], C.GRIP.contact.tapBtn[1]);
     let st; if (t < 9.3) st = { screen: "home" }; else if (t < 10.9) st = Object.assign({ screen: "materias", from: t < 9.8 ? "home" : null, k: seg(t, 9.3, 9.85) }, tapC(10.5)); else if (t < 13.1) st = Object.assign({ screen: "ruta", from: t < 11.45 ? "materias" : null, k: seg(t, 10.9, 11.45) }, tapC(12.7)); else st = { screen: "foco", from: "ruta", k: seg(t, 13.1, 13.65) };
@@ -57,7 +58,7 @@
       student.setPose(c.seated({ t, lean: 0.1, lookAt: [tip.x, 0, tip.z], expr: FR({ smile: 0.1, eyeOpen: 0.85 }), wristR: { pos: wr.pos, quat: wr.quat, pose: C.GRIP_PENCIL.pose, hint: [0.4, -1, 0.2] }, wristL: { pos: [-14, 3, 24], fingers: [0.1, 0, -1], palm: [0, -1, 0], pose: C.HAND_POSES.flat, hint: [-0.5, -1, 0] } }));
       const k = E.inOutSine(seg(t, 23, 24.8)); const P = lerpArr([-26, 13, 8], [6, 11, 6], k), T = [tip.x, 0, tip.z]; c.shot = { pos: P, tgt: T, f: 70, focus: dist(P, T), fstop: 2.8, dof: 0.6, roll: 2 - 3 * k, mood: { a: "neutral", b: "warm", k: lampK * 0.3 }, vig: 0.38 };
     } else if (t < 26.5) { // E2: práctica en el teléfono
-      const pos = [1, 21, 25], TK = [[24.8, "hover"], [25.3, "hoverBtn"], [25.6, "tapBtn"], [25.85, "tapBtn"], [26.2, "hover"], [26.5, "hover"]]; const w = heldPhone(c, pos, [-0.34, -0.08, 0], thumbKeyed(TK, t));
+      const pos = [1, 21, 25], TK = [[24.8, "rest"], [25.3, "hoverBtn"], [25.6, "tapBtn"], [25.85, "tapBtn"], [26.2, "rest"], [26.5, "rest"]]; const w = heldPhone(c, pos, [-0.34, -0.08, 0], thumbKeyed(TK, t));
       C.phoneScreenAt(c, { screen: t < 25.6 ? "tutor" : "metodo", from: t < 25.9 && t >= 25.6 ? "tutor" : null, k: seg(t, 25.6, 26.1), press: 0 });
       student.setPose(c.seated({ t, lean: 0.06, lookAt: pos, expr: FR({ smile: 0.35, eyeOpen: 1 }), wristR: w, wristL: REST_L }));
       const k = E.inOutSine(seg(t, 24.8, 26.5)), cn = [1, 22, 25]; const P = orbit(cn, 21, -30 + 55 * k, 16); c.shot = { pos: P, tgt: cn, f: 55, focus: dist(P, cn), fstop: 3.2, dof: 0.35, roll: -1 + 2 * k, mood: { a: "neutral", b: "warm", k: lampK * 0.5 }, vig: 0.32 };
