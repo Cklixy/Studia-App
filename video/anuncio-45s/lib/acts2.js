@@ -12,7 +12,7 @@
   // ---------- ACTO C: DESCUBRIMIENTO (8–14 s) ----------
   A.C = function (c, t) {
     const { Wd, student, phone, seg, E } = c; Wd.setPlace("home"); c.hideAll();
-    const lift = E.inOutCubic(seg(t, 8.0, 8.9)); const pos = lerpArr([9, 4, 40], [1, 21, 25], lift);
+    const lift = E.inOutCubic(seg(t, 8.0, 8.55)); const pos = lerpArr([6, 12, 34], [1, 21, 25], lift);
     const TK = [[8, "hover"], [9.9, "hover"], [10.2, "hoverBtn"], [10.5, "tapBtn"], [10.75, "tapBtn"], [11.1, "hover"], [12.2, "hoverBtn"], [12.7, "tapBtn"], [12.95, "tapBtn"], [13.3, "hover"], [14.1, "hover"]];
     const w = heldPhone(c, pos, [-0.34, -0.08, 0], thumbKeyed(TK, t));
     const tapC = (tt) => ({ press: t >= tt - 0.05 && t < tt + 0.3 ? 1 : 0, ripple: t >= tt ? (t - tt) / 0.7 : -1 }); const px = C.screenCmToPx(C.GRIP.contact.tapBtn[0], C.GRIP.contact.tapBtn[1]);
@@ -20,7 +20,7 @@
     st.rx = px[0]; st.ry = px[1]; C.phoneScreenAt(c, st);
     const curious = E.inOutSine(seg(t, 8.5, 11)); const glow = seg(t, 13.2, 14);
     student.setPose(c.seated({ t, lean: 0.1, lookAt: pos, expr: FR({ smile: 0.15 + 0.25 * curious + 0.3 * glow, browLift: 0.6 * curious, eyeOpen: 1 }), wristR: w, wristL: REST_L }));
-    const k = E.inOutSine(seg(t, 8, 14)), cn = [1, 22, 25]; const P = orbit(cn, 24 - 3 * k, 18 - 52 * k, 10 + 10 * k); c.shot = { pos: P, tgt: lerpArr([1, 21, 25], [0, 20, 24], k), f: 52 + 6 * k, focus: dist(P, cn), fstop: 3.2, dof: 0.35, roll: 2 * (0.5 - k), mood: "neutral", vig: 0.32 };
+    const k = E.inOutSine(seg(t, 8, 14)), cn = [pos[0], pos[1] + 1, pos[2]]; const P = orbit(cn, 26 - 3 * k, 18 - 52 * k, 10 + 10 * k); c.shot = { pos: P, tgt: [pos[0] - 1 * k, pos[1] - 1 - 0 * k, pos[2] - 1 * k], f: 52 + 6 * k, focus: dist(P, cn), fstop: 3.2, dof: 0.35, roll: 2 * (0.5 - k), mood: "neutral", vig: 0.32 };
   };
   // ---------- ACTO D: DEMOSTRACIÓN (14–23 s) ----------
   A.D = function (c, t) {
@@ -28,13 +28,13 @@
     phone.group.visible = true; phone.group.position.set(-26, 7.1, 18); phone.group.quaternion.setFromEuler(new THREE.Euler(-0.3, 0.45, 0, "XYZ")); phone.group.updateMatrixWorld(true);
     C.phoneScreenAt(c, { screen: "foco" }); const HP = [-4, 1.2, -12]; holo.group.position.set(...HP);
     const show = E.outCubic(seg(t, 14.3, 15.4)), h = t < 14.8 ? 1.6 : 1.6 * Math.exp(-5.2 * seg(t, 14.8, 18.0)) + 0.015, tan = seg(t, 18.0, 18.5), deriv = E.outCubic(seg(t, 19.0, 20.2));
-    const fadeOut = 1 - seg(t, 21.6, 22.4);
+    const fadeOut = 1 - seg(t, 22.5, 23.0);
     const camP = (c.shot && c.shot.pos) ? new THREE.Vector3(...c.shot.pos) : null;
     c.holoParams = { show: show * fadeOut, h, tangent: tan, deriv: deriv * fadeOut };
     // paneles auténticos: practicar (método) y recordar (racha)
     panels.forEach((p) => (p.mesh.visible = false)); const pr = seg(t, 17.6, 18.4) * (1 - seg(t, 20.4, 21.0)), rc = seg(t, 21.0, 21.8);
-    panels[0].mesh.visible = pr > 0.01; panels[0].mesh.position.set(24, 20 + 3 * E.outCubic(pr), 6); panels[0].mesh.rotation.y = -0.38; panels[0].mesh.scale.setScalar(0.6 + 0.4 * E.outBack ? 0.6 + 0.4 * E.outCubic(pr) : 1); panels[0].mat.opacity = pr;
-    panels[1].mesh.visible = rc > 0.01; panels[1].mesh.position.set(20, 22 + 3 * E.outCubic(rc), 8); panels[1].mesh.rotation.y = -0.3; panels[1].mesh.scale.setScalar(0.6 + 0.4 * E.outCubic(rc)); panels[1].mat.opacity = rc;
+    panels[0].mesh.visible = pr > 0.01; panels[0].mesh.position.set(15, 11 + 3 * E.outCubic(pr), 6); panels[0].mesh.rotation.y = -0.38; panels[0].mesh.scale.setScalar(0.45 + 0.3 * E.outCubic(pr)); panels[0].mat.opacity = pr;
+    panels[1].mesh.visible = rc > 0.01; panels[1].mesh.position.set(13, 13 + 3 * E.outCubic(rc), 8); panels[1].mesh.rotation.y = -0.3; panels[1].mesh.scale.setScalar(0.45 + 0.3 * E.outCubic(rc)); panels[1].mat.opacity = rc;
     // estudiante: curiosidad -> comprensión (aha ~18.3) -> confianza
     const aha = E.outCubic(seg(t, 18.0, 18.6)), conf = seg(t, 20, 22);
     const point = seg(t, 15.4, 16.0) * (1 - seg(t, 18.0, 18.6));
@@ -55,7 +55,7 @@
       const w = seg(t, 23, 24.8) * 0.9 + 0.08; sheet.position.set(0, 0.12, 22); sheet.quaternion.setFromEuler(new THREE.Euler(-Math.PI / 2, 0, 0.06)); sheet.visible = true; sheet.updateMatrixWorld(true); c.drawSheet({ work: w });
       const tip = new V3(...writeTip(w)), wr = c.wristForPencil(tip, new V3(0.1, -0.55, -0.82), 0.9); c.placePencilInHand(wr);
       student.setPose(c.seated({ t, lean: 0.1, lookAt: [tip.x, 0, tip.z], expr: FR({ smile: 0.1, eyeOpen: 0.85 }), wristR: { pos: wr.pos, quat: wr.quat, pose: C.GRIP_PENCIL.pose, hint: [0.4, -1, 0.2] }, wristL: { pos: [-14, 3, 24], fingers: [0.1, 0, -1], palm: [0, -1, 0], pose: C.HAND_POSES.flat, hint: [-0.5, -1, 0] } }));
-      const k = E.inOutSine(seg(t, 23, 24.8)); const P = lerpArr([-14, 6, 40], [10, 5, 36], k), T = [tip.x, 0, tip.z]; c.shot = { pos: P, tgt: T, f: 70, focus: dist(P, T), fstop: 2.8, dof: 0.6, roll: 2 - 3 * k, mood: { a: "neutral", b: "warm", k: lampK * 0.3 }, vig: 0.38 };
+      const k = E.inOutSine(seg(t, 23, 24.8)); const P = lerpArr([-26, 13, 8], [6, 11, 6], k), T = [tip.x, 0, tip.z]; c.shot = { pos: P, tgt: T, f: 70, focus: dist(P, T), fstop: 2.8, dof: 0.6, roll: 2 - 3 * k, mood: { a: "neutral", b: "warm", k: lampK * 0.3 }, vig: 0.38 };
     } else if (t < 26.5) { // E2: práctica en el teléfono
       const pos = [1, 21, 25], TK = [[24.8, "hover"], [25.3, "hoverBtn"], [25.6, "tapBtn"], [25.85, "tapBtn"], [26.2, "hover"], [26.5, "hover"]]; const w = heldPhone(c, pos, [-0.34, -0.08, 0], thumbKeyed(TK, t));
       C.phoneScreenAt(c, { screen: t < 25.6 ? "tutor" : "metodo", from: t < 25.9 && t >= 25.6 ? "tutor" : null, k: seg(t, 25.6, 26.1), press: 0 });
@@ -82,14 +82,13 @@
       const relief = E.inOutSine(seg(t, 31.5, 32.2));
       student.setPose(c.seated({ t, lean: 0.1 - 0.16 * relief, lookAt: relief > 0.3 ? [0, 50, -30] : [tip.x, 0, tip.z], expr: FR({ smile: 0.4 * relief, open: 0.5 * Math.sin(relief * Math.PI), eyeOpen: 1 - 0.3 * Math.sin(relief * Math.PI) }), wristR: { pos: wr.pos, quat: wr.quat, pose: C.GRIP_PENCIL.pose, hint: [0.4, -1, 0.2] }, wristL: { pos: [-14, 3, 24], fingers: [0.1, 0, -1], palm: [0, -1, 0], pose: C.HAND_POSES.flat, hint: [-0.5, -1, 0] } }));
       prof.setPose({ pos: [-140, 16, -40], yaw: 0, sit: false, legs: false, t });
-      if (t < 31.4) { const k = E.inOutSine(seg(t, 30, 31.4)); const P = lerpArr([-10, 5, 36], [6, 4, 33], k), T = [tip.x, 0, tip.z]; c.shot = { pos: P, tgt: T, f: 75, focus: dist(P, T), fstop: 2.8, dof: 0.6, roll: 1 - 2 * k, mood: "class", vig: 0.38 }; }
+      if (t < 31.4) { const k = E.inOutSine(seg(t, 30, 31.4)); const P = lerpArr([-26, 13, 8], [6, 11, 6], k), T = [tip.x, 0, tip.z]; c.shot = { pos: P, tgt: T, f: 75, focus: dist(P, T), fstop: 2.8, dof: 0.6, roll: 1 - 2 * k, mood: "class", vig: 0.38 }; }
       else { const k = E.inOutSine(seg(t, 31.4, 32.2)), hp = c.headPos(); const P = lerpArr([-14, hp.y + 4, -8], [-8, hp.y + 2, 4], k); c.shot = { pos: P, tgt: [0, hp.y - 3, hp.z], f: 60, focus: dist(P, [hp.x, hp.y, hp.z]) - 2, fstop: 2.4, dof: 0.42, roll: -1, mood: "class", vig: 0.36 }; }
     } else if (t < 34.5) { // F2: el profesor se acerca (seguimiento lateral)
-      const k = E.inOutSine(seg(t, 32.2, 34.5)), px = -120 + 92 * k, pz = -8 - 2 * k; const ph = (t - 32.2) * 1.15;
-      const sheetP = new V3(px + 2, 40, pz + 14); c.setSheetHeld(sheetP, new Q()); c.drawSheet({ work: 1, mark: 1, grade: 0 });
-      prof.setPose({ pos: [px, 16, pz], yaw: Math.PI * 0.5, sit: false, walk: ph, t, lookAt: [0, 52, 62], expr: FR({ smile: 0.2, browLift: 0.1 }), wristR: Object.assign(c.wristForSheet("R"), { pose: { f: C.GRIP_SHEET.fingers, t: C.GRIP_SHEET.thumb.hold }, hint: [-0.5, -1, 0.3] }), wristL: Object.assign(c.wristForSheet("L"), { pose: { f: C.GRIP_SHEET.fingers, t: C.GRIP_SHEET.thumb.hold }, hint: [0.5, -1, 0.3] }) });
+      const k = E.inOutSine(seg(t, 32.2, 34.5)), px = -120 + 92 * k, pz = -40; const ph = (t - 32.2) * 1.15; sheet.visible = false;
+      prof.setPose({ pos: [px, 16, pz], yaw: Math.PI * 0.5, sit: false, walk: ph, t, lookAt: [0, 52, 62], expr: FR({ smile: 0.2, browLift: 0.1 }) });
       student.setPose(c.seated({ t, lean: -0.05, lookAt: [px, 55, pz], expr: FR({ smile: 0.0, browLift: 0.5, eyeOpen: 1 }), wristR: REST_R, wristL: REST_L }));
-      const P = [px + 22, 58, -96], T = [px + 4, 54, pz + 6]; c.shot = { pos: P, tgt: T, f: 36, focus: dist(P, [px, 50, pz]), fstop: 4, dof: 0.3, roll: 2 * (0.5 - k), mood: "class", vig: 0.36 };
+      const P = [px * 0.5 - 10, 40, -182], T = [px * 0.6, 42, pz]; c.shot = { pos: P, tgt: T, f: 26, focus: dist(P, [px, 60, pz]), fstop: 4, dof: 0.3, roll: 2 * (0.5 - k), mood: "class", vig: 0.36 };
     } else { // F3: pausa y entrega (la hoja se acerca al estudiante)
       const give = E.inOutCubic(seg(t, 34.7, 36.4)), px = -26 + 22 * give * 0, pz = -10;
             const sP = lerpArr([-26, 40, 16], [0, 36, 24], give); c.setSheetHeld(new V3(...sP), new Q().setFromAxisAngle(new V3(0, 1, 0), Math.PI)); c.drawSheet({ work: 1, mark: 1, grade: 0 });

@@ -19,7 +19,7 @@
     const df = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 1, 10), new THREE.MeshBasicMaterial({ color: 0xc8ff4a })); grp.add(df); const dpt = new THREE.Mesh(new THREE.SphereGeometry(0.95, 18, 12), new THREE.MeshBasicMaterial({ color: 0xc8ff4a })); grp.add(dpt); const link = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 1, 8), new THREE.MeshBasicMaterial({ color: 0xc8ff4a, transparent: true, opacity: 0.55 })); grp.add(link);
     // etiquetas
     const lab = (w, h, sc) => { const cv = mk(w, h), tx = new THREE.CanvasTexture(cv); tx.encoding = THREE.sRGBEncoding; const m = new THREE.Mesh(new THREE.PlaneGeometry(sc, sc * h / w), new THREE.MeshBasicMaterial({ map: tx, transparent: true, depthWrite: false })); m.renderOrder = 10; grp.add(m); return { m, cv, tx }; };
-    const L1 = lab(768, 220, 30), L2 = lab(768, 160, 26), L3 = lab(640, 150, 22);
+    const L1 = lab(768, 220, 22), L2 = lab(768, 160, 20), L3 = lab(640, 150, 18);
     function drawLab(L, lines, col) { const c = L.cv.getContext("2d"); c.clearRect(0, 0, L.cv.width, L.cv.height); c.fillStyle = "rgba(14,20,38,0.82)"; const r = 38, w = L.cv.width, h = L.cv.height; c.beginPath(); c.moveTo(r, 0); c.arcTo(w, 0, w, h, r); c.arcTo(w, h, 0, h, r); c.arcTo(0, h, 0, 0, r); c.arcTo(0, 0, w, 0, r); c.fill(); c.strokeStyle = col; c.lineWidth = 6; c.stroke(); c.fillStyle = "#FFFFFF"; c.textAlign = "left"; lines.forEach((l, i) => { c.font = `${l.w || 600} ${l.s || 64}px Geist, sans-serif`; c.fillStyle = l.c || "#FFFFFF"; c.fillText(l.t, 40, (l.y || (84 + i * 80))); }); L.tx.needsUpdate = true; }
     function set(p, camPos) { // p: {show, h, tangent, deriv}
       const sh = C.clamp(p.show, 0, 1); grp.visible = sh > 0.001; grp.scale.set(1, 0.001 + sh, 1); const e = C.ease.outCubic(sh);
@@ -37,9 +37,9 @@
       const dp = new V3(x0 * S, (2 * x0) * S * 0.5 - 1.0, 0); dpt.position.copy(dp); { const d = Pw.clone().sub(dp), L = d.length(); link.position.copy(dp).addScaledVector(d, 0.5); link.quaternion.setFromUnitVectors(new V3(0, 1, 0), d.normalize()); link.scale.set(1, L, 1); }
       // etiquetas (miran a la cámara)
       const face = (m, pos) => { m.position.copy(pos); if (camPos) m.lookAt(camPos); };
-      if (p.tangent < 0.5) { drawLab(L1, [{ t: "h = " + h.toFixed(2), s: 66, w: 700, c: "#ffd27a", y: 90 }, { t: "m = " + m.toFixed(3), s: 66, w: 700, c: "#ffffff", y: 170 }], "#ffb020"); L1.m.visible = true; face(L1.m, new V3(5.2 * S, 5.3 * S, 4)); } else { drawLab(L1, [{ t: "m = 2", s: 72, w: 700, c: "#41e0a3", y: 96 }, { t: "f′(1) = 2", s: 58, w: 600, c: "#ffffff", y: 172 }], "#41e0a3"); L1.m.visible = true; face(L1.m, new V3(5.2 * S, 5.3 * S, 4)); }
-      drawLab(L2, [{ t: "f(x) = x²", s: 64, w: 700, c: "#7fe9ff", y: 100 }], "#00e5ff"); face(L2.m, new V3(-0.9 * S, 6.2 * S, 4));
-      L3.m.visible = dv > 0.05; if (dv > 0.05) { drawLab(L3, [{ t: "f′(x) = 2x", s: 60, w: 700, c: "#c8ff4a", y: 96 }], "#c8ff4a"); face(L3.m, new V3(3.7 * S, 2.6 * S, 4)); }
+      if (p.tangent < 0.5) { drawLab(L1, [{ t: "h = " + h.toFixed(2), s: 66, w: 700, c: "#ffd27a", y: 90 }, { t: "m = " + m.toFixed(3), s: 66, w: 700, c: "#ffffff", y: 170 }], "#ffb020"); L1.m.visible = true; face(L1.m, new V3(3.0 * S, 4.6 * S, 4)); } else { drawLab(L1, [{ t: "m = 2", s: 72, w: 700, c: "#41e0a3", y: 96 }, { t: "f′(1) = 2", s: 58, w: 600, c: "#ffffff", y: 172 }], "#41e0a3"); L1.m.visible = true; face(L1.m, new V3(3.0 * S, 4.6 * S, 4)); }
+      drawLab(L2, [{ t: "f(x) = x²", s: 64, w: 700, c: "#7fe9ff", y: 100 }], "#00e5ff"); face(L2.m, new V3(1.0 * S, 6.3 * S, 4));
+      L3.m.visible = dv > 0.05; if (dv > 0.05) { drawLab(L3, [{ t: "f′(x) = 2x", s: 60, w: 700, c: "#c8ff4a", y: 96 }], "#c8ff4a"); face(L3.m, new V3(3.1 * S, 2.4 * S, 4)); }
       return { h, m };
     }
     return { group: grp, set };
