@@ -33,8 +33,8 @@
     c.holoParams = { show: show * fadeOut, h, tangent: tan, deriv: deriv * fadeOut };
     // paneles auténticos: practicar (método) y recordar (racha)
     panels.forEach((p) => (p.mesh.visible = false)); const pr = seg(t, 17.6, 18.4) * (1 - seg(t, 20.4, 21.0)), rc = seg(t, 21.0, 21.8);
-    panels[0].mesh.visible = pr > 0.01; panels[0].mesh.position.set(15, 11 + 3 * E.outCubic(pr), 6); panels[0].mesh.rotation.y = -0.38; panels[0].mesh.scale.setScalar(0.45 + 0.3 * E.outCubic(pr)); panels[0].mat.opacity = pr;
-    panels[1].mesh.visible = rc > 0.01; panels[1].mesh.position.set(13, 13 + 3 * E.outCubic(rc), 8); panels[1].mesh.rotation.y = -0.3; panels[1].mesh.scale.setScalar(0.45 + 0.3 * E.outCubic(rc)); panels[1].mat.opacity = rc;
+    panels[0].mesh.visible = pr > 0.01; panels[0].mesh.position.set(10, 3 + 2 * E.outCubic(pr), 10); panels[0].mesh.rotation.y = -0.38; panels[0].mesh.scale.setScalar(0.45 + 0.3 * E.outCubic(pr)); panels[0].mat.opacity = pr;
+    panels[1].mesh.visible = rc > 0.01; panels[1].mesh.position.set(9, 4 + 2 * E.outCubic(rc), 10); panels[1].mesh.rotation.y = -0.3; panels[1].mesh.scale.setScalar(0.45 + 0.3 * E.outCubic(rc)); panels[1].mat.opacity = rc;
     // estudiante: curiosidad -> comprensión (aha ~18.3) -> confianza
     const aha = E.outCubic(seg(t, 18.0, 18.6)), conf = seg(t, 20, 22);
     const point = seg(t, 15.4, 16.0) * (1 - seg(t, 18.0, 18.6));

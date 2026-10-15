@@ -17,16 +17,16 @@
     const sh = sph(1, clothM, 18.6, 5.6, 8.4); sh.position.set(0, 52.5, 0); body.add(sh);
     if (cfg.blazer) { // saco: torso torneado (cintura → pecho → hombros), sin "bolas" apiladas
       chest.visible = belly.visible = sh.visible = false;
-      const pr = [[0, 12.5], [8, 13.4], [18, 14.2], [28, 15.6], [38, 17.2], [46, 18.0], [51, 16.2], [54, 11], [55.5, 5.5], [56, 0.01]].map(([y, r]) => new THREE.Vector2(r, y));
+      const pr = [[-9, 11.5], [-6, 13.2], [0, 13.6], [8, 13.8], [18, 14.2], [28, 15.6], [38, 17.2], [46, 18.0], [51, 16.2], [54, 11], [55.5, 5.5], [56, 0.01]].map(([y, r]) => new THREE.Vector2(r, y));
       const jk = new THREE.Mesh(new THREE.LatheGeometry(pr, 40), clothM); jk.scale.set(1.02, 1, 0.6); jk.castShadow = true; body.add(jk);
     }
-    const hip = sph(1, pants, 18, 11, 12); hip.position.set(0, 0, 0); body.add(hip);
+    const hip = sph(1, pants, 18, 11, 12); hip.position.set(0, 0, 0); body.add(hip); if (cfg.blazer) hip.scale.set(14.5, 9, 9);
     if (cfg.hoodie) { const hood = sph(1, clothD, 9.5, 5.5, 6.5); hood.position.set(0, 57, -4.5); body.add(hood); [-1, 1].forEach((s) => { const cd = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 12, 8), M(0xf4f6fb, 0.7)); cd.position.set(s * 3.4, 42, 10.4); body.add(cd); }); }
     if (cfg.blazer) { const lap = (s) => { const l = new THREE.Mesh(new THREE.BoxGeometry(6, 30, 1.4), M(0x3b4a73, 0.8)); l.position.set(s * 7.5, 38, 11.4); l.rotation.z = s * 0.22; body.add(l); }; lap(-1); lap(1);
       const shirt = new THREE.Mesh(new THREE.BoxGeometry(9.5, 26, 0.8), M(0xf4f6fb, 0.6)); shirt.position.set(0, 40, 11.2); body.add(shirt); const tie = new THREE.Mesh(new THREE.BoxGeometry(2.4, 24, 0.9), M(0xc10a2b, 0.5)); tie.position.set(0, 39, 11.9); body.add(tie); }
     // ---------- piernas (sentado o de pie) ----------
     const legs = new THREE.Group(); root.add(legs); const legParts = [];
-    [-1, 1].forEach((s) => { const th = new THREE.Mesh(new THREE.CylinderGeometry(7.2, 6.2, 1, 16), pants), sh2 = new THREE.Mesh(new THREE.CylinderGeometry(5.8, 4.6, 1, 16), pants), ft = sph(1, shoe, 5.2, 4, 12); th.castShadow = sh2.castShadow = true; legs.add(th, sh2, ft); legParts.push({ th, sh2, ft, s }); });
+    [-1, 1].forEach((s) => { const th = new THREE.Mesh(new THREE.CylinderGeometry(7.2, 6.2, 1, 16), pants), sh2 = new THREE.Mesh(new THREE.CylinderGeometry(5.8, 4.6, 1, 16), pants), ft = sph(1, shoe, 5.2, 4, 12); th.castShadow = sh2.castShadow = true; if (cfg.blazer) { th.userData.kx = 1.2; sh2.userData.kx = 1.2; } legs.add(th, sh2, ft); legParts.push({ th, sh2, ft, s }); });
     // ---------- cuello y cabeza ----------
     const neck = new THREE.Mesh(new THREE.CylinderGeometry(4.3, 5.0, 9, 20), skin); neck.castShadow = true; body.add(neck); neck.position.set(0, A.neckY - 1, 0.4);
     const headG = new THREE.Group(); body.add(headG); headG.position.set(0, A.neckY, 1.2);
@@ -67,7 +67,7 @@
     [hands.R, hands.L].forEach((h) => h.root.traverse((m) => { if (m.isMesh && m.material && m.material.color && m.material.color.getHex() === 0xe9bc9d) m.material = skin; }));
     // ---------- utilidades ----------
     const _a = new V3(), _b = new V3(), _c = new V3(), _q = new Q(), _m = new THREE.Matrix4();
-    const between = (m, p0, p1) => { _a.copy(p1).sub(p0); const L = _a.length(); m.position.copy(p0).addScaledVector(_a, 0.5); m.quaternion.setFromUnitVectors(_b.set(0, 1, 0), _a.normalize()); m.scale.set(1, L, 1); return L; };
+    const between = (m, p0, p1) => { _a.copy(p1).sub(p0); const L = _a.length(); m.position.copy(p0).addScaledVector(_a, 0.5); m.quaternion.setFromUnitVectors(_b.set(0, 1, 0), _a.normalize()); const kx = (m.userData && m.userData.kx) || 1; m.scale.set(kx, L, kx); return L; };
     function ik(shoulderW, wristW, hint, side) { // 2 huesos: devuelve codo
       const a = A.upper, b = A.fore, d = wristW.clone().sub(shoulderW); let L = d.length(); const maxL = a + b - 0.5, minL = Math.abs(a - b) + 1.5; if (L > maxL) { d.multiplyScalar(maxL / L); L = maxL; } if (L < minL) { d.setLength(minL); L = minL; }
       const dir = d.clone().normalize(), x = (a * a - b * b + L * L) / (2 * L), h = Math.sqrt(Math.max(a * a - x * x, 0));

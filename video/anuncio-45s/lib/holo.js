@@ -37,8 +37,8 @@
       const dp = new V3(x0 * S, (2 * x0) * S * 0.5 - 1.0, 0); dpt.position.copy(dp); { const d = Pw.clone().sub(dp), L = d.length(); link.position.copy(dp).addScaledVector(d, 0.5); link.quaternion.setFromUnitVectors(new V3(0, 1, 0), d.normalize()); link.scale.set(1, L, 1); }
       // etiquetas (miran a la cámara)
       const face = (m, pos) => { m.position.copy(pos); if (camPos) m.lookAt(camPos); };
-      if (p.tangent < 0.5) { drawLab(L1, [{ t: "h = " + h.toFixed(2), s: 66, w: 700, c: "#ffd27a", y: 90 }, { t: "m = " + m.toFixed(3), s: 66, w: 700, c: "#ffffff", y: 170 }], "#ffb020"); L1.m.visible = true; face(L1.m, new V3(3.0 * S, 4.6 * S, 4)); } else { drawLab(L1, [{ t: "m = 2", s: 72, w: 700, c: "#41e0a3", y: 96 }, { t: "f′(1) = 2", s: 58, w: 600, c: "#ffffff", y: 172 }], "#41e0a3"); L1.m.visible = true; face(L1.m, new V3(3.0 * S, 4.6 * S, 4)); }
-      drawLab(L2, [{ t: "f(x) = x²", s: 64, w: 700, c: "#7fe9ff", y: 100 }], "#00e5ff"); face(L2.m, new V3(1.0 * S, 6.3 * S, 4));
+      if (p.tangent < 0.5) { drawLab(L1, [{ t: "h = " + h.toFixed(2), s: 66, w: 700, c: "#ffd27a", y: 90 }, { t: "m = " + m.toFixed(3), s: 66, w: 700, c: "#ffffff", y: 170 }], "#ffb020"); L1.m.visible = true; face(L1.m, new V3(1.9 * S, 4.6 * S, 4)); } else { drawLab(L1, [{ t: "m = 2", s: 72, w: 700, c: "#41e0a3", y: 96 }, { t: "f′(1) = 2", s: 58, w: 600, c: "#ffffff", y: 172 }], "#41e0a3"); L1.m.visible = true; face(L1.m, new V3(1.9 * S, 4.6 * S, 4)); }
+      drawLab(L2, [{ t: "f(x) = x²", s: 64, w: 700, c: "#7fe9ff", y: 100 }], "#00e5ff"); face(L2.m, new V3(1.5 * S, 6.3 * S, 4));
       L3.m.visible = dv > 0.05; if (dv > 0.05) { drawLab(L3, [{ t: "f′(x) = 2x", s: 60, w: 700, c: "#c8ff4a", y: 96 }], "#c8ff4a"); face(L3.m, new V3(3.1 * S, 2.4 * S, 4)); }
       return { h, m };
     }
