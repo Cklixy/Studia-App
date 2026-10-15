@@ -87,7 +87,8 @@
       else { const k = E.inOutSine(seg(t, 31.4, 32.2)), hp = c.headPos(); const P = lerpArr([-14, hp.y + 4, -8], [-8, hp.y + 2, 4], k); c.shot = { pos: P, tgt: [0, hp.y - 3, hp.z], f: 60, focus: dist(P, [hp.x, hp.y, hp.z]) - 2, fstop: 2.4, dof: 0.42, roll: -1, mood: "class", vig: 0.36 }; }
     } else if (t < 34.5) { // F2: el profesor se acerca (seguimiento lateral)
       const k = E.inOutSine(seg(t, 32.2, 34.5)), px = -120 + 92 * k, pz = -40; const ph = (t - 32.2) * 1.15; sheet.visible = false;
-      prof.setPose({ pos: [px, 16, pz], yaw: Math.PI * 0.5, sit: false, walk: ph, t, lookAt: [0, 52, 62], expr: FR({ smile: 0.2, browLift: 0.1 }) });
+      const sw = Math.sin(ph * Math.PI * 2), armH = (s) => ({ pos: [px + 9 * sw * s, 20, pz + s * 19], fingers: [0.15, -1, 0], palm: [s, 0, 0], pose: C.HAND_POSES.relaxed, hint: [0, -0.3, s] });
+      prof.setPose({ pos: [px, 16, pz], yaw: Math.PI * 0.5, sit: false, walk: ph, t, lookAt: [0, 52, 62], expr: FR({ smile: 0.2, browLift: 0.1 }), wristR: armH(-1), wristL: armH(1) });
       student.setPose(c.seated({ t, lean: -0.05, lookAt: [px, 55, pz], expr: FR({ smile: 0.0, browLift: 0.5, eyeOpen: 1 }), wristR: REST_R, wristL: REST_L }));
       const P = [px * 0.5 - 10, 40, -182], T = [px * 0.6, 42, pz]; c.shot = { pos: P, tgt: T, f: 26, focus: dist(P, [px, 60, pz]), fstop: 4, dof: 0.3, roll: 2 * (0.5 - k), mood: "class", vig: 0.36 };
     } else { // F3: pausa y entrega (la hoja se acerca al estudiante)
