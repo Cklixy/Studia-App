@@ -21,7 +21,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0d122
 canvas#gl { position: absolute; left: 0; top: 0; }
 .fontwarm { position: absolute; left: -9999px; font-family: Geist; }
 /* zona segura: texto entre y=1090 y y=1400 y con 90 px de margen lateral (derecha 150 px) */
-.cap { position: absolute; left: 90px; width: 840px; top: 1130px; text-align: center; opacity: 0; }
+.cap { position: absolute; left: 90px; width: 840px; top: 1330px; text-align: center; opacity: 0; }
 .cap span { display: inline-block; font-size: 66px; font-weight: 700; line-height: 1.12; letter-spacing: -1px; color: #FFFFFF; background: rgba(13,18,32,0.78); padding: 22px 40px; border-radius: 44px; }
 .cap span b { color: #7FD0FF; font-weight: 800; }
 .cap.big span { font-size: 96px; padding: 28px 54px; border-radius: 56px; }

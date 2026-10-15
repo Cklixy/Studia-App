@@ -15,9 +15,14 @@
     const chest = sph(1, clothM, 16.0, 23.5, 10.4); chest.position.set(0, 33, 0); body.add(chest);
     const belly = sph(1, clothM, 16.2, 16, 10.0); belly.position.set(0, 14, 0); body.add(belly);
     const sh = sph(1, clothM, 18.6, 5.6, 8.4); sh.position.set(0, 52.5, 0); body.add(sh);
+    if (cfg.blazer) { // saco: torso torneado (cintura → pecho → hombros), sin "bolas" apiladas
+      chest.visible = belly.visible = sh.visible = false;
+      const pr = [[0, 12.5], [8, 13.4], [18, 14.2], [28, 15.6], [38, 17.2], [46, 18.0], [51, 16.2], [54, 11], [55.5, 5.5], [56, 0.01]].map(([y, r]) => new THREE.Vector2(r, y));
+      const jk = new THREE.Mesh(new THREE.LatheGeometry(pr, 40), clothM); jk.scale.set(1.02, 1, 0.6); jk.castShadow = true; body.add(jk);
+    }
     const hip = sph(1, pants, 18, 11, 12); hip.position.set(0, 0, 0); body.add(hip);
     if (cfg.hoodie) { const hood = sph(1, clothD, 9.5, 5.5, 6.5); hood.position.set(0, 57, -4.5); body.add(hood); [-1, 1].forEach((s) => { const cd = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 12, 8), M(0xf4f6fb, 0.7)); cd.position.set(s * 3.4, 42, 10.4); body.add(cd); }); }
-    if (cfg.blazer) { const lap = (s) => { const l = new THREE.Mesh(new THREE.BoxGeometry(6, 30, 1.4), clothD); l.position.set(s * 7.5, 38, 11.4); l.rotation.z = s * 0.22; body.add(l); }; lap(-1); lap(1);
+    if (cfg.blazer) { const lap = (s) => { const l = new THREE.Mesh(new THREE.BoxGeometry(6, 30, 1.4), M(0x3b4a73, 0.8)); l.position.set(s * 7.5, 38, 11.4); l.rotation.z = s * 0.22; body.add(l); }; lap(-1); lap(1);
       const shirt = new THREE.Mesh(new THREE.BoxGeometry(9.5, 26, 0.8), M(0xf4f6fb, 0.6)); shirt.position.set(0, 40, 11.2); body.add(shirt); const tie = new THREE.Mesh(new THREE.BoxGeometry(2.4, 24, 0.9), M(0xc10a2b, 0.5)); tie.position.set(0, 39, 11.9); body.add(tie); }
     // ---------- piernas (sentado o de pie) ----------
     const legs = new THREE.Group(); root.add(legs); const legParts = [];
@@ -50,7 +55,7 @@
     const lipU = new THREE.Mesh(new THREE.BufferGeometry(), lipMat), lipL = new THREE.Mesh(new THREE.BufferGeometry(), lipMat), teeth = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshStandardMaterial({ color: 0xf6f2ea, roughness: 0.3, side: THREE.DoubleSide }));
     head.add(mouthIn, lipU, lipL, teeth);
     if (cfg.glasses) [-1, 1].forEach((s) => { const r = new THREE.Mesh(new THREE.TorusGeometry(2.9, 0.26, 10, 28), M(0x1b2030, 0.35, 0.3)); r.position.set(s * 3.6, 0.7, 9.6); head.add(r); }), (() => { const b = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.26, 0.26), M(0x1b2030)); b.position.set(0, 1.0, 9.9); head.add(b); [-1, 1].forEach((s) => { const t = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.26, 8.5), M(0x1b2030)); t.position.set(s * 6.55, 0.8, 5.5); head.add(t); }); })();
-    if (cfg.mustache) { const mu = sph(1, hairM, 3.4, 0.9, 1.2); mu.position.set(0, -4.6, 9.4); head.add(mu); }
+    if (cfg.mustache) { [-1, 1].forEach((s) => { const mu = sph(1, hairM, 2.3, 0.75, 1.0); mu.position.set(s * 2.0, -3.3, 8.55); mu.rotation.z = s * -0.22; head.add(mu); }); }
     const sweat = [-1, 1].map((s) => { const d = sph(1, new THREE.MeshStandardMaterial({ color: 0x9fd6f5, roughness: 0.15, transparent: true, opacity: 0.85 }), 0.7, 1.1, 0.7); d.visible = false; d.position.set(s * 7.4, 3, 6); head.add(d); d.userData.noDepth = true; return d; });
     // ---------- brazos ----------
     const sleeveMat = clothM, mkArm = () => { const up = new THREE.Mesh(new THREE.CylinderGeometry(4.0, 3.4, 1, 18), sleeveMat), fo = new THREE.Mesh(new THREE.CylinderGeometry(3.3, 2.7, 1, 18), sleeveMat), el = sph(1, sleeveMat, 3.5, 3.5, 3.5), wr = new THREE.Mesh(new THREE.CylinderGeometry(2.7, 2.9, 1, 16), skin), cuff = new THREE.Mesh(new THREE.CylinderGeometry(3.0, 3.0, 1.6, 20), clothD); [up, fo, el, wr, cuff].forEach((m) => (m.castShadow = true)); const gp = new THREE.Group(); gp.add(up, fo, el, wr, cuff); root.add(gp); return { up, fo, el, wr, cuff }; };
